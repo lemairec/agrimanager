@@ -1,0 +1,4 @@
+services:
+#    agri.example:
+#        class: AgriBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
