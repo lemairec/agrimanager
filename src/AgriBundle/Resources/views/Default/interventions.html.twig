@@ -1,0 +1,37 @@
+
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Panel heading</div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Surface</th>
+            </tr>
+            {% for intervention in interventions %}
+                <tr>
+                    <td>{{intervention.id}}</td>
+                    <td>{{intervention.get_date()}}</td>
+                    <td>{{intervention.type}}</td>
+                    <td></td>
+                </tr>
+                {% for it in intervention.parcelles %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{it.parcelle.surface}}</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

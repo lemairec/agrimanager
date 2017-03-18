@@ -40,6 +40,7 @@ class DefaultController extends Controller
                     'sum_ilots' => $sum_ilots,
                         ));
     }
+
     /**
      * @Route("/parcelles/{campagne_id}")
      */
@@ -56,10 +57,25 @@ class DefaultController extends Controller
             }
             $cultures[$p->culture] += $p->surface;
         }
-        
         return $this->render('AgriBundle:Default:parcelles.html.twig', array(
                     'parcelles' => $parcelles,
                     'cultures' => $cultures,
+                        ));
+    }
+
+    /**
+     * @Route("/interventions/{campagne_id}")
+     */
+    public function interventions($campagne_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $interventions = $em->getRepository('AgriBundle:Intervention')->getAll();
+        foreach ($interventions as $i) {
+            echo("toto");
+            echo(json_encode($i->parcelles->toArray()));
+        }
+        return $this->render('AgriBundle:Default:interventions.html.twig', array(
+                    'interventions' => $interventions,
                         ));
     }
 
@@ -81,18 +97,20 @@ class DefaultController extends Controller
         $ilot = $em->getRepository('AgriBundle:Ilot')->add("la noue balinet", 9.68);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-noue-balinet", "orge", $ilot->surface);
         $ilot = $em->getRepository('AgriBundle:Ilot')->add("chemin des canons", 5.68);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "colza-chemin-canons", "colza", $ilot->surface);
+        $parcelle1 = $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "colza-chemin-canons", "colza", $ilot->surface);
         $ilot = $em->getRepository('AgriBundle:Ilot')->add("chemin du mesnil", 32.94);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-bettrave", "orge", 7.22);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-ble", "orge", 2.93);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "colza", "colza", 14.42);
+        $parcelle2 = $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "colza", "colza", 14.42);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-colza", "ble", 7.22);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-colza-bande", "ble", 1.15);
         $ilot = $em->getRepository('AgriBundle:Ilot')->add("batterie moucherie", 19.6);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-pdt", "ble", 4.5);
         $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-bettrave", "ble", 15.1);
+        $parcelles =[$parcelle1, $parcelle2];
+        $em->getRepository('AgriBundle:Intervention')->add("semis", "2016-08-01", $parcelles);
         $em->persist($ilot);
         $em->flush();
-        return new Response ('Ok');
+        return $this->redirect('/');
     }
 }
