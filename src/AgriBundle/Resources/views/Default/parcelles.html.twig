@@ -1,0 +1,44 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Panel heading</div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Ilot</th>
+                <th>Culture</th>
+                <th>Surface</th>
+            </tr>
+            {% for parcelle in parcelles %}
+            <tr>
+                <td>{{parcelle.id}}</td>
+                <td>{{parcelle.ilot.name}}</td>
+                <td>{{parcelle.name}}</td>
+                <td>{{parcelle.culture}}</td>
+                <td>{{parcelle.surface}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="panel panel-default", style="width:100%">
+        <table class="table">
+            <tr>
+                <th>Culture</th>
+                <th>Surface</th>
+            </tr>
+            {% for key, culture in cultures %}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{culture}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

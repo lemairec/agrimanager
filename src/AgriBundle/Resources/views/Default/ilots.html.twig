@@ -1,96 +1,24 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title></title>
-        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body>
+{% extends 'AgriBundle::base_agri.html.twig' %}
 
-        <nav class="navbar navbar-inverse navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed">
-                        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>
-                        <span class="icon-bar"></span><span class="icon-bar"></span>
-                    </button><a href="/" class="navbar-brand">Commomarkets</a></div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav"><!--li(class="active")--><!--       a(href="/") Home-->
-                        <li><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Physique<span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="/physicals/competitivite">Compétitivité des différentes origines</a></li>
-                                <li><a href="/physicals/exportation_hebdo">Exportation hebdomadaire Etats-Unis</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Futures<span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu"><li><a href="/futurs/contango">Contango</a></li>
-                                <li><a href="/futurs/spread">Spread</a></li><li><a href="/futurs/ratio">Ratio</a></li>
-                                <li><a href="/futurs/sais_year">Saisonnalité mensuelle</a></li>
-                                <li><a href="/futurs/sais_week">Saisonnalité par jour de la semaine</a></li>
-                                <!--li--><!-- a(href="/futurs/sais_echeance") Saisonnalité par echeance-->
-                                <li><a href="/futurs/cours_volume">Cours et volumes</a></li>
-                                <li><a href="/futurs/cours_positions">Cours et positions des fonds</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Options<span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu"><li><a href="/options/table_recap">Récapitulatif options</a></li>
-                                <li><a href="/options/table_traited_now">Options traitées euronext du jour </a></li>
-                                <li><a href="/options/table_traited_hist">Historique des options traitées euronext</a></li>
-                                <li><a href="/options/table_bid_ask">Bid-Ask options Euronext</a></li>
-                                <li class="divider"></li>
-                                <li><a href="/options/vol_contango">Volatilité contango et backwardation</a></li>
-                                <li><a href="/options/vol_hist_impl">Volatilité historique et implicite</a></li>
-                                <li><a href="/options/vol_comp">Comparaison volatilité implicite</a></li>
-                                <li><a href="/options/smile">Smile de volatilité</a></li>
-                                <li><a href="/options/sais_year">Saisonnalité mensuelle de la volatilité historique</a></li>
-                                <li><a href="/options/sais_week">Saisonnalité journalière de la voatilité historique</a></li>
-                                <li><a href="/options/open_pos">Position ouverte calls et puts</a></li><li><a href="/options/liquidite">Position ouvertes d'un marché</a></li>
-                                <!--li(class="divider")--><!--li--><!--    a(href="/options/contango") Contango--><!--li-->
-                                <!--    a(href="/options/spread") Spread--><!--li--><!--        a(href="/options/ratio") Ratio-->
-                            </ul>
-                        </li>
-                        <!--li--><!--        a(href="/") AT-->
-                        <li><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Fondamentaux<span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="/fundamentals/ratio_stock_utilisation">Ratio stock sur utilisation</a></li>
-                                <li><a href="/fundamentals/ratio_stock_utilisation_gd">Ratio stock sur utilisation grands exportateurs</a></li>
-                                <li><a href="/fundamentals/fundamental">Requête spécifique</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Admin<span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="/graph_time?importCodes=['XF;EBM;c1','XO;ATMVOL;OBM;c1','XO;LOW;OBM;c1']&amp;currency='USD'">graph_time</a></li>
-                                <li><a href="/graph_label_xf?ssJacent=EBM">graph_label_xf</a></li><li><a href="/graph_label_xo?ssJacent=OBM">graph_label_xo</a></li>
-                                <li class="divider"></li><li><a href="/data_time?ssjacent=XF;EBMAG;c1&amp;currency=USD">data_time</a></li><li class="divider"></li>
-                                <li><a href="/reboot">Reboot</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right"><li><a href="/account">Account</a></li><li><a href="/logout">Log Out</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+{% block body %}
 
-        <div class="container bs-docs-container">
-            <div class="panel panel-default", style="width:100%">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Panel heading</div>
-                <table class="table">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Surface</th>
-                    </tr>
-                    {% for ilot in ilots %}
-                    <tr>
-                        <td>{{ilot.id}}</td><td>{{ilot.name}}</td><td>{{ilot.surface}}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        </div>
-    </body>
-</html>
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Panel heading</div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Surface</th>
+            </tr>
+            {% for ilot in ilots %}
+            <tr>
+                <td>{{ilot.id}}</td><td>{{ilot.name}}</td><td>{{ilot.surface}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

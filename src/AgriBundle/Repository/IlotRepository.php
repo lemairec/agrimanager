@@ -1,6 +1,7 @@
 <?php
 
 namespace AgriBundle\Repository;
+use AgriBundle\Entity\Ilot;
 
 /**
  * IlotRepository
@@ -10,4 +11,18 @@ namespace AgriBundle\Repository;
  */
 class IlotRepository extends \Doctrine\ORM\EntityRepository
 {
+    function add($name, $surface){
+        $em = $this->getEntityManager();
+        $ilot = new Ilot();
+        $ilot->surface = $surface;
+        $ilot->name = $name;
+        $em->persist($ilot);
+        $em->flush();
+        return $ilot;
+    }
+
+    function getById($ilot_id){
+        return $this->findOneBy(array('id' => $ilot_id));;
+    }
 }
+
