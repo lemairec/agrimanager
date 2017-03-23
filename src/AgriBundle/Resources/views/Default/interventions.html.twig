@@ -17,7 +17,7 @@
             </tr>
             {% for intervention in interventions %}
                 <tr>
-                    <td>{{intervention.id}}</td>
+                    <td><a href="/intervention/edit/{{intervention.id}}">{{intervention.id}}</td>
                     <td>{{intervention.get_date()}}</td>
                     <td>{{intervention.type}}</td>
                     <td></td>

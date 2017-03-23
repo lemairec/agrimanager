@@ -55,5 +55,9 @@ class Parcelle
      * @ORM\Column(name="culture", type="string")
      */
     public $culture;
+
+    public function __toString() {
+            return $this->name;
+    }
 }
 

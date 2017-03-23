@@ -4,10 +4,17 @@ namespace AgriBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 use AgriBundle\Entity\Ilot;
+use AgriBundle\Entity\Intervention;
 use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Company;
+use AgriBundle\Entity\Produit;
+
+
+use AgriBundle\Form\InterventionType;
 
 class DefaultController extends Controller
 {
@@ -64,53 +71,41 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/interventions/{campagne_id}")
+     * @Route("/interventions/{campagne_id}", name="interventions")
      */
     public function interventions($campagne_id)
     {
         $em = $this->getDoctrine()->getManager();
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAll();
-        foreach ($interventions as $i) {
-            echo("toto");
-            echo(json_encode($i->parcelles->toArray()));
-        }
         return $this->render('AgriBundle:Default:interventions.html.twig', array(
                     'interventions' => $interventions,
                         ));
     }
 
     /**
-     * @Route("/init")
-     */
-    public function createAction()
+     * @Route("/intervention/edit/{intervention_id}")
+     **/
+    public function interventionEditAction($intervention_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $company = new Company();
-        $company->name = "warmo";
-        $company->adresse = "12 route";
-        $em->persist($company);
-        $compagny_id = $company->id;
-        $ilot = $em->getRepository('AgriBundle:Ilot')->add("cote merlan", 5.54);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-cote-merlan", "orge", 5.54);
-        $ilot = $em->getRepository('AgriBundle:Ilot')->add("les holles galant", 3);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-holles-galant", "orge", 3);
-        $ilot = $em->getRepository('AgriBundle:Ilot')->add("la noue balinet", 9.68);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-noue-balinet", "orge", $ilot->surface);
-        $ilot = $em->getRepository('AgriBundle:Ilot')->add("chemin des canons", 5.68);
-        $parcelle1 = $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "colza-chemin-canons", "colza", $ilot->surface);
-        $ilot = $em->getRepository('AgriBundle:Ilot')->add("chemin du mesnil", 32.94);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-bettrave", "orge", 7.22);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "orge-ble", "orge", 2.93);
-        $parcelle2 = $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "colza", "colza", 14.42);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-colza", "ble", 7.22);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-colza-bande", "ble", 1.15);
-        $ilot = $em->getRepository('AgriBundle:Ilot')->add("batterie moucherie", 19.6);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-pdt", "ble", 4.5);
-        $em->getRepository('AgriBundle:Parcelle')->add($ilot->id, 2017, "ble-bettrave", "ble", 15.1);
-        $parcelles =[$parcelle1, $parcelle2];
-        $em->getRepository('AgriBundle:Intervention')->add("semis", "2016-08-01", $parcelles);
-        $em->persist($ilot);
-        $em->flush();
-        return $this->redirect('/');
+        if($intervention_id == 0){
+            $intervention = new Intervention();
+            $intervention->parcelles[] = new InterventionParcelle();
+            $achat->date = new \Datetime();
+        } else {
+            $intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
+        }
+        $form = $this->createForm(InterventionType::class, $intervention);
+        $form->handleRequest($request);
+
+
+        if ($form->isValid()) {
+            $em->persist($intervention);
+            $em->flush();
+            return $this->redirectToRoute('interventions', array('campagne_id' => 2012));
+        }
+        return $this->render('AgriBundle:Default:add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 }

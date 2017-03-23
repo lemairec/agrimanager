@@ -1,0 +1,67 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-2">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-10">
+        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+
+{% block body %}
+<div class="container bs-docs-container">
+{{ form_start(form) }}
+{# ... #}
+
+{# store the prototype on the data-prototype attribute #}
+<ul id="parcelle-fields-list"
+    data-prototype="{{ form_widget(form.parcelles.vars.prototype)|e }}">
+    {% for parcelleField in form.parcelles %}
+    <li>
+        {{ form_errors(parcelleField) }}
+        {{ form_widget(parcelleField) }}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="#" id="add-another-parcelle">Add another parcelle</a>
+
+{# ... #}
+{{ form_end(form) }}
+
+<script type="text/javascript">
+// keep track of how many parcelle fields have been rendered
+var parcelleCount = '{{ form.parcelles|length }}';
+
+jQuery(document).ready(function() {
+    jQuery('#add-another-parcelle').click(function(e) {
+        e.preventDefault();
+
+        var parcelleList = jQuery('#parcelle-fields-list');
+
+        // grab the prototype template
+        var newWidget = parcelleList.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your parcelles
+        // end name attribute looks like name="contact[parcelles][2]"
+        newWidget = newWidget.replace(/__name__/g, parcelleCount);
+        parcelleCount++;
+
+        // create a new list element and add it to the list
+        var newLi = jQuery('<li></li>').html(newWidget);
+        newLi.appendTo(parcelleList);
+    });
+})
+</script>
+</div>
+{% endblock %}
