@@ -19,10 +19,10 @@ class InterventionParcelle
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-    
+    public $id;
+
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Intervention", inversedBy="parcelles", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Intervention", inversedBy="parcelles")
      * @ORM\JoinColumn(nullable=false)
      */
     public $intervention;
@@ -32,17 +32,5 @@ class InterventionParcelle
      * @ORM\JoinColumn(nullable=false)
      */
     public $parcelle;
-
-
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 

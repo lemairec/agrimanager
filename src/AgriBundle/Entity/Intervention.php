@@ -37,12 +37,18 @@ class Intervention
     public $type;
 
     /**
-    * @ORM\OneToMany(targetEntity="AgriBundle\Entity\InterventionParcelle", mappedBy="intervention", fetch="EAGER")
+    * @ORM\OneToMany(targetEntity="AgriBundle\Entity\InterventionParcelle", mappedBy="intervention",cascade={"persist"})
     */
     public $parcelles;
 
+    /**
+    * @ORM\OneToMany(targetEntity="AgriBundle\Entity\InterventionProduit", mappedBy="intervention",cascade={"persist"})
+    */
+    public $produits;
+
     public function __construct() {
         $this->parcelles = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     function get_date(){

@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AgriBundle\Form\InterventionParcelleType;
+use AgriBundle\Form\InterventionProduitType;
 
 class InterventionType extends AbstractType
 {
@@ -22,8 +23,13 @@ class InterventionType extends AbstractType
             'entry_type' => InterventionParcelleType::class,
             'allow_add'    => true,
             'allow_delete' => true
-        ))
-        ->add('save',      SubmitType::class);
+        ));
+        $builder->add('produits', CollectionType::class, array(
+            'entry_type' => InterventionProduitType::class,
+            'allow_add'    => true,
+            'allow_delete' => true
+        ));
+        $builder->add('save',      SubmitType::class);
     }
 
     /**

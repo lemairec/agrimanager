@@ -100,6 +100,9 @@ class DefaultController extends Controller
 
 
         if ($form->isValid()) {
+            foreach($intervention->parcelles as $p){
+                $p->intervention = $intervention;
+            }
             $em->persist($intervention);
             $em->flush();
             return $this->redirectToRoute('interventions', array('campagne_id' => 2012));
