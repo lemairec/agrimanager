@@ -29,7 +29,7 @@ class InterventionProduit
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Produit")
-     * @ORM\JoinColumn(name="produit_amm", referencedColumnName="amm")
+     * @ORM\JoinColumn(name="produit_no_ephy", referencedColumnName="no_ephy")
      */
     public $produit;
     

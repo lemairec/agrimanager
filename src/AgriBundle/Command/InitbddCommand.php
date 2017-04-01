@@ -64,31 +64,32 @@ class InitbddCommand extends ContainerAwareCommand
             return;
         }
         try {
-        $client = new Client();
-        $crawler = $client->request('GET', 'http://e-phy.agriculture.gouv.fr/spe/'.$link);
-        $crawler->filter('div')->each(function ($node) {
-            $text = $node->text();
-            if (0 === strpos($text, 'Intrant: ')) {
-                $this->intrant = substr($text, 9, strlen($text));
-            }
-            if (0 === strpos($text, 'Numéro d\'autorisation: ')) {
-                $this->amm = substr($text, 24, strlen($text));
-            }
-        });
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $produit = new Produit();
-        $produit->amm = $this->amm;
-        $produit->name = $this->intrant;
-        $produit->link = $link;
-        $this->output->writeln(json_encode($produit));
-        $em->getRepository('AgriBundle:Produit')->save($produit);
+            $client = new Client();
+            $crawler = $client->request('GET', 'http://e-phy.agriculture.gouv.fr/spe/'.$link);
+            $crawler->filter('div')->each(function ($node) {
+                $text = $node->text();
+                if (0 === strpos($text, 'Intrant: ')) {
+                    $this->intrant = substr($text, 9, strlen($text));
+                }
+                if (0 === strpos($text, 'Numéro d\'autorisation: ')) {
+                    $this->amm = substr($text, 24, strlen($text));
+                }
+            });
+            $em = $this->getContainer()->get('doctrine')->getEntityManager();
+            $produit = new Produit();
+            $produit->amm = $this->amm;
+            $produit->name = $this->intrant;
+            $produit->no_ephy = explode('.',$link)[0];
+            $this->output->writeln(json_encode($produit));
+            $em->getRepository('AgriBundle:Produit')->save($produit);
         } catch (Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                echo 'Exception reçue : ',  $e->getMessage(), "\n";
+            echo 'Exception reçue : ',  $e->getMessage(), "\n";
         }
     }
 
     public function scrapper_ephy($letter){
 
+        $this->output->writeln("######## ".$letter);
         $client = new Client();
         $crawler = $client->request('GET', 'http://e-phy.agriculture.gouv.fr/spe/spe'.$letter.$letter.'.htm');
         #print($crawler->text());

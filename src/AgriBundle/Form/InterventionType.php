@@ -19,7 +19,7 @@ class InterventionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('date')->add('type');
-        $builder->add('parcelles', CollectionType::class, array(
+        /**$builder->add('parcelles', CollectionType::class, array(
             'entry_type' => InterventionParcelleType::class,
             'allow_add'    => true,
             'allow_delete' => true
@@ -28,7 +28,7 @@ class InterventionType extends AbstractType
             'entry_type' => InterventionProduitType::class,
             'allow_add'    => true,
             'allow_delete' => true
-        ));
+        ));**/
         $builder->add('save',      SubmitType::class);
     }
 

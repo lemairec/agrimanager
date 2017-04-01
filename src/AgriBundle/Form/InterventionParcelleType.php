@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class InterventionParcelleType extends AbstractType
 {
@@ -19,6 +20,7 @@ class InterventionParcelleType extends AbstractType
             'class'        => 'AgriBundle:Parcelle',
             'choice_label' => 'name',
         ));
+        $builder->add('save',      SubmitType::class);
     }
 
     /**

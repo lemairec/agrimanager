@@ -16,7 +16,6 @@ class Produit
      * @var int
      *
      * @ORM\Column(name="amm", type="integer")
-     * @ORM\Id
      */
     public $amm;
 
@@ -24,9 +23,17 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @ORM\Id
      */
     public $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="no_ephy", type="string", length=255)
+     * @ORM\Id
+     */
+    public $no_ephy;
+
 
 }
 

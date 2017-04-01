@@ -18,7 +18,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('amm', $produit->amm)
             ->getQuery()
             ->getSingleScalarResult();
-        echo($produit_count);
+        echo("produit_count ".$produit_count."\n");
         if($produit_count == 0){
             $em = $this->getEntityManager();
             $em->persist($produit);
