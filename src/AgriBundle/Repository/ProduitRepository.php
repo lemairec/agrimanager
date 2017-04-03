@@ -20,9 +20,11 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->getSingleScalarResult();
         echo("produit_count ".$produit_count."\n");
         if($produit_count == 0){
+            $produit->completeName = $produit->amm . ' - ' . $produit->name;
             $em = $this->getEntityManager();
             $em->persist($produit);
             $em->flush();
         }
+        return $produit;
     }
 }

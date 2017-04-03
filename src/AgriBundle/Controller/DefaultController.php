@@ -173,15 +173,27 @@ class DefaultController extends Controller
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
-
+        $produits = $em->getRepository('AgriBundle:Produit')->findAll();
 
         if ($form->isValid()) {
             $em->persist($intervention_produit);
             $em->flush();
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AgriBundle:Default:intervention_produit.html.twig', array(
             'form' => $form->createView(),
+            'produits' => $produits
         ));
+    }
+    
+    /**
+     * @Route("api/produit/{produit_name}", name="produit_name")
+     **/
+    public function produitNameApi($produit_name, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $produit = $em->getRepository('AgriBundle:Produit')->findOneByCompleteName($produit_name);
+
+        return $this->json($produit);
     }
 }

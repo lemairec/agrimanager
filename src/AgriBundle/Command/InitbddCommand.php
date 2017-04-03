@@ -80,8 +80,8 @@ class InitbddCommand extends ContainerAwareCommand
             $produit->amm = $this->amm;
             $produit->name = $this->intrant;
             $produit->no_ephy = explode('.',$link)[0];
+            $produit = $em->getRepository('AgriBundle:Produit')->save($produit);
             $this->output->writeln(json_encode($produit));
-            $em->getRepository('AgriBundle:Produit')->save($produit);
         } catch (Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
             echo 'Exception reçue : ',  $e->getMessage(), "\n";
         }

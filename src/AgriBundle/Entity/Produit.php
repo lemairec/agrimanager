@@ -25,7 +25,15 @@ class Produit
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="complete_name", type="string", length=255)
+     */
+    public $completeName;
+
+    /**
     /**
      * @var string
      *
@@ -34,6 +42,9 @@ class Produit
      */
     public $no_ephy;
 
+    public function getCompletUrl(){
+        return 'http://e-phy.agriculture.gouv.fr/spe/'.$this->no_ephy.'htm';
+    }
 
 }
 
