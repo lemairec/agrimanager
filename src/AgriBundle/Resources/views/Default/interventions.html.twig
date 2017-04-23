@@ -15,21 +15,33 @@
                 <th>Id</th>
                 <th>Date</th>
                 <th>Name</th>
-                <th>Surface</th>
+                <th></th>
+                <th></th>
             </tr>
             {% for intervention in interventions %}
                 <tr>
                     <td><a href="/intervention/{{intervention.id}}">{{intervention.id}}</td>
-                    <td>{{intervention.get_date()}}</td>
-                    <td>{{intervention.type}}</td>
+                    <td><b>{{intervention.get_date()}}</b></td>
+                    <td><b>{{intervention.type}}</b></td>
+                    <td><b>{{intervention.surface}} ha</b></td>
                     <td><a href="/intervention/{{intervention.id}}/delete">Delete</td>
                 </tr>
                 {% for it in intervention.parcelles %}
                 <tr>
                     <td></td>
-                    <td></td>
+                    <td>{{it.parcelle.culture}}</td>
                     <td>{{it.parcelle}}</td>
                     <td>{{it.parcelle.surface}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                {% for it in intervention.produits %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{{it.name}}</td>
+                    <td>{{it.qty}}</td>
+                    <td>{{it.qtyha}}</td>
                 </tr>
                 {% endfor %}
             {% endfor %}

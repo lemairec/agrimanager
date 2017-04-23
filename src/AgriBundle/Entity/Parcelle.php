@@ -57,7 +57,7 @@ class Parcelle
     public $culture;
 
     public function __toString() {
-            return $this->name;
+            return $this->ilot->name.' - '.$this->name;
     }
 }
 

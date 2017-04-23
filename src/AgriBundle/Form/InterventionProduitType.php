@@ -17,10 +17,11 @@ class InterventionProduitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('qty');
-        $builder->add('produit', EntityType::class, array(
-            'class'        => 'AgriBundle:Produit',
-            'choice_label' => 'name',
-        ));
+        $builder->add('name');
+        #$builder->add('produit', EntityType::class, array(
+        #    'class'        => 'AgriBundle:Produit',
+        #    'choice_label' => 'name',
+        #));
         $builder->add('save',      SubmitType::class);
     }
     

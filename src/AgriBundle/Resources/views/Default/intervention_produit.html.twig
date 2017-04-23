@@ -1,14 +1,14 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>jQuery UI Autocomplete - Default functionality</title>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script>
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block javascripts %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Autocomplete - Default functionality</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
 $( function() {
     var availableTags = [
     {% for produit in produits %}
@@ -16,19 +16,65 @@ $( function() {
     {% endfor %}
 
     ];
-    $( "#tags" ).autocomplete({
-        source: availableTags
+    $( "#agribundle_interventionproduit_name" ).autocomplete({
+        source: availableTags,
+        select: function (event, ui) {
+            var label = ui.item.label;
+            var value = ui.item.value;
+            //alert("selected " + label + " " + value);
+        }
     });
-} );
-        </script>
-    </head>
-    <body>
+    document.getElementById("test").addEventListener("click", function( event ) {
+        value = document.getElementById("tags").value;
+        url = '/api/produit/' + value;
+        console.log(url);
+        $.getJSON(url, function( data ) {
+            no_ephy = data.no_ephy;
+            url = 'http://e-phy.agriculture.gouv.fr/spe/' + no_ephy + '.htm';
 
+            open(url);
+        });
+        //event.target.textContent = "click count: " + event.detail;
+        //open('http://google.com');
+    }, false);
+} );
+</script>
+{% endblock %}
+
+
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-2">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-10">
+        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+
+{% block body %}
+<!--div class="container">
+    <div class="well">
+        <form>
         <div class="ui-widget">
             <label for="tags">Tags: </label>
             <input id="tags">
+            <button type="button" id="test">Click Me!</button> 
         </div>
+        </form>
+    </div>
+</div-->
 
-
-    </body>
-</html>
+<div class="container">
+    <div class="well">
+        {{ form(form) }}
+    </div>
+</div>
+{% endblock %}

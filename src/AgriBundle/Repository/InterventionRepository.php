@@ -31,6 +31,23 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         return $intervention;
     }
 
+    function delete($intervention_id){
+        $em = $this->getEntityManager();
+        $intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
+        $intervention_parcelles = $em->getRepository('AgriBundle:InterventionParcelle')
+                                   ->findBy(array('intervention'=>$intervention));
+        $intervention_produits = $em->getRepository('AgriBundle:InterventionProduit')
+                                   ->findBy(array('intervention'=>$intervention));
+        foreach ($intervention_produits as $it) {
+            $em->remove($it);
+        }
+        foreach ($intervention_parcelles as $it) {
+            $em->remove($it);
+        }
+        $em->remove($intervention);
+        $em->flush();
+    }
+
     function getAll(){
         return $this->findAll();
     }

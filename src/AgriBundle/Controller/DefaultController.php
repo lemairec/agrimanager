@@ -43,13 +43,13 @@ class DefaultController extends Controller
         $ilots = $em->getRepository('AgriBundle:Ilot')->findBy(array(), array('surface' => 'desc'));
         $sum_ilots = array_reduce($ilots, function($i, $obj)
         {
-                return $i += $obj->surface;
+            return $i += $obj->surface;
         });
 
         return $this->render('AgriBundle:Default:ilots.html.twig', array(
-                    'ilots' => $ilots,
-                    'sum_ilots' => $sum_ilots,
-                        ));
+            'ilots' => $ilots,
+            'sum_ilots' => $sum_ilots,
+        ));
     }
 
     /**
@@ -69,9 +69,9 @@ class DefaultController extends Controller
             $cultures[$p->culture] += $p->surface;
         }
         return $this->render('AgriBundle:Default:parcelles.html.twig', array(
-                    'parcelles' => $parcelles,
-                    'cultures' => $cultures,
-                        ));
+            'parcelles' => $parcelles,
+            'cultures' => $cultures,
+        ));
     }
 
     /**
@@ -82,8 +82,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAll();
         return $this->render('AgriBundle:Default:interventions.html.twig', array(
-                    'interventions' => $interventions,
-                        ));
+            'interventions' => $interventions,
+        ));
     }
 
     /**
@@ -96,6 +96,7 @@ class DefaultController extends Controller
             $intervention = new Intervention();
             $intervention->date = new \Datetime();
             $intervention->type = "phyto";
+            $intervention->surface = 0;
             $em->persist($intervention);
             $em->flush();
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention->id));
@@ -120,16 +121,14 @@ class DefaultController extends Controller
             'parcelles' => $intervention->parcelles
         ));
     }
-    
+
     /**
      * @Route("/intervention/{intervention_id}/delete", name="intervention_delete")
      **/
     public function interventionDeleteAction($intervention_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
-        $em->remove($intervention);
-        $em->flush();
+        $em->getRepository('AgriBundle:Intervention')->delete($intervention_id);
         return $this->redirectToRoute('interventions', array('campagne_id' => 2012));
     }
 
@@ -150,15 +149,14 @@ class DefaultController extends Controller
 
 
         if ($form->isValid()) {
-            $em->persist($intervention_parcelle);
-            $em->flush();
+            $em->getRepository('AgriBundle:InterventionParcelle')->save($intervention_parcelle);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }
-    
+
     /**
      * @Route("/intervention/{intervention_id}/produit/{intervention_produit_id}", name="intervention_produit")
      **/
@@ -169,15 +167,14 @@ class DefaultController extends Controller
             $intervention_produit = new InterventionProduit();
             $intervention_produit->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
         } else {
-            //$intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
+            $intervention_produit = $em->getRepository('AgriBundle:InterventionProduit')->findOneById($intervention_produit_id);
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
         $produits = $em->getRepository('AgriBundle:Produit')->findAll();
 
         if ($form->isValid()) {
-            $em->persist($intervention_produit);
-            $em->flush();
+            $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
         return $this->render('AgriBundle:Default:intervention_produit.html.twig', array(
@@ -185,7 +182,7 @@ class DefaultController extends Controller
             'produits' => $produits
         ));
     }
-    
+
     /**
      * @Route("api/produit/{produit_name}", name="produit_name")
      **/

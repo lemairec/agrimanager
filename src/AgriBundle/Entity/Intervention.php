@@ -46,15 +46,20 @@ class Intervention
     */
     public $produits;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="surface", type="float")
+     */
+    public $surface;
+
     public function __construct() {
         $this->parcelles = new ArrayCollection();
         $this->produits = new ArrayCollection();
     }
 
     function get_date(){
-            return $this->date->format(' d/m/Y'); 
+        return $this->date->format(' d/m/Y'); 
     }
-
-
 }
 

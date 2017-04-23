@@ -32,7 +32,15 @@ class InterventionProduit
      * @ORM\JoinColumn(name="produit_no_ephy", referencedColumnName="no_ephy")
      */
     public $produit;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    public $name;
+
+
     /**
      * @var float
      *
@@ -40,5 +48,13 @@ class InterventionProduit
      */
     public $qty;
 
+    function getqtyha(){
+        $surface = $this->intervention->surface;
+        if($surface == 0){
+            return 0;
+        } else {
+            return  round ($this->qty/$surface, 2);
+        }
+    }
 }
 
