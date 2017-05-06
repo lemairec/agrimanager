@@ -40,6 +40,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
                                    ->findBy(array('intervention'=>$intervention));
         foreach ($intervention_produits as $it) {
             $em->remove($it);
+            $em->getRepository('AgriBundle:Produit')->update($it->produit);
         }
         foreach ($intervention_parcelles as $it) {
             $em->remove($it);

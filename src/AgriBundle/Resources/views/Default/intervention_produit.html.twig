@@ -12,7 +12,7 @@
 $( function() {
     var availableTags = [
     {% for produit in produits %}
-    "{{produit.amm}} - {{produit.name}}",
+    "{{produit.name}}",
     {% endfor %}
 
     ];

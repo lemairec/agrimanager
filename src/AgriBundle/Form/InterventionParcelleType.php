@@ -18,7 +18,7 @@ class InterventionParcelleType extends AbstractType
     {
         $builder->add('parcelle', EntityType::class, array(
             'class'        => 'AgriBundle:Parcelle',
-            'choice_label' => 'name',
+            'choice_label' => 'completeName',
         ));
         $builder->add('save',      SubmitType::class);
     }

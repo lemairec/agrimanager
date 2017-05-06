@@ -12,10 +12,11 @@ class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
 {
     function save($intervention_produit){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOneByCompleteName($intervention_produit->name);
+        $produit = $em->getRepository('AgriBundle:Produit')->findOneByName($intervention_produit->name);
         $intervention_produit->produit = $produit;
         $em->persist($intervention_produit);
         $em->flush();
+        $produit = $em->getRepository('AgriBundle:Produit')->update($produit);
         return $produit;
     }
 

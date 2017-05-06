@@ -1,6 +1,7 @@
 <?php
 
 namespace AgriBundle\Repository;
+use AgriBundle\Entity\Produit;
 
 /**
  * ProduitRepository
@@ -10,6 +11,40 @@ namespace AgriBundle\Repository;
  */
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
+    function findOrCreate($name, $type){
+        $em = $this->getEntityManager();
+        $produit = $this->findOneByName($name);
+        if($produit){
+            return $produit;
+        }
+        $produit = new Produit();
+        $produit->name = $name;
+        $produit->type = $type;
+        $produit->qty = 0;
+        $em->persist($produit);
+        $em->flush();
+        return $produit;
+    }
+
+    function update($produit){
+        $em = $this->getEntityManager();
+        $qty = $em->getRepository('AgriBundle:Achat')->createQueryBuilder('a')
+            ->select('SUM(a.qty)')
+            ->where('a.produit = :produit')
+            ->setParameter('produit', $produit)
+            ->getQuery()
+            ->getSingleScalarResult();
+        $qty2 = $em->getRepository('AgriBundle:InterventionProduit')->createQueryBuilder('a')
+            ->select('SUM(a.qty)')
+            ->where('a.produit = :produit')
+            ->setParameter('produit', $produit)
+            ->getQuery()
+            ->getSingleScalarResult();
+        $produit->qty = $qty - $qty2;
+        $em->persist($produit);
+        $em->flush();
+    }
+
     function save($produit){
         $produit_count = $this->createQueryBuilder('p')
             ->select('COUNT(p)')

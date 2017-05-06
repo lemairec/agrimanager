@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 
+use AgriBundle\Entity\Achat;
 use AgriBundle\Entity\Ilot;
 use AgriBundle\Entity\Campagne;
 use AgriBundle\Entity\Intervention;
@@ -134,43 +135,62 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $stocks = $em->getRepository('AgriBundle:InterventionProduit')->getGroupByProduct();
+        $produits = $em->getRepository('AgriBundle:Produit')
+            ->createQueryBuilder('p')
+            ->add('orderBy','p.type ASC, p.name ASC')
+            ->getQuery()->getResult();
 
         return $this->render('AgriBundle:Default:stocks.html.twig', array(
-            'stocks' => $stocks,
+            'stocks' => $produits,
         ));
     }
 
     /**
-     * @Route("/achats")
+     * @Route("/achats", name = "achats")
      */
     public function achatsAction(Request $request)
     {
-        print "tutu";
+        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') {
             $file = $request->files->get('file');
             $dir = $this->get('kernel')->getRootDir() . '/../web/uploads/images/';
             $fileName = $file->move($dir, "temp.csv");
             if (($handle = fopen($fileName, "r")) !== FALSE) {
                 $i = 0;
+                $em->createQuery('DELETE FROM AgriBundle:Achat')->execute();
                 while (($data = fgetcsv($handle, null, ",")) !== FALSE) {
                     //if ($i == 0) { $i = 1;continue; }
                     $i += 1;
                     $rows = $data;
-                    echo(var_dump($rows));
+                    $achat = new Achat();
+                    $achat->comment = json_encode($rows);
+                    $date = $rows[1];
+                    $date = str_replace("/20/","/02/",$date);
+                    $date = str_replace("/30/","/03/",$date);
+                    $date = str_replace("/40/","/04/",$date);
+                    $date = str_replace("/50/","/05/",$date);
+                    $date = str_replace("/60/","/06/",$date);
+                    $date = str_replace("/70/","/07/",$date);
+                    $date = str_replace("/80/","/08/",$date);
+                    $date = str_replace("/90/","/09/",$date);
+                    $achat->date = date_create_from_format('d/m/Y',$date);
+                    $achat->name = $rows[2];
+                    $achat->type = $rows[3];
+                    $achat->qty = floatval(str_replace(",",".",$rows[4]));
+                    $achat->unity = $rows[5];
+                    $achat->price = floatval(str_replace(",",".",$rows[6]));
+                    $achat->price_total = floatval(str_replace(",",".",$rows[6]));
+                    $em->getRepository('AgriBundle:Achat')->add($achat);
                 }
+                return $this->redirectToRoute('achats');
             }
-
-            $document = new Document();
-            $document->setFile($file);
         }
-        print "tutu";
         $em = $this->getDoctrine()->getManager();
 
-        $stocks = $em->getRepository('AgriBundle:InterventionProduit')->getGroupByProduct();
+        $achats = $em->getRepository('AgriBundle:Achat')->findAll();
 
-        return $this->render('AgriBundle:Default:stocks.html.twig', array(
-            'stocks' => $stocks,
+        return $this->render('AgriBundle:Default:achats.html.twig', array(
+            'achats' => $achats,
         ));
     }
     /**
@@ -242,7 +262,7 @@ class DefaultController extends Controller
             }
             $em->persist($intervention);
             $em->flush();
-            return $this->redirectToRoute('interventions', array('campagne_id' => 2012));
+            return $this->redirectToRoute('interventions');
         }
         return $this->render('AgriBundle:Default:intervention.html.twig', array(
             'form' => $form->createView(),
@@ -318,7 +338,7 @@ class DefaultController extends Controller
     public function produitNameApi($produit_name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOneByCompleteName($produit_name);
+        $produit = $em->getRepository('AgriBundle:Produit')->findOneByName($produit_name);
 
         return $this->json($produit);
     }

@@ -13,11 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class Produit
 {
     /**
-     * @var int
+     * @var guid
      *
-     * @ORM\Column(name="amm", type="integer")
+     * @ORM\Column(name="id", type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    public $amm;
+    public $id;
 
     /**
      * @var string
@@ -25,26 +27,27 @@ class Produit
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
-
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="complete_name", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255)
      */
-    public $completeName;
-
+    public $type;
+    
     /**
     /**
-     * @var string
+     * @var float
      *
-     * @ORM\Column(name="no_ephy", type="string", length=255)
-     * @ORM\Id
+     * @ORM\Column(name="qty", type="float")
      */
-    public $no_ephy;
+    public $qty;
+    
 
-    public function getCompletUrl(){
-        return 'http://e-phy.agriculture.gouv.fr/spe/'.$this->no_ephy.'htm';
-    }
-
+    /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\ProduitEphy")
+     * @ORM\JoinColumn(name="produit_no_ephy", referencedColumnName="no_ephy")
+     */
+    public $produitEphy;
 }
 

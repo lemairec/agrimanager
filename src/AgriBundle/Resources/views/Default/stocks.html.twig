@@ -9,13 +9,15 @@
         <div class="panel-heading">Panel heading</div>
         <table class="table">
             <tr>
+                <th>Type</th>
                 <th>Name</th>
                 <th>qty</th>
             </tr>
-            {% for s in stocks %}
+            {% for p in stocks %}
             <tr>
-                <td>{{s.name}}</td>
-                <td>{{s.qty}}</td>
+                <td>{{p.type}}</td>
+                <td>{{p.name}}</td>
+                <td>{{p.qty}}</td>
             </tr>
             {% endfor %}
         </table>

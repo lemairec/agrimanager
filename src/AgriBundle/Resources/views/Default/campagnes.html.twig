@@ -17,7 +17,8 @@
             </tr>
             {% for campagne in campagnes2 %}
             <tr>
-                <td>{{campagne.id}}</td><td>{{campagne.name}}</td>
+                <td><a href="/campagne/{{campagne.id}}">{{campagne.id}}</td>
+                <td>{{campagne.name}}</td>
             </tr>
             {% endfor %}
         </table>

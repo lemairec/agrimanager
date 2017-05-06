@@ -20,11 +20,19 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         $parcelle->culture = $culture;
         $parcelle->campagne= $campagne;
         $parcelle->surface = $surface;
+        $parcelle = $this->save($parcelle);
+        return $parcelle;
+    }
+
+    function save($parcelle){
+        $em = $this->getEntityManager();
+        $parcelle->completeName = $parcelle->ilot->name." - ".$parcelle->name;
         $em->persist($parcelle);
         $em->flush();
         return $parcelle;
+
     }
-    
+
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
