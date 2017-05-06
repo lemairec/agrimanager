@@ -17,14 +17,42 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li><a href="/ilots">Ilots</a></li>
-                    <li><a href="/parcelles/2017">Parcelles</a></li>
-                    <li><a href="/interventions/2017">Interventions</a></li>
-                    <li><a href="#">Page 2</a></li>
-                    <li><a href="#">Page 3</a></li>
-                    <li><a href="/init">Init</a></li>
+                    <li><a href="/campagnes">Campagnes</a></li>
+                    <li><a href="/parcelles">Parcelles</a></li>
+                    <li><a href="/interventions">Interventions</a></li>
+                    <li><a href="/stocks">Stocks</a></li>
                 </ul>
             </div>
         </nav>
+        <div class="container bs-docs-container">
+            {% if campagnes is defined %}
+            <select class="selectpicker" id="dynamic_select">>
+                {%for campagne in campagnes %}
+                <option value="{{campagne.id}}" {%if campagne.id == campagne_id %} selected {%endif%}>{{campagne.name}}</option>
+                {%endfor%}
+            </select>
+            {% endif %}
+        </div>
         {% block body %}{% endblock %}
     </body>
+    <script>
+$(function(){
+    // bind change event to select
+    $('#dynamic_select').on('change', function () {
+        var val = $(this).val(); // get selected value
+        if (val) { // require a URL
+            var url = window.location.href;
+            if(location.search){
+                url = url.replace(location.search,"?campagne_id="+val);
+            } else {
+                url = url + "?campagne_id="+val;
+            }
+            console.log(url);
+
+            window.location = url; // redirect
+        }
+        return false;
+    });
+});
+    </script>
 </html>

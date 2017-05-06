@@ -22,9 +22,8 @@ class Parcelle
     public $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="campagne", type="integer")
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\JoinColumn(nullable=false)
      */
     public $campagne;
 

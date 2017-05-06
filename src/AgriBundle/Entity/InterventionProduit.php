@@ -22,7 +22,7 @@ class InterventionProduit
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Intervention", inversedBy="parcelles")
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Intervention", inversedBy="produits")
      * @ORM\JoinColumn(nullable=false)
      */
     public $intervention;

@@ -48,7 +48,12 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
     }
 
-    function getAll(){
-        return $this->findAll();
+    function getAllForCampagne($campagne){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->setParameter('campagne', $campagne)
+            ->getQuery();
+
+        return $query->getResult();
     }
 }

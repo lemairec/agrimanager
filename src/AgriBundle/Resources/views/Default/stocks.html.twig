@@ -1,0 +1,24 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Panel heading</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>qty</th>
+            </tr>
+            {% for s in stocks %}
+            <tr>
+                <td>{{s.name}}</td>
+                <td>{{s.qty}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 use AgriBundle\Entity\Ilot;
+use AgriBundle\Entity\Campagne;
 use AgriBundle\Entity\Intervention;
 use AgriBundle\Entity\InterventionParcelle;
 use AgriBundle\Entity\InterventionProduit;
@@ -17,21 +18,95 @@ use AgriBundle\Entity\Produit;
 use Datetime;
 
 use AgriBundle\Form\InterventionType;
+use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\InterventionParcelleType;
 use AgriBundle\Form\InterventionProduitType;
 
 class DefaultController extends Controller
 {
+    private function getCurrentCampagneId($request){
+        $session = $request->getSession();
+        $campagne_id = $session->get('campagne_id', '');
+        if($campagne_id == ''){
+            $em = $this->getDoctrine()->getManager();
+            $campagne = $em->getRepository('AgriBundle:Campagne')->findAll()[0]->id;
+        }
+        $new_campagne_id = $request->query->get('campagne_id');
+        if($new_campagne_id != ''){
+            return $new_campagne_id;
+        }
+
+        return $campagne_id;
+    }
+
+    private function getCurrentCampagne($request){
+        $campagne_id = $this->getCurrentCampagneId($request);
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $em->getRepository('AgriBundle:Campagne')->findOneById($campagne_id);
+        if($campagne){
+            return $campagne;
+        } else {
+            return $em->getRepository('AgriBundle:Campagne')->findAll()[0];
+        }
+    }
+
+
     /**
      * @Route("/")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $advertRepository = $em->getRepository('AgriBundle:Company');
         return $this->render('AgriBundle:Default:index.html.twig');
     }
+    
+    /**
+     * @Route("/send_file")
+     */
+    public function sendFileAction()
+    {
+        return $this->render('AgriBundle:Default:send_file.html.twig');
+    }
+
+
+    /**
+     * @Route("/campagnes", name="campagnes")
+     */
+    public function campagnesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $campagnes = $em->getRepository('AgriBundle:Campagne')->findAll();
+        return $this->render('AgriBundle:Default:campagnes.html.twig', array(
+            'campagnes2' => $campagnes,
+        ));
+    }
+
+    /**
+     * @Route("/campagne/{campagne_id}", name="campagne")
+     **/
+    public function campagneEditAction($campagne_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($campagne_id == '0'){
+            $campagne = new Campagne();
+        } else {
+            $campagne = $em->getRepository('AgriBundle:Campagne')->findOneById($campagne_id);
+        }
+        $form = $this->createForm(CampagneType::class, $campagne);
+        $form->handleRequest($request);
+
+
+        if ($form->isValid()) {
+            $em->persist($campagne);
+            $em->flush();
+            return $this->redirectToRoute('campagnes');
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+
 
     /**
      * @Route("/ilots")
@@ -53,15 +128,62 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/parcelles/{campagne_id}")
+     * @Route("/stocks")
      */
-    public function parcelles($campagne_id)
+    public function stocksAction()
     {
         $em = $this->getDoctrine()->getManager();
 
+        $stocks = $em->getRepository('AgriBundle:InterventionProduit')->getGroupByProduct();
+
+        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'stocks' => $stocks,
+        ));
+    }
+
+    /**
+     * @Route("/achats")
+     */
+    public function achatsAction(Request $request)
+    {
+        print "tutu";
+        if ($request->getMethod() == 'POST') {
+            $file = $request->files->get('file');
+            $dir = $this->get('kernel')->getRootDir() . '/../web/uploads/images/';
+            $fileName = $file->move($dir, "temp.csv");
+            if (($handle = fopen($fileName, "r")) !== FALSE) {
+                $i = 0;
+                while (($data = fgetcsv($handle, null, ",")) !== FALSE) {
+                    //if ($i == 0) { $i = 1;continue; }
+                    $i += 1;
+                    $rows = $data;
+                    echo(var_dump($rows));
+                }
+            }
+
+            $document = new Document();
+            $document->setFile($file);
+        }
+        print "tutu";
+        $em = $this->getDoctrine()->getManager();
+
+        $stocks = $em->getRepository('AgriBundle:InterventionProduit')->getGroupByProduct();
+
+        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'stocks' => $stocks,
+        ));
+    }
+    /**
+     * @Route("parcelles")
+     */
+    public function parcellesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
         $cultures = [];
 
-        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne(2017);
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
         foreach ($parcelles as $p) {
             if (!array_key_exists($p->culture, $cultures)) {
                 $cultures[$p->culture] = 0;
@@ -69,19 +191,24 @@ class DefaultController extends Controller
             $cultures[$p->culture] += $p->surface;
         }
         return $this->render('AgriBundle:Default:parcelles.html.twig', array(
+            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,
         ));
     }
 
     /**
-     * @Route("/interventions/{campagne_id}", name="interventions")
+     * @Route("/interventions", name="interventions")
      */
-    public function interventions($campagne_id)
+    public function interventions(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $interventions = $em->getRepository('AgriBundle:Intervention')->getAll();
+        $campagne = $this->getCurrentCampagne($request);
+        $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForCampagne($campagne);
         return $this->render('AgriBundle:Default:interventions.html.twig', array(
+            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagne_id' => $campagne->id,
             'interventions' => $interventions,
         ));
     }
@@ -92,11 +219,13 @@ class DefaultController extends Controller
     public function interventionEditAction($intervention_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
         if($intervention_id == 0){
             $intervention = new Intervention();
             $intervention->date = new \Datetime();
             $intervention->type = "phyto";
             $intervention->surface = 0;
+            $intervention->campagne = $campagne;
             $em->persist($intervention);
             $em->flush();
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention->id));

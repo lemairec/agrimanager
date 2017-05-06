@@ -1,0 +1,26 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Campagnes
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/campagne/0'">ADD</button>
+        </div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            {% for campagne in campagnes2 %}
+            <tr>
+                <td>{{campagne.id}}</td><td>{{campagne.name}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

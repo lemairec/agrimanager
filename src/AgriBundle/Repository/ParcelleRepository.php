@@ -11,7 +11,7 @@ use AgriBundle\Entity\Parcelle;
  */
 class ParcelleRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($ilot_id, $campagne, $name, $culture, $surface){
+    function add($campagne, $ilot_id, $name, $culture, $surface){
         $em = $this->getEntityManager();
         $ilot = $em->getRepository('AgriBundle:Ilot')->getById($ilot_id);
         $parcelle = new Parcelle();
@@ -34,13 +34,5 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    function getAllForAdherent($adherentId){
-        $query = $this->createQueryBuilder('p')
-            ->where('p.adherent = :adherent')
-            ->setParameter('adherent', $adherentId)
-            ->getQuery();
-
-        return $query->getResult();
-    }
 
 }

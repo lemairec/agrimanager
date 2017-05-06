@@ -1,0 +1,18 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+
+
+    <form action="achats" method="post" enctype="multipart/form-data">
+        <p>Images:
+        <input type="file" name="file" />
+        <input name="toto" />
+        <input type="submit" value="Send" />
+        </p>
+    </form>
+
+</div>
+{% endblock %}

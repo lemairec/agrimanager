@@ -18,4 +18,14 @@ class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
         return $produit;
     }
+
+    function getGroupByProduct(){
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT * FROM intervention_produit p group by p.produit_no_ephy");
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
 }
+

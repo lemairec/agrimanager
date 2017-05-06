@@ -23,6 +23,13 @@ class Intervention
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $campagne;
+
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date")
