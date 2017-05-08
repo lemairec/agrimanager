@@ -6,7 +6,9 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-datepicker.min.css" rel="stylesheet">
         <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap-datepicker.min.js"></script>
         {% block javascripts %}{% endblock %}
     </head>
     <body>
@@ -56,4 +58,12 @@ $(function(){
     });
 });
     </script>
+    <script>
+$(document).ready(function() {
+    $('.js-datepicker').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+});
+    </script>
+
 </html>

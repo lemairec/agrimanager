@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AgriBundle\Form\InterventionParcelleType;
 use AgriBundle\Form\InterventionProduitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class InterventionType extends AbstractType
 {
@@ -18,7 +19,14 @@ class InterventionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date')->add('type');
+        $builder
+            ->add('date', DateType::class, array(
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
+            ));
+        $builder->add('type');
         /**$builder->add('parcelles', CollectionType::class, array(
             'entry_type' => InterventionParcelleType::class,
             'allow_add'    => true,
