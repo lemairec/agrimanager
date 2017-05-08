@@ -12,12 +12,14 @@
                 <th>Type</th>
                 <th>Name</th>
                 <th>qty</th>
+                <th>price</th>
             </tr>
             {% for p in stocks %}
             <tr>
                 <td>{{p.type}}</td>
                 <td>{{p.name}}</td>
                 <td>{{p.qty}}</td>
+                <td>{{ "%.2f €"|format(p.price) }}</td>
             </tr>
             {% endfor %}
         </table>

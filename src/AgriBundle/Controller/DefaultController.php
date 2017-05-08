@@ -20,6 +20,7 @@ use Datetime;
 
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
+use AgriBundle\Form\ParcelleType;
 use AgriBundle\Form\InterventionParcelleType;
 use AgriBundle\Form\InterventionProduitType;
 
@@ -179,7 +180,7 @@ class DefaultController extends Controller
                     $achat->qty = floatval(str_replace(",",".",$rows[4]));
                     $achat->unity = $rows[5];
                     $achat->price = floatval(str_replace(",",".",$rows[6]));
-                    $achat->price_total = floatval(str_replace(",",".",$rows[6]));
+                    $achat->price_total = floatval(str_replace(",",".",$rows[7]));
                     $em->getRepository('AgriBundle:Achat')->add($achat);
                 }
                 return $this->redirectToRoute('achats');
@@ -194,7 +195,7 @@ class DefaultController extends Controller
         ));
     }
     /**
-     * @Route("parcelles")
+     * @Route("parcelles", name="parcelles")
      */
     public function parcellesAction(Request $request)
     {
@@ -217,6 +218,41 @@ class DefaultController extends Controller
             'cultures' => $cultures,
         ));
     }
+    
+    /**
+     * @Route("/parcelle/{parcelle_id}", name="parcelle")
+     **/
+    public function parcelleEditAction($parcelle_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        if($parcelle_id == 0){
+            $parcelle = new Parcelle();
+            $parcelle->surface = 0;
+            $parcelle->campagne = $campagne;
+        } else {
+            $parcelle = $em->getRepository('AgriBundle:Parcelle')->findOneById($parcelle_id);
+        }
+        $form = $this->createForm(ParcelleType::class, $parcelle);
+        $form->handleRequest($request);
+
+
+        if ($form->isValid()) {
+            $em->persist($parcelle);
+            $em->flush();
+            return $this->redirectToRoute('parcelles');
+        }
+        $interventions = [];
+        if($parcelle->id != 0){
+            $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($parcelle);
+        }
+        return $this->render('AgriBundle:Default:parcelle.html.twig', array(
+            'form' => $form->createView(),
+            'interventions' => $interventions,
+        ));
+    }
+
+
 
     /**
      * @Route("/interventions", name="interventions")

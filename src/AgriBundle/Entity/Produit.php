@@ -36,13 +36,18 @@ class Produit
     public $type;
     
     /**
-    /**
      * @var float
      *
      * @ORM\Column(name="qty", type="float")
      */
     public $qty;
     
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="price", type="float")
+     */
+    public $price;
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\ProduitEphy")

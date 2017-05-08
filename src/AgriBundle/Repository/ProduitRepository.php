@@ -40,7 +40,16 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('produit', $produit)
             ->getQuery()
             ->getSingleScalarResult();
+        $price = $em->getRepository('AgriBundle:Achat')->createQueryBuilder('a')
+            ->select('MAX(a.price)')
+            ->where('a.produit = :produit')
+            ->setParameter('produit', $produit)
+            ->getQuery()
+            ->getSingleScalarResult();
         $produit->qty = $qty - $qty2;
+        if($price > 0){
+            $produit->price = $price;
+        }
         $em->persist($produit);
         $em->flush();
     }

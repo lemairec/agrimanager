@@ -17,7 +17,7 @@
             </tr>
             {% for parcelle in parcelles %}
             <tr>
-                <td>{{parcelle.id}}</td>
+                <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.id}}</a></td>
                 <td>{{parcelle.ilot.name}}</td>
                 <td>{{parcelle.name}}</td>
                 <td>{{parcelle.culture}}</td>

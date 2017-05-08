@@ -57,4 +57,14 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+    
+    function getAllForParcelle($parcelle_id){
+        $query = $this->createQueryBuilder('i')
+            ->join('i.parcelles', 'p')
+            ->where('p.id = :parcelle_id')
+            ->setParameter('parcelle_id', $parcelle_id)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
