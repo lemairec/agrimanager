@@ -17,27 +17,27 @@ class User implements UserInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      */
-    private $username;
+    public $username;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $password;
+    public $password;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      */
-    private $email;
+    public $email;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    public $isActive;
 
     public function __construct()
     {

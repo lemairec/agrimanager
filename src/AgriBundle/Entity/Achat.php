@@ -20,7 +20,7 @@ class Achat
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $id;
-    
+
     /**
      * @var \DateTime
      *
@@ -40,7 +40,7 @@ class Achat
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
-    
+
     /**
      * @var string
      *
@@ -49,13 +49,12 @@ class Achat
     public $type;
     
     /**
-    /**
      * @var float
      *
      * @ORM\Column(name="qty", type="float")
      */
     public $qty;
-    
+
     /**
      * @var float
      *
@@ -83,9 +82,8 @@ class Achat
      * @ORM\Column(name="comment", type="string", length=255)
      */
     public $comment;
-    
+
     function get_date(){
-        return $this->date->format(' d/m/Y'); 
+        return $this->date->format(' d/m/Y');
     }
 }
-

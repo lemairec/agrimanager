@@ -27,21 +27,21 @@ class Produit
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
     public $type;
-    
+
     /**
      * @var float
      *
      * @ORM\Column(name="qty", type="float")
      */
     public $qty;
-    
+
     /**
      * @var float
      *
@@ -50,9 +50,8 @@ class Produit
     public $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\ProduitEphy")
-     * @ORM\JoinColumn(name="produit_no_ephy", referencedColumnName="no_ephy")
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphyProduit")
+     * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="complete_name")
      */
-    public $produitEphy;
+    public $ephyProduit;
 }
-

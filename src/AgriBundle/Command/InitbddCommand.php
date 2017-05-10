@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use AgriBundle\Entity\User;
 use AgriBundle\Entity\Ilot;
 use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Company;
@@ -58,34 +59,34 @@ class InitbddCommand extends ContainerAwareCommand
         $em->getRepository('AgriBundle:Parcelle')->add($campagne, $ilot->id, "ble-bettrave", "ble", 15.1);
         $em->persist($ilot);
         $em->flush();
-
     }
 
-    function scrapper_ephy_link($link){
-        if(!$link){
-            return;
-        }
-        try {
-            $client = new Client();
-            $crawler = $client->request('GET', 'http://e-phy.agriculture.gouv.fr/spe/'.$link);
-            $crawler->filter('div')->each(function ($node) {
-                $text = $node->text();
-                if (0 === strpos($text, 'Intrant: ')) {
-                    $this->intrant = substr($text, 9, strlen($text));
-                }
-                if (0 === strpos($text, 'Numéro d\'autorisation: ')) {
-                    $this->amm = substr($text, 24, strlen($text));
-                }
-            });
-            $em = $this->getContainer()->get('doctrine')->getEntityManager();
-            $produit = new Produit();
-            $produit->amm = $this->amm;
-            $produit->name = $this->intrant;
-            $produit->no_ephy = explode('.',$link)[0];
-            $produit = $em->getRepository('AgriBundle:Produit')->save($produit);
-            $this->output->writeln(json_encode($produit));
-        } catch (Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-            echo 'Exception reçue : ',  $e->getMessage(), "\n";
+    function addUser(){
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $user = new User();
+        $user->username = 'admin';
+        $user->email = 'email@domain.com';
+
+        $encoder = $this->getContainer()->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, 'admin');
+        $user->password = $encoded;
+        //$user->setPassword('3NCRYPT3D-V3R51ON');
+        $user->enabled = true;
+        $em->persist($user);
+        $em->flush();
+    }
+
+    function ephy_csv(){
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $ephyrepository = $em->getRepository('AgriBundle:EphyProduit');
+        $fileName = '/Users/lemairec/Downloads/usages_des_produits_autorises_v2_utf8_04052017.csv';
+        if (($handle = fopen($fileName, "r")) !== FALSE) {
+            echo("toto");
+            $i = 0;
+            while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
+                if ($i == 0) { $i = 1;continue; }
+                $ephyrepository->addRows($rows);
+            }
         }
     }
 
@@ -112,9 +113,13 @@ class InitbddCommand extends ContainerAwareCommand
         $output->writeln('Init Bdd');
         $output->writeln('add Data');
         $this->addData();
-        for($i = 'a'; $i < 'z'; $i++){
-            $this->scrapper_ephy($i);
-        }
+        $this->addUser();
+
+        $this->ephy_csv();
+
+        //for($i = 'a'; $i < 'z'; $i++){
+        //    $this->scrapper_ephy($i);
+        //}
     }
 
 }
