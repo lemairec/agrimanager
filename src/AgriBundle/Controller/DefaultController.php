@@ -60,7 +60,7 @@ class DefaultController extends Controller
     {
         return $this->render('AgriBundle:Default:index.html.twig');
     }
-    
+
     /**
      * @Route("/login", name="login")
      */
@@ -70,7 +70,7 @@ class DefaultController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
         return $this->redirectToRoute('home');
         }
-        
+
         // Le service authentication_utils permet de récupérer le nom d'utilisateur
         // et l'erreur dans le cas où le formulaire a déjà été soumis mais était invalide
         // (mauvais mot de passe par exemple)
@@ -80,7 +80,7 @@ class DefaultController extends Controller
         'error'         => $authenticationUtils->getLastAuthenticationError(),
         ));
     }
-    
+
     /**
      * @Route("/send_file")
      */
@@ -183,25 +183,7 @@ class DefaultController extends Controller
                     //if ($i == 0) { $i = 1;continue; }
                     $i += 1;
                     $rows = $data;
-                    $achat = new Achat();
-                    $achat->comment = json_encode($rows);
-                    $date = $rows[1];
-                    $date = str_replace("/20/","/02/",$date);
-                    $date = str_replace("/30/","/03/",$date);
-                    $date = str_replace("/40/","/04/",$date);
-                    $date = str_replace("/50/","/05/",$date);
-                    $date = str_replace("/60/","/06/",$date);
-                    $date = str_replace("/70/","/07/",$date);
-                    $date = str_replace("/80/","/08/",$date);
-                    $date = str_replace("/90/","/09/",$date);
-                    $achat->date = date_create_from_format('d/m/Y',$date);
-                    $achat->name = $rows[2];
-                    $achat->type = $rows[3];
-                    $achat->qty = floatval(str_replace(",",".",$rows[4]));
-                    $achat->unity = $rows[5];
-                    $achat->price = floatval(str_replace(",",".",$rows[6]));
-                    $achat->price_total = floatval(str_replace(",",".",$rows[7]));
-                    $em->getRepository('AgriBundle:Achat')->add($achat);
+                    $em->getRepository('AgriBundle:Achat')->addRows($rows);
                 }
                 return $this->redirectToRoute('achats');
             }
@@ -238,7 +220,7 @@ class DefaultController extends Controller
             'cultures' => $cultures,
         ));
     }
-    
+
     /**
      * @Route("/parcelle/{parcelle_id}", name="parcelle")
      **/
@@ -300,6 +282,7 @@ class DefaultController extends Controller
             $intervention = new Intervention();
             $intervention->date = new \Datetime();
             $intervention->type = "phyto";
+            $intervention->comment = "";
             $intervention->surface = 0;
             $intervention->campagne = $campagne;
             $em->persist($intervention);
@@ -376,7 +359,7 @@ class DefaultController extends Controller
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
-        $produits = $em->getRepository('AgriBundle:Produit')->findAll();
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllName();
 
         if ($form->isValid()) {
             $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit);

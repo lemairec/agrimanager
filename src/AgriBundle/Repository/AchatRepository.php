@@ -1,6 +1,7 @@
 <?php
 
 namespace AgriBundle\Repository;
+use AgriBundle\Entity\Achat;
 
 /**
  * AchatRepository
@@ -17,5 +18,30 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $em->persist($achat);
         $em->flush();
         $em->getRepository('AgriBundle:Produit')->update($produit);
+    }
+
+    function addRows($rows){
+        print(json_encode($rows));
+        $achat = new Achat();
+        $achat->comment = json_encode($rows);
+        $date = $rows[1];
+        $date = str_replace("/20/","/02/",$date);
+        $date = str_replace("/30/","/03/",$date);
+        $date = str_replace("/40/","/04/",$date);
+        $date = str_replace("/50/","/05/",$date);
+        $date = str_replace("/60/","/06/",$date);
+        $date = str_replace("/70/","/07/",$date);
+        $date = str_replace("/80/","/08/",$date);
+        $date = str_replace("/90/","/09/",$date);
+        $achat->date = date_create_from_format('d/m/Y',$date);
+        $name = $rows[2];
+        $name = str_replace(" pdr","",$name);
+        $achat->name = $name;
+        $achat->type = $rows[3];
+        $achat->qty = floatval(str_replace(",",".",$rows[4]));
+        $achat->unity = $rows[5];
+        $achat->price = floatval(str_replace(",",".",$rows[6]));
+        $achat->price_total = floatval(str_replace(",",".",$rows[7]));
+        $this->add($achat);
     }
 }

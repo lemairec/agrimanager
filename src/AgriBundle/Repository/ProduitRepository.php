@@ -21,6 +21,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->name = $name;
         $produit->type = $type;
         $produit->qty = 0;
+        $produit->price = 0;
         $em->persist($produit);
         $em->flush();
         return $produit;
@@ -70,5 +71,20 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             $em->flush();
         }
         return $produit;
+    }
+
+    function getAllName(){
+        $em = $this->getEntityManager();
+        $res = [];
+        $produits = $this->findAll();
+        foreach($produits as $p){
+            $res[] = $p->name;
+        }
+        $produits = $em->getRepository('AgriBundle:EphyProduit')->findAll();
+        foreach($produits as $p){
+            $res[] = $p->completeName;
+        }
+
+        return $res;
     }
 }

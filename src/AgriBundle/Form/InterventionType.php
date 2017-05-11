@@ -27,6 +27,7 @@ class InterventionType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
             ));
         $builder->add('type');
+        $builder->add('comment');
         /**$builder->add('parcelles', CollectionType::class, array(
             'entry_type' => InterventionParcelleType::class,
             'allow_add'    => true,

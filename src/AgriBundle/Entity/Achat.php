@@ -47,7 +47,7 @@ class Achat
      * @ORM\Column(name="type", type="string", length=255)
      */
     public $type;
-    
+
     /**
      * @var float
      *

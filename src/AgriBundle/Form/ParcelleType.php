@@ -5,6 +5,7 @@ namespace AgriBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ParcelleType extends AbstractType
 {
@@ -13,9 +14,10 @@ class ParcelleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('surface')->add('name')->add('culture');
+        $builder->add('surface')->add('name')->add('culture')->add('comment');
+        $builder->add('save',      SubmitType::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -25,6 +25,7 @@
     {{ form_start(form) }}
     {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
     {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(form.save) }}
     {{ form_end(form) }}
 </div>
@@ -73,4 +74,4 @@
         {% endfor %}
     </table>
 </div>
-{% endblock %} 
+{% endblock %}

@@ -62,5 +62,11 @@ class Parcelle
      */
     public $culture;
 
-}
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=2048)
+     */
+    public $comment;
 
+}

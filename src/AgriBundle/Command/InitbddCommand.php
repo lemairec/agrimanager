@@ -76,10 +76,23 @@ class InitbddCommand extends ContainerAwareCommand
         $em->flush();
     }
 
+    function caj_csv(){
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $achatrepository = $em->getRepository('AgriBundle:Achat');
+        $fileName = '/Users/lemairec/fablab/symfony_agri/data/caj.csv';
+        if (($handle = fopen($fileName, "r")) !== FALSE) {
+            $i = 0;
+            while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
+                if ($i == 0) { $i = 1;continue; }
+                $achatrepository->addRows($rows);
+            }
+        }
+    }
+
     function ephy_csv(){
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $ephyrepository = $em->getRepository('AgriBundle:EphyProduit');
-        $fileName = '/Users/lemairec/Downloads/usages_des_produits_autorises_v2_utf8_04052017.csv';
+        $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");
             $i = 0;
@@ -116,6 +129,7 @@ class InitbddCommand extends ContainerAwareCommand
         $this->addUser();
 
         $this->ephy_csv();
+        $this->caj_csv();
 
         //for($i = 'a'; $i < 'z'; $i++){
         //    $this->scrapper_ephy($i);

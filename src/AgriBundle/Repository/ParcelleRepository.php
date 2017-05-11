@@ -20,6 +20,7 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         $parcelle->culture = $culture;
         $parcelle->campagne= $campagne;
         $parcelle->surface = $surface;
+        $parcelle->comment = "";
         $parcelle = $this->save($parcelle);
         return $parcelle;
     }

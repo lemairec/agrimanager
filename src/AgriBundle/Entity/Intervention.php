@@ -44,6 +44,13 @@ class Intervention
     public $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=2048)
+     */
+    public $comment;
+
+    /**
     * @ORM\OneToMany(targetEntity="AgriBundle\Entity\InterventionParcelle", mappedBy="intervention",cascade={"persist"})
     */
     public $parcelles;
@@ -66,7 +73,6 @@ class Intervention
     }
 
     function get_date(){
-        return $this->date->format(' d/m/Y'); 
+        return $this->date->format(' d/m/Y');
     }
 }
-
