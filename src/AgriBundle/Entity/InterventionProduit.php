@@ -48,13 +48,17 @@ class InterventionProduit
      */
     public $qty;
 
-    function getqtyha(){
+    function getPriceHa(){
+        $price = $this->produit->price;
+        return  $this->getqtyha()*$price;
+    }
+
+    function getQtyHa(){
         $surface = $this->intervention->surface;
         if($surface == 0){
             return 0;
         } else {
-            return  round ($this->qty/$surface, 2);
+            return  $this->qty/$surface;
         }
     }
 }
-

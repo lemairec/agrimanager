@@ -65,7 +65,7 @@ class Parcelle
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="string", length=2048)
+     * @ORM\Column(name="comment", type="string", length=2048, nullable=true)
      */
     public $comment;
 

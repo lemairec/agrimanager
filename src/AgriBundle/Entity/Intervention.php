@@ -46,7 +46,7 @@ class Intervention
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="string", length=2048)
+     * @ORM\Column(name="comment", type="string", length=2048, nullable=true)
      */
     public $comment;
 
@@ -70,6 +70,14 @@ class Intervention
     public function __construct() {
         $this->parcelles = new ArrayCollection();
         $this->produits = new ArrayCollection();
+    }
+
+    function getPriceHa(){
+        $res = 0;
+        foreach($this->produits as $p){
+            $res += $p->getPriceHa();
+        }
+        return $res;
     }
 
     function get_date(){

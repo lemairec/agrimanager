@@ -22,7 +22,7 @@ $( function() {
             //alert("selected " + label + " " + value);
         }
     });
-    document.getElementById("test").addEventListener("click", function( event ) {
+    /*document.getElementById("test").addEventListener("click", function( event ) {
         value = document.getElementById("tags").value;
         url = '/api/produit/' + value;
         console.log(url);
@@ -34,7 +34,14 @@ $( function() {
         });
         //event.target.textContent = "click count: " + event.detail;
         //open('http://google.com');
-    }, false);
+    }, false);*/
+    $('#agribundle_interventionproduit_qty').on('input',function(e){
+        surface = parseFloat(document.getElementById("surface").textContent);
+        dose = parseFloat(document.getElementById("agribundle_interventionproduit_qty").value);
+        dose_ha = dose/surface;
+        document.getElementById("qty_by_ha").innerHTML = dose_ha;
+    });
+
 } );
 </script>
 {% endblock %}
@@ -73,6 +80,11 @@ $( function() {
 <div class="container">
     <div class="well">
         {{ form(form) }}
+    </div>
+    <div class="well">
+        Surface Intervention : <div id="surface" style="display:inline;">{{surface_totale}}</div> ha
+        <br>
+        Quantité par ha : <div id="qty_by_ha" style="display:inline;">7.5</div>
     </div>
 </div>
 {% endblock %}

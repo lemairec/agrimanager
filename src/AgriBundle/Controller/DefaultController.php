@@ -367,7 +367,9 @@ class DefaultController extends Controller
         }
         return $this->render('AgriBundle:Default:intervention_produit.html.twig', array(
             'form' => $form->createView(),
-            'produits' => $produits
+            'produits' => $produits,
+            'surface_totale' => $intervention_produit->intervention->surface
+
         ));
     }
 

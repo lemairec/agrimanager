@@ -57,14 +57,23 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
-    
-    function getAllForParcelle($parcelle_id){
-        $query = $this->createQueryBuilder('i')
-            ->join('i.parcelles', 'p')
-            ->where('p.id = :parcelle_id')
-            ->setParameter('parcelle_id', $parcelle_id)
-            ->getQuery();
 
-        return $query->getResult();
+    function getAllForParcelle($parcelle){
+        $em = $this->getEntityManager();
+        $sql = 'SELECT intervention_id FROM intervention_parcelle where parcelle_id = ?';
+
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($sql);
+        $statement->bindValue(1, $parcelle->id);
+        $statement->execute();
+        $parcelles = $statement->fetchAll();
+        $ids = [];
+        foreach($parcelles as $p){
+            $ids[] = $p["intervention_id"];
+
+        }
+
+        return $this->findById($ids);
     }
 }

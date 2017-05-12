@@ -41,13 +41,15 @@
             <th>Name</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         {% for intervention in interventions %}
         <tr>
             <td><a href="/intervention/{{intervention.id}}">{{intervention.id}}</td>
             <td><b>{{intervention.get_date()}}</b></td>
             <td><b>{{intervention.type}}</b></td>
-            <td><b>{{intervention.surface}} ha</b></td>
+            <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+            <td><b>{{ "%.2f  €/ha"|format(intervention.getPriceHa())}}</b></td>
             <td><a href="/intervention/{{intervention.id}}/delete">Delete</td>
         </tr>
         {% for it in intervention.produits %}
@@ -55,8 +57,9 @@
             <td></td>
             <td></td>
             <td>{{it.name}}</td>
-            <td>{{it.qty}}</td>
-            <td>{{it.qtyha}}</td>
+            <td>{{ "%.2f  u"|format(it.qty)}}</td>
+            <td>{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
+            <td>{{ "%.2f  €/ha"|format(it.getPriceHa())}}</td>
         </tr>
         {% endfor %}
         {% endfor %}
