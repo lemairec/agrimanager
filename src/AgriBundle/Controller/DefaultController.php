@@ -118,7 +118,7 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted()) {
             $em->persist($campagne);
             $em->flush();
             return $this->redirectToRoute('campagnes');
@@ -239,7 +239,7 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted()) {
             $em->persist($parcelle);
             $em->flush();
             return $this->redirectToRoute('parcelles');
@@ -295,7 +295,7 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted()) {
             foreach($intervention->parcelles as $p){
                 $p->intervention = $intervention;
             }
@@ -336,7 +336,7 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted()) {
             $em->getRepository('AgriBundle:InterventionParcelle')->save($intervention_parcelle);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
@@ -361,7 +361,7 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         $produits = $em->getRepository('AgriBundle:Produit')->getAllName();
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted()) {
             $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
