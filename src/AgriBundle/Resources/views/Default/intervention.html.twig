@@ -38,11 +38,13 @@
     </div>
     <table class="table">
         <tr>
+            <th>Id</th>
             <th>Name</th>
             <th>Surface</th>
         </tr>
         {% for it in intervention.parcelles %}
         <tr>
+            <td><a href="/intervention/{{intervention.id}}/parcelle/{{it.id}}">{{it.id}}</a></td>
             <td>{{it.parcelle.completeName}}</td>
             <td>{{it.parcelle.surface}}</td>
         </tr>
@@ -67,7 +69,7 @@
         </tr>
         {% for it in intervention.produits %}
         <tr>
-            <td>{{it.produit.name}}</td>
+            <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}">{{it.id}}</a></td>
             <td>{{it.produit.name}}</td>
             <td>{{it.qty}}</td>
         </tr>

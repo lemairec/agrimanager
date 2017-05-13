@@ -326,11 +326,11 @@ class DefaultController extends Controller
     public function interventionParcelleAction($intervention_id, $intervention_parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        if($intervention_parcelle_id== 0){
+        if($intervention_parcelle_id == 0){
             $intervention_parcelle = new InterventionParcelle();
             $intervention_parcelle->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
         } else {
-            //$intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
+            $intervention_parcelle = $em->getRepository('AgriBundle:InterventionParcelle')->findOneById($intervention_parcelle_id);
         }
         $form = $this->createForm(InterventionParcelleType::class, $intervention_parcelle);
         $form->handleRequest($request);
@@ -351,7 +351,7 @@ class DefaultController extends Controller
     public function interventionProduitAction($intervention_id, $intervention_produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        if($intervention_produit_id== 0){
+        if($intervention_produit_id == 0){
             $intervention_produit = new InterventionProduit();
             $intervention_produit->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
         } else {
