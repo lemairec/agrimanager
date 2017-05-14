@@ -17,7 +17,7 @@ class CampagneType extends AbstractType
         $builder->add('name')        ;
         $builder->add('save',      SubmitType::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */

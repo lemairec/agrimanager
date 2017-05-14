@@ -53,6 +53,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->setParameter('campagne', $campagne)
+            ->orderBy('p.date', 'ASC')
             ->getQuery();
 
         return $query->getResult();

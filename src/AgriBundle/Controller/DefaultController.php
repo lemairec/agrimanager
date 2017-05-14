@@ -248,9 +248,14 @@ class DefaultController extends Controller
         if($parcelle->id != 0){
             $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($parcelle);
         }
+        $priceHa = 0;
+        foreach($interventions as $it){
+            $priceHa += $it->getPriceHa();
+        }
         return $this->render('AgriBundle:Default:parcelle.html.twig', array(
             'form' => $form->createView(),
             'interventions' => $interventions,
+            'priceHa' => $priceHa
         ));
     }
 
