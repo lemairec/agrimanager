@@ -62,7 +62,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
     function getAllForParcelle($parcelle){
         $em = $this->getEntityManager();
         $sql = 'SELECT intervention_id FROM intervention_parcelle where parcelle_id = ?';
-
+        
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare($sql);
@@ -75,6 +75,13 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
         }
 
-        return $this->findById($ids);
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $this->createQueryBuilder('p')
+            ->where('p.id IN (:ids)')
+             ->setParameter('ids', $ids)
+             ->orderBy('p.date', 'ASC')
+             ->getQuery();
+
+             return $query->getResult();
     }
 }

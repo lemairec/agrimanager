@@ -36,4 +36,3 @@ class Company
     public $adresse;
 
 }
-

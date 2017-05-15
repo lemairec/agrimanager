@@ -6,7 +6,7 @@
 <div class="container bs-docs-container">
     <div class="panel panel-default", style="width:100%">
         <!-- Default panel contents -->
-        <div class="panel-heading">Panel heading</div>
+        <div class="panel-heading">Parcelle</div>
         <table class="table">
             <tr>
                 <th>Id</th>
@@ -17,7 +17,7 @@
             </tr>
             {% for parcelle in parcelles %}
             <tr>
-                <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.id}}</a></td>
+                <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
                 <td>{{parcelle.ilot.name}}</td>
                 <td>{{parcelle.name}}</td>
                 <td>{{parcelle.culture}}</td>

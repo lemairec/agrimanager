@@ -36,6 +36,7 @@ class DefaultController extends Controller
         }
         $new_campagne_id = $request->query->get('campagne_id');
         if($new_campagne_id != ''){
+            $session->set('campagne_id', $new_campagne_id);
             return $new_campagne_id;
         }
 
@@ -272,7 +273,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        if($parcelle_id == 0){
+        if($parcelle_id == '0'){
             $parcelle = new Parcelle();
             $parcelle->surface = 0;
             $parcelle->campagne = $campagne;
@@ -289,7 +290,7 @@ class DefaultController extends Controller
             return $this->redirectToRoute('parcelles');
         }
         $interventions = [];
-        if($parcelle->id != 0){
+        if($parcelle->id != '0'){
             $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($parcelle);
         }
         $priceHa = 0;
@@ -327,7 +328,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        if($intervention_id == 0){
+        if($intervention_id == '0'){
             $intervention = new Intervention();
             $intervention->date = new \Datetime();
             $intervention->type = "phyto";
@@ -366,7 +367,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $em->getRepository('AgriBundle:Intervention')->delete($intervention_id);
-        return $this->redirectToRoute('interventions', array('campagne_id' => 2012));
+        return $this->redirectToRoute('interventions');
     }
 
     /**
@@ -375,7 +376,7 @@ class DefaultController extends Controller
     public function interventionParcelleAction($intervention_id, $intervention_parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        if($intervention_parcelle_id == 0){
+        if($intervention_parcelle_id == '0'){
             $intervention_parcelle = new InterventionParcelle();
             $intervention_parcelle->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
         } else {
@@ -400,7 +401,7 @@ class DefaultController extends Controller
     public function interventionProduitAction($intervention_id, $intervention_produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        if($intervention_produit_id == 0){
+        if($intervention_produit_id == '0'){
             $intervention_produit = new InterventionProduit();
             $intervention_produit->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
         } else {

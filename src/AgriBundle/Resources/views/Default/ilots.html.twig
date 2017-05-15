@@ -6,16 +6,16 @@
 <div class="container bs-docs-container">
     <div class="panel panel-default", style="width:100%">
         <!-- Default panel contents -->
-        <div class="panel-heading">Panel heading</div>
+        <div class="panel-heading">Ilots</div>
         <table class="table">
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Surface</th>
             </tr>
             {% for ilot in ilots %}
             <tr>
-                <td>{{ilot.id}}</td><td>{{ilot.name}}</td><td>{{ilot.surface}}</td>
+                <td><a href="/ilot/{{ilot.id}}">{{ilot.name}}</a></td>
+                <td>{{ilot.surface}}</td>
             </tr>
             {% endfor %}
         </table>

@@ -13,11 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Achat
 {
     /**
-     * @var int
+     * @var guid
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     public $id;
 

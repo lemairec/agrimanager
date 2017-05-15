@@ -13,12 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Campagne
 {
     /**
-     * @var int
+     * @var guid
      *
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     *
      */
     public $id;
 
@@ -29,6 +28,5 @@ class Campagne
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
-    
-}
 
+}
