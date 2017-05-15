@@ -21,6 +21,7 @@ use Datetime;
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\ParcelleType;
+use AgriBundle\Form\ProduitType;
 use AgriBundle\Form\InterventionParcelleType;
 use AgriBundle\Form\InterventionProduitType;
 
@@ -150,6 +151,48 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/produit/{produit_id}", name="produit")
+     **/
+    public function produitEditAction($produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($produit_id == '0'){
+            $produit = new Produit();
+        } else {
+            $produit = $em->getRepository('AgriBundle:Produit')->findOneById($produit_id);
+        }
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($produit);
+            $em->flush();
+            return $this->redirectToRoute('campagnes');
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/produits")
+     */
+    public function produitsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('AgriBundle:Produit')
+            ->createQueryBuilder('p')
+            ->add('orderBy','p.type ASC, p.name ASC')
+            ->getQuery()->getResult();
+
+        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'stocks' => $produits,
+        ));
+    }
+
+    /**
      * @Route("/stocks")
      */
     public function stocksAction()
@@ -158,6 +201,7 @@ class DefaultController extends Controller
 
         $produits = $em->getRepository('AgriBundle:Produit')
             ->createQueryBuilder('p')
+            ->where('p.qty != 0')
             ->add('orderBy','p.type ASC, p.name ASC')
             ->getQuery()->getResult();
 

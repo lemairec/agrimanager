@@ -9,15 +9,15 @@
         <div class="panel-heading">Panel heading</div>
         <table class="table">
             <tr>
-                <th>Type</th>
                 <th>Name</th>
+                <th>Type</th>
                 <th class="text-right">qty</th>
                 <th class="text-right">price</th>
             </tr>
             {% for p in stocks %}
             <tr>
+                <td><a href="/produit/{{p.id}}">{{p.name}}</a></td>
                 <td>{{p.type}}</td>
-                <td>{{p.name}}</td>
                 <td class="text-right">{{ "%.2f    "|format(p.qty) }}</td>
                 <td class="text-right">{{ "%.2f €  "|format(p.price) }}</td>
             </tr>
