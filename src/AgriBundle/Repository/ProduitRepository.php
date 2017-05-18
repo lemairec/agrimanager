@@ -91,4 +91,11 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
 
         return $res;
     }
+
+    function delete($produit_id){
+        $em = $this->getEntityManager();
+        $produit = $this->findOneById($produit_id);
+        $em->remove($produit);
+        $em->flush();
+    }
 }

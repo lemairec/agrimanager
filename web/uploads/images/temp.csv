@@ -1,28 +1,29 @@
-002987667 - 002;3/05/2017;axial pratic pdr;phytos;15;l;45;675;----;;magasin appro
-002987667 - 003;3/05/2017;sulfate ammoniac cristalise;engrais;0,1;t;275;27,5;----;;magasin appro
-002987667 - 004;3/05/2017;huile mix in;phytos;20;l;4,3;86;----;;magasin appro
-002987667 - 005;3/05/2017;librax;phytos;20;l;55;1100;----;;magasin appro
-002987667 - 006;3/05/2017;biplay sx;phytos;0,3;kg;450;135;----;;magasin appro
-002987667 - 007;3/05/2017;hurler;phytos;10;l;14;140;----;;magasin appro
-002987667 - 008;3/05/2017;meltop 500 pdr;phytos;15;l;35;525;----;;magasin appro
-002987554 - 001;3/05/2017;unix max;phytos;10;l;25;250;----;;magasin appro
-002987554 - 002;24/04/2017;bofix pdr;phytos;60;l;11,989;719,34;----;;magasin appro
-002987554 - 003;24/04/2017;bofix pdr;phytos;5;l;12,381;61,905;----;;magasin appro
-002987554 - 004;24/04/2017;biplay sx;phytos;0,6;kg;487,148;292,2888;----;;magasin appro
-000413935 - 001;24/04/2017;mayandra;phytos;10;l;12,147;121,47;----;;magasin appro
-000413935 - 002;20/04/2017;epso top so4 mgo 16% 25kg;oligos;150;kg;0,468;70,2;----;;warmeriville
-000413935 - 003;20/04/2017;propulse pdr;phytos;15;l;54,946;824,19;----;;warmeriville
-000413935 - 004;20/04/2017;cherokee pdr;phytos;30;l;23,247;697,41;----;;warmeriville
-002987509 - 001;20/04/2017;c5sun;phytos;20;l;2,092;41,84;----;;warmeriville
-010022536 - 001;20/04/2017;acanto 250 sc pdr;phytos;4;l;43,766;175,064;----;;magasin appro
-010022537 - 001;13/04/2017;230001;sol azotee 30n;4,106;t;215,868;886,35;----;;warmeriville
-010022538 - 001;13/04/2017;230001;sol azotee 30n;3,902;t;215,868;842,32;----;;warmeriville
-010022542 - 001;13/04/2017;230001;sol azotee 30n;3,188;t;215,868;688,19;----;;warmeriville
-010022544 - 001;13/04/2017;230001;sol azotee 30n;3,856;t;215,868;832,39;----;;warmeriville
-002987325 - 001;13/04/2017;230001;sol azotee 30n;1,716;t;215,868;370,43;----;;warmeriville
-002987325 - 002;7/04/2017;820354;masque 3m 6200;1;unite;17,2;17,2;----;;magasin appro
-002987337 - 001;7/04/2017;820355;kit de filtre masque 3m;1;unite;23,19;23,19;----;;magasin appro
-010022319 - 001;7/04/2017;guide protection cultures 2017;services;1;unite;----;0;----;;magasin appro
+002987667 - 001;30/50/2017;axial pratic pdr;phytos;15;l;45;675,00 €;----;----;magasin appro
+002987667 - 002;30/50/2017;sulfate ammoniac cristalise;engrais;0,1;t;275;27,50 €;----;----;magasin appro
+002987667 - 003;30/50/2017;huile mix in;phytos;20;l;4,3;86,00 €;----;----;magasin appro
+002987667 - 004;30/50/2017;librax;phytos;20;l;55;1 100,00 €;;;magasin appro
+002987667 - 005;30/50/2017;biplay sx;phytos;0,3;kg;450;135,00 €;;;magasin appro
+002987667 - 006;30/50/2017;hurler;phytos;10;l;14;140,00 €;;;magasin appro
+002987667 - 007;30/50/2017;meltop 500 pdr;phytos;15;l;35;525,00 €;;;magasin appro
+002987667 - 008;30/50/2017;unix max;phytos;10;l;25;250,00 €;;;magasin appro
+002987554 - 001;24/40/2017;bofix pdr;phytos;60;l;11,989;719,34;366272;30/40/2017;magasin appro
+002987554 - 002;24/40/2017;bofix pdr;phytos;5;l;12,381;61,91;366272;30/40/2017;magasin appro
+002987554 - 003;24/40/2017;biplay sx;phytos;0,6;kg;487,148;292,29;366272;30/40/2017;magasin appro
+002987554 - 004;24/40/2017;mayandra;phytos;10;l;12,147;121,47;366272;30/40/2017;magasin appro
+000413935 - 001;20/40/2017;epso top so4 mgo 16% 25kg;oligos;150;kg;0,468;70,2;366272;30/40/2017;warmeriville
+000413935 - 002;20/40/2017;propulse pdr;phytos;15;l;54,946;824,19;366272;30/40/2017;warmeriville
+000413935 - 003;20/40/2017;cherokee pdr;phytos;30;l;23,247;697,41;366272;30/40/2017;warmeriville
+000413935 - 004;20/40/2017;c5sun;phytos;20;l;2,092;41,84;366272;30/40/2017;warmeriville
+002987509 - 001;20/40/2017;acanto 250 sc pdr;phytos;4;l;43,766;175,06;366272;30/40/2017;magasin appro
+010022536 - 001;13/40/2017;sol azotee 30n;engrais;4,106;t;215,868;886,35;366272;30/40/2017;warmeriville
+010022537 - 001;13/40/2017;sol azotee 30n;engrais;3,902;t;215,868;842,32;366272;30/40/2017;warmeriville
+010022538 - 001;13/40/2017;sol azotee 30n;engrais;3,188;t;215,868;688,19;366272;30/40/2017;warmeriville
+010022542 - 001;13/40/2017;sol azotee 30n;engrais;3,856;t;215,868;832,39;366272;30/40/2017;warmeriville
+010022544 - 001;13/40/2017;sol azotee 30n;engrais;1,716;t;215,868;370,43;366272;30/40/2017;warmeriville
+002987325 - 001;70/40/2017;masque 3m 6200;agroequipements;1;unite;17,2;17,2;365246;30/40/2017;magasin appro
+002987325 - 002;70/40/2017;kit de filtre masque 3m;agroequipements;1;unite;23,19;23,19;365246;30/40/2017;magasin appro
+002987337 - 001;70/40/2017;guide protection cultures 2017;services;1;unite;----;----;365505;30/40/2017;magasin appro
+010022319 - 001;31/30/2017;sol azotee 30n;engrais;3,959;t;193;764,09;363335;31/30/2017;warmeriville
 000413888 - 001;29/30/2017;epso top so4 mgo 16% 25kg;oligos;25;kg;0,47;11,75;363335;31/30/2017;warmeriville
 000413888 - 002;29/30/2017;sac evpp special collecte;agroequipements;2;unite;1,5;3;362025;31/30/2017;warmeriville
 002987119 - 001;29/30/2017;epso top so4 mgo 16% 25kg;oligos;75;kg;0,47;35,25;363335;31/30/2017;magasin appro
@@ -47,6 +48,8 @@
 002986143 - 004;14/20/2017;quasar;phytos;1;kg;195,539;195,54;361099;28/20/2017;magasin appro
 002986143 - 005;14/20/2017;primus;phytos;0,5;l;177,103;88,55;361099;28/20/2017;magasin appro
 002986143 - 006;14/20/2017;sulfate ammoniac cristalise;engrais;0,05;t;275;13,75;361099;28/20/2017;magasin appro
+009966252 - 001;14/20/2017;prelevement reliquats azote 2h;services;1;unite;----;----;----;----;direct usine
+009966253 - 001;14/20/2017;prelevement reliquats azote 3h;services;1;unite;----;----;----;----;direct usine
 009965143 - 001;90/20/2017;super triple 46%;engrais;3,28;t;336;1102,08;361099;28/20/2017;bigral
 009965143 - 002;90/20/2017;appli. mm terra-gator 1361 sn;services;20,1;unite;11,4;229,14;360535;28/20/2017;bigral
 009964707 - 001;30/12/2016;analyses de sol;services;1;unite;40,6;40,6;360535;28/20/2017;direct usine

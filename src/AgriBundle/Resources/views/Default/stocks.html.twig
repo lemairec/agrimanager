@@ -14,6 +14,7 @@
                 <th>unity</th>
                 <th class="text-right">qty</th>
                 <th class="text-right">price</th>
+                <th></th>
             </tr>
             {% for p in stocks %}
             <tr>
@@ -22,6 +23,8 @@
                 <td>{{p.unity}}</td>
                 <td class="text-right">{{ "%.2f    "|format(p.qty) }}</td>
                 <td class="text-right">{{ "%.2f €  "|format(p.price) }}</td>
+                <td><a href="/produit/{{p.id}}/delete">d</a></td>
+
             </tr>
             {% endfor %}
         </table>

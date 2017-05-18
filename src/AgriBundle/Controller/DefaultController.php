@@ -178,7 +178,17 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/produits")
+     * @Route("/produit/{produit_id}/delete", name="produit_delete")
+     **/
+    public function produitDeleteAction($produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('AgriBundle:Produit')->delete($produit_id);
+        return $this->redirectToRoute('produits');
+    }
+
+    /**
+     * @Route("/produits", name="produits")
      */
     public function produitsAction()
     {
@@ -455,5 +465,17 @@ class DefaultController extends Controller
         $produit = $em->getRepository('AgriBundle:Produit')->findOneByName($produit_name);
 
         return $this->json($produit);
+    }
+
+    /**
+     * @Route("/calendar", name="calendar")
+     **/
+    public function calendar(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $interventions = $em->getRepository('AgriBundle:Intervention')->findAll();
+        return $this->render('AgriBundle:Default:calendar.html.twig', array(
+            'interventions' => $interventions
+        ));
     }
 }

@@ -80,7 +80,15 @@ class Intervention
         return $res;
     }
 
+    function getTypeCalendar(){
+        return str_replace('&', '+', $this->type);
+    }
+
     function get_date(){
         return $this->date->format(' d/m/Y');
+    }
+
+    function getIsoDate(){
+        return $this->date->format(' Y-m-d');
     }
 }
