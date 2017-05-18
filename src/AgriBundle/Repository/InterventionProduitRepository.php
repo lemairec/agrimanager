@@ -12,7 +12,9 @@ class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
 {
     function save($intervention_produit){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOneByName($intervention_produit->name);
+        $produit = $em->getRepository('AgriBundle:Produit')->findOneByCompleteName($intervention_produit->name);
+        print($intervention_produit->name);
+        print(json_encode($produit));
         $intervention_produit->produit = $produit;
         $em->persist($intervention_produit);
         $em->flush();
@@ -28,5 +30,12 @@ class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
         $results = $statement->fetchAll();
         return $results;
     }
-}
 
+    function delete($intervention_produit_id){
+        $em = $this->getEntityManager();
+        $intervention_produit = $this->findOneById($intervention_produit_id);
+        $produit = $em->getRepository('AgriBundle:Produit')->update($intervention_produit->produit);
+        $em->remove($intervention_produit);
+        $em->flush();
+    }
+}

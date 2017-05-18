@@ -51,6 +51,7 @@
         {% endfor %}
         <tr>
             <td>TOTAL</td>
+            <td></td>
             <td>{{intervention.surface}}</td>
         </tr>
     </table>
@@ -66,12 +67,14 @@
             <th>Amm</th>
             <th>Name</th>
             <th>Qty</th>
+            <th></th>
         </tr>
         {% for it in intervention.produits %}
         <tr>
             <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}">{{it.id}}</a></td>
-            <td>{{it.produit.name}}</td>
+            <td>{{it.produit.completeName}}</td>
             <td>{{it.qty}}</td>
+            <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}/delete">d</td>
         </tr>
         {% endfor %}
     </table>

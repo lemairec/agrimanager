@@ -11,13 +11,15 @@
             <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th>unity</th>
                 <th class="text-right">qty</th>
                 <th class="text-right">price</th>
             </tr>
             {% for p in stocks %}
             <tr>
-                <td><a href="/produit/{{p.id}}">{{p.name}}</a></td>
+                <td><a href="/produit/{{p.id}}">{{p.completeName}}</a></td>
                 <td>{{p.type}}</td>
+                <td>{{p.unity}}</td>
                 <td class="text-right">{{ "%.2f    "|format(p.qty) }}</td>
                 <td class="text-right">{{ "%.2f €  "|format(p.price) }}</td>
             </tr>

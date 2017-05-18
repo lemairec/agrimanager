@@ -13,7 +13,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
 {
     function add($achat){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOrCreate($achat->name, $achat->type);
+        $produit = $em->getRepository('AgriBundle:Produit')->findOrCreate($achat->name, $achat->type, $achat->unity);
         $achat->produit = $produit;
         $em->persist($achat);
         $em->flush();

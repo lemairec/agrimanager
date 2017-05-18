@@ -24,6 +24,13 @@ class Produit
     /**
      * @var string
      *
+     * @ORM\Column(name="complete_name", type="string", length=255)
+     */
+    public $completeName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
@@ -34,6 +41,13 @@ class Produit
      * @ORM\Column(name="type", type="string", length=255)
      */
     public $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unity", type="string", length=255)
+     */
+    public $unity;
 
     /**
      * @var float

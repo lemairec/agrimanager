@@ -25,7 +25,7 @@
             <tr>
                 <td>{{achat.get_date()}}</td>
                 <td>{{achat.type}}</td>
-                <td>{{achat.name}}</td>
+                <td><a href="/produit/{{achat.produit.id}}">{{achat.name}}</a></td>
                 <td>{{achat.qty}}</td>
                 <td>{{achat.unity}}</td>
                 <td>{{ "%.2f €"|format(achat.price) }}</td>

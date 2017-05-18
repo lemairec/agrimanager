@@ -37,7 +37,7 @@ class Parcelle
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Ilot")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     public $ilot;
 
@@ -68,5 +68,20 @@ class Parcelle
      * @ORM\Column(name="comment", type="string", length=2048, nullable=true)
      */
     public $comment;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    public $active;
+
+    public function getIlotName(){
+        if($this->ilot){
+            return $this->ilot->name;
+        } else {
+            return "";
+        }
+    }
 
 }

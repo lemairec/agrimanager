@@ -12,3 +12,4 @@ php bin/console generate:bundle
 
 php bin/console server:run
 
+composer install

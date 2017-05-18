@@ -27,7 +27,11 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
 
     function save($parcelle){
         $em = $this->getEntityManager();
-        $parcelle->completeName = $parcelle->ilot->name." - ".$parcelle->name;
+        if($parcelle->ilot){
+            $parcelle->completeName = $parcelle->ilot->name." - ".$parcelle->name;
+        } else {
+            $parcelle->completeName = $parcelle->name;
+        }
         $em->persist($parcelle);
         $em->flush();
         return $parcelle;

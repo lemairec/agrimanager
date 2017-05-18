@@ -15,6 +15,7 @@ use AgriBundle\Entity\InterventionParcelle;
 use AgriBundle\Entity\InterventionProduit;
 use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Company;
+use AgriBundle\Entity\Parcelle;
 use AgriBundle\Entity\Produit;
 use Datetime;
 
@@ -202,7 +203,7 @@ class DefaultController extends Controller
 
         $produits = $em->getRepository('AgriBundle:Produit')
             ->createQueryBuilder('p')
-            ->where('p.qty != 0')
+            ->where('ABS(p.qty) > 0.001')
             ->add('orderBy','p.type ASC, p.name ASC')
             ->getQuery()->getResult();
 
@@ -224,7 +225,7 @@ class DefaultController extends Controller
             if (($handle = fopen($fileName, "r")) !== FALSE) {
                 $i = 0;
                 $em->createQuery('DELETE FROM AgriBundle:Achat')->execute();
-                while (($data = fgetcsv($handle, null, ",")) !== FALSE) {
+                while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
                     //if ($i == 0) { $i = 1;continue; }
                     $i += 1;
                     $rows = $data;
@@ -235,7 +236,10 @@ class DefaultController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
 
-        $achats = $em->getRepository('AgriBundle:Achat')->findAll();
+        $achats = $em->getRepository('AgriBundle:Achat')
+        ->createQueryBuilder('p')
+        ->add('orderBy','p.date DESC, p.type ASC')
+        ->getQuery()->getResult();
 
         return $this->render('AgriBundle:Default:achats.html.twig', array(
             'achats' => $achats,
@@ -285,8 +289,7 @@ class DefaultController extends Controller
 
 
         if ($form->isSubmitted()) {
-            $em->persist($parcelle);
-            $em->flush();
+            $parcelle = $em->getRepository('AgriBundle:Parcelle')->save($parcelle);
             return $this->redirectToRoute('parcelles');
         }
         $interventions = [];
@@ -396,6 +399,16 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/intervention/{intervention_id}/parcelle/{intervention_parcelle_id}/delete", name="intervention_parcelle_delete")
+     **/
+    public function interventionParcelleDeleteAction($intervention_id, $intervention_parcelle_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('AgriBundle:InterventionParcelle')->delete($intervention_parcelle_id);
+        return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
+    }
+
+    /**
      * @Route("/intervention/{intervention_id}/produit/{intervention_produit_id}", name="intervention_produit")
      **/
     public function interventionProduitAction($intervention_id, $intervention_produit_id, Request $request)
@@ -421,6 +434,16 @@ class DefaultController extends Controller
             'surface_totale' => $intervention_produit->intervention->surface
 
         ));
+    }
+
+    /**
+     * @Route("/intervention/{intervention_id}/produit/{intervention_produit_id}/delete", name="intervention_produit_delete")
+     **/
+    public function interventionProduitDeleteAction($intervention_id, $intervention_produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('AgriBundle:InterventionProduit')->delete($intervention_produit_id);
+        return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
     }
 
     /**

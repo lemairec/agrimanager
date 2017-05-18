@@ -14,7 +14,7 @@ class ParcelleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('surface')->add('name')->add('culture')->add('comment');
+        $builder->add('surface')->add('name')->add('culture')->add('active')->add('comment');
         $builder->add('save',      SubmitType::class);
     }
 

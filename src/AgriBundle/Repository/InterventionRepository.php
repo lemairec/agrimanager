@@ -39,8 +39,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $intervention_produits = $em->getRepository('AgriBundle:InterventionProduit')
                                    ->findBy(array('intervention'=>$intervention));
         foreach ($intervention_produits as $it) {
-            $em->remove($it);
-            $em->getRepository('AgriBundle:Produit')->update($it->produit);
+            $em->getRepository('AgriBundle:InterventionProduit')->delete($it->id);
         }
         foreach ($intervention_parcelles as $it) {
             $em->remove($it);
@@ -53,7 +52,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->setParameter('campagne', $campagne)
-            ->orderBy('p.date', 'ASC')
+            ->orderBy('p.date', 'DESC')
             ->getQuery();
 
         return $query->getResult();
@@ -62,7 +61,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
     function getAllForParcelle($parcelle){
         $em = $this->getEntityManager();
         $sql = 'SELECT intervention_id FROM intervention_parcelle where parcelle_id = ?';
-        
+
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare($sql);
