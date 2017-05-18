@@ -1,0 +1,50 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+<div class="container bs-docs-container">
+
+    {% for parcelle in parcelles %}
+        <div class="well">
+            <div>{{ parcelle.completeName }}</div>
+            <div>{{ parcelle.surface }} ha</div>
+            <div>{{ parcelle.culture }}</div>
+            <div>{{ parcelle.comment }}</div>
+
+
+            <div class="panel panel-default", style="width:100%">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    Interventions
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th>{{ "%.2f  €/ha"|format(parcelle.priceHa)}}</th>
+                        <th></th>
+                    </tr>
+                    {% for intervention in parcelle.interventions %}
+                        <tr>
+                            <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
+                            <td><b>{{intervention.type}}</b></td>
+                            <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+                            <td></td>
+                            <td><b>{{ "%.2f  €/ha"|format(intervention.getPriceHa())}}</b></td>
+                        </tr>
+                        {% for it in intervention.produits %}
+                            <tr>
+                                <td></td>
+                                <td>{{it.name}}</td>
+                                <td>{{ "%.2f  u"|format(it.qty)}}</td>
+                                <td>{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
+                                <td>{{ "%.2f  €/ha"|format(it.getPriceHa())}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

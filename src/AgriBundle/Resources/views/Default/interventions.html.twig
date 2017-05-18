@@ -12,7 +12,6 @@
         </div>
         <table class="table">
             <tr>
-                <th>Id</th>
                 <th>Date</th>
                 <th>Name</th>
                 <th></th>
@@ -20,8 +19,7 @@
             </tr>
             {% for intervention in interventions %}
                 <tr>
-                    <td><a href="/intervention/{{intervention.id}}">{{intervention.id}}</td>
-                    <td><b>{{intervention.get_date()}}</b></td>
+                    <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
                     <td><b>{{intervention.type}}</b></td>
                     <td class="text-right"><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
                     <td class="text-right"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
@@ -29,12 +27,11 @@
                 {% if intervention.comment %}
                 <tr>
                     <td></td>
-                    <td colspan="4" class="text-center"> {{ intervention.comment }} </td>
+                    <td colspan="3" class="text-center"> {{ intervention.comment }} </td>
                 </tr>
                 {% endif %}
                 {% for it in intervention.parcelles %}
                 <tr>
-                    <td></td>
                     <td>{{it.parcelle.culture}}</td>
                     <td>{{it.parcelle.completeName}}</td>
                     <td class="text-right">{{ "%.2f  ha"|format(it.parcelle.surface)}}</td>
@@ -43,7 +40,6 @@
                 {% endfor %}
                 {% for it in intervention.produits %}
                 <tr>
-                    <td></td>
                     <td></td>
                     <td>{{it.name}}</td>
                     <td class="text-right">{{ "%.2f  u"|format(it.qty)}}</td>

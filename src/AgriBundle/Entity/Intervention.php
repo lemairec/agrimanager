@@ -85,7 +85,7 @@ class Intervention
     }
 
     function get_date(){
-        return $this->date->format(' d/m/Y');
+        return $this->date->format(' d/m/y');
     }
 
     function getIsoDate(){

@@ -457,6 +457,46 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/bilan", name="bilan")
+     */
+    public function bilanAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')
+        ->createQueryBuilder('p')
+        ->where('p.campagne = :campagne')
+        ->add('orderBy','p.culture DESC, p.ilot ASC')
+        ->setParameters(array('campagne'=>$campagne))
+        ->getQuery()->getResult();
+        foreach ($parcelles as $p) {
+            if (!array_key_exists($p->culture, $cultures)) {
+                $cultures[$p->culture] = 0;
+            }
+            $cultures[$p->culture] += $p->surface;
+
+            $p->interventions = [];
+            if($p->id != '0'){
+                $p->interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($p);
+            }
+            $p->priceHa = 0;
+            foreach($p->interventions as $it){
+                $p->priceHa += $it->getPriceHa();
+            }
+        }
+        return $this->render('AgriBundle:Default:bilan.html.twig', array(
+            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagne_id' => $campagne->id,
+            'parcelles' => $parcelles,
+            'cultures' => $cultures,
+        ));
+    }
+
+    /**
      * @Route("api/produit/{produit_name}", name="produit_name")
      **/
     public function produitNameApi($produit_name, Request $request)

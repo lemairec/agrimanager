@@ -49,8 +49,8 @@
             <td><b>{{intervention.get_date()}}</b></td>
             <td><b>{{intervention.type}}</b></td>
             <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+            <td></td>
             <td><b>{{ "%.2f  €/ha"|format(intervention.getPriceHa())}}</b></td>
-            <td><a href="/intervention/{{intervention.id}}/delete">Delete</td>
         </tr>
         {% for it in intervention.produits %}
         <tr>
