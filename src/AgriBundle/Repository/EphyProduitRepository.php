@@ -15,19 +15,32 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $ephyproduit = new EphyProduit();
         $ephyproduit->amm = $rows[1];
         $ephyproduit->name = $rows[2];
+        $ephyproduit->substances = $rows[8];
+        $ephyproduit->unity = $rows[16];
         $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name;
-        $produit_count = $this->createQueryBuilder('p')
-            ->select('COUNT(p)')
-            ->where('p.completeName = :completeName')
-            ->setParameter('completeName', $ephyproduit->completeName)
-            ->getQuery()
-            ->getSingleScalarResult();
-        if($produit_count == 0){
+        $produitbdd = $this->findOneByCompleteName($ephyproduit->completeName);
+        if($produitbdd == null){
             print json_encode($ephyproduit );
             $em = $this->getEntityManager();
             $em->persist($ephyproduit);
             $em->flush();
+        } else {
         }
         return $ephyproduit;
+    }
+
+    function csv(){
+        $em = $this->getEntityManager();
+        $ephyrepository = $em->getRepository('AgriBundle:EphyProduit');
+        $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
+        if (($handle = fopen($fileName, "r")) !== FALSE) {
+            echo("toto");
+            $i = 0;
+            $em->createQuery('DELETE FROM AgriBundle:EphyProduit')->execute();
+            while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
+                if ($i == 0) { $i = 1;continue; }
+                $ephyrepository->addRows($rows);
+            }
+        }
     }
 }

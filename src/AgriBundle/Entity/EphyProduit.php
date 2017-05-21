@@ -26,6 +26,19 @@ class EphyProduit
 
     /**
      * @var string
+     * @ORM\Column(name="substances", type="string", length=255)
+     */
+    public $substances;
+
+    /**
+     * @var string
+     * @ORM\Column(name="unity", type="string", length=255)
+     */
+    public $unity;
+
+
+    /**
+     * @var string
      * @ORM\Id
      * @ORM\Column(name="complete_name", type="string", length=255)
      */

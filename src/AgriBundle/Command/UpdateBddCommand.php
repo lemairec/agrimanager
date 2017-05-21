@@ -20,11 +20,16 @@ class UpdateBddCommand extends ContainerAwareCommand
         ;
     }
 
+    protected function updateEphy(){
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em->getRepository('AgriBundle:EphyProduit')->csv();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $argument = $input->getArgument('argument');
 
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        /*$em = $this->getContainer()->get('doctrine')->getEntityManager();
         $achats = $em->getRepository('AgriBundle:Achat')->findAll();
         foreach ($achats as $a) {
             $produit = $a->produit;
@@ -32,11 +37,13 @@ class UpdateBddCommand extends ContainerAwareCommand
             $produit->completeName = $produit->name." - ".$produit->unity;
             $em->persist($produit);
             $em->flush();
-        }
+        }*/
 
         if ($input->getOption('option')) {
             // ...
         }
+
+        $this->updateEphy();
 
         $output->writeln('Command result.');
     }

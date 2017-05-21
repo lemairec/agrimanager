@@ -1,0 +1,32 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Panel heading</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>unity</th>
+                <th class="text-right">qty</th>
+                <th class="text-right">price</th>
+                <th></th>
+            </tr>
+            {% for p in produits %}
+            <tr>
+                <td><a href="/produit/{{p.completeName}}">{{p.completeName}}</a></td>
+                <td>{{p.amm}}</td>
+                <td>{{p.name}}</td>
+                <td></td>
+                <td></td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
