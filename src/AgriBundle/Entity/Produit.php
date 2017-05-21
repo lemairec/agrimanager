@@ -68,4 +68,36 @@ class Produit
      * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="complete_name")
      */
     public $ephyProduit;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="n", type="float")
+     */
+    public $n;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="p", type="float")
+     */
+    public $p;
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="k", type="float")
+     */
+    public $k;
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="mg", type="float")
+     */
+    public $mg;
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="s", type="float")
+     */
+    public $s;
 }

@@ -170,7 +170,7 @@ class DefaultController extends Controller
         if ($form->isSubmitted()) {
             $em->persist($produit);
             $em->flush();
-            return $this->redirectToRoute('campagnes');
+            return $this->redirectToRoute('produits');
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
             'form' => $form->createView(),
@@ -483,9 +483,21 @@ class DefaultController extends Controller
             if($p->id != '0'){
                 $p->interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($p);
             }
+            $p->n = 0;
+            $p->p = 0;
+            $p->k = 0;
+            $p->mg = 0;
+            $p->s = 0;
             $p->priceHa = 0;
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
+                foreach($it->produits as $produit){
+                    $p->n += $produit->getQtyHa() * $produit->produit->n;
+                    $p->p += $produit->getQtyHa() * $produit->produit->p;
+                    $p->k += $produit->getQtyHa() * $produit->produit->k;
+                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                }
             }
         }
         return $this->render('AgriBundle:Default:bilan.html.twig', array(
@@ -494,17 +506,6 @@ class DefaultController extends Controller
             'parcelles' => $parcelles,
             'cultures' => $cultures,
         ));
-    }
-
-    /**
-     * @Route("api/produit/{produit_name}", name="produit_name")
-     **/
-    public function produitNameApi($produit_name, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOneByName($produit_name);
-
-        return $this->json($produit);
     }
 
     /**

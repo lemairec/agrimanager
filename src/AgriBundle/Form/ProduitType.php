@@ -5,6 +5,7 @@ namespace AgriBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ProduitType extends AbstractType
 {
@@ -13,9 +14,11 @@ class ProduitType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('type')->add('qty')->add('price')->add('ephyProduit')        ;
+        $builder->add('name')->add('type')->add('qty')->add('price')->add('ephyProduit');
+        $builder->add('n')->add('p')->add('k')->add('mg')->add('s');
+        $builder->add('save',      SubmitType::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */
