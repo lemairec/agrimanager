@@ -1,0 +1,34 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><th>{{produit.completeName}}</th></div>
+        <table class="table">
+            <tr>
+                <th>Amm</th>
+                <th>{{produit.amm}}</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>{{produit.name}}</th>
+
+            </tr>
+            <tr>
+                <td>Societe</td>
+                <td>{{produit.society}}</td>
+
+            </tr>
+            <tr>
+                <td>Substances</td>
+                <td>{{produit.substances}}</td>
+
+
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}

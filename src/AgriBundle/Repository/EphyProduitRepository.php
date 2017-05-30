@@ -15,6 +15,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $ephyproduit = new EphyProduit();
         $ephyproduit->amm = $rows[1];
         $ephyproduit->name = $rows[2];
+        $ephyproduit->society = $rows[4];
         $ephyproduit->substances = $rows[8];
         $ephyproduit->unity = $rows[16];
         $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name;

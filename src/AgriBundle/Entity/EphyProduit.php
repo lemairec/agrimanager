@@ -13,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class EphyProduit
 {
     /**
-     * @var int
-     * @ORM\Column(name="amm", type="integer")
+     * @var string
+     * @ORM\Column(name="amm", type="string")
      */
     public $amm;
 
@@ -32,9 +32,9 @@ class EphyProduit
 
     /**
      * @var string
-     * @ORM\Column(name="unity", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
-    public $unity;
+    public $society;
 
 
     /**
