@@ -29,4 +29,10 @@ class Campagne
      */
     public $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $company;
+
 }

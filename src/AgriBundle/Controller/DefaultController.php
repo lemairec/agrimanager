@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Datetime;
 
 use AgriBundle\Entity\Achat;
 use AgriBundle\Entity\Ilot;
@@ -14,11 +15,8 @@ use AgriBundle\Entity\Intervention;
 use AgriBundle\Entity\InterventionParcelle;
 use AgriBundle\Entity\InterventionProduit;
 use AgriBundle\Repository\IlotRepository;
-use AgriBundle\Entity\Company;
 use AgriBundle\Entity\Parcelle;
 use AgriBundle\Entity\Produit;
-use Datetime;
-
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\ParcelleType;
@@ -28,6 +26,16 @@ use AgriBundle\Form\InterventionProduitType;
 
 class DefaultController extends Controller
 {
+    private function check_user(){
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $this->company = $em->getRepository('AgriBundle:Company')->findOrCreate($user);
+    }
+
+
     private function getCurrentCampagneId($request){
         $session = $request->getSession();
         $campagne_id = $session->get('campagne_id', '');
@@ -47,11 +55,17 @@ class DefaultController extends Controller
     private function getCurrentCampagne($request){
         $campagne_id = $this->getCurrentCampagneId($request);
         $em = $this->getDoctrine()->getManager();
+        $this->check_user();
+
         $campagne = $em->getRepository('AgriBundle:Campagne')->findOneById($campagne_id);
+        if(!property_exists($this, 'campagnes')){
+            $this->campagnes = $em->getRepository('AgriBundle:Campagne')->getAllforCompany($this->company);
+        }
+
         if($campagne){
             return $campagne;
         } else {
-            return $em->getRepository('AgriBundle:Campagne')->findAll()[0];
+            return $this->campagnes[0];
         }
     }
 
@@ -92,15 +106,36 @@ class DefaultController extends Controller
         return $this->render('AgriBundle:Default:send_file.html.twig');
     }
 
+    /**
+     * @Route("/ilots")
+     */
+    public function ilotsAction()
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+
+        $ilots = $em->getRepository('AgriBundle:Ilot')->getAllforCompany($this->company);
+        $sum_ilots = array_reduce($ilots, function($i, $obj)
+        {
+            return $i += $obj->surface;
+        });
+
+        return $this->render('AgriBundle:Default:ilots.html.twig', array(
+            'ilots' => $ilots,
+            'sum_ilots' => $sum_ilots,
+        ));
+    }
+
 
     /**
      * @Route("/campagnes", name="campagnes")
      */
     public function campagnesAction()
     {
+        $this->check_user();
         $em = $this->getDoctrine()->getManager();
 
-        $campagnes = $em->getRepository('AgriBundle:Campagne')->findAll();
+        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllforCompany($this->company);
         return $this->render('AgriBundle:Default:campagnes.html.twig', array(
             'campagnes2' => $campagnes,
         ));
@@ -111,9 +146,11 @@ class DefaultController extends Controller
      **/
     public function campagneEditAction($campagne_id, Request $request)
     {
+        $this->check_user();
         $em = $this->getDoctrine()->getManager();
         if($campagne_id == '0'){
             $campagne = new Campagne();
+            $campagne->company = $this->company;
         } else {
             $campagne = $em->getRepository('AgriBundle:Campagne')->findOneById($campagne_id);
         }
@@ -128,27 +165,6 @@ class DefaultController extends Controller
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
             'form' => $form->createView(),
-        ));
-    }
-
-
-
-    /**
-     * @Route("/ilots")
-     */
-    public function ilotsAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $ilots = $em->getRepository('AgriBundle:Ilot')->findBy(array(), array('surface' => 'desc'));
-        $sum_ilots = array_reduce($ilots, function($i, $obj)
-        {
-            return $i += $obj->surface;
-        });
-
-        return $this->render('AgriBundle:Default:ilots.html.twig', array(
-            'ilots' => $ilots,
-            'sum_ilots' => $sum_ilots,
         ));
     }
 
@@ -273,7 +289,7 @@ class DefaultController extends Controller
             $cultures[$p->culture] += $p->surface;
         }
         return $this->render('AgriBundle:Default:parcelles.html.twig', array(
-            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,

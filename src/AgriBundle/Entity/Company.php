@@ -35,4 +35,11 @@ class Company
      */
     public $adresse;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $user;
+
+
 }

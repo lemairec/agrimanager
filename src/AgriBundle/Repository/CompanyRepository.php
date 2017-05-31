@@ -1,6 +1,7 @@
 <?php
 
 namespace AgriBundle\Repository;
+use AgriBundle\Entity\Company;
 
 /**
  * CompanyRepository
@@ -10,4 +11,18 @@ namespace AgriBundle\Repository;
  */
 class CompanyRepository extends \Doctrine\ORM\EntityRepository
 {
+    function findOrCreate($user){
+        $em = $this->getEntityManager();
+        $company = $this->findOneByUser($user);
+        if($company){
+            return $company;
+        }
+        $company = new Company();
+        $company->user = $user;
+        $company->name = "";
+        $company->adresse = "";
+        $em->persist($company);
+        $em->flush();
+        return $company;
+    }
 }

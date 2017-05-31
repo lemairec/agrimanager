@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use AgriBundle\Entity\User;
 
 class UpdateBddCommand extends ContainerAwareCommand
 {
@@ -25,8 +26,29 @@ class UpdateBddCommand extends ContainerAwareCommand
         $em->getRepository('AgriBundle:EphyProduit')->csv();
     }
 
+    function addUser($username, $email, $password){
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('AgriBundle:User')->findOneByUsername($username);
+        if($user == null){
+            $this->output->writeln('create user');
+            $user = new User();
+            $user->username = $username;
+        }
+        $user->email = $email;
+
+        $encoder = $this->getContainer()->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, $password);
+        $user->password = $encoded;
+        //$user->setPassword('3NCRYPT3D-V3R51ON');
+        $user->enabled = true;
+        $em->persist($user);
+        $em->flush();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
         $argument = $input->getArgument('argument');
 
         /*$em = $this->getContainer()->get('doctrine')->getEntityManager();
@@ -43,7 +65,9 @@ class UpdateBddCommand extends ContainerAwareCommand
             // ...
         }
 
-        $this->updateEphy();
+        $this->addUser('lejard', 'lemairec02@gmail.com', '');
+        $this->addUser('steph', 'steph@toto.fr', '');
+        //$this->updateEphy();
 
         $output->writeln('Command result.');
     }

@@ -10,4 +10,12 @@ namespace AgriBundle\Repository;
  */
 class CampagneRepository extends \Doctrine\ORM\EntityRepository
 {
+    function getAllforCompany($company){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->setParameter('company', $company)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

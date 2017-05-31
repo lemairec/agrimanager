@@ -22,7 +22,16 @@ class IlotRepository extends \Doctrine\ORM\EntityRepository
     }
 
     function getById($ilot_id){
-        return $this->findOneBy(array('id' => $ilot_id));;
+        return $this->findOneBy(array('id' => $ilot_id));
+    }
+
+    function getAllforCompany($company){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->orderBY('p.surface')
+            ->setParameter('company', $company)
+            ->getQuery();
+
+        return $query->getResult();
     }
 }
-

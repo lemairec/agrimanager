@@ -34,4 +34,10 @@ class Ilot
      * @ORM\Column(name="name", type="string")
      */
     public $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $company;
 }
