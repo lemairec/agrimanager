@@ -2,6 +2,8 @@
 
 namespace AgriBundle\Repository;
 use AgriBundle\Entity\EphyProduit;
+use AgriBundle\Entity\EphySubstance;
+use AgriBundle\Entity\EphySubstanceProduit;
 
 /**
  * EphyProduitRepository
@@ -15,19 +17,53 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $ephyproduit = new EphyProduit();
         $ephyproduit->amm = $rows[1];
         $ephyproduit->name = $rows[2];
-        $ephyproduit->society = $rows[4];
-        $ephyproduit->substances = $rows[8];
-        $ephyproduit->unity = $rows[16];
         $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name;
         $produitbdd = $this->findOneByCompleteName($ephyproduit->completeName);
         if($produitbdd == null){
-            print json_encode($ephyproduit );
+            print(json_encode($rows)."\n");
             $em = $this->getEntityManager();
+            $ephyproduit->society = $rows[4];
+            $ephyproduit->unity = $rows[16];
             $em->persist($ephyproduit);
             $em->flush();
+            $substances = explode(" | ", $rows[8]);
+print($rows[8]."\n");
+            foreach($substances as $s){
+                $pos1 = strpos($s, "(");
+                $pos2 = strpos($s, ")");
+                $name2 = substr($s, 0, $pos1-1);
+                $name = substr($s, $pos1+1, $pos2-$pos1-1);
+                $quantity = substr($s, $pos2+1);
+                $ephysubstance = $this->getEphySubstance($name);
+                $ephysubstanceproduit = new EphySubstanceProduit();
+                $ephysubstanceproduit->ephyproduit = $ephyproduit;
+                $ephysubstanceproduit->ephysubstance = $ephysubstance;
+                $ephysubstanceproduit->quantity = $quantity;
+                $ephysubstanceproduit->name2 = $name2;
+                $em->persist($ephysubstanceproduit);
+                $em->flush();
+            }
+
+
+
+
         } else {
         }
         return $ephyproduit;
+    }
+
+    function getEphySubstance($name){
+        $em = $this->getEntityManager();
+        $ephysubstancerepository = $em->getRepository('AgriBundle:EphySubstance');
+        $ephysubstance = $ephysubstancerepository->findOneByName($name);
+        if($ephysubstance){
+            return $ephysubstance;
+        }
+        $ephysubstance = new EphySubstance();
+        $ephysubstance->name = $name;
+        $em->persist($ephysubstance);
+        $em->flush();
+        return $ephysubstance;
     }
 
     function csv(){
@@ -36,11 +72,15 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");
-            $i = 0;
+            $i = -1;
+            $em->createQuery('DELETE FROM AgriBundle:EphySubstanceProduit')->execute();
+            $em->createQuery('DELETE FROM AgriBundle:EphySubstance')->execute();
             $em->createQuery('DELETE FROM AgriBundle:EphyProduit')->execute();
             while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
-                if ($i == 0) { $i = 1;continue; }
+                $i += 1;
+                if ($i == 0) { continue; }
                 $ephyrepository->addRows($rows);
+                if($i > 1000){ return; };
             }
         }
     }

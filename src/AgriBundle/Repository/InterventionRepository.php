@@ -58,6 +58,17 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    function getAllForCompany($company){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+
     function getAllForParcelle($parcelle){
         $em = $this->getEntityManager();
         $sql = 'SELECT intervention_id FROM intervention_parcelle where parcelle_id = ?';

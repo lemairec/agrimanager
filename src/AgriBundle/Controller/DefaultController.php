@@ -529,8 +529,9 @@ class DefaultController extends Controller
      **/
     public function calendar(Request $request)
     {
+        $this->check_user();
         $em = $this->getDoctrine()->getManager();
-        $interventions = $em->getRepository('AgriBundle:Intervention')->findAll();
+        $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForCompany($this->company);
         return $this->render('AgriBundle:Default:calendar.html.twig', array(
             'interventions' => $interventions
         ));

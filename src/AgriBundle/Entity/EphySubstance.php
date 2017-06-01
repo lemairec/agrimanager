@@ -12,12 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EphySubstance
 {
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @var string
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string", length=255)
      */
-    public $id;
+     public $name;
 }

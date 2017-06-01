@@ -27,11 +27,11 @@ class UpdateBddCommand extends ContainerAwareCommand
     }
 
     function addUser($username, $email, $password){
+        $this->output->writeln('addUser '.$username);
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('AgriBundle:User')->findOneByUsername($username);
         if($user == null){
-            $this->output->writeln('create user');
             $user = new User();
             $user->username = $username;
         }
