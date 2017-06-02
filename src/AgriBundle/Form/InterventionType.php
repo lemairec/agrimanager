@@ -38,7 +38,7 @@ class InterventionType extends AbstractType
             'allow_add'    => true,
             'allow_delete' => true
         ));**/
-        $builder->add('save',      SubmitType::class);
+        $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 
     /**

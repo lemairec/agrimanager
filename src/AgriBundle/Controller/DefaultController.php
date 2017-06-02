@@ -5,6 +5,7 @@ namespace AgriBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Datetime;
 
@@ -355,6 +356,7 @@ class DefaultController extends Controller
      **/
     public function interventionEditAction($intervention_id, Request $request)
     {
+        $this->check_user();
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
         if($intervention_id == '0'){
@@ -363,6 +365,7 @@ class DefaultController extends Controller
             $intervention->type = "phyto";
             $intervention->comment = "";
             $intervention->surface = 0;
+            $intervention->company = $this->company;
             $intervention->campagne = $campagne;
             $em->persist($intervention);
             $em->flush();
@@ -381,6 +384,9 @@ class DefaultController extends Controller
             $em->persist($intervention);
             $em->flush();
             return $this->redirectToRoute('interventions');
+            //$response = new Response();
+            //$response->setStatusCode(Response::HTTP_OK);
+            //return $response;
         }
         return $this->render('AgriBundle:Default:intervention.html.twig', array(
             'form' => $form->createView(),
