@@ -36,4 +36,20 @@ class EphyController extends Controller
              'produit' => $produit,
          ));
      }
+
+     /**
+      * @Route("/ephy_substance/{name}", name="ephy_substance")
+      **/
+     public function subtanceEditAction($name)
+     {
+         $em = $this->getDoctrine()->getManager();
+         $ephy_substance = $em->getRepository('AgriBundle:EphySubstance')->findOneByName($name);
+         $ephy_substanceproduits = $em->getRepository('AgriBundle:EphySubstanceProduit')->findByEphySubstance($ephy_substance);
+
+
+         return $this->render('AgriBundle:Default:ephy_substance.html.twig', array(
+             'ephy_substance' => $ephy_substance,
+             'ephy_substanceproduits' => $ephy_substanceproduits
+         ));
+     }
 }

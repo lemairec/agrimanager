@@ -32,11 +32,13 @@
             <tr>
                 <th>Name</th>
                 <th>Qty</th>
+                <th>Unity</th>
             </tr>
             {% for substance in produit.substances %}
             <tr>
-                <td><a href="/substances/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
+                <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
                 <td>{{substance.quantity}}</td>
+                <td>{{substance.unity}}</td>
             </tr>
             {% endfor %}
         </table>

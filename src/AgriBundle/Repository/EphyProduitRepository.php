@@ -26,22 +26,23 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             $ephyproduit->unity = $rows[16];
             $em->persist($ephyproduit);
             $em->flush();
-            $substances = explode(" | ", $rows[8]);
-print($rows[8]."\n");
-            foreach($substances as $s){
-                $pos1 = strpos($s, "(");
-                $pos2 = strpos($s, ")");
-                $name2 = substr($s, 0, $pos1-1);
-                $name = substr($s, $pos1+1, $pos2-$pos1-1);
-                $quantity = substr($s, $pos2+1);
-                $ephysubstance = $this->getEphySubstance($name);
-                $ephysubstanceproduit = new EphySubstanceProduit();
-                $ephysubstanceproduit->ephyproduit = $ephyproduit;
-                $ephysubstanceproduit->ephysubstance = $ephysubstance;
-                $ephysubstanceproduit->quantity = $quantity;
-                $ephysubstanceproduit->name2 = $name2;
-                $em->persist($ephysubstanceproduit);
-                $em->flush();
+            if(strlen($rows[8])>10){
+                $substances = explode(" | ", $rows[8]);
+                foreach($substances as $s){
+                    $pos1 = strpos($s, "(");
+                    $pos2 = strpos($s, ")");
+                    $name2 = substr($s, 0, $pos1-1);
+                    $name = substr($s, $pos1+1, $pos2-$pos1-1);
+                    $quantity = substr($s, $pos2+1);
+                    $ephysubstance = $this->getEphySubstance($name);
+                    $ephysubstanceproduit = new EphySubstanceProduit();
+                    $ephysubstanceproduit->ephyproduit = $ephyproduit;
+                    $ephysubstanceproduit->ephysubstance = $ephysubstance;
+                    $ephysubstanceproduit->quantity = $quantity;
+                    $ephysubstanceproduit->name2 = $name2;
+                    $em->persist($ephysubstanceproduit);
+                    $em->flush();
+                }
             }
 
 
@@ -52,18 +53,87 @@ print($rows[8]."\n");
         return $ephyproduit;
     }
 
-    function getEphySubstance($name){
+    function getEphySubstance($id, $name){
         $em = $this->getEntityManager();
         $ephysubstancerepository = $em->getRepository('AgriBundle:EphySubstance');
-        $ephysubstance = $ephysubstancerepository->findOneByName($name);
+        $ephysubstance = $ephysubstancerepository->findOneById($id);
         if($ephysubstance){
             return $ephysubstance;
         }
         $ephysubstance = new EphySubstance();
+        $ephysubstance->id = $id;
         $ephysubstance->name = $name;
         $em->persist($ephysubstance);
         $em->flush();
         return $ephysubstance;
+    }
+
+    function delete(){
+        $em = $this->getEntityManager();
+        $em->createQuery('DELETE FROM AgriBundle:EphySubstanceProduit')->execute();
+        $em->createQuery('DELETE FROM AgriBundle:EphySubstance')->execute();
+        $em->createQuery('DELETE FROM AgriBundle:EphyProduit')->execute();
+    }
+
+    function xml(){
+        $directory = "/Users/lemairec/fablab/symfony_agri/decisionAMM_intrant_format_xml/";
+        $files = ["decision_intrant_20170529_1496059873117.xml", "decision_intrant_20170529_1496061171121.xml", "decision_intrant_20170529_1496062364257.xml",
+        "decision_intrant_20170529_1496063425675.xml", "decision_intrant_20170529_1496060207007.xml", "decision_intrant_20170529_1496061478517.xml",
+        "decision_intrant_20170529_1496062621835.xml", "decision_intrant_20170529_1496063698899.xml", "decision_intrant_20170529_1496060536890.xml",
+        "decision_intrant_20170529_1496061766697.xml", "decision_intrant_20170529_1496062884410.xml", "decision_intrant_20170529_1496063964369.xml",
+        "decision_intrant_20170529_1496060865806.xml", "decision_intrant_20170529_1496062063393.xml", "decision_intrant_20170529_1496063152698.xml"];
+        $this->delete();
+        foreach($files as $file){
+            $this->xml_file($directory.$file);
+        }
+    }
+
+    function xml_file($file){
+        print("xml_file ".$file."\n");
+        $em = $this->getEntityManager();
+        $xml = simplexml_load_file($file);
+        $ppps = $xml->{'intrants'}->{'PPPs'};
+        foreach ($ppps->children() as $ppp) {
+            //print_r($ppp);
+            if($ppp->{'etat-produit'} != "AUTORISE"){
+                continue;
+            }
+            $em = $this->getEntityManager();
+            $ephyproduit = new EphyProduit();
+            $ephyproduit->amm = $ppp->{'numero-AMM'};
+            $ephyproduit->name = $ppp->{'nom-produit'};
+            $ephyproduit->society = $ppp->{'titulaire'};
+            $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name;
+            $produitbdd = $this->findOneByCompleteName($ephyproduit->completeName);
+            if($produitbdd != null){
+                print("error ".$ephyproduit->completeName."\n");
+                continue;
+            }
+            //print($ephyproduit->completeName."\n");
+            $em->persist($ephyproduit);
+            $em->flush();
+
+            if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
+                foreach ($ppp->{'composition-integrale'}->{'substances-actives'}->children() as $substance) {
+                    //print_r($substance);
+                    $substance_name = $substance->{'substance'};
+                    $substance_id = $substance->{'substance'}->attributes()['ref-id'];
+                    $ephysubstance = $this->getEphySubstance($substance_id, $substance_name);
+                    $ephysubstanceproduit = new EphySubstanceProduit();
+                    $ephysubstanceproduit->ephyproduit = $ephyproduit;
+                    $ephysubstanceproduit->ephysubstance = $ephysubstance;
+                    if(isset($substance->{'teneur-SA-pure'})){
+                        $ephysubstanceproduit->quantity = $substance->{'teneur-SA-pure'};
+                        $ephysubstanceproduit->unity = $substance->{'teneur-SA-pure'}->attributes()['unite'];
+                    } else {
+                        $ephysubstanceproduit->quantity = 0;
+                        $ephysubstanceproduit->unity = 'NA';
+                    }
+                    $em->persist($ephysubstanceproduit);
+                }
+            }
+        }
+
     }
 
     function csv(){
@@ -73,14 +143,12 @@ print($rows[8]."\n");
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");
             $i = -1;
-            $em->createQuery('DELETE FROM AgriBundle:EphySubstanceProduit')->execute();
-            $em->createQuery('DELETE FROM AgriBundle:EphySubstance')->execute();
-            $em->createQuery('DELETE FROM AgriBundle:EphyProduit')->execute();
+            $this->delete();
             while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
                 $i += 1;
                 if ($i == 0) { continue; }
                 $ephyrepository->addRows($rows);
-                if($i > 1000){ return; };
+                //if($i > 1000){ return; };
             }
         }
     }

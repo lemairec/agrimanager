@@ -10,4 +10,14 @@ namespace AgriBundle\Repository;
  */
 class EphySubstanceProduitRepository extends \Doctrine\ORM\EntityRepository
 {
+    function findByEphySubstance($ephy_substance){
+        $query = $this->createQueryBuilder('p')
+            ->join('p.ephyproduit', 'e')
+            ->where('p.ephysubstance = :ephysubstance')
+            ->orderBY('e.name')
+            ->setParameter('ephysubstance', $ephy_substance)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

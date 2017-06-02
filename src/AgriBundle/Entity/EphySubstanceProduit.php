@@ -43,6 +43,6 @@ class EphySubstanceProduit
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-     public $name2;
+     public $unity;
 
 }

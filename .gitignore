@@ -16,3 +16,4 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/decisionAMM_intrant_format_xml/*

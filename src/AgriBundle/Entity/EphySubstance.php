@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EphySubstance
 {
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+     public $id;
 
     /**
      * @var string
