@@ -170,109 +170,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/produit/{produit_id}", name="produit")
-     **/
-    public function produitEditAction($produit_id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        if($produit_id == '0'){
-            $produit = new Produit();
-        } else {
-            $produit = $em->getRepository('AgriBundle:Produit')->findOneById($produit_id);
-        }
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted()) {
-            $em->persist($produit);
-            $em->flush();
-            return $this->redirectToRoute('produits');
-        }
-        return $this->render('AgriBundle::base_form.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * @Route("/produit/{produit_id}/delete", name="produit_delete")
-     **/
-    public function produitDeleteAction($produit_id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->getRepository('AgriBundle:Produit')->delete($produit_id);
-        return $this->redirectToRoute('produits');
-    }
-
-    /**
-     * @Route("/produits", name="produits")
-     */
-    public function produitsAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $produits = $em->getRepository('AgriBundle:Produit')
-            ->createQueryBuilder('p')
-            ->add('orderBy','p.type ASC, p.name ASC')
-            ->getQuery()->getResult();
-
-        return $this->render('AgriBundle:Default:stocks.html.twig', array(
-            'stocks' => $produits,
-        ));
-    }
-
-    /**
-     * @Route("/stocks")
-     */
-    public function stocksAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $produits = $em->getRepository('AgriBundle:Produit')
-            ->createQueryBuilder('p')
-            ->where('ABS(p.qty) > 0.001')
-            ->add('orderBy','p.type ASC, p.name ASC')
-            ->getQuery()->getResult();
-
-        return $this->render('AgriBundle:Default:stocks.html.twig', array(
-            'stocks' => $produits,
-        ));
-    }
-
-    /**
-     * @Route("/achats", name = "achats")
-     */
-    public function achatsAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        if ($request->getMethod() == 'POST') {
-            $file = $request->files->get('file');
-            $dir = $this->get('kernel')->getRootDir() . '/../web/uploads/images/';
-            $fileName = $file->move($dir, "temp.csv");
-            if (($handle = fopen($fileName, "r")) !== FALSE) {
-                $i = 0;
-                $em->createQuery('DELETE FROM AgriBundle:Achat')->execute();
-                while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
-                    //if ($i == 0) { $i = 1;continue; }
-                    $i += 1;
-                    $rows = $data;
-                    $em->getRepository('AgriBundle:Achat')->addRows($rows);
-                }
-                return $this->redirectToRoute('achats');
-            }
-        }
-        $em = $this->getDoctrine()->getManager();
-
-        $achats = $em->getRepository('AgriBundle:Achat')
-        ->createQueryBuilder('p')
-        ->add('orderBy','p.date DESC, p.type ASC')
-        ->getQuery()->getResult();
-
-        return $this->render('AgriBundle:Default:achats.html.twig', array(
-            'achats' => $achats,
-        ));
-    }
-    /**
      * @Route("parcelles", name="parcelles")
      */
     public function parcellesAction(Request $request)
@@ -339,8 +236,6 @@ class DefaultController extends Controller
         ));
     }
 
-
-
     /**
      * @Route("/interventions", name="interventions")
      */
@@ -350,7 +245,7 @@ class DefaultController extends Controller
         $campagne = $this->getCurrentCampagne($request);
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForCampagne($campagne);
         return $this->render('AgriBundle:Default:interventions.html.twig', array(
-            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'interventions' => $interventions,
         ));
@@ -481,6 +376,110 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->getRepository('AgriBundle:InterventionProduit')->delete($intervention_produit_id);
         return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
+    }
+
+    /**
+     * @Route("/produits", name="produits")
+     */
+    public function produitsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('AgriBundle:Produit')
+            ->createQueryBuilder('p')
+            ->add('orderBy','p.type ASC, p.name ASC')
+            ->getQuery()->getResult();
+
+        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'stocks' => $produits,
+        ));
+    }
+
+    /**
+     * @Route("/produit/{produit_id}", name="produit")
+     **/
+    public function produitEditAction($produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($produit_id == '0'){
+            $produit = new Produit();
+        } else {
+            $produit = $em->getRepository('AgriBundle:Produit')->findOneById($produit_id);
+        }
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($produit);
+            $em->flush();
+            return $this->redirectToRoute('produits');
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/produit/{produit_id}/delete", name="produit_delete")
+     **/
+    public function produitDeleteAction($produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('AgriBundle:Produit')->delete($produit_id);
+        return $this->redirectToRoute('produits');
+    }
+
+    /**
+     * @Route("/stocks")
+     */
+    public function stocksAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('AgriBundle:Produit')
+            ->createQueryBuilder('p')
+            ->where('ABS(p.qty) > 0.001')
+            ->add('orderBy','p.type ASC, p.name ASC')
+            ->getQuery()->getResult();
+
+        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'stocks' => $produits,
+        ));
+    }
+
+    /**
+     * @Route("/achats", name = "achats")
+     */
+    public function achatsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST') {
+            $file = $request->files->get('file');
+            $dir = $this->get('kernel')->getRootDir() . '/../web/uploads/images/';
+            $fileName = $file->move($dir, "temp.csv");
+            if (($handle = fopen($fileName, "r")) !== FALSE) {
+                $i = 0;
+                $em->createQuery('DELETE FROM AgriBundle:Achat')->execute();
+                while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
+                    //if ($i == 0) { $i = 1;continue; }
+                    $i += 1;
+                    $rows = $data;
+                    $em->getRepository('AgriBundle:Achat')->addRows($rows);
+                }
+                return $this->redirectToRoute('achats');
+            }
+        }
+        $em = $this->getDoctrine()->getManager();
+
+        $achats = $em->getRepository('AgriBundle:Achat')
+        ->createQueryBuilder('p')
+        ->add('orderBy','p.date DESC, p.type ASC')
+        ->getQuery()->getResult();
+
+        return $this->render('AgriBundle:Default:achats.html.twig', array(
+            'achats' => $achats,
+        ));
     }
 
     /**
