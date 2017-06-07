@@ -22,6 +22,7 @@ use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\ParcelleType;
 use AgriBundle\Form\ProduitType;
+use AgriBundle\Form\IlotType;
 use AgriBundle\Form\InterventionParcelleType;
 use AgriBundle\Form\InterventionProduitType;
 
@@ -124,6 +125,36 @@ class DefaultController extends Controller
         return $this->render('AgriBundle:Default:ilots.html.twig', array(
             'ilots' => $ilots,
             'sum_ilots' => $sum_ilots,
+        ));
+    }
+
+    /**
+     * @Route("/ilot/{ilot_id}", name="ilot")
+     **/
+    public function ilotEditAction($ilot_id, Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+        $parcelles = [];
+        if($ilot_id == '0'){
+            $ilot = new Ilot();
+            $ilot->company = $this->company;
+        } else {
+            $ilot = $em->getRepository('AgriBundle:Ilot')->findOneById($ilot_id);
+            $parcelles = $em->getRepository('AgriBundle:Parcelle')->findByIlot($ilot);
+        }
+        $form = $this->createForm(IlotType::class, $ilot);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($ilot);
+            $em->flush();
+            return $this->redirectToRoute('ilots');
+        }
+        return $this->render('AgriBundle:Default:ilot.html.twig', array(
+            'form' => $form->createView(),
+            'parcelles' => $parcelles
         ));
     }
 
