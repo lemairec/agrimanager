@@ -13,11 +13,15 @@
                 <th>Surface</th>
             </tr>
             {% for ilot in ilots %}
-            <tr>
-                <td><a href="/ilot/{{ilot.id}}">{{ilot.name}}</a></td>
-                <td>{{ilot.surface}}</td>
-            </tr>
+                <tr>
+                    <td><a href="/ilot/{{ilot.id}}">{{ilot.name}}</a></td>
+                    <td>{{ "%.2f  ha"|format(ilot.surface)}}</td>
+                </tr>
             {% endfor %}
+            <tr>
+                <th>TOTAL</th>
+                <th>{{ "%.2f  ha"|format(sum_ilots)}}</th>
+            </tr>
         </table>
     </div>
 </div>

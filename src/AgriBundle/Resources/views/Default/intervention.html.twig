@@ -85,13 +85,13 @@
 {% block javascripts %}
 <script>
 $( function() {
-    $('#agribundle_intervention_type').on('input',function(e){
+    $('#agribundle_intervention_type').on('change',function(e){
         $.post('/intervention/{{intervention.id}}', $('form[name=agribundle_intervention]').serialize())
     });
-    $('#agribundle_intervention_comment').on('input',function(e){
+    $('#agribundle_intervention_comment').on('change',function(e){
         $.post('/intervention/{{intervention.id}}', $('form[name=agribundle_intervention]').serialize())
     });
-    $('#agribundle_intervention_date').on('input',function(e){
+    $('#agribundle_intervention_date').on('change',function(e){
         $.post('/intervention/{{intervention.id}}', $('form[name=agribundle_intervention]').serialize())
     });
 } );

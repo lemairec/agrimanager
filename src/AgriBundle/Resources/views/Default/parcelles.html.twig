@@ -27,7 +27,7 @@
                 <td>{{parcelle.name}}</td>
                 <td>{{parcelle.getIlotName()}}</td>
                 <td>{{parcelle.culture}}</td>
-                <td>{{parcelle.surface}}</td>
+                <td>{{ "%.2f  ha"|format(parcelle.surface)}}</td>
             </tr>
             {% endfor %}
         </table>
@@ -39,11 +39,15 @@
                 <th>Surface</th>
             </tr>
             {% for key, culture in cultures %}
-            <tr>
-                <td>{{key}}</td>
-                <td>{{culture}}</td>
-            </tr>
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{ "%.2f  ha"|format(culture)}}</td>
+                </tr>
             {% endfor %}
+            <tr>
+                <th>TOTAL</th>
+                <th>{{ "%.2f  ha"|format(total)}}</th>
+            </tr>
         </table>
     </div>
 </div>

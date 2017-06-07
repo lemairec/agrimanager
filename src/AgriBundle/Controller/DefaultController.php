@@ -281,19 +281,24 @@ class DefaultController extends Controller
         $campagne = $this->getCurrentCampagne($request);
 
         $cultures = [];
+        $total = 0;
 
         $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
         foreach ($parcelles as $p) {
-            if (!array_key_exists($p->culture, $cultures)) {
-                $cultures[$p->culture] = 0;
+            if($p->active){
+                if (!array_key_exists($p->culture, $cultures)) {
+                    $cultures[$p->culture] = 0;
+                }
+                $cultures[$p->culture] += $p->surface;
+                $total += $p->surface;
             }
-            $cultures[$p->culture] += $p->surface;
         }
         return $this->render('AgriBundle:Default:parcelles.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,
+            'total' => $total
         ));
     }
 
