@@ -17,10 +17,12 @@ use AgriBundle\Entity\InterventionParcelle;
 use AgriBundle\Entity\InterventionProduit;
 use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Parcelle;
+use AgriBundle\Entity\Materiel;
 use AgriBundle\Entity\Produit;
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\ParcelleType;
+use AgriBundle\Form\MaterielType;
 use AgriBundle\Form\ProduitType;
 use AgriBundle\Form\IlotType;
 use AgriBundle\Form\InterventionParcelleType;
@@ -342,6 +344,7 @@ class DefaultController extends Controller
     public function interventionParcelleAction($intervention_id, $intervention_parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
         if($intervention_parcelle_id == '0'){
             $intervention_parcelle = new InterventionParcelle();
             $intervention_parcelle->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
@@ -575,6 +578,48 @@ class DefaultController extends Controller
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForCompany($this->company);
         return $this->render('AgriBundle:Default:calendar.html.twig', array(
             'interventions' => $interventions
+        ));
+    }
+
+    /**
+     * @Route("/materiels", name="materiels")
+     */
+    public function materielsAction()
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+
+        $materiels = $em->getRepository('AgriBundle:Materiel')->findByCompany($this->company);
+
+        return $this->render('AgriBundle:Default:materiels.html.twig', array(
+            'materiels' => $materiels,
+        ));
+    }
+
+    /**
+     * @Route("/materiel/{materiel_id}", name="materiel")
+     **/
+    public function materielEditAction($materiel_id, Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+        if($materiel_id == '0'){
+            $materiel = new Materiel();
+            $materiel->company = $this->company;
+        } else {
+            $materiel = $em->getRepository('AgriBundle:Materiel')->findOneById($materiel_id);
+        }
+        $form = $this->createForm(MaterielType::class, $materiel);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($materiel);
+            $em->flush();
+            return $this->redirectToRoute('materiels');
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 }
