@@ -42,14 +42,12 @@
             <th>Date</th>
             <th>Nb Heure</th>
             <th>Type</th>
-            <th>Description</th>
         </tr>
         {% for entretien in entretiens %}
         <tr>
-            <td><a href="/materiel/{{materiel.id}}/entretien/{{entretien.id}}">{{entretien.name}}</td>
+            <td><a href="/materiel/{{materiel.id}}/entretien/{{entretien.id}}">{{entretien.getDateStr()}}</td>
             <td><b>{{entretien.nbHeure}}</b></td>
-            <td><b>{{entretien.id}}</b></td>
-            <td><b>{{ "%.2f  ha"|format(entretien.id)}}</b></td>
+            <td><b>{{entretien.name}}</b></td>
         </tr>
         {% endfor %}
     </table>

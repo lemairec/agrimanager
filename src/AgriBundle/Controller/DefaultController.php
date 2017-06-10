@@ -643,6 +643,7 @@ class DefaultController extends Controller
             $entretien = new MaterielEntretien();
             $entretien->company = $this->company;
             $entretien->materiel = $em->getRepository('AgriBundle:Materiel')->findOneById($materiel_id);
+            $entretien->date = new \Datetime();
         } else {
             $entretien = $em->getRepository('AgriBundle:MaterielEntretien')->findOneById($entretien_id);
         }
@@ -654,7 +655,7 @@ class DefaultController extends Controller
             $em->flush();
             return $this->redirectToRoute('materiel', array('materiel_id' => $materiel_id));
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AgriBundle:Default:materiel_entretien.html.twig', array(
             'form' => $form->createView(),
         ));
     }

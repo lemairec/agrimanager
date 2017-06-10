@@ -23,6 +23,25 @@ class MaterielEntretien
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Materiel")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $materiel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $company;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date")
+     */
+    public $date;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="nb_heure", type="integer")
@@ -37,21 +56,14 @@ class MaterielEntretien
     public $name;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(name="comment", type="string", length=255, nullable=true)
      */
-    public $value;
+    public $comment;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Materiel")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public $materiel;
+    function getDateStr(){
+        return $this->date->format(' d/m/y');
+    }
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public $company;
 }
