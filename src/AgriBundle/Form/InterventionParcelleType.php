@@ -19,6 +19,7 @@ class InterventionParcelleType extends AbstractType
         $builder->add('parcelle', EntityType::class, array(
             'class'        => 'AgriBundle:Parcelle',
             'choice_label' => 'completeName',
+            'choices' => $options['parcelles'],
         ));
         $builder->add('save',      SubmitType::class);
     }
@@ -29,7 +30,8 @@ class InterventionParcelleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AgriBundle\Entity\InterventionParcelle'
+            'data_class' => 'AgriBundle\Entity\InterventionParcelle',
+            'parcelles' => null
         ));
     }
 

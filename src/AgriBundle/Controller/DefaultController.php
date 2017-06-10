@@ -351,7 +351,10 @@ class DefaultController extends Controller
         } else {
             $intervention_parcelle = $em->getRepository('AgriBundle:InterventionParcelle')->findOneById($intervention_parcelle_id);
         }
-        $form = $this->createForm(InterventionParcelleType::class, $intervention_parcelle);
+        $parcelles =  $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);;
+        $form = $this->createForm(InterventionParcelleType::class, $intervention_parcelle, array(
+            'parcelles' => $parcelles
+        ));
         $form->handleRequest($request);
 
 
@@ -603,6 +606,7 @@ class DefaultController extends Controller
     {
         $this->check_user();
         $em = $this->getDoctrine()->getManager();
+        $interventions = [];
         if($materiel_id == '0'){
             $materiel = new Materiel();
             $materiel->company = $this->company;
