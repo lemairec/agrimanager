@@ -14,6 +14,7 @@ use AgriBundle\Entity\Ilot;
 use AgriBundle\Entity\Campagne;
 use AgriBundle\Entity\Intervention;
 use AgriBundle\Entity\InterventionParcelle;
+use AgriBundle\Entity\MaterielEntretien;
 use AgriBundle\Entity\InterventionProduit;
 use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Parcelle;
@@ -26,6 +27,7 @@ use AgriBundle\Form\MaterielType;
 use AgriBundle\Form\ProduitType;
 use AgriBundle\Form\IlotType;
 use AgriBundle\Form\InterventionParcelleType;
+use AgriBundle\Form\MaterielEntretienType;
 use AgriBundle\Form\InterventionProduitType;
 
 class DefaultController extends Controller
@@ -351,7 +353,7 @@ class DefaultController extends Controller
         } else {
             $intervention_parcelle = $em->getRepository('AgriBundle:InterventionParcelle')->findOneById($intervention_parcelle_id);
         }
-        $parcelles =  $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);;
+        $parcelles =  $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
         $form = $this->createForm(InterventionParcelleType::class, $intervention_parcelle, array(
             'parcelles' => $parcelles
         ));
@@ -606,12 +608,13 @@ class DefaultController extends Controller
     {
         $this->check_user();
         $em = $this->getDoctrine()->getManager();
-        $interventions = [];
+        $entretiens = [];
         if($materiel_id == '0'){
             $materiel = new Materiel();
             $materiel->company = $this->company;
         } else {
             $materiel = $em->getRepository('AgriBundle:Materiel')->findOneById($materiel_id);
+            $entretiens =  $em->getRepository('AgriBundle:MaterielEntretien')->findByMateriel($materiel);
         }
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
@@ -621,6 +624,35 @@ class DefaultController extends Controller
             $em->persist($materiel);
             $em->flush();
             return $this->redirectToRoute('materiels');
+        }
+        return $this->render('AgriBundle:Default:materiel.html.twig', array(
+            'form' => $form->createView(),
+            'materiel' => $materiel,
+            'entretiens' => $entretiens,
+        ));
+    }
+
+    /**
+     * @Route("/materiel/{materiel_id}/entretien/{entretien_id}", name="entretien_materiel")
+     **/
+    public function entretienMaterielAction($materiel_id, $entretien_id, Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+        if($entretien_id == '0'){
+            $entretien = new MaterielEntretien();
+            $entretien->company = $this->company;
+            $entretien->materiel = $em->getRepository('AgriBundle:Materiel')->findOneById($materiel_id);
+        } else {
+            $entretien = $em->getRepository('AgriBundle:MaterielEntretien')->findOneById($entretien_id);
+        }
+        $form = $this->createForm(MaterielEntretienType::class, $entretien);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->persist($entretien);
+            $em->flush();
+            return $this->redirectToRoute('materiel', array('materiel_id' => $materiel_id));
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
             'form' => $form->createView(),

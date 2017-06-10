@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class MaterielInterventionType extends AbstractType
+class MaterielEntretienType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class MaterielInterventionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AgriBundle\Entity\MaterielIntervention'
+            'data_class' => 'AgriBundle\Entity\MaterielEntretien'
         ));
     }
 
@@ -33,7 +33,7 @@ class MaterielInterventionType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'agribundle_materielintervention';
+        return 'agribundle_materielentretien';
     }
 
 
