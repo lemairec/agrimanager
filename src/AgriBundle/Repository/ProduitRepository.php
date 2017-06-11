@@ -11,21 +11,31 @@ use AgriBundle\Entity\Produit;
  */
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
-    function findOrCreate($name, $type, $unity){
+    function findOrCreate($completeName, $campagne){
         $em = $this->getEntityManager();
-        $completeName = $name.' - '.$unity;
-        print $completeName;
         $produit = $this->findOneByCompleteName($completeName);
         if($produit){
             return $produit;
         }
         $produit = new Produit();
-        $produit->name = $name;
+        $produit->campagne = $campagne;
+        $produit->name = $completeName;
         $produit->completeName = $completeName;
-        $produit->type = $type;
-        $produit->unity = $unity;
+        $ephy = $em->getRepository('AgriBundle:EphyProduit')->findOneByCompleteName($completeName);
+        if($ephy){
+            $produit->type = "ppp";
+        } else {
+            $produit->type = "autre";
+        }
+        $produit->ephyProduit = $ephy;
+        $produit->unity = "unité";
         $produit->qty = 0;
         $produit->price = 0;
+        $produit->n = 0;
+        $produit->p = 0;
+        $produit->k = 0;
+        $produit->mg = 0;
+        $produit->s = 0;
         $em->persist($produit);
         $em->flush();
         return $produit;

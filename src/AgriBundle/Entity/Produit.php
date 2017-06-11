@@ -22,6 +22,12 @@ class Produit
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $campagne;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="complete_name", type="string", length=255)

@@ -10,9 +10,9 @@ namespace AgriBundle\Repository;
  */
 class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
 {
-    function save($intervention_produit){
+    function save($intervention_produit, $campagne){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOneByCompleteName($intervention_produit->name);
+        $produit = $em->getRepository('AgriBundle:Produit')->findOrCreate($intervention_produit->name, $campagne);
         print($intervention_produit->name);
         print(json_encode($produit));
         $intervention_produit->produit = $produit;

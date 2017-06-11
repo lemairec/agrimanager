@@ -384,6 +384,7 @@ class DefaultController extends Controller
      **/
     public function interventionProduitAction($intervention_id, $intervention_produit_id, Request $request)
     {
+        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
         if($intervention_produit_id == '0'){
             $intervention_produit = new InterventionProduit();
@@ -396,7 +397,7 @@ class DefaultController extends Controller
         $produits = $em->getRepository('AgriBundle:Produit')->getAllName();
 
         if ($form->isSubmitted()) {
-            $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit);
+            $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit, $campagne);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
         return $this->render('AgriBundle:Default:intervention_produit.html.twig', array(
