@@ -421,16 +421,21 @@ class DefaultController extends Controller
     /**
      * @Route("/produits", name="produits")
      */
-    public function produitsAction()
+    public function produitsAction(Request $request)
     {
+        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
         $produits = $em->getRepository('AgriBundle:Produit')
             ->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
             ->add('orderBy','p.type ASC, p.name ASC')
+            ->setParameter('campagne', $campagne)
             ->getQuery()->getResult();
 
         return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
             'stocks' => $produits,
         ));
     }
@@ -473,17 +478,22 @@ class DefaultController extends Controller
     /**
      * @Route("/stocks")
      */
-    public function stocksAction()
+    public function stocksAction(Request $request)
     {
+        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
         $produits = $em->getRepository('AgriBundle:Produit')
             ->createQueryBuilder('p')
-            ->where('ABS(p.qty) > 0.001')
+            ->where('p.campagne = :campagne')
+            ->andWhere('ABS(p.qty) > 0.001')
             ->add('orderBy','p.type ASC, p.name ASC')
+            ->setParameter('campagne', $campagne)
             ->getQuery()->getResult();
 
         return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
             'stocks' => $produits,
         ));
     }
