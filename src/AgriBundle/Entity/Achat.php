@@ -23,7 +23,7 @@ class Achat
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     public $campagne;
 

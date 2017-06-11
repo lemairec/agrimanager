@@ -503,6 +503,7 @@ class DefaultController extends Controller
      */
     public function achatsAction(Request $request)
     {
+        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') {
             $file = $request->files->get('file');
@@ -524,7 +525,9 @@ class DefaultController extends Controller
 
         $achats = $em->getRepository('AgriBundle:Achat')
         ->createQueryBuilder('p')
+        ->where('p.campagne = :campagne')
         ->add('orderBy','p.date DESC, p.type ASC')
+        ->setParameter('campagne', $campagne)
         ->getQuery()->getResult();
 
         return $this->render('AgriBundle:Default:achats.html.twig', array(
