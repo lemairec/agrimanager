@@ -22,6 +22,13 @@ class Achat
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $campagne;
+
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date")
