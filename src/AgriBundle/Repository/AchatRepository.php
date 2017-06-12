@@ -11,16 +11,17 @@ use AgriBundle\Entity\Achat;
  */
 class AchatRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($achat){
+    function add($achat, $campagne){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('AgriBundle:Produit')->findOrCreate($achat->name, $achat->type, $achat->unity);
+        $produit = $em->getRepository('AgriBundle:Produit')->findOrCreateCaj($achat->name, $achat->type, $achat->unity, $campagne);
         $achat->produit = $produit;
+        $achat->campagne = $campagne;
         $em->persist($achat);
         $em->flush();
         $em->getRepository('AgriBundle:Produit')->update($produit);
     }
 
-    function addRows($rows){
+    function addRows($rows, $campagne){
         print(json_encode($rows));
         $achat = new Achat();
         $achat->comment = json_encode($rows);
@@ -42,6 +43,25 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $achat->unity = $rows[5];
         $achat->price = floatval(str_replace(",",".",$rows[6]));
         $achat->price_total = floatval(str_replace(",",".",$rows[7]));
-        $this->add($achat);
+        $this->add($achat, $campagne);
+    }
+
+    function addCajCsv($fileName){
+        $em = $this->getEntityManager();
+        $campagne = $em->getRepository('AgriBundle:Campagne')->findOneById("f49d37d6-3951-11e7-92c4-80e65014bb7c");
+
+        $achats = $this->findByCampagne($campagne);
+        foreach ($achats as $achat) {
+            $em->remove($achat);
+        }
+        $em->flush();
+
+        if (($handle = fopen($fileName, "r")) !== FALSE) {
+            $i = 0;
+            while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
+                //if ($i == 0) { $i = 1;continue; }
+                $this->addRows($rows, $campagne);
+            }
+        }
     }
 }

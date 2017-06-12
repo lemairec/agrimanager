@@ -76,19 +76,6 @@ class InitbddCommand extends ContainerAwareCommand
         $em->flush();
     }
 
-    function caj_csv(){
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $achatrepository = $em->getRepository('AgriBundle:Achat');
-        $fileName = '/Users/lemairec/fablab/symfony_agri/data/caj.csv';
-        if (($handle = fopen($fileName, "r")) !== FALSE) {
-            $i = 0;
-            while (($rows = fgetcsv($handle, null, ";")) !== FALSE) {
-                if ($i == 0) { $i = 1;continue; }
-                $achatrepository->addRows($rows);
-            }
-        }
-    }
-
     function ephy_csv(){
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $ephyrepository = $em->getRepository('AgriBundle:EphyProduit');

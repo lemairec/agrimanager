@@ -46,6 +46,13 @@ class UpdateBddCommand extends ContainerAwareCommand
         $em->flush();
     }
 
+    function updateCajCsv(){
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $achatrepository = $em->getRepository('AgriBundle:Achat');
+        $fileName = '/Users/lemairec/fablab/symfony_agri/data/caj.csv';
+        $achatrepository->addCajCsv($fileName);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
@@ -68,6 +75,7 @@ class UpdateBddCommand extends ContainerAwareCommand
         $this->addUser('lejard', 'lemairec02@gmail.com', '');
         $this->addUser('steph', 'steph@toto.fr', '');
         //$this->updateEphy();
+        $this->updateCajCsv();
 
         $output->writeln('Command result.');
     }
