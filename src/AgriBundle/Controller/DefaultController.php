@@ -531,6 +531,8 @@ class DefaultController extends Controller
         ->getQuery()->getResult();
 
         return $this->render('AgriBundle:Default:achats.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
             'achats' => $achats,
         ));
     }

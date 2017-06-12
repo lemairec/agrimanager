@@ -29,6 +29,13 @@ class Materiel
     public $name;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_achat", type="date", nullable=true)
+     */
+    public $dateAchat;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="annee", type="integer")

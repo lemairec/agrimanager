@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-sm-10">
-        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form) }}
     </div>
     {{ form_errors(form) }}
 </div>
@@ -23,10 +23,11 @@
 <div class="container bs-docs-container">
 <div class="well">
     {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.annee) }}
-    {{ form_row(form.caracteristique) }}
-    {{ form_row(form.comment) }}
+    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.dateAchat, {'attr': {'class': 'form-control js-datepicker'}}) }}
+    {{ form_row(form.annee, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.caracteristique, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
     {{ form_end(form) }}
 </div>
 

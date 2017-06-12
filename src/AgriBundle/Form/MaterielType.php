@@ -5,6 +5,7 @@ namespace AgriBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MaterielType extends AbstractType
@@ -14,7 +15,14 @@ class MaterielType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('annee')->add('caracteristique')->add('comment');
+        $builder->add('name');
+        $builder->add('dateAchat', DateType::class, array(
+            'widget' => 'single_text',
+            'format' => 'dd-MM-yyyy',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
+        ));
+        $builder->add('annee')->add('caracteristique')->add('comment');
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 
