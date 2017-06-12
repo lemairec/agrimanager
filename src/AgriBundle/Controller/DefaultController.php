@@ -394,7 +394,7 @@ class DefaultController extends Controller
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
-        $produits = $em->getRepository('AgriBundle:Produit')->getAllName();
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllName($campagne);
 
         if ($form->isSubmitted()) {
             $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit, $campagne);
@@ -453,15 +453,16 @@ class DefaultController extends Controller
         }
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
-
+        $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
 
         if ($form->isSubmitted()) {
             $em->persist($produit);
             $em->flush();
             return $this->redirectToRoute('produits');
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AgriBundle:Default:produit.html.twig', array(
             'form' => $form->createView(),
+            'interventions' => $interventions
         ));
     }
 

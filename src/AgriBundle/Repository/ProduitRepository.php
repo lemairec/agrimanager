@@ -121,10 +121,10 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         return $produit;
     }
 
-    function getAllName(){
+    function getAllName($campagne){
         $em = $this->getEntityManager();
         $res = [];
-        $produits = $this->findAll();
+        $produits = $this->findByCampagne($campagne);
         foreach($produits as $p){
             $res[] = $p->completeName;
         }
@@ -133,7 +133,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             $res[] = $p->completeName;
         }
 
-        return $res;
+        return  array_unique($res);
     }
 
     function delete($produit_id){
