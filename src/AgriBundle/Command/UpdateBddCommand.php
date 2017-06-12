@@ -49,7 +49,7 @@ class UpdateBddCommand extends ContainerAwareCommand
     function updateCajCsv(){
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $achatrepository = $em->getRepository('AgriBundle:Achat');
-        $fileName = '/Users/lemairec/fablab/symfony_agri/data/caj.csv';
+        $fileName = 'data/caj.csv';
         $achatrepository->addCajCsv($fileName);
     }
 
