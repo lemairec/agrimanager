@@ -43,7 +43,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('p.unity = :unity')
             ->setParameter('name', $name)
             ->setParameter('unity', $unity)
-            ->getQuery()->getSingleResult();;
+            ->getQuery()->getOneOrNullResult();;
         if($produit){
             return $produit;
         }
@@ -52,7 +52,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->name = $name;
         $produit->type = $type;
         $produit->unity = $unity;
-        $ephy = $em->getRepository('AgriBundle:EphyProduit')->findOneByCompleteName($completeName);
+        $ephy = $em->getRepository('AgriBundle:EphyProduit')->findOneByCompleteName($name);
         if($ephy){
             $produit->type = "ppp";
         } else {
