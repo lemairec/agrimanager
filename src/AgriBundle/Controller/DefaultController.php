@@ -460,11 +460,8 @@ class DefaultController extends Controller
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
 
         if ($form->isSubmitted()) {
-            $produit->completeName = $produit->name." - ".$produit->unity;
             $produit->campagne = $campagne;
-
-            $em->persist($produit);
-            $em->flush();
+            $em->getRepository('AgriBundle:Produit')->update($produit);
             return $this->redirectToRoute('produits');
         }
         return $this->render('AgriBundle:Default:produit.html.twig', array(

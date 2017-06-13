@@ -13,6 +13,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
     function findOrCreate($completeName, $campagne){
         $em = $this->getEntityManager();
+
         $produit = $this->findOneByCompleteName($completeName);
         if($produit){
             return $produit;
@@ -35,16 +36,18 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function findOrCreateCaj($name, $type, $unity,   $campagne){
         $em = $this->getEntityManager();
-        $completeName = $name.' - '.$unity;
-        $produit = $this->findOneByCompleteName($completeName);
-        print $completeName;
+        $produit = $this->createQueryBuilder('p')
+            ->where('p.name = :name')
+            ->andWhere('p.unity = :unity')
+            ->setParameter('name', $name)
+            ->setParameter('unity', $unity)
+            ->getQuery()->getSingleResult();;
         if($produit){
             return $produit;
         }
         $produit = new Produit();
         $produit->campagne = $campagne;
-        $produit->name = $completeName;
-        $produit->completeName = $completeName;
+        $produit->name = $name;
         $produit->type = $type;
         $produit->unity = $unity;
         $ephy = $em->getRepository('AgriBundle:EphyProduit')->findOneByCompleteName($completeName);
@@ -54,8 +57,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             $produit->type = "autre";
         }
         $produit->ephyProduit = $ephy;
-        $em->persist($produit);
-        $em->flush();
+        $this->save($produit);
         return $produit;
     }
 
@@ -83,25 +85,14 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         if($price > 0){
             $produit->price = $price;
         }
-        $em->persist($produit);
-        $em->flush();
+        $this->save($produit);
     }
 
     function save($produit){
-        $produit_count = $this->createQueryBuilder('p')
-            ->select('COUNT(p)')
-            ->where('p.name = :name and p.amm = :amm')
-            ->setParameter('name', $produit->name)
-            ->setParameter('amm', $produit->amm)
-            ->getQuery()
-            ->getSingleScalarResult();
-        echo("produit_count ".$produit_count."\n");
-        if($produit_count == 0){
-            $produit->completeName = $produit->amm . ' - ' . $produit->name;
-            $em = $this->getEntityManager();
-            $em->persist($produit);
-            $em->flush();
-        }
+        $produit->completeName = $produit->name . ' (' . $produit->unity.')';
+        $em = $this->getEntityManager();
+        $em->persist($produit);
+        $em->flush();
         return $produit;
     }
 
