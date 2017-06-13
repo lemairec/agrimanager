@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ParcelleType extends AbstractType
 {
@@ -14,7 +15,14 @@ class ParcelleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('surface')->add('name')->add('culture')->add('active')->add('comment');
+        $builder->add('surface')->add('name')->add('culture');
+        $builder->add('ilot', EntityType::class, array(
+            'class'        => 'AgriBundle:Ilot',
+            'choices' => $options['ilots'],
+        ));
+        $builder->add('active')->add('comment');
+
+
         $builder->add('save',      SubmitType::class);
     }
 
@@ -24,7 +32,8 @@ class ParcelleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AgriBundle\Entity\Parcelle'
+            'data_class' => 'AgriBundle\Entity\Parcelle',
+            'ilots' => null
         ));
     }
 

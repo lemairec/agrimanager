@@ -241,14 +241,17 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
+        $ilots = $em->getRepository('AgriBundle:Ilot')->getAllforCompany($this->company);
+        $ilots[] = null;
         if($parcelle_id == '0'){
             $parcelle = new Parcelle();
-            $parcelle->surface = 0;
             $parcelle->campagne = $campagne;
         } else {
             $parcelle = $em->getRepository('AgriBundle:Parcelle')->findOneById($parcelle_id);
         }
-        $form = $this->createForm(ParcelleType::class, $parcelle);
+        $form = $this->createForm(ParcelleType::class, $parcelle, array(
+            'ilots' => $ilots
+        ));
         $form->handleRequest($request);
 
 

@@ -32,7 +32,7 @@ class Parcelle
      *
      * @ORM\Column(name="surface", type="float")
      */
-    public $surface;
+    public $surface = 0;
 
 
     /**
@@ -74,7 +74,7 @@ class Parcelle
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    public $active;
+    public $active = true;
 
     public function getIlotName(){
         if($this->ilot){
