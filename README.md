@@ -13,3 +13,14 @@ php bin/console generate:bundle
 php bin/console server:run
 
 composer install
+
+
+OVH
+
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+php bin/console doctrine:schema:update --force
+
+modify web/app.dev => true
+-$kernel = new AppKernel('prod', false);
++$kernel = new AppKernel('prod', true);
