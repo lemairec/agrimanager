@@ -51,7 +51,7 @@ class Achat
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     public $type;
 
@@ -61,13 +61,6 @@ class Achat
      * @ORM\Column(name="qty", type="float")
      */
     public $qty;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="unity", type="string", length=255)
-     */
-    public $unity;
 
     /**
      * @var float
@@ -86,11 +79,11 @@ class Achat
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="string", length=255)
+     * @ORM\Column(name="comment", type="string", length=255, nullable=true)
      */
     public $comment;
 
-    function get_date(){
-        return $this->date->format(' d/m/Y');
+    function getDateStr(){
+        return $this->date->format(' d/m/y');
     }
 }

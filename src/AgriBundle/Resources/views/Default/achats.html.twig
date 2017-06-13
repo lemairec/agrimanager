@@ -4,7 +4,6 @@
 
 
 <div class="container bs-docs-container">
-    <a href="/send_file">import</a>
     <div class="panel panel-default", style="width:100%">
         <!-- Default panel contents -->
         <div class="panel-heading">
@@ -14,20 +13,16 @@
         <table class="table">
             <tr>
                 <th>Date</th>
-                <th>Type</th>
                 <th>Name</th>
                 <th>Qty</th>
-                <th>Unity</th>
                 <th>Price</th>
                 <th>Price Total</th>
             </tr>
             {% for achat in achats %}
             <tr>
-                <td>{{achat.get_date()}}</td>
-                <td>{{achat.type}}</td>
-                <td><a href="/produit/{{achat.produit.id}}">{{achat.name}}</a></td>
+                <td><a href="/achat/{{achat.id}}">{{achat.get_date()}}</td>
+                <td><a href="/produit/{{achat.produit.id}}">{{achat.produit.completeName}}</a></td>
                 <td>{{achat.qty}}</td>
-                <td>{{achat.unity}}</td>
                 <td>{{ "%.2f €"|format(achat.price) }}</td>
                 <td>{{ "%.2f €"|format(achat.price_total) }}</td>
             </tr>

@@ -26,6 +26,7 @@ use AgriBundle\Form\ParcelleType;
 use AgriBundle\Form\MaterielType;
 use AgriBundle\Form\ProduitType;
 use AgriBundle\Form\IlotType;
+use AgriBundle\Form\AchatType;
 use AgriBundle\Form\InterventionParcelleType;
 use AgriBundle\Form\MaterielEntretienType;
 use AgriBundle\Form\InterventionProduitType;
@@ -397,7 +398,6 @@ class DefaultController extends Controller
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
-        $produits = $em->getRepository('AgriBundle:Produit')->getAllName($campagne);
 
         if ($form->isSubmitted()) {
             $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit, $campagne);
@@ -458,6 +458,8 @@ class DefaultController extends Controller
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
+        $achats = $em->getRepository('AgriBundle:Achat')->getAllForProduit($produit);
+
 
         if ($form->isSubmitted()) {
             $produit->campagne = $campagne;
@@ -467,6 +469,7 @@ class DefaultController extends Controller
         return $this->render('AgriBundle:Default:produit.html.twig', array(
             'form' => $form->createView(),
             'interventions' => $interventions,
+            'achats' => $achats,
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
         ));
@@ -541,6 +544,35 @@ class DefaultController extends Controller
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'achats' => $achats,
+        ));
+    }
+
+    /**
+     * @Route("/achat/{achat_id}", name="achat")
+     **/
+    public function achatEditAction($achat_id, Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+        if($achat_id == '0'){
+            $achat = new Achat();
+            $achat->date = new \DateTime();
+        } else {
+            $achat = $em->getRepository('AgriBundle:Achat')->findOneById($achat_id);
+        }
+        $form = $this->createForm(AchatType::class, $achat);
+        $form->handleRequest($request);
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllName($campagne);
+
+        if ($form->isSubmitted()) {
+            $em->getRepository('AgriBundle:Achat')->save($achat, $campagne);
+            return $this->redirectToRoute('achats');
+        }
+        return $this->render('AgriBundle:Default:achat.html.twig', array(
+            'form' => $form->createView(),
+            'produits' => $produits,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
         ));
     }
 

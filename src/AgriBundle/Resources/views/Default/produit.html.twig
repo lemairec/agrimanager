@@ -60,6 +60,30 @@
     </table>
 </div>
 
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Achats
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Prix</th>
+        </tr>
+        {% for achat in     achats %}
+        <tr>
+            <td>{{achat.getDateStr()}}</td>
+            <td>{{achat.name}}</td>
+            <td>{{ "%.2f  u"|format(achat.qty)}}</td>
+            <td>{{ "%.2f  €/u"|format(achat.price)}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 </div>
 
 {% endblock %}

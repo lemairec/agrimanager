@@ -11,7 +11,18 @@ use AgriBundle\Entity\Achat;
  */
 class AchatRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($achat, $campagne){
+    function save($achat, $campagne){
+        $em = $this->getEntityManager();
+        $produit = $em->getRepository('AgriBundle:Produit')->findOrCreate($achat->name, $campagne);
+        $achat->produit = $produit;
+        $achat->campagne = $campagne;
+        $achat->price = $achat->price_total/$achat->qty;
+        $em->persist($achat);
+        $em->flush();
+        $em->getRepository('AgriBundle:Produit')->update($produit);
+    }
+
+    function addCaj($achat, $campagne){
         $em = $this->getEntityManager();
         $produit = $em->getRepository('AgriBundle:Produit')->findOrCreateCaj($achat->name, $achat->type, $achat->unity, $campagne);
         $achat->produit = $produit;
@@ -43,7 +54,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $achat->unity = $rows[5];
         $achat->price = floatval(str_replace(",",".",$rows[6]));
         $achat->price_total = floatval(str_replace(",",".",$rows[7]));
-        $this->add($achat, $campagne);
+        $this->addCaj($achat, $campagne);
     }
 
     function addCajCsv($fileName){
@@ -63,5 +74,15 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
                 $this->addRows($rows, $campagne);
             }
         }
+    }
+
+    function getAllForProduit($produit){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.produit = :produit')
+            ->setParameter('produit', $produit)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
     }
 }

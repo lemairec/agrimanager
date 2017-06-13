@@ -89,7 +89,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
              ->setParameter('ids', $ids)
-             ->orderBy('p.date', 'ASC')
+             ->orderBy('p.date', 'DESC')
              ->getQuery();
 
              return $query->getResult();
@@ -115,7 +115,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
              ->setParameter('ids', $ids)
-             ->orderBy('p.date', 'ASC')
+             ->orderBy('p.date', 'DESC')
              ->getQuery();
 
              return $query->getResult();
