@@ -25,6 +25,8 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $ephy = $em->getRepository('AgriBundle:EphyProduit')->findOneByCompleteName($completeName);
         if($ephy){
             $produit->type = "ppp";
+            $produit->unity = $ephy->unity;
+            $produit->name = $ephy->amm.' - '.$ephy->name;
         } else {
             $produit->type = "autre";
         }

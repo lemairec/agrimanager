@@ -26,6 +26,12 @@ class EphyProduit
 
     /**
      * @var string
+     * @ORM\Column(name="unity", type="string", length=255)
+     */
+    public $unity = "unite";
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     public $society;

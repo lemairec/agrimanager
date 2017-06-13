@@ -13,7 +13,7 @@ use AgriBundle\Entity\EphySubstanceProduit;
  */
 class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 {
-    function addRows($rows){
+    /*function addRows($rows){
         $ephyproduit = new EphyProduit();
         $ephyproduit->amm = $rows[1];
         $ephyproduit->name = $rows[2];
@@ -51,7 +51,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         } else {
         }
         return $ephyproduit;
-    }
+    }*/
 
     function getEphySubstance($id, $name){
         $em = $this->getEntityManager();
@@ -103,14 +103,26 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             $ephyproduit->amm = $ppp->{'numero-AMM'};
             $ephyproduit->name = $ppp->{'nom-produit'};
             $ephyproduit->society = $ppp->{'titulaire'};
-            $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name;
+
+
+            if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
+                foreach ($ppp->{'composition-integrale'}->{'substances-actives'}->children() as $substance) {
+                    if(isset($substance->{'teneur-SA-pure'})){
+                        $ephysubstanceproduitunity = $substance->{'teneur-SA-pure'}->attributes()['unite'];
+                        $i = strpos($ephysubstanceproduitunity, '/');
+                        if($i !== false){
+                            $ephyproduit->unity = substr($ephysubstanceproduitunity, $i+1);
+                        }
+                    }
+                }
+            }
+
+            $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name . ' ('. $ephyproduit->unity.')';
             $produitbdd = $this->findOneByCompleteName($ephyproduit->completeName);
             if($produitbdd != null){
                 print("error ".$ephyproduit->completeName."\n");
                 continue;
-            }
-            //print($ephyproduit->completeName."\n");
-            $em->persist($ephyproduit);
+            }$em->persist($ephyproduit);
             $em->flush();
 
             if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
@@ -132,6 +144,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                     $em->persist($ephysubstanceproduit);
                 }
             }
+
         }
 
     }
