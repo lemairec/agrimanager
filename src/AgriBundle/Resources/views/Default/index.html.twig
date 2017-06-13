@@ -1,4 +1,50 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
 
 {% block body %}
+
+<div class="container bs-docs-container">
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    Derniers Prix Euronext
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <th>Echeance</th>
+                        <th>Prix</th>
+                    </tr>
+                    <tr>
+                        <td>Blé</td>
+                        <td>NOV17</td>
+                        <td>150 €/t</td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <iframe src="http://www.meteociel.fr/previsions/35978/warmeriville.htm"
+                    width="100%" height="1500" frameborder="0"
+                    allowfullscreen sandbox>
+              <p> <a href="https://developer.mozilla.org/en-US/docs/Glossary">
+                Fallback link for browsers that don't support iframes
+              </a> </p>
+            <!--div class="panel panel-default">
+                http://api.openweathermap.org/data/2.5/forecast?q=Warmeriville,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d
+                <div class="panel-heading">
+                    Météo
+                </div>
+                <div>
+                    Sample
+                </div>
+            </div-->
+    </div>
+</div>
+
 {% endblock body %}

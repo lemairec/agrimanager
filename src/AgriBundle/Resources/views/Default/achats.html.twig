@@ -20,7 +20,7 @@
             </tr>
             {% for achat in achats %}
             <tr>
-                <td><a href="/achat/{{achat.id}}">{{achat.get_date()}}</td>
+                <td><a href="/achat/{{achat.id}}">{{achat.getDateStr()}}</td>
                 <td><a href="/produit/{{achat.produit.id}}">{{achat.produit.completeName}}</a></td>
                 <td>{{achat.qty}}</td>
                 <td>{{ "%.2f €"|format(achat.price) }}</td>

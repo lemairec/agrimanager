@@ -114,7 +114,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/ilots")
+     * @Route("/ilots", name="ilots")
      */
     public function ilotsAction()
     {
@@ -398,6 +398,7 @@ class DefaultController extends Controller
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllName($campagne);
 
         if ($form->isSubmitted()) {
             $em->getRepository('AgriBundle:InterventionProduit')->save($intervention_produit, $campagne);
