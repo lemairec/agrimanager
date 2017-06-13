@@ -448,6 +448,7 @@ class DefaultController extends Controller
      **/
     public function produitEditAction($produit_id, Request $request)
     {
+        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
         if($produit_id == '0'){
             $produit = new Produit();
@@ -459,13 +460,18 @@ class DefaultController extends Controller
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
 
         if ($form->isSubmitted()) {
+            $produit->completeName = $produit->name." - ".$produit->unity;
+            $produit->campagne = $campagne;
+
             $em->persist($produit);
             $em->flush();
             return $this->redirectToRoute('produits');
         }
         return $this->render('AgriBundle:Default:produit.html.twig', array(
             'form' => $form->createView(),
-            'interventions' => $interventions
+            'interventions' => $interventions,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
         ));
     }
 
