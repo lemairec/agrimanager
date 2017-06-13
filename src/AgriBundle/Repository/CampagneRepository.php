@@ -1,6 +1,7 @@
 <?php
 
 namespace AgriBundle\Repository;
+use AgriBundle\Entity\Campagne;
 
 /**
  * CampagneRepository
@@ -18,4 +19,18 @@ class CampagneRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+     function findFirstOrCreate($company, $name){
+         $em = $this->getEntityManager();
+         $campagne = $this->findOneByCompany($company);
+         if($campagne){
+             return $campagne;
+         }
+         $campagne = new Campagne();
+         $campagne->name = $name;
+         $campagne->company = $company;
+         $em->persist($campagne);
+         $em->flush();
+         return $campagne;
+     }
 }

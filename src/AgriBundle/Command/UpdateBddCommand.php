@@ -44,6 +44,8 @@ class UpdateBddCommand extends ContainerAwareCommand
         $user->enabled = true;
         $em->persist($user);
         $em->flush();
+        $company = $em->getRepository('AgriBundle:Company')->findOrCreate($user);
+        $em->getRepository('AgriBundle:Campagne')->findFirstOrCreate($company, '2017-2018');
     }
 
     function updateCajCsv(){
@@ -72,10 +74,11 @@ class UpdateBddCommand extends ContainerAwareCommand
             // ...
         }
 
-        $this->addUser('lejard', 'lemairec02@gmail.com', '');
-        $this->addUser('steph', 'steph@toto.fr', '');
+        //$this->addUser('lejard', 'lemairec02@gmail.com', '');
+        //$this->addUser('steph', 'steph@toto.fr', '');
+        //$this->addUser('ceta', 'ceta@toto.fr', '');
         //$this->updateEphy();
-        $this->updateCajCsv();
+        //$this->updateCajCsv();
 
         $output->writeln('Command result.');
     }
