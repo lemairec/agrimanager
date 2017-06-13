@@ -53,21 +53,21 @@ class Produit
      *
      * @ORM\Column(name="unity", type="string", length=255)
      */
-    public $unity;
+    public $unity = "unité";
 
     /**
      * @var float
      *
      * @ORM\Column(name="qty", type="float")
      */
-    public $qty;
+    public $qty = 0;
 
     /**
      * @var float
      *
      * @ORM\Column(name="price", type="float")
      */
-    public $price;
+    public $price = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphyProduit")
@@ -80,30 +80,30 @@ class Produit
      *
      * @ORM\Column(name="n", type="float")
      */
-    public $n;
+    public $n = 0;
 
     /**
      * @var float
      *
      * @ORM\Column(name="p", type="float")
      */
-    public $p;
+    public $p = 0;
     /**
      * @var float
      *
      * @ORM\Column(name="k", type="float")
      */
-    public $k;
+    public $k = 0;
     /**
      * @var float
      *
      * @ORM\Column(name="mg", type="float")
      */
-    public $mg;
+    public $mg = 0;
     /**
      * @var float
      *
      * @ORM\Column(name="s", type="float")
      */
-    public $s;
+    public $s = 0;
 }

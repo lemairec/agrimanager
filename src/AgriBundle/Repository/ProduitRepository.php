@@ -28,14 +28,6 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             $produit->type = "autre";
         }
         $produit->ephyProduit = $ephy;
-        $produit->unity = "unité";
-        $produit->qty = 0;
-        $produit->price = 0;
-        $produit->n = 0;
-        $produit->p = 0;
-        $produit->k = 0;
-        $produit->mg = 0;
-        $produit->s = 0;
         $em->persist($produit);
         $em->flush();
         return $produit;
@@ -62,14 +54,6 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             $produit->type = "autre";
         }
         $produit->ephyProduit = $ephy;
-        $produit->unity = "unité";
-        $produit->qty = 0;
-        $produit->price = 0;
-        $produit->n = 0;
-        $produit->p = 0;
-        $produit->k = 0;
-        $produit->mg = 0;
-        $produit->s = 0;
         $em->persist($produit);
         $em->flush();
         return $produit;
