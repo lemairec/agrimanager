@@ -20,8 +20,10 @@ use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Parcelle;
 use AgriBundle\Entity\Materiel;
 use AgriBundle\Entity\Produit;
+
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
+use AgriBundle\Form\CompanyType;
 use AgriBundle\Form\ParcelleType;
 use AgriBundle\Form\MaterielType;
 use AgriBundle\Form\ProduitType;
@@ -78,11 +80,36 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function indexAction()
     {
-        return $this->render('AgriBundle:Default:index.html.twig');
+        $this->check_user();
+        return $this->render('AgriBundle:Default:index.html.twig', array(
+            'company' => $this->company
+        ));
+    }
+
+    /**
+     * @Route("/profile")
+     */
+    public function profileAction(Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CompanyType::class, $this->company);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($this->company);
+            $em->flush();
+            return $this->redirectToRoute("home");
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     /**

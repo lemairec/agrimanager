@@ -11,19 +11,16 @@
                     <div class="panel-heading">
                         Derniers Prix Euronext
                     </div>
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                           <th>Name</th>
-                            <th>Echeance</th>
-                            <th>Prix</th>
-                        </tr>
-                        <tr>
-                            <td>Blé</td>
-                            <td>NOV17</td>
-                            <td>150 €/t</td>
-                        </tr>
-                    </tbody></table>
+                    <table id="euronext" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Echeance</th>
+                                <th>Prix</th>
+                                <th>A</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
             <div class="col-md-8">
@@ -126,9 +123,28 @@ $( function() {
                 $(row).find('td:eq(6)').css('background', '#0099FF');
             }
         }
-} );
+    });
+    t_euronext = $('#euronext').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching":   false,
+        'rowCallback': function(row, data, index){
 
-    $.getJSON("http://api.openweathermap.org/data/2.5/forecast?q=Warmeriville,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d", function( data ) {
+
+            if(data[3][0] == '+'){
+                $(row).find('td:eq(3)').css('background', '#15873c');
+            } else{
+                $(row).find('td:eq(2)').css('background', '#e52c2c');
+            }
+        }
+    });
+    {% if(company.city) %}
+    var url = "http://api.openweathermap.org/data/2.5/forecast?q={{company.city}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
+    {% else %}
+    var url = "http://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
+    {% endif %}
+    $.getJSON(url, function( data ) {
         oldd = 0;
         for(i in data.list){
             o = data.list[i];
@@ -161,10 +177,32 @@ $( function() {
             } else {
                 oldd = d;
             }
-            console.log(d);
             row = t.row.add([d, h, o.main.temp, rain, o.main.humidity+" %", Math.round(o.wind.deg), Math.round(o.wind.speed*3.6), o.weather[0].description]).draw( false );
         }
         $('#meteo_title').text("Météo " + data.city.name);
+    });
+    $.getJSON("http://ade.agrinext.fr/pages/white/sitefr/quotesAjax.aspx?LANG=fr",function( data ) {
+        console.log(data);
+        var last_code = "";
+        for(i in data.data){
+            o = data.data[i];
+            if(o.code == 'EBM'){
+
+            } else if(o.code == 'EMA'){
+
+            } else if(o.code == 'ECO'){
+
+            } else {
+                continue;
+            }
+            if(last_code == o.code){
+                continue;
+            } else {
+                last_code = o.code;
+            }
+            console.log(o);
+            row = t_euronext.row.add([o.code, o.expiry, o.value, o.vari]).draw( false );
+        }
     });
 } );
 </script>

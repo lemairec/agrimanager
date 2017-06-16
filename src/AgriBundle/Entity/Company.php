@@ -31,9 +31,23 @@ class Company
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=255)
+     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
      */
     public $adresse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=255, nullable=true)
+     */
+    public $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city_code", type="string", length=255, nullable=true)
+     */
+    public $city_code;
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\User")
