@@ -47,7 +47,14 @@ class Company
      *
      * @ORM\Column(name="city_code", type="string", length=255, nullable=true)
      */
-    public $city_code;
+    public $cityCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="meto_city", type="string", length=255, nullable=true)
+     */
+    public $meteoCity;
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\User")

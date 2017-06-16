@@ -14,7 +14,7 @@ class CompanyType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('adresse')->add('city_code')->add('city');
+        $builder->add('name')->add('adresse')->add('cityCode')->add('city')->add('meteoCity');
         $builder->add('save',      SubmitType::class);
     }
 
