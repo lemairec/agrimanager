@@ -38,7 +38,7 @@ use AgriBundle\Form\InterventionProduitType;
 class DefaultController extends Controller
 {
     private function check_user(){
-            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw $this->createAccessDeniedException();
         }
         $em = $this->getDoctrine()->getManager();
@@ -107,7 +107,9 @@ class DefaultController extends Controller
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
         $this->get("security.token_storage")->setToken($token);
+        $this->get('session')->set('_security_main',serialize($token));
 
+        //return $this->render('AgriBundle::base_agri.html.twig');
         return $this->redirectToRoute("home");
 }
 
