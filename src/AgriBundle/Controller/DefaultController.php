@@ -101,7 +101,7 @@ class DefaultController extends Controller
 
         $user_id = $request->query->get('user_id');
         if($user_id == ''){
-            return $this->redirectToRoute("login");
+            return new Response("user not found")
         }
         $user = $em->getRepository('AgriBundle:User')->findOneById($user_id);
 
