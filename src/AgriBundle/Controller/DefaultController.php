@@ -36,7 +36,7 @@ use AgriBundle\Form\InterventionProduitType;
 class DefaultController extends Controller
 {
     private function check_user(){
-            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw $this->createAccessDeniedException();
         }
         $em = $this->getDoctrine()->getManager();
