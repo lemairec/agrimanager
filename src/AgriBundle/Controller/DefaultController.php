@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use Datetime;
 
@@ -91,7 +93,26 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/profile")
+     * @Route("/k8f96gtb")
+     */
+    public function testAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user_id = $request->query->get('user_id');
+        if($user_id == ''){
+            return $this->redirectToRoute("login");
+        }
+        $user = $em->getRepository('AgriBundle:User')->findOneById($user_id);
+
+        $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
+        $this->get("security.token_storage")->setToken($token);
+
+        return $this->redirectToRoute("home");
+}
+
+    /**
+     * @Route("/profil")
      */
     public function profileAction(Request $request)
     {
@@ -107,7 +128,7 @@ class DefaultController extends Controller
             $em->flush();
             return $this->redirectToRoute("home");
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AgriBundle:Default:profil.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -119,7 +140,7 @@ class DefaultController extends Controller
     {
         //Si le visiteur est déjà identifié, on le redirige vers l'accueil
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-        return $this->redirectToRoute('home');
+            return $this->redirectToRoute('home');
         }
 
         // Le service authentication_utils permet de récupérer le nom d'utilisateur

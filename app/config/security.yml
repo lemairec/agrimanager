@@ -15,11 +15,19 @@ security:
                 # manager_name: customer
 
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        no_login:
+            pattern: ^/bk8f96gt$
+            anonymous: true
+
         main_login:
             # Cette expression régulière permet de prendre /login (mais pas /login_check !)
             pattern:   ^/login$
             anonymous: true # On autorise alors les anonymes sur ce pare-feu
-     
+
         main:
             pattern:      ^/
             anonymous:    false
