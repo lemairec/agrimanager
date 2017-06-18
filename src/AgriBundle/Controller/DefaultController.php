@@ -499,15 +499,17 @@ class DefaultController extends Controller
     {
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
+        $interventions = [];
+        $achats = [];
         if($produit_id == '0'){
             $produit = new Produit();
         } else {
             $produit = $em->getRepository('AgriBundle:Produit')->findOneById($produit_id);
+            $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
+            $achats = $em->getRepository('AgriBundle:Achat')->getAllForProduit($produit);
         }
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
-        $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
-        $achats = $em->getRepository('AgriBundle:Achat')->getAllForProduit($produit);
 
 
         if ($form->isSubmitted()) {
