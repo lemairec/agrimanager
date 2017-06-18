@@ -20,7 +20,7 @@ security:
             security: false
 
         no_login:
-            pattern: ^/bk8f96gt$
+            pattern: ^/k8f96gtb$
             anonymous: true
 
         main_login:
