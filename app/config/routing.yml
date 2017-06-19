@@ -1,3 +1,8 @@
+ephy:
+    resource: "@EphyBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 agri:
     resource: "@AgriBundle/Controller/"
     type:     annotation

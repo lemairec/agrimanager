@@ -17,6 +17,12 @@
                 <th>{{produit.name}}</th>
 
             </tr>
+            {% for commercialeName in produit.commercialeNames %}
+            <tr>
+                <td></td>
+                <td>{{commercialeName.name}}</td>
+            </tr>
+            {% endfor %}
             <tr>
                 <td>Societe</td>
                 <td>{{produit.society}}</td>

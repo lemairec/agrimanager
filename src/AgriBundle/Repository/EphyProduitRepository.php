@@ -4,6 +4,7 @@ namespace AgriBundle\Repository;
 use AgriBundle\Entity\EphyProduit;
 use AgriBundle\Entity\EphySubstance;
 use AgriBundle\Entity\EphySubstanceProduit;
+use EphyBundle\Entity\EphyCommercialName;
 
 /**
  * EphyProduitRepository
@@ -72,6 +73,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $em->createQuery('DELETE FROM AgriBundle:EphySubstanceProduit')->execute();
         $em->createQuery('DELETE FROM AgriBundle:EphySubstance')->execute();
+        $em->createQuery('DELETE FROM EphyBundle:EphyCommercialName')->execute();
         $em->createQuery('DELETE FROM AgriBundle:EphyProduit')->execute();
     }
 
@@ -93,6 +95,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $xml = simplexml_load_file($file);
         $ppps = $xml->{'intrants'}->{'PPPs'};
+        $ephyCommercialNameRepository = $em->getRepository('EphyBundle:EphyCommercialName');
         foreach ($ppps->children() as $ppp) {
             //print_r($ppp);
             if($ppp->{'etat-produit'} != "AUTORISE"){
@@ -122,7 +125,8 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             if($produitbdd != null){
                 print("error ".$ephyproduit->completeName."\n");
                 continue;
-            }$em->persist($ephyproduit);
+            }
+            $em->persist($ephyproduit);
             $em->flush();
 
             if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
@@ -144,6 +148,18 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                     $em->persist($ephysubstanceproduit);
                 }
             }
+
+            if(isset($ppp->{'autres-noms'})) {
+                foreach ($ppp->{'autres-noms'}->children() as $autreNom) {
+                    $name = $autreNom->{'nom'};
+                    $ephyCommercialName = new EphyCommercialName();
+                    $ephyCommercialName->name = $name;
+                    $ephyCommercialName->ephyproduit = $ephyproduit;
+                    $ephyCommercialName->completeName = $ephyproduit->amm . ' - ' . $name . ' ('. $ephyproduit->unity.')';
+                    $ephyCommercialNameRepository->save($ephyCommercialName);
+                }
+            }
+            $em->flush();
 
         }
 

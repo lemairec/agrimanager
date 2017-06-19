@@ -48,6 +48,11 @@ class EphyProduit
     */
     public $substances;
 
+    /**
+    * @ORM\OneToMany(targetEntity="EphyBundle\Entity\EphyCommercialName", mappedBy="ephyproduit",cascade={"persist"})
+    */
+    public $commercialeNames;
+
 
     public function __toString ( ){
         return $this->completeName;
