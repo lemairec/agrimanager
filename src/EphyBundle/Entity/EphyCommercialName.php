@@ -20,7 +20,7 @@ class EphyCommercialName
     public $completeName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphyProduit", inversedBy="commercialeNames")
+     * @ORM\ManyToOne(targetEntity="EphyBundle\Entity\EphyProduit", inversedBy="commercialeNames")
      * @ORM\JoinColumn(name="ephyproduit", referencedColumnName="complete_name")
      */
     public $ephyproduit;

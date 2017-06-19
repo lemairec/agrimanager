@@ -1,6 +1,6 @@
 <?php
 
-namespace AgriBundle\Entity;
+namespace EphyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EphySubstanceProduit
  *
  * @ORM\Table(name="ephy_substance_produit")
- * @ORM\Entity(repositoryClass="AgriBundle\Repository\EphySubstanceProduitRepository")
+ * @ORM\Entity(repositoryClass="EphyBundle\Repository\EphySubstanceProduitRepository")
  */
 class EphySubstanceProduit
 {
@@ -22,13 +22,13 @@ class EphySubstanceProduit
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphyProduit", inversedBy="substances")
+     * @ORM\ManyToOne(targetEntity="EphyBundle\Entity\EphyProduit", inversedBy="substances")
      * @ORM\JoinColumn(name="ephyproduit", referencedColumnName="complete_name")
      */
     public $ephyproduit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphySubstance")
+     * @ORM\ManyToOne(targetEntity="EphyBundle\Entity\EphySubstance")
      * @ORM\JoinColumn(name="ephy_substance", referencedColumnName="name")
      */
     public $ephysubstance;

@@ -23,7 +23,7 @@ class UpdateBddCommand extends ContainerAwareCommand
 
     protected function updateEphy(){
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $em->getRepository('AgriBundle:EphyProduit')->xml();
+        $em->getRepository('EphyBundle:EphyProduit')->xml();
     }
 
     function addUser($username, $email, $password){

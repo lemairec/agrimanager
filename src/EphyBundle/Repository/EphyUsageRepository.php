@@ -1,6 +1,6 @@
 <?php
 
-namespace AgriBundle\Repository;
+namespace EphyBundle\Repository;
 
 /**
  * EphyUsageRepository

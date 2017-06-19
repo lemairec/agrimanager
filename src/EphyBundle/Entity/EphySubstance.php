@@ -1,6 +1,6 @@
 <?php
 
-namespace AgriBundle\Entity;
+namespace EphyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EphySubstance
  *
  * @ORM\Table(name="ephy_substance")
- * @ORM\Entity(repositoryClass="AgriBundle\Repository\EphySubstanceRepository")
+ * @ORM\Entity(repositoryClass="EphyBundle\Repository\EphySubstanceRepository")
  */
 class EphySubstance
 {

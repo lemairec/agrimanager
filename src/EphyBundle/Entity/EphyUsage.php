@@ -1,6 +1,6 @@
 <?php
 
-namespace AgriBundle\Entity;
+namespace EphyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EphyUsage
  *
  * @ORM\Table(name="ephy_usage")
- * @ORM\Entity(repositoryClass="AgriBundle\Repository\EphyUsageRepository")
+ * @ORM\Entity(repositoryClass="EphyBundle\Repository\EphyUsageRepository")
  */
 class EphyUsage
 {
@@ -40,7 +40,7 @@ class EphyUsage
     public $conditions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphyProduit")
+     * @ORM\ManyToOne(targetEntity="EphyBundle\Entity\EphyProduit")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="complete_name")
      */
     public $ephyProduit;

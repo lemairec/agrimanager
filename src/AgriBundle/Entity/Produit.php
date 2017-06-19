@@ -70,7 +70,7 @@ class Produit
     public $price = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\EphyProduit")
+     * @ORM\ManyToOne(targetEntity="EphyBundle\Entity\EphyProduit")
      * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="complete_name")
      */
     public $ephyProduit;

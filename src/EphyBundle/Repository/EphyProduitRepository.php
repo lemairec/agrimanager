@@ -1,9 +1,9 @@
 <?php
 
-namespace AgriBundle\Repository;
-use AgriBundle\Entity\EphyProduit;
-use AgriBundle\Entity\EphySubstance;
-use AgriBundle\Entity\EphySubstanceProduit;
+namespace EphyBundle\Repository;
+use EphyBundle\Entity\EphyProduit;
+use EphyBundle\Entity\EphySubstance;
+use EphyBundle\Entity\EphySubstanceProduit;
 use EphyBundle\Entity\EphyCommercialName;
 
 /**
@@ -56,7 +56,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function getEphySubstance($id, $name){
         $em = $this->getEntityManager();
-        $ephysubstancerepository = $em->getRepository('AgriBundle:EphySubstance');
+        $ephysubstancerepository = $em->getRepository('EphyBundle:EphySubstance');
         $ephysubstance = $ephysubstancerepository->findOneById($id);
         if($ephysubstance){
             return $ephysubstance;
@@ -71,10 +71,10 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function delete(){
         $em = $this->getEntityManager();
-        $em->createQuery('DELETE FROM AgriBundle:EphySubstanceProduit')->execute();
-        $em->createQuery('DELETE FROM AgriBundle:EphySubstance')->execute();
+        $em->createQuery('DELETE FROM EphyBundle:EphySubstanceProduit')->execute();
+        $em->createQuery('DELETE FROM EphyBundle:EphySubstance')->execute();
         $em->createQuery('DELETE FROM EphyBundle:EphyCommercialName')->execute();
-        $em->createQuery('DELETE FROM AgriBundle:EphyProduit')->execute();
+        $em->createQuery('DELETE FROM EphyBundle:EphyProduit')->execute();
     }
 
     function xml(){
@@ -167,7 +167,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function csv(){
         $em = $this->getEntityManager();
-        $ephyrepository = $em->getRepository('AgriBundle:EphyProduit');
+        $ephyrepository = $em->getRepository('EphyBundle:EphyProduit');
         $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");

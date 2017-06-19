@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MaterielType extends AbstractType
 {
@@ -22,7 +23,8 @@ class MaterielType extends AbstractType
             'html5' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
-        $builder->add('annee')->add('caracteristique')->add('comment');
+        $builder->add('annee')->add('caracteristique')
+        ->add('comment', TextareaType::class);
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 

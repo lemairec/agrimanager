@@ -14,7 +14,7 @@ class EphyController extends Controller
      {
          $em = $this->getDoctrine()->getManager();
 
-         $produits = $em->getRepository('AgriBundle:EphyProduit')
+         $produits = $em->getRepository('EphyBundle:EphyProduit')
              ->createQueryBuilder('p')
              ->add('orderBy','p.name ASC, p.amm ASC')
              ->getQuery()->getResult();
@@ -30,7 +30,7 @@ class EphyController extends Controller
      public function produitEditAction($completeName)
      {
          $em = $this->getDoctrine()->getManager();
-         $produit = $em->getRepository('AgriBundle:EphyProduit')->findOneByCompleteName($completeName);
+         $produit = $em->getRepository('EphyBundle:EphyProduit')->findOneByCompleteName($completeName);
 
          return $this->render('AgriBundle:Default:ephy_produit.html.twig', array(
              'produit' => $produit,
@@ -43,8 +43,8 @@ class EphyController extends Controller
      public function subtanceEditAction($name)
      {
          $em = $this->getDoctrine()->getManager();
-         $ephy_substance = $em->getRepository('AgriBundle:EphySubstance')->findOneByName($name);
-         $ephy_substanceproduits = $em->getRepository('AgriBundle:EphySubstanceProduit')->findByEphySubstance($ephy_substance);
+         $ephy_substance = $em->getRepository('EphyBundle:EphySubstance')->findOneByName($name);
+         $ephy_substanceproduits = $em->getRepository('EphyBundle:EphySubstanceProduit')->findByEphySubstance($ephy_substance);
 
 
          return $this->render('AgriBundle:Default:ephy_substance.html.twig', array(
