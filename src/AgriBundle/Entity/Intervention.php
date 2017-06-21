@@ -66,6 +66,11 @@ class Intervention
     public $produits;
 
     /**
+    * @ORM\OneToMany(targetEntity="AgriBundle\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
+    */
+    public $materiels   ;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="surface", type="float")

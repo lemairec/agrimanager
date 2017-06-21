@@ -10,4 +10,8 @@ namespace AgriBundle\Repository;
  */
 class MaterielRepository extends \Doctrine\ORM\EntityRepository
 {
+    function getAllForCompany($company){
+        return $this->findByCompany($company);
+    }
+
 }

@@ -16,6 +16,7 @@ use AgriBundle\Entity\Ilot;
 use AgriBundle\Entity\Campagne;
 use AgriBundle\Entity\Intervention;
 use AgriBundle\Entity\InterventionParcelle;
+use AgriBundle\Entity\InterventionMateriel;
 use AgriBundle\Entity\MaterielEntretien;
 use AgriBundle\Entity\InterventionProduit;
 use AgriBundle\Repository\IlotRepository;
@@ -32,6 +33,7 @@ use AgriBundle\Form\ProduitType;
 use AgriBundle\Form\IlotType;
 use AgriBundle\Form\AchatType;
 use AgriBundle\Form\InterventionParcelleType;
+use AgriBundle\Form\InterventionMaterielType;
 use AgriBundle\Form\MaterielEntretienType;
 use AgriBundle\Form\InterventionProduitType;
 
@@ -463,6 +465,35 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/intervention/{intervention_id}/materiel/{intervention_materiel_id}", name="intervention_materiel")
+     **/
+    public function interventionMaterielAction($intervention_id, $intervention_materiel_id, Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+        if($intervention_materiel_id == '0'){
+            $intervention_materiel = new InterventionMateriel();
+            $intervention_materiel->intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
+        } else {
+            $intervention_materiel = $em->getRepository('AgriBundle:InterventionMateriel')->findOneById($intervention_materiel);
+        }
+        $materiels =  $em->getRepository('AgriBundle:Materiel')->getAllForCompany($this->company);
+        $form = $this->createForm(InterventionMaterielType::class, $intervention_materiel, array(
+            'materiels' => $materiels
+        ));
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->getRepository('AgriBundle:InterventionMateriel')->save($intervention_materiel);
+            return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
      * @Route("/intervention/{intervention_id}/produit/{intervention_produit_id}/delete", name="intervention_produit_delete")
      **/
     public function interventionProduitDeleteAction($intervention_id, $intervention_produit_id, Request $request)
@@ -702,7 +733,7 @@ class DefaultController extends Controller
         $this->check_user();
         $em = $this->getDoctrine()->getManager();
 
-        $materiels = $em->getRepository('AgriBundle:Materiel')->findByCompany($this->company);
+        $materiels = $em->getRepository('AgriBundle:Materiel')->getAllForCompany($this->company);
 
         return $this->render('AgriBundle:Default:materiels.html.twig', array(
             'materiels' => $materiels,

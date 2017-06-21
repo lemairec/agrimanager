@@ -5,24 +5,22 @@ namespace AgriBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class InterventionProduitType extends AbstractType
+class InterventionMaterielType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('qty');
-        $builder->add('name');
-        #$builder->add('produit', EntityType::class, array(
-        #    'class'        => 'AgriBundle:Produit',
-        #    'choice_label' => 'name',
-        #));
-        $builder->add('save',      SubmitType::class);
+        $builder->add('materiel', EntityType::class, array(
+            'class'        => 'AgriBundle:Materiel',
+            'choice_label' => 'name',
+            'choices' => $options['materiels'],
+        ));
+        $builder->add('save',      SubmitType::class);     ;
     }
 
     /**
@@ -31,7 +29,8 @@ class InterventionProduitType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AgriBundle\Entity\InterventionProduit'
+            'data_class' => 'AgriBundle\Entity\InterventionMateriel',
+            'materiels' => null
         ));
     }
 
@@ -40,7 +39,7 @@ class InterventionProduitType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'agribundle_interventionproduit';
+        return 'agribundle_interventionmateriel';
     }
 
 
