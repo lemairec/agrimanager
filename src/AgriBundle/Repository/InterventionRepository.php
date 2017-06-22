@@ -51,6 +51,10 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
+            ->join('p.parcelles', 'parcelle_it')
+            ->addSelect('parcelle_it')
+            ->join('p.produits', 'produit_it')
+            ->addSelect('produit_it')
             ->setParameter('campagne', $campagne)
             ->orderBy('p.date', 'DESC')
             ->getQuery();
@@ -88,11 +92,11 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
-             ->setParameter('ids', $ids)
-             ->orderBy('p.date', 'DESC')
-             ->getQuery();
+            ->setParameter('ids', $ids)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
 
-             return $query->getResult();
+            return $query->getResult();
     }
 
     function getAllForProduit($produit){
