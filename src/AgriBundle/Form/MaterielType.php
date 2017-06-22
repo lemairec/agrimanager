@@ -24,7 +24,7 @@ class MaterielType extends AbstractType
             'attr' => ['class' => 'js-datepicker'],
         ));
         $builder->add('annee')->add('caracteristique')
-        ->add('comment', TextareaType::class);
+        ->add('comment', TextareaType::class, array('required' => false));
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 
