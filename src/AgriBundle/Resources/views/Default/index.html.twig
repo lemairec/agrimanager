@@ -152,7 +152,7 @@ $( function() {
             o = data.list[i];
             rain = null;
             if(o.rain && o.rain['3h']){
-                rain = o.rain['3h']+"mm";
+                rain = o.rain['3h'].toFixed(1) +" mm";
             }
             var date = new Date(o.dt*1000);
             d = date.getDate();
