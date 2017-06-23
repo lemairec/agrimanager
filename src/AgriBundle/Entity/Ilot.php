@@ -42,6 +42,6 @@ class Ilot
     public $company;
 
     public function __toString ( ){
-        return $this->name;
+        return $this->name." - ".number_format($this->surface,2)." ha";
     }
 }
