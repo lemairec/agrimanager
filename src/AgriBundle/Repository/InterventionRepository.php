@@ -124,4 +124,29 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
              return $query->getResult();
     }
+
+    function getAllForMateriel($materiel){
+        $em = $this->getEntityManager();
+        $sql = 'SELECT intervention_id FROM intervention_materiel where materiel_id = ?';
+
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($sql);
+        $statement->bindValue(1, $materiel->id);
+        $statement->execute();
+        $produits = $statement->fetchAll();
+        $ids = [];
+        foreach($produits as $p){
+            $ids[] = $p["intervention_id"];
+        }
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $this->createQueryBuilder('p')
+            ->where('p.id IN (:ids)')
+             ->setParameter('ids', $ids)
+             ->orderBy('p.date', 'DESC')
+             ->getQuery();
+
+             return $query->getResult();
+    }
 }

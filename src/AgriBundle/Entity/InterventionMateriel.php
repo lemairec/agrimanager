@@ -29,7 +29,7 @@ class InterventionMateriel
 
     /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Materiel")
-     * @ORM\JoinColumn(name="parcelle_id",nullable=false)
+     * @ORM\JoinColumn(name="materiel_id",nullable=false)
      */
     public $materiel;
 }

@@ -52,6 +52,32 @@
         </tr>
         {% endfor %}
     </table>
+
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Interventions
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/{{materiel.id}}/entretien/0'">ADD</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Campagne</th>
+            <th>Intervention</th>
+            <th>ha</th>
+        </tr>
+        {% for intervention in interventions %}
+            <tr>
+                <td>{{intervention.get_date()}}</td>
+                <td>{{intervention.campagne.name}}</td>
+                <td>{{intervention.type}}</td>
+                <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+            </tr>
+        {% endfor %}
+    </table>
+
 </div>
 {% endif %}
 {% endblock %}

@@ -748,12 +748,14 @@ class DefaultController extends Controller
         $this->check_user();
         $em = $this->getDoctrine()->getManager();
         $entretiens = [];
+        $interventions = [];
         if($materiel_id == '0'){
             $materiel = new Materiel();
             $materiel->company = $this->company;
         } else {
             $materiel = $em->getRepository('AgriBundle:Materiel')->findOneById($materiel_id);
             $entretiens =  $em->getRepository('AgriBundle:MaterielEntretien')->findByMateriel($materiel);
+            $interventions =  $em->getRepository('AgriBundle:Intervention')->getAllForMateriel($materiel);
         }
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
@@ -768,6 +770,7 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'materiel' => $materiel,
             'entretiens' => $entretiens,
+            'interventions' => $interventions,
         ));
     }
 
