@@ -47,8 +47,8 @@
         {% for entretien in entretiens %}
         <tr>
             <td><a href="/materiel/{{materiel.id}}/entretien/{{entretien.id}}">{{entretien.getDateStr()}}</td>
-            <td><b>{{entretien.nbHeure}}</b></td>
-            <td><b>{{entretien.name}}</b></td>
+            <td>{{entretien.nbHeure}}</td>
+            <td>{{entretien.name}}</td>
         </tr>
         {% endfor %}
     </table>
