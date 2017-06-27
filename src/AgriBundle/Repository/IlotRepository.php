@@ -28,7 +28,7 @@ class IlotRepository extends \Doctrine\ORM\EntityRepository
     function getAllforCompany($company){
         $query = $this->createQueryBuilder('p')
             ->where('p.company = :company')
-            ->orderBY('p.surface')
+            ->orderBY('p.surface', 'DESC')
             ->setParameter('company', $company)
             ->getQuery();
 
