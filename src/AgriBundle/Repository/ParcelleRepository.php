@@ -41,10 +41,11 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
-            ->join('p.ilot', 'i')
+            ->leftJoin('p.ilot', 'i')
             ->setParameter('campagne', $campagne)
             ->addorderBy('p.active', 'DESC')
             ->addorderBy('i.surface', 'DESC')
+            ->addorderBy('p.surface', 'DESC')
             ->getQuery();
 
         return $query->getResult();
