@@ -32,6 +32,10 @@ class EphyCommercialName
      */
     public $name;
 
+    public function getAmm(){
+        return $this->ephyproduit->amm;
+    }
+
 
 
 }

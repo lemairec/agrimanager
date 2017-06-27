@@ -34,8 +34,8 @@ class EphySubstanceProduit
     public $ephysubstance;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
+     * @var float
+     * @ORM\Column(type="float")
      */
     public $quantity;
 

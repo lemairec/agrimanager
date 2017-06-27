@@ -77,7 +77,7 @@ class UpdateBddCommand extends ContainerAwareCommand
         //$this->addUser('lejard', 'lemairec02@gmail.com', '');
         //$this->addUser('steph', 'steph@toto.fr', '');
         //$this->addUser('ceta', 'ceta@toto.fr', '');
-        //$this->updateEphy();
+        $this->updateEphy();
         //$this->updateCajCsv();
 
         $output->writeln('Command result.');

@@ -38,6 +38,18 @@ class EphyProduit
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    public $typeCommercial;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    public $gammeUsage;
+
+    /**
+     * @var string
      * @ORM\Id
      * @ORM\Column(name="complete_name", type="string", length=255)
      */
