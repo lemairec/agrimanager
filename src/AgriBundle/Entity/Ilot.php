@@ -22,6 +22,12 @@ class Ilot
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $company;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="surface", type="float")
@@ -36,10 +42,12 @@ class Ilot
     public $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=255, nullable=true)
      */
-    public $company;
+    public $comment;
+
 
     public function __toString ( ){
         return $this->name." - ".number_format($this->surface,2)." ha";
