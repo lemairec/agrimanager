@@ -40,6 +40,7 @@
                             <th>Vent</th>
                             <th></th>
                             <th></th>
+                            <th>Atm</th>
                             </tr>
                         </thead>
 
@@ -79,6 +80,7 @@ $( function() {
                     return data + ' km/h';
                 }
             },
+            {},
             {}
         ],
         'rowCallback': function(row, data, index){
@@ -150,6 +152,7 @@ $( function() {
         oldd = 0;
         for(i in data.list){
             o = data.list[i];
+            console.log(o);
             rain = null;
             if(o.rain && o.rain['3h']){
                 rain = o.rain['3h'].toFixed(1) +" mm";
@@ -179,7 +182,7 @@ $( function() {
             } else {
                 oldd = d;
             }
-            row = t.row.add([d, h, o.main.temp, rain, o.main.humidity+" %", Math.round(o.wind.deg), Math.round(o.wind.speed*3.6), o.weather[0].description]).draw( false );
+            row = t.row.add([d, h, o.main.temp, rain, o.main.humidity+" %", Math.round(o.wind.deg), Math.round(o.wind.speed*3.6), o.weather[0].description, Math.round(o.main.pressure)]).draw( false );
         }
         $('#meteo_title').text("Météo " + data.city.name);
     });
