@@ -63,6 +63,13 @@ class Parcelle
     public $culture;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $rendement = 0;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="comment", type="string", length=2048, nullable=true)
