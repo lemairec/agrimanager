@@ -16,7 +16,7 @@ class DefaultController extends Controller
 
         $produits = $em->getRepository('EphyBundle:EphyProduit')->getAllWithCommercialesNames();
 
-        return $this->render('AgriBundle:Default:ephy_produits.html.twig', array(
+        return $this->render('EphyBundle:Default:ephy_produits.html.twig', array(
             'produits' => $produits,
         ));
     }
@@ -29,7 +29,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $produit = $em->getRepository('EphyBundle:EphyProduit')->getByCompleteName($completeName);
 
-        return $this->render('AgriBundle:Default:ephy_produit.html.twig', array(
+        return $this->render('EphyBundle:Default:ephy_produit.html.twig', array(
             'produit' => $produit,
         ));
     }
@@ -44,7 +44,7 @@ class DefaultController extends Controller
         $ephy_substanceproduits = $em->getRepository('EphyBundle:EphySubstanceProduit')->findByEphySubstance($ephy_substance);
 
 
-        return $this->render('AgriBundle:Default:ephy_substance.html.twig', array(
+        return $this->render('EphyBundle:Default:ephy_substance.html.twig', array(
             'ephy_substance' => $ephy_substance,
             'ephy_substanceproduits' => $ephy_substanceproduits
         ));
