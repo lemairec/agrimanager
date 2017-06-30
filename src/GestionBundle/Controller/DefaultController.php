@@ -7,6 +7,13 @@ use AgriBundle\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 
 use DateTime;
+use GestionBundle\Entity\Compte;
+use GestionBundle\Form\CompteType;
+
+//COMPTE
+//ECRITURE
+//OPERATION
+
 
 class DefaultController extends CommonController
 {
@@ -44,6 +51,52 @@ class DefaultController extends CommonController
         return $this->render('GestionBundle:Default:cours_new.html.twig', array(
             'date' => $date->format("d-m-Y"),
             'courss' => $courss,
+        ));
+    }
+
+    /**
+     * @Route("/comptes", name="comptes")
+     */
+    public function comptesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $comptes = $em->getRepository('GestionBundle:Compte')->getAllForCampagne($campagne);
+
+        return $this->render('GestionBundle:Default:comptes.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'comptes' => $comptes,
+        ));
+    }
+
+    /**
+     * @Route("/compte/{compte_id}", name="compte")
+     **/
+    public function ilotEditAction($compte_id, Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+        if($compte_id == '0'){
+            $compte = new Compte();
+            $compte->company = $this->company;
+        } else {
+            $compte = $em->getRepository('GestionBundle:Compte')->findOneById($compte_id);
+        }
+        $form = $this->createForm(CompteType::class, $compte);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($compte);
+            $em->flush();
+            return $this->redirectToRoute('comptes');
+        }
+        return $this->render('GestionBundle:Default:compte.html.twig', array(
+            'form' => $form->createView(),
+            'compte' => $compte,
+            'parcelles' => []
         ));
     }
 }
