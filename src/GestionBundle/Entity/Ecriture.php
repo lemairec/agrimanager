@@ -24,18 +24,18 @@ class Ecriture
     /**
      * @var float
      *
-     * @ORM\Column(name="price", type="float")
+     * @ORM\Column(name="value", type="float")
      */
-    public $price;
+    public $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Compte")
+     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Compte", inversedBy="ecritures")
      * @ORM\JoinColumn(nullable=false)
      */
     public $compte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Operation")
+     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Operation", inversedBy="ecritures")
      * @ORM\JoinColumn(nullable=false)
      */
     public $operation;

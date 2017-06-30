@@ -34,4 +34,23 @@ class Operation
      * @ORM\Column(name="date", type="date")
      */
     public $date;
+
+    /**
+    * @ORM\OneToMany(targetEntity="GestionBundle\Entity\Ecriture", mappedBy="operation",cascade={"persist"})
+    */
+    public $ecritures;
+
+    public function getSumEcriture($compte_name){
+        $res = 0;
+        foreach($this->ecritures as $e){
+            if($e->compte->name == $compte_name){
+                $res += $e->value;
+            }
+        }
+        return $res;
+    }
+
+    function getDateStr(){
+        return $this->date->format(' d/m/y');
+    }
 }

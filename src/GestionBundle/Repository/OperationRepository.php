@@ -10,4 +10,28 @@ namespace GestionBundle\Repository;
  */
 class OperationRepository extends \Doctrine\ORM\EntityRepository
 {
+    function getAllForCompte($compte){
+        $em = $this->getEntityManager();
+        $sql = 'SELECT operation_id FROM ecriture where compte_id = ?';
+
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($sql);
+        $statement->bindValue(1, $compte->id);
+        $statement->execute();
+        $res = $statement->fetchAll();
+        $ids = [];
+        foreach($res as $p){
+            $ids[] = $p["operation_id"];
+        }
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $this->createQueryBuilder('p')
+            ->where('p.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
 }

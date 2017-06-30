@@ -47,5 +47,20 @@ class Compte
      */
     public $type;
 
+    /**
+    * @ORM\OneToMany(targetEntity="GestionBundle\Entity\Ecriture", mappedBy="compte",cascade={"persist"})
+    */
+    public $ecritures;
 
+    public function getPrice ( ){
+        $res = 0;
+        foreach($this->ecritures as $e){
+            $res += $e->value;
+        }
+        return $res;
+    }
+
+    public function __toString ( ){
+        return $this->name;
+    }
 }
