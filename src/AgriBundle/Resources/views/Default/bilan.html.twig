@@ -1,4 +1,5 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 <div class="container bs-docs-container">
@@ -16,7 +17,7 @@
                     </tr>
                     <tr>
                         <td>Surface</td>
-                        <td>{{ parcelle.surface }} ha</td>
+                        <td>{{base_agri.show_ha( parcelle.surface )}}</td>
                     </tr>
                     <tr>
                         <td>Culture</td>
@@ -44,24 +45,24 @@
                         <th>Date</th>
                         <th>Name</th>
                         <th></th>
-                        <th>{{ "%.2f  €/ha"|format(parcelle.priceHa)}}</th>
+                        <th class="text-right">{{ base_agri.show_eur_ha(parcelle.priceHa)}}</th>
                         <th></th>
                     </tr>
                     {% for intervention in parcelle.interventions %}
                         <tr>
                             <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
                             <td><b>{{intervention.type}}</b></td>
-                            <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
-                            <td></td>
-                            <td><b>{{ "%.2f  €/ha"|format(intervention.getPriceHa())}}</b></td>
+                            <td class="text-right"><b>{{base_agri.show_ha(intervention.surface)}}</b></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"><b>{{ base_agri.show_eur_ha(intervention.getPriceHa())}}</b></td>
                         </tr>
                         {% for it in intervention.produits %}
                             <tr>
                                 <td></td>
                                 <td>{{it.name}}</td>
-                                <td>{{ "%.2f  u"|format(it.qty)}}</td>
-                                <td>{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
-                                <td>{{ "%.2f  €/ha"|format(it.getPriceHa())}}</td>
+                                <td class="text-right">{{ base_agri.show_unity(it.qty, it.produit.unity)}}</td>
+                                <td class="text-right">{{ base_agri.show_unity_ha(it.qtyha, it.produit.unity)}}</td>
+                                <td class="text-right">{{ base_agri.show_eur_ha(it.getPriceHa())}}</td>
                             </tr>
                         {% endfor %}
                     {% endfor %}

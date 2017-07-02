@@ -1,4 +1,5 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
@@ -13,17 +14,17 @@
         <table class="table">
             <tr>
                 <th>Name</th>
-                <th>Surface</th>
+                <th class="text-right">Surface</th>
             </tr>
             {% for ilot in ilots %}
                 <tr>
                     <td><a href="/ilot/{{ilot.id}}">{{ilot.name}}</a></td>
-                    <td>{{ "%.2f  ha"|format(ilot.surface)}}</td>
+                    <td class="text-right">{{ base_agri.show_ha(ilot.surface) }}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <th>TOTAL</th>
-                <th>{{ "%.2f  ha"|format(sum_ilots)}}</th>
+                <th class="text-right">{{ base_agri.show_ha(sum_ilots)}}</th>
             </tr>
         </table>
     </div>

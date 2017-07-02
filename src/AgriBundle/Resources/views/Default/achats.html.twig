@@ -1,4 +1,5 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
+{% from "AgriBundle::base_agri.html.twig" import show_eur, show_eur_unity %}
 
 {% block body %}
 
@@ -15,16 +16,16 @@
                 <th>Date</th>
                 <th>Name</th>
                 <th>Qty</th>
-                <th>Price</th>
-                <th>Price Total</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Price Total</th>
             </tr>
             {% for achat in achats %}
             <tr>
                 <td><a href="/achat/{{achat.id}}">{{achat.getDateStr()}}</td>
                 <td><a href="/produit/{{achat.produit.id}}">{{achat.produit.completeName}}</a></td>
                 <td>{{achat.qty}}</td>
-                <td>{{ "%.2f €"|format(achat.price) }}</td>
-                <td>{{ "%.2f €"|format(achat.price_total) }}</td>
+                <td  class="text-right">{{ show_eur_unity(achat.price, achat.produit.unity) }}</td>
+                <td  class="text-right">{{ show_eur(achat.price_total) }}</td>
             </tr>
             {% endfor %}
         </table>

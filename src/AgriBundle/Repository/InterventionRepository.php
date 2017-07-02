@@ -55,6 +55,8 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect('parcelle_it')
             ->join('p.produits', 'produit_it')
             ->addSelect('produit_it')
+            ->join('produit_it.produit', 'produit2')
+            ->addSelect('produit2')
             ->setParameter('campagne', $campagne)
             ->orderBy('p.date', 'DESC')
             ->getQuery();

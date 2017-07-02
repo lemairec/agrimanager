@@ -4,6 +4,12 @@
     {% endspaceless -%}
 {% endmacro %}
 
+{% macro show_eur_unity(value, unity) %}
+    {%- spaceless %}
+    {{ value | number_format(2, ',', ' ') }} €/{{ unity }}
+    {% endspaceless -%}
+{% endmacro %}
+
 {% macro show_ha(value) %}
     {%- spaceless %}
     {{ value | number_format(2, ',', ' ') }} ha
@@ -19,6 +25,12 @@
 {% macro show_unity_ha(value, unity) %}
     {%- spaceless %}
     {{ value | number_format(2, ',', ' ') }} {{ unity }}/ha
+    {% endspaceless -%}
+{% endmacro %}
+
+{% macro show_eur_ha(value, unity) %}
+    {%- spaceless %}
+    {{ value | number_format(2, ',', ' ') }} €/ha
     {% endspaceless -%}
 {% endmacro %}
 

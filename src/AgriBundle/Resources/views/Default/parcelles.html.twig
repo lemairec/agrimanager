@@ -1,7 +1,8 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
+
 
 {% block body %}
-
 
 <div class="container bs-docs-container">
     <div class="panel panel-default", style="width:100%">
@@ -18,7 +19,7 @@
                 <th>Name</th>
                 <th>Ilot</th>
                 <th>Culture</th>
-                <th>Surface</th>
+                <th class="text-right">Surface</th>
             </tr>
             {% for parcelle in parcelles %}
             <tr>
@@ -27,7 +28,7 @@
                 <td>{{parcelle.name}}</td>
                 <td>{{parcelle.getIlotName()}}</td>
                 <td>{{parcelle.culture}}</td>
-                <td>{{ "%.2f  ha"|format(parcelle.surface)}}</td>
+                <td class="text-right">{{ base_agri.show_ha(parcelle.surface)}}</td>
             </tr>
             {% endfor %}
         </table>
@@ -36,17 +37,17 @@
         <table class="table">
             <tr>
                 <th>Culture</th>
-                <th>Surface</th>
+                <th class="text-right">Surface</th>
             </tr>
             {% for key, culture in cultures %}
                 <tr>
                     <td>{{key}}</td>
-                    <td>{{ "%.2f  ha"|format(culture)}}</td>
+                    <td class="text-right">{{ base_agri.show_ha(culture)}}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <th>TOTAL</th>
-                <th>{{ "%.2f  ha"|format(total)}}</th>
+                <th class="text-right">{{ base_agri.show_ha(total)}}</th>
             </tr>
         </table>
     </div>

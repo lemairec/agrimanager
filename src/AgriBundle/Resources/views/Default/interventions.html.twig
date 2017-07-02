@@ -1,5 +1,5 @@
-
 {% extends 'AgriBundle::base_agri.html.twig' %}
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
@@ -21,7 +21,7 @@
                 <tr>
                     <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
                     <td><b>{{intervention.type}}</b></td>
-                    <td class="text-right"><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+                    <td class="text-right"><b>{{ base_agri.show_ha(intervention.surface)}}</b></td>
                     <td class="text-right"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
                 </tr>
                 {% if intervention.comment %}
@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{it.parcelle.culture}}</td>
                     <td>{{it.parcelle.completeName}}</td>
-                    <td class="text-right">{{ "%.2f  ha"|format(it.parcelle.surface)}}</td>
+                    <td class="text-right">{{ base_agri.show_ha(it.parcelle.surface)}}</td>
                     <td></td>
                 </tr>
                 {% endfor %}
@@ -42,8 +42,8 @@
                 <tr>
                     <td></td>
                     <td>{{it.name}}</td>
-                    <td class="text-right">{{ "%.2f  u"|format(it.qty)}}</td>
-                    <td class="text-right">{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
+                    <td class="text-right">{{ base_agri.show_unity(it.qty, it.produit.unity)}}</td>
+                    <td class="text-right">{{base_agri.show_unity_ha(it.qtyha, it.produit.unity)}}</td>
                 </tr>
                 {% endfor %}
             {% endfor %}
