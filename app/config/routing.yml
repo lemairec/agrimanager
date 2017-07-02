@@ -1,3 +1,8 @@
+gestion:
+    resource: "@GestionBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ephy:
     resource: "@EphyBundle/Controller/"
     type:     annotation
