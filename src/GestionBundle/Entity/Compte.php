@@ -64,7 +64,7 @@ class Compte
         foreach($this->ecritures as $e){
             $res += $e->value;
         }
-        return $res;
+        return -$res;
     }
 
     public function __toString ( ){
