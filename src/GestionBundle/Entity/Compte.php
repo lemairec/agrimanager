@@ -48,6 +48,13 @@ class Compte
     public $type;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="previsionnel", type="float")
+     */
+    public $previsionnel = 0;
+
+    /**
     * @ORM\OneToMany(targetEntity="GestionBundle\Entity\Ecriture", mappedBy="compte",cascade={"persist"})
     */
     public $ecritures;
