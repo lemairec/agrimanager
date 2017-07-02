@@ -18,7 +18,7 @@ class MaterielEntretienType extends AbstractType
         $builder
             ->add('date', DateType::class, array(
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
+                'format' => 'dd/MM/yyyy',
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker'],
             ));
