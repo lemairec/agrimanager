@@ -1,3 +1,27 @@
+{% macro show_eur(value) %}
+    {%- spaceless %}
+    {{ value | number_format(2, ',', ' ') }} €
+    {% endspaceless -%}
+{% endmacro %}
+
+{% macro show_ha(value) %}
+    {%- spaceless %}
+    {{ value | number_format(2, ',', ' ') }} ha
+    {% endspaceless -%}
+{% endmacro %}
+
+{% macro show_unity(value, unity) %}
+    {%- spaceless %}
+    {{ value | number_format(2, ',', ' ') }} {{ unity }}
+    {% endspaceless -%}
+{% endmacro %}
+
+{% macro show_unity_ha(value, unity) %}
+    {%- spaceless %}
+    {{ value | number_format(2, ',', ' ') }} {{ unity }}/ha
+    {% endspaceless -%}
+{% endmacro %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,7 +48,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="/" class="navbar-brand">AgriManager</a>
+                    <a href="/" class="navbar-brand">MaPlaine</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
