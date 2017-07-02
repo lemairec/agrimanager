@@ -175,7 +175,7 @@ class DefaultController extends CommonController
         if ($form->isSubmitted()) {
             $em->persist($ecriture);
             $em->flush();
-            return $this->redirectToRoute('operations');
+            return $this->redirectToRoute('operation', array('operation_id' => $operation_id));
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
             'form' => $form->createView(),

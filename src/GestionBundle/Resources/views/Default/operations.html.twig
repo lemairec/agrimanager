@@ -26,7 +26,7 @@
                 {% for ecriture in operation.ecritures %}
                     <tr>
                         <td></td>
-                        <td>{{ecriture.compte.name}}</td>
+                        <td>{{ecriture.compte.name}}</a></td>
                         <td>{{ base.show_eur(ecriture.value) }}</td>
                     </tr>
                 {% endfor %}

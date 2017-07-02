@@ -50,6 +50,26 @@ class Operation
         return $res;
     }
 
+    public function getTotalD(){
+        $res = 0;
+        foreach($this->ecritures as $e){
+            if($e->value > 0){
+                $res += $e->value;
+            }
+        }
+        return $res;
+    }
+
+    public function getTotalC(){
+        $res = 0;
+        foreach($this->ecritures as $e){
+            if($e->value < 0){
+                $res += $e->value;
+            }
+        }
+        return $res;
+    }
+
     function getDateStr(){
         return $this->date->format(' d/m/y');
     }

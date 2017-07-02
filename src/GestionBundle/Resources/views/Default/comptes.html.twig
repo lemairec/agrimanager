@@ -14,16 +14,16 @@
         <table class="table">
             <tr>
                 <th>Name</th>
-                <th>Previsionnel</th>
                 <th>Type</th>
-                <th>Montant</th>
+                <th class="text-right">Previsionnel</th>
+                <th class="text-right">Montant</th>
             </tr>
             {% for compte in comptes %}
                 <tr>
                     <td><a href="/compte/{{compte.id}}">{{compte.name}}</a></td>
                     <td>{{ compte.type }}</td>
-                    <td>{{base_agri.show_eur(compte.previsionnel)}}</td>
-                    <td>{{base_agri.show_eur(compte.getPrice())}}</td>
+                    <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
+                    <td class="text-right">{{base_agri.show_eur(compte.getPrice())}}</td>
                 </tr>
             {% endfor %}
         </table>

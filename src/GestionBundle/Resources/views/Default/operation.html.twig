@@ -42,7 +42,7 @@
         </tr>
         {% for ecriture in operation.ecritures %}
             <tr>
-                <td>{{ecriture.compte.name}}</a></td>
+                <td><a href="/operation/{{operation.id}}/ecriture/{{ecriture.id}}">{{ecriture.compte.name}}</a></td>
                 {% if(ecriture.value > 0) %}
                 <td>{{ base.show_eur( ecriture.value) }} </a></td>
                 <td></td>
@@ -52,7 +52,13 @@
                 {% endif %}
 
             </tr>
+
         {% endfor %}
+        <tr>
+            <th>Total</th>
+            <th>{{ base.show_eur( operation.getTotalD()) }}</th>
+            <th>{{ base.show_eur( operation.getTotalC()) }}</th>
+        </tr>
     </table>
 
 </div>
