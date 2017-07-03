@@ -38,14 +38,16 @@
     <table class="table">
         <tr>
             <th>Date</th>
-            <th>Nb Heure</th>
-            <th>Type</th>
+            <th>Nom</th>
+            <th>Value</th>
+            <th>Sum Value</th>
         </tr>
-        {% for operation in operations %}
+        {% for ecriture in ecritures %}
             <tr>
-                <td><a href="/operation/{{operation.id}}">{{operation.getDateStr()}}</a></td>
-                <td>{{operation.name}}</a></td>
-                <td>{{operation.getSumEcriture(compte.name)}}</td>
+                <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
+                <td>{{ecriture['name']}}</a></td>
+                <td>{{ecriture['value']}}</td>
+                <td>{{ecriture['sum_value']}}</td>
             </tr>
         {% endfor %}
     </table>

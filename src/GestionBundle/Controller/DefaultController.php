@@ -89,6 +89,17 @@ class DefaultController extends CommonController
         } else {
             $compte = $em->getRepository('GestionBundle:Compte')->findOneById($compte_id);
             $operations = $em->getRepository('GestionBundle:Operation')->getAllForCompte($compte);
+            $ecritures = [];
+            $value = 0;
+            $l = count($operations);
+            for($i = 0; $i < $l; ++$i){
+                $operation = $operations[$l-$i-1];
+                $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
+                $value += $ecriture['value'];
+                $ecriture['sum_value'] = $value;
+                $ecritures[] = $ecriture;
+            }
+            print(json_encode($ecritures));
         }
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
@@ -102,7 +113,7 @@ class DefaultController extends CommonController
         return $this->render('GestionBundle:Default:compte.html.twig', array(
             'form' => $form->createView(),
             'compte' => $compte,
-            'operations' => $operations
+            'ecritures' => $ecritures
         ));
     }
 
