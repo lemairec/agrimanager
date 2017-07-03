@@ -662,7 +662,7 @@ class DefaultController extends CommonController
                 }
             }
         }
-        return $this->render('AgriBundle:Default:bilan_financier.html.twig', array(
+        return $this->render('AgriBundle:Default:bilan.html.twig', array(
             'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -680,14 +680,8 @@ class DefaultController extends CommonController
 
         $cultures = [];
 
-        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
-        $parcelles = $em->getRepository('AgriBundle:Parcelle')
-        ->createQueryBuilder('p')
-        ->where('p.campagne = :campagne')
-        ->add('orderBy','p.culture DESC, p.ilot ASC')
-        ->setParameters(array('campagne'=>$campagne))
-        ->getQuery()->getResult();
-
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagneWithoutActive($campagne);
+        
         foreach ($parcelles as $p) {
             if (!array_key_exists($p->culture, $cultures)) {
                 $cultures[$p->culture] = ['culture'=>$p->culture,'surface'=>0, 'priceHa'=>0, 'rendement'=>0];

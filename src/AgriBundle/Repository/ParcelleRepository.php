@@ -51,5 +51,17 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    function getAllForCampagneWithoutActive($campagne){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->andWhere('p.active = true')
+            ->leftJoin('p.ilot', 'i')
+            ->setParameter('campagne', $campagne)
+            ->addorderBy('i.surface', 'DESC')
+            ->addorderBy('p.surface', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 
 }
