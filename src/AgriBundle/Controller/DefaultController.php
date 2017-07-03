@@ -619,9 +619,9 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/bilan", name="bilan")
+     * @Route("/bilan_detail", name="bilan_detail")
      */
-    public function bilanAction(Request $request)
+    public function bilanDetailAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
@@ -662,7 +662,7 @@ class DefaultController extends CommonController
                 }
             }
         }
-        return $this->render('AgriBundle:Default:bilan.html.twig', array(
+        return $this->render('AgriBundle:Default:bilan_detail.html.twig', array(
             'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -671,9 +671,9 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/bilan2", name="bilan2")
+     * @Route("/bilan", name="bilan")
      */
-    public function bilan2Action(Request $request)
+    public function bilanAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
@@ -681,7 +681,7 @@ class DefaultController extends CommonController
         $cultures = [];
 
         $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagneWithoutActive($campagne);
-        
+
         foreach ($parcelles as $p) {
             if (!array_key_exists($p->culture, $cultures)) {
                 $cultures[$p->culture] = ['culture'=>$p->culture,'surface'=>0, 'priceHa'=>0, 'rendement'=>0];
@@ -714,7 +714,7 @@ class DefaultController extends CommonController
             $cultures[$p->culture]['rendement'] += $p->surface*$p->rendement;
 
         }
-        return $this->render('AgriBundle:Default:bilan_financier.html.twig', array(
+        return $this->render('AgriBundle:Default:bilan.html.twig', array(
             'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,

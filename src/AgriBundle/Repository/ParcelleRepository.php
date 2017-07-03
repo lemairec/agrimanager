@@ -57,8 +57,7 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('p.active = true')
             ->leftJoin('p.ilot', 'i')
             ->setParameter('campagne', $campagne)
-            ->addorderBy('i.surface', 'DESC')
-            ->addorderBy('p.surface', 'DESC')
+            ->add('orderBy','p.culture DESC, p.ilot ASC')
             ->getQuery();
 
         return $query->getResult();
