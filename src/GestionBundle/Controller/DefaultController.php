@@ -114,7 +114,7 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $operations = $em->getRepository('GestionBundle:Operation')->findAll();
+        $operations = $em->getRepository('GestionBundle:Operation')->getAll();
 
         return $this->render('GestionBundle:Default:operations.html.twig', array(
             'campagnes' => $this->campagnes,

@@ -663,7 +663,7 @@ class DefaultController extends CommonController
             }
         }
         return $this->render('AgriBundle:Default:bilan_detail.html.twig', array(
-            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,
@@ -715,7 +715,7 @@ class DefaultController extends CommonController
 
         }
         return $this->render('AgriBundle:Default:bilan.html.twig', array(
-            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,
