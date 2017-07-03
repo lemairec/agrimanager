@@ -20,6 +20,7 @@ class ParcelleType extends AbstractType
             'class'        => 'AgriBundle:Ilot',
             'choices' => $options['ilots'],
         ));
+        $builder->add('rendement');
         $builder->add('active')->add('comment');
 
 

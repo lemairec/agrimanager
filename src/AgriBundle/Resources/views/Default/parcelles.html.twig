@@ -20,6 +20,7 @@
                 <th>Ilot</th>
                 <th>Culture</th>
                 <th class="text-right">Surface</th>
+                <th class="text-right">Rendement</th>
             </tr>
             {% for parcelle in parcelles %}
             <tr>
@@ -29,6 +30,7 @@
                 <td>{{parcelle.getIlotName()}}</td>
                 <td>{{parcelle.culture}}</td>
                 <td class="text-right">{{ base_agri.show_ha(parcelle.surface)}}</td>
+                <td class="text-right">{{ base_agri.show_unity(parcelle.rendement, 't')}}</td>
             </tr>
             {% endfor %}
         </table>

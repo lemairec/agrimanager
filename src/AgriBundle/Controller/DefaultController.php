@@ -662,7 +662,65 @@ class DefaultController extends CommonController
                 }
             }
         }
-        return $this->render('AgriBundle:Default:bilan.html.twig', array(
+        return $this->render('AgriBundle:Default:bilan_financier.html.twig', array(
+            'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
+            'campagne_id' => $campagne->id,
+            'parcelles' => $parcelles,
+            'cultures' => $cultures,
+        ));
+    }
+
+    /**
+     * @Route("/bilan2", name="bilan2")
+     */
+    public function bilan2Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')
+        ->createQueryBuilder('p')
+        ->where('p.campagne = :campagne')
+        ->add('orderBy','p.culture DESC, p.ilot ASC')
+        ->setParameters(array('campagne'=>$campagne))
+        ->getQuery()->getResult();
+
+        foreach ($parcelles as $p) {
+            if (!array_key_exists($p->culture, $cultures)) {
+                $cultures[$p->culture] = ['culture'=>$p->culture,'surface'=>0, 'priceHa'=>0, 'rendement'=>0];
+            }
+
+
+            $p->interventions = [];
+            if($p->id != '0'){
+                $p->interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($p);
+            }
+            $p->n = 0;
+            $p->p = 0;
+            $p->k = 0;
+            $p->mg = 0;
+            $p->s = 0;
+            $p->priceHa = 0;
+            foreach($p->interventions as $it){
+                $p->priceHa += $it->getPriceHa();
+                foreach($it->produits as $produit){
+                    $p->n += $produit->getQtyHa() * $produit->produit->n;
+                    $p->p += $produit->getQtyHa() * $produit->produit->p;
+                    $p->k += $produit->getQtyHa() * $produit->produit->k;
+                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                }
+            }
+
+            $cultures[$p->culture]['surface'] += $p->surface;
+            $cultures[$p->culture]['priceHa'] += $p->surface*$p->priceHa;
+            $cultures[$p->culture]['rendement'] += $p->surface*$p->rendement;
+
+        }
+        return $this->render('AgriBundle:Default:bilan_financier.html.twig', array(
             'campagnes' => $em->getRepository('AgriBundle:Campagne')->findAll(),
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,

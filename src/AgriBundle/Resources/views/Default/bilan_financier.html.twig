@@ -1,0 +1,62 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
+
+{% block body %}
+<div class="container bs-docs-container">
+
+    <div class="well">
+
+
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <table class="table">
+                <tr>
+                    <th>Parcelle</th>
+                    <th>Culture</th>
+                    <th class="text-right">Surface</th>
+                    <th class="text-right">Prix</th>
+                    <th class="text-right">Rendement</th>
+                </tr>
+                {% for parcelle in parcelles %}
+                <tr>
+                    <td>{{parcelle.name}}</td>
+                    <td>{{parcelle.culture}}</td>
+                    <td class="text-right">{{base_agri.show_ha(parcelle.surface)}}</td>
+                    <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
+
+                    <td class="text-right">{{base_agri.show_unity(parcelle.rendement, 't/ha')}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="well">
+
+
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <table class="table">
+                <tr>
+                    <th>Parcelle</th>
+                    <th>Culture</th>
+                    <th class="text-right">Surface</th>
+                    <th class="text-right">Prix</th>
+                    <th class="text-right">Rendement</th>
+                </tr>
+                {% for culture in cultures %}
+                <tr>
+                    <td></td>
+                    <td>{{culture['culture']}}</td>
+                    <td class="text-right">{{base_agri.show_ha(culture['surface'])}}</td>
+                    <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
+                    <td class="text-right">{{base_agri.show_unity(culture['rendement']/culture['surface'], 't/ha')}}</td>
+
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
