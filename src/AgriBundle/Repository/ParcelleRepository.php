@@ -63,4 +63,11 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+
+    function delete($parcelle_id){
+        $em = $this->getEntityManager();
+        $parcelle = $this->findOneById($parcelle_id);
+        $em->remove($parcelle);
+        $em->flush();
+    }
 }

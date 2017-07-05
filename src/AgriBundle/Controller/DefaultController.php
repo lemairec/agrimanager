@@ -286,6 +286,16 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/parcelle/{parcelle_id}/delete", name="parcelle_delete")
+     **/
+    public function parcelleDeleteAction($parcelle_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('AgriBundle:Parcelle')->delete($parcelle_id);
+        return $this->redirectToRoute('parcelles');
+    }
+
+    /**
      * @Route("/interventions", name="interventions")
      */
     public function interventions(Request $request)

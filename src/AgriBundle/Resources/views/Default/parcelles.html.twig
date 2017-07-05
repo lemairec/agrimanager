@@ -21,6 +21,7 @@
                 <th>Culture</th>
                 <th class="text-right">Surface</th>
                 <th class="text-right">Rendement</th>
+                <th></th>
             </tr>
             {% for parcelle in parcelles %}
             <tr>
@@ -31,6 +32,7 @@
                 <td>{{parcelle.culture}}</td>
                 <td class="text-right">{{ base_agri.show_ha(parcelle.surface)}}</td>
                 <td class="text-right">{{ base_agri.show_unity(parcelle.rendement, 't')}}</td>
+                <td><a href="/parcelle/{{parcelle.id}}/delete">d</td>
             </tr>
             {% endfor %}
         </table>
