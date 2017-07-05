@@ -34,6 +34,13 @@
     {% endspaceless -%}
 {% endmacro %}
 
+{% macro show_percent(value, unity) %}
+    {%- spaceless %}
+    {{ (value*100) |round(2, 'common')| number_format(2, ',', ' ') }} %
+    {% endspaceless -%}
+{% endmacro %}
+
+
 <!DOCTYPE html>
 <html>
     <head>
