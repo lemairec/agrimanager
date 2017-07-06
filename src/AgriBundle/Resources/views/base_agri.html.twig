@@ -12,13 +12,19 @@
 
 {% macro show_ha(value) %}
     {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }} ha
+    {{ value | number_format(2, ',', ' ') }}
+    {% if app.user.show_unity %}
+     ha
+    {% endif %}
     {% endspaceless -%}
 {% endmacro %}
 
 {% macro show_unity(value, unity) %}
     {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }} {{ unity }}
+    {{ value | number_format(2, ',', ' ') }}
+    {% if app.user.show_unity %}
+      {{ unity }}
+    {% endif %}
     {% endspaceless -%}
 {% endmacro %}
 
@@ -28,15 +34,21 @@
     {% endspaceless -%}
 {% endmacro %}
 
-{% macro show_eur_ha(value, unity) %}
+{% macro show_eur_ha(value) %}
     {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }} €/ha
+    {{ value | number_format(2, ',', ' ') }}
+    {% if app.user.show_unity %}
+     €/ha
+    {% endif %}
     {% endspaceless -%}
 {% endmacro %}
 
-{% macro show_percent(value, unity) %}
+{% macro show_percent(value) %}
     {%- spaceless %}
-    {{ (value*100) |round(2, 'common')| number_format(2, ',', ' ') }} %
+    {{ (value*100) |round(2, 'common')| number_format(2, ',', ' ') }}
+    {% if app.user.show_unity %}
+     %
+    {% endif %}
     {% endspaceless -%}
 {% endmacro %}
 
@@ -102,8 +114,11 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gestion <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/cours">Cours</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="/comptes">Comptes</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="/operations">Operations</a></li>
+                                <li><a href="/facture_fournisseurs">Factures</a></li>
                             </ul>
                         </li>
                         {% endif %}

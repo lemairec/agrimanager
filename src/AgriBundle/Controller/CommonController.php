@@ -12,11 +12,21 @@ class CommonController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $this->company = $em->getRepository('AgriBundle:Company')->findOrCreate($user);
+
+
     }
 
 
     public function getCurrentCampagneId($request){
         $session = $request->getSession();
+
+        $show_unity = $request->query->get('show_unity');
+        if($show_unity != 'false'){
+            $this->getUser()->show_unity=true;
+        } else {
+            $this->getUser()->show_unity=false;
+        }
+        
         $campagne_id = $session->get('campagne_id', '');
         if($campagne_id == ''){
             $em = $this->getDoctrine()->getManager();
@@ -27,6 +37,8 @@ class CommonController extends Controller
             $session->set('campagne_id', $new_campagne_id);
             return $new_campagne_id;
         }
+
+
 
         return $campagne_id;
     }
