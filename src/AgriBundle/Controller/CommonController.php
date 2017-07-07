@@ -21,12 +21,11 @@ class CommonController extends Controller
         $session = $request->getSession();
 
         $show_unity = $request->query->get('show_unity');
-        if($show_unity != 'false'){
-            $this->getUser()->show_unity=true;
-        } else {
+        $this->getUser()->show_unity=true;
+        if($show_unity == 'false'){
             $this->getUser()->show_unity=false;
         }
-        
+
         $campagne_id = $session->get('campagne_id', '');
         if($campagne_id == ''){
             $em = $this->getDoctrine()->getManager();
