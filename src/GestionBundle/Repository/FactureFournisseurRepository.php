@@ -46,9 +46,9 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             $ecriture->operation = $operation;
             $ecriture->value = -($facture->montantTTC-$facture->montantHT);
             $em->persist($ecriture);
-            $em->flush();
         }
-
+        $em->flush();
+    
     }
 
     function dalete($facture){
