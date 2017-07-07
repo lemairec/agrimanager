@@ -10,9 +10,11 @@ use DateTime;
 use GestionBundle\Entity\Compte;
 use GestionBundle\Entity\Ecriture;
 use GestionBundle\Entity\Operation;
+use GestionBundle\Entity\FactureFournisseur;
 use GestionBundle\Form\CompteType;
 use GestionBundle\Form\EcritureType;
 use GestionBundle\Form\OperationType;
+use GestionBundle\Form\FactureFournisseurType;
 
 //COMPTE
 //ECRITURE
@@ -39,6 +41,28 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/facture/new", name="facture_new")
+     */
+    public function factureNewAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->check_user();
+
+        $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques();
+        $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques();
+        if ($request->getMethod() == 'POST') {
+            $em->getRepository('GestionBundle:Cours')->saveArray($this->company, $request->request->all());
+            return $this->redirectToRoute('cours');
+        }
+        $date = new DateTime();
+        return $this->render('GestionBundle:Default:facture_new.html.twig', array(
+            'date' => $date->format("d/m/Y"),
+            'banques' => $banques,
+            'comptes' => $comptes,
+        ));
+    }
+
+    /**
      * @Route("/cours/new", name="cours_new")
      */
     public function coursNewAction(Request $request)
@@ -53,7 +77,7 @@ class DefaultController extends CommonController
         }
         $date = new DateTime();
         return $this->render('GestionBundle:Default:cours_new.html.twig', array(
-            'date' => $date->format("d-m-Y"),
+            'date' => $date->format("d/m/Y"),
             'courss' => $courss,
         ));
     }
@@ -167,6 +191,16 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/operation/{operation_id}/delete", name="operation_delete")
+     **/
+    public function operationDeleteAction($operation_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('GestionBundle:Operation')->delete($operation_id);
+        return $this->redirectToRoute('operations');
+    }
+
+    /**
      * @Route("/operation/{operation_id}/ecriture/{ecriture_id}", name="ecriture")
      **/
     public function ecritureEditAction($operation_id, $ecriture_id, Request $request)
@@ -192,5 +226,63 @@ class DefaultController extends CommonController
             'form' => $form->createView(),
             'parcelles' => []
         ));
+    }
+
+    /**
+     * @Route("/facture_fournisseurs", name="factures_fournisseurs")
+     **/
+    public function factureFournisseursAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $facture_fournisseurs = $em->getRepository('GestionBundle:FactureFournisseur')->getAll();
+
+        return $this->render('GestionBundle:Default:facture_fournisseurs.html.twig', array(
+            'facture_fournisseurs' => $facture_fournisseurs
+        ));
+    }
+
+    /**
+     * @Route("/facture_fournisseur/{facture_id}", name="facture_fournisseur")
+     **/
+    public function factureFournisseurAction($facture_id, Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+        $operations = [];
+        if($facture_id == '0'){
+            $facture = new FactureFournisseur();
+            $facture->date = new Datetime();
+        } else {
+            $facture = $em->getRepository('GestionBundle:FactureFournisseur')->findOneById($facture_id);
+            $operations = $em->getRepository('GestionBundle:Operation')->getForFacture($facture);
+        }
+        $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques($this->company);
+        $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques($this->company);
+        $form = $this->createForm(FactureFournisseurType::class, $facture, array(
+            'banques' => $banques,
+            'comptes' => $comptes
+        ));
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->getRepository('GestionBundle:FactureFournisseur')->save($facture);
+            return $this->redirectToRoute('factures_fournisseurs');
+        }
+        return $this->render('GestionBundle:Default:facture_fournisseur.html.twig', array(
+            'form' => $form->createView(),
+            'facture' => $facture,
+            'operations' => $operations
+        ));
+    }
+
+    /**
+     * @Route("/facture_fournisseur/{facture_id}/delete", name="operation_delete")
+     **/
+    public function factureFournisseurDeleteAction($facture_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('GestionBundle:FactureFournisseur')->delete($facture_id);
+        return $this->redirectToRoute('factures_fournisseurs');
     }
 }

@@ -1,0 +1,36 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/facture_fournisseur/0'">ADD</button>
+            Factures
+        </div>
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Banque</th>
+                <th>Compte</th>
+                <th class="text-right">montant HT</th>
+                <th class="text-right">montant TTC</th>
+            </tr>
+            {% for facture in facture_fournisseurs %}
+                <tr>
+                    <td><a href="/facture_fournisseur/{{facture.id}}">{{facture.getDateStr()}}</a></td>
+                    <td>{{ facture.name }}</td>
+                    <td>{{ facture.banque }}</td>
+                    <td>{{ facture.compte }}</td>
+                    <td class="text-right">{{base_agri.show_eur(facture.montantHT)}}</td>
+                    <td class="text-right">{{base_agri.show_eur(facture.montantTTC)}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

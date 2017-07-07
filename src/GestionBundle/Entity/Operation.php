@@ -40,6 +40,12 @@ class Operation
     */
     public $ecritures;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\FactureFournisseur")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $facture;
+
     public function getSumEcriture($compte_name){
         $res = 0;
         foreach($this->ecritures as $e){

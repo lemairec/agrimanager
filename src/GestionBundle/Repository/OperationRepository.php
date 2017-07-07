@@ -42,4 +42,37 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
 
             return $query->getResult();
     }
+
+    function deleteForFacture($facture){
+        $em = $this->getEntityManager();
+        $operations = $this->findByFacture($facture);
+        foreach($operations as $o){
+            foreach($o->ecritures as $e){
+                $em->remove($e);
+            }
+            $em->remove($o);
+        }
+        $em->flush();
+    }
+
+    function getForFacture($facture){
+        return $this->findByFacture($facture);
+    }
+
+    function delete($operation_id){
+        $em = $this->getEntityManager();
+        $operation = $this->findOneById($operation_id);
+
+        foreach($operation->ecritures as $e){
+            $em->remove($e);
+
+        }
+        if($operation->facture){
+            $em->remove($operation->facture);
+        }
+        $em->remove($operation);
+        $em->flush();
+
+
+    }
 }

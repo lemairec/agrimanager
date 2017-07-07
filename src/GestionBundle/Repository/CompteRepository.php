@@ -11,10 +11,30 @@ namespace GestionBundle\Repository;
 class CompteRepository extends \Doctrine\ORM\EntityRepository
 {
     function getAllForCampagne($campagne){
-            return $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('p')
             ->where('p.company = :company')
             ->orderBy('p.name')
             ->setParameter('company', $campagne->company)
             ->getQuery()->getResult();
+    }
+
+    function getAllBanques(){
+        return $this->createQueryBuilder('p')
+            ->where("p.type = 'banque'")
+            ->orderBy('p.name')
+            ->getQuery()->getResult();
+    }
+    function getNoBanques(){
+        return $this->createQueryBuilder('p')
+            ->where("p.type is null")
+            ->orderBy('p.name')
+            ->getQuery()->getResult();
+    }
+
+    function getCompteTVA(){
+        return $this->createQueryBuilder('p')
+            ->where("p.type = 'tva'")
+            ->orderBy('p.name')
+            ->getQuery()->getResult()[0];
     }
 }
