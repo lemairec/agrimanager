@@ -1,6 +1,5 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-
-
+{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% form_theme form _self %}
 
@@ -39,15 +38,15 @@
         <tr>
             <th>Date</th>
             <th>Nom</th>
-            <th>Value</th>
-            <th>Sum Value</th>
+            <th class="text-right">Value</th>
+            <th class="text-right">Sum Value</th>
         </tr>
         {% for ecriture in ecritures %}
             <tr>
                 <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
                 <td>{{ecriture['name']}}</a></td>
-                <td>{{ecriture['value']}}</td>
-                <td>{{ecriture['sum_value']}}</td>
+                <td class="text-right">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
             </tr>
         {% endfor %}
     </table>
