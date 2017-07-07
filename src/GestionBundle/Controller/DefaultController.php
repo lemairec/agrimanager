@@ -123,7 +123,6 @@ class DefaultController extends CommonController
                 $ecriture['sum_value'] = $value;
                 $ecritures[] = $ecriture;
             }
-            print(json_encode($ecritures));
         }
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
