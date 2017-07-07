@@ -168,10 +168,14 @@ class DefaultController extends CommonController
             $operation = new Operation();
             $operation->name = "new";
             $operation->date = new Datetime();
+            $operation->ecritures = [];
             $em->persist($operation);
             $em->flush();
         } else {
             $operation = $em->getRepository('GestionBundle:Operation')->findOneById($operation_id);
+            if($operation->facture){
+                return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $operation->facture->id));
+            }
         }
         $form = $this->createForm(OperationType::class, $operation);
         $form->handleRequest($request);
