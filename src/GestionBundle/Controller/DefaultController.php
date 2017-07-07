@@ -277,7 +277,7 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/facture_fournisseur/{facture_id}/delete", name="operation_delete")
+     * @Route("/facture_fournisseur/{facture_id}/delete", name="facture_fournisseur_delete")
      **/
     public function factureFournisseurDeleteAction($facture_id, Request $request)
     {
