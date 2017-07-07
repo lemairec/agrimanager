@@ -9,6 +9,7 @@ class CommonController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw $this->createAccessDeniedException();
         }
+        $this->getUser()->show_unity=true;
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $this->company = $em->getRepository('AgriBundle:Company')->findOrCreate($user);
