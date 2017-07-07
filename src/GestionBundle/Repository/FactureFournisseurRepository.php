@@ -31,19 +31,19 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
         $ecriture = new Ecriture();
         $ecriture->compte = $facture->banque;
         $ecriture->operation = $operation;
-        $ecriture->value = -$facture->montantTTC;
+        $ecriture->value = $facture->montantTTC;
         $em->persist($ecriture);
 
         $ecriture = new Ecriture();
         $ecriture->compte = $facture->compte;
         $ecriture->operation = $operation;
-        $ecriture->value = $facture->montantHT;
+        $ecriture->value = -$facture->montantHT;
         $em->persist($ecriture);
 
         $ecriture = new Ecriture();
         $ecriture->compte = $em->getRepository('GestionBundle:Compte')->getCompteTVA();
         $ecriture->operation = $operation;
-        $ecriture->value = $facture->montantTTC-$facture->montantHT;
+        $ecriture->value = -($facture->montantTTC-$facture->montantHT);
         $em->persist($ecriture);
         $em->flush();
 
