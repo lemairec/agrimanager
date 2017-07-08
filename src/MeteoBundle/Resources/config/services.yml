@@ -1,0 +1,4 @@
+services:
+#    meteo.example:
+#        class: MeteoBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
