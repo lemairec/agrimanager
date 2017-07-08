@@ -41,28 +41,6 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/facture/new", name="facture_new")
-     */
-    public function factureNewAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->check_user();
-
-        $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques();
-        $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques();
-        if ($request->getMethod() == 'POST') {
-            $em->getRepository('GestionBundle:Cours')->saveArray($this->company, $request->request->all());
-            return $this->redirectToRoute('cours');
-        }
-        $date = new DateTime();
-        return $this->render('GestionBundle:Default:facture_new.html.twig', array(
-            'date' => $date->format("d/m/Y"),
-            'banques' => $banques,
-            'comptes' => $comptes,
-        ));
-    }
-
-    /**
      * @Route("/cours/new", name="cours_new")
      */
     public function coursNewAction(Request $request)
