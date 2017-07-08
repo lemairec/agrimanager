@@ -38,14 +38,21 @@
         <tr>
             <th>Date</th>
             <th>Nom</th>
+            <th class="text-right">D</th>
+            <th class="text-right">C</th>
             <th class="text-right">Value</th>
-            <th class="text-right">Sum Value</th>
         </tr>
         {% for ecriture in ecritures %}
             <tr>
                 <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
                 <td>{{ecriture['name']}}</a></td>
-                <td class="text-right">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                {% if ecriture['value'] > 0 %}
+                    <td class="text-right"></td>
+                    <td class="text-right" style="color: #006e36;">+ {{ base_agri.show_eur(ecriture['value'])}}</td>
+                {% else %}
+                    <td class="text-right" style="color: #e70b0b;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                    <td class="text-right"></td>
+                {% endif %}
                 <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
             </tr>
         {% endfor %}

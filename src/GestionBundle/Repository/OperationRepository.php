@@ -29,7 +29,7 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
             ->setParameter('ids', $ids)
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.date', 'ASC')
             ->getQuery();
 
             return $query->getResult();

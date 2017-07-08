@@ -117,12 +117,17 @@ class DefaultController extends CommonController
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
-                $operation = $operations[$l-$i-1];
+                $operation = $operations[$i];
                 $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
+                if($compte->type == 'banque'){
+                    $ecriture['value'] = -$ecriture['value'];
+                }
                 $value += $ecriture['value'];
                 $ecriture['sum_value'] = $value;
+
                 $ecritures[] = $ecriture;
             }
+            $ecritures = array_reverse($ecritures);
         }
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);

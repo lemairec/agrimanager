@@ -16,13 +16,20 @@
                 <th>Name</th>
                 <th>Type</th>
                 <th class="text-right">Previsionnel</th>
+                <th class="text-right"></th>
                 <th class="text-right">Montant</th>
             </tr>
             {% for compte in comptes %}
                 <tr>
                     <td><a href="/compte/{{compte.id}}">{{compte.name}}</a></td>
                     <td>{{ compte.type }}</td>
-                    <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
+                    {% if compte.previsionnel != 0 %}
+                        <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
+                        <td class="text-right">{{base_agri.show_percent(compte.getPrice()/compte.previsionnel)}}</td>
+                    {% else %}
+                        <td class="text-right">-</td>
+                        <td class="text-right">-</td>
+                    {% endif %}
                     <td class="text-right">{{base_agri.show_eur(compte.getPrice())}}</td>
                 </tr>
             {% endfor %}
