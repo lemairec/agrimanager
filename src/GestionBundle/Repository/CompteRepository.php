@@ -24,6 +24,14 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('p.name')
             ->getQuery()->getResult();
     }
+
+    function getFirstBanque(){
+        return $this->createQueryBuilder('p')
+            ->where("p.type = 'banque'")
+            ->orderBy('p.name')
+            ->setMaxResults(1)->getQuery()->getOneOrNullResult();
+    }
+
     function getNoBanques(){
         return $this->createQueryBuilder('p')
             ->where("p.type is null")

@@ -100,9 +100,21 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/banque", name="banque")
+     **/
+    public function banqueEditAction(Request $request)
+    {
+        $this->check_user();
+        $em = $this->getDoctrine()->getManager();
+        $banque = $em->getRepository('GestionBundle:Compte')->getFirstBanque();
+        return $this->redirectToRoute('compte', array('compte_id' => $banque->id));
+    }
+
+
+    /**
      * @Route("/compte/{compte_id}", name="compte")
      **/
-    public function ilotEditAction($compte_id, Request $request)
+    public function compteEditAction($compte_id, Request $request)
     {
         $this->check_user();
         $em = $this->getDoctrine()->getManager();
