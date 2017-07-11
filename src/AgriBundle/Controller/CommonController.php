@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CommonController extends Controller
 {
-    public function check_user(){
+    public function check_user($request){
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw $this->createAccessDeniedException();
         }
@@ -14,18 +14,17 @@ class CommonController extends Controller
         $user = $this->getUser();
         $this->company = $em->getRepository('AgriBundle:Company')->findOrCreate($user);
 
+        $this->getUser()->show_unity=true;
 
+        $show_unity = $request->query->get('show_unity');
+        if($show_unity == 'false'){
+            $this->getUser()->show_unity=false;
+        }
     }
 
 
     public function getCurrentCampagneId($request){
         $session = $request->getSession();
-
-        $show_unity = $request->query->get('show_unity');
-        $this->getUser()->show_unity=true;
-        if($show_unity == 'false'){
-            $this->getUser()->show_unity=false;
-        }
 
         $campagne_id = $session->get('campagne_id', '');
         if($campagne_id == ''){
@@ -46,7 +45,7 @@ class CommonController extends Controller
     public function getCurrentCampagne($request){
         $campagne_id = $this->getCurrentCampagneId($request);
         $em = $this->getDoctrine()->getManager();
-        $this->check_user();
+        $this->check_user($request);
 
         $campagne = $em->getRepository('AgriBundle:Campagne')->findOneById($campagne_id);
         if(!property_exists($this, 'campagnes')){

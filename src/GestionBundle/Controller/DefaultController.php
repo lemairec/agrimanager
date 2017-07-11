@@ -46,7 +46,7 @@ class DefaultController extends CommonController
     public function coursNewAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $campagne = $this->check_user();
+        $campagne = $this->check_user($request);
 
         $courss = $em->getRepository('GestionBundle:Cours')->findByCampagne($campagne);
         if ($request->getMethod() == 'POST') {
@@ -82,7 +82,7 @@ class DefaultController extends CommonController
      **/
     public function banqueEditAction(Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $banque = $em->getRepository('GestionBundle:Compte')->getFirstBanque();
         return $this->redirectToRoute('compte', array('compte_id' => $banque->id));
@@ -94,7 +94,7 @@ class DefaultController extends CommonController
      **/
     public function compteEditAction($compte_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $operations = [];
         if($compte_id == '0'){
@@ -157,7 +157,7 @@ class DefaultController extends CommonController
      **/
     public function operationEditAction($operation_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         if($operation_id == '0'){
             $operation = new Operation();
@@ -203,7 +203,7 @@ class DefaultController extends CommonController
      **/
     public function ecritureEditAction($operation_id, $ecriture_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         if($ecriture_id == '0'){
             $ecriture = new Ecriture();
@@ -244,7 +244,7 @@ class DefaultController extends CommonController
      **/
     public function factureFournisseurAction($facture_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $operations = [];
         if($facture_id == '0'){

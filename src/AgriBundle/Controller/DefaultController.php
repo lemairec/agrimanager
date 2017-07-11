@@ -44,9 +44,9 @@ class DefaultController extends CommonController
     /**
      * @Route("/", name="home")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         return $this->render('AgriBundle:Default:index.html.twig', array(
             'company' => $this->company
         ));
@@ -78,7 +78,7 @@ class DefaultController extends CommonController
      */
     public function profileAction(Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(CompanyType::class, $this->company);
@@ -128,7 +128,7 @@ class DefaultController extends CommonController
      */
     public function ilotsAction()
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
         $ilots = $em->getRepository('AgriBundle:Ilot')->getAllforCompany($this->company);
@@ -148,7 +148,7 @@ class DefaultController extends CommonController
      **/
     public function ilotEditAction($ilot_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $parcelles = [];
         if($ilot_id == '0'){
@@ -177,9 +177,9 @@ class DefaultController extends CommonController
     /**
      * @Route("/campagnes", name="campagnes")
      */
-    public function campagnesAction()
+    public function campagnesAction(Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
         $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllforCompany($this->company);
@@ -193,7 +193,7 @@ class DefaultController extends CommonController
      **/
     public function campagneEditAction($campagne_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         if($campagne_id == '0'){
             $campagne = new Campagne();
@@ -315,7 +315,7 @@ class DefaultController extends CommonController
      **/
     public function interventionEditAction($intervention_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
         if($intervention_id == '0'){
@@ -724,6 +724,7 @@ class DefaultController extends CommonController
             $cultures[$p->culture]['rendement'] += $p->surface*$p->rendement;
 
         }
+        
         return $this->render('AgriBundle:Default:bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
@@ -737,7 +738,7 @@ class DefaultController extends CommonController
      **/
     public function calendar(Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForCompany($this->company);
         return $this->render('AgriBundle:Default:calendar.html.twig', array(
@@ -750,7 +751,7 @@ class DefaultController extends CommonController
      */
     public function materielsAction()
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
         $materiels = $em->getRepository('AgriBundle:Materiel')->getAllForCompany($this->company);
@@ -765,7 +766,7 @@ class DefaultController extends CommonController
      **/
     public function materielEditAction($materiel_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $entretiens = [];
         $interventions = [];
@@ -799,7 +800,7 @@ class DefaultController extends CommonController
      **/
     public function entretienMaterielAction($materiel_id, $entretien_id, Request $request)
     {
-        $this->check_user();
+        $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         if($entretien_id == '0'){
             $entretien = new MaterielEntretien();
