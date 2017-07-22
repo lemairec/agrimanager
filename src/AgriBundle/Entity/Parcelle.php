@@ -91,4 +91,8 @@ class Parcelle
         }
     }
 
+    public function __toString ( ){
+        return $this->completeName;
+    }
+
 }

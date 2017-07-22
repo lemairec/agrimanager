@@ -25,7 +25,6 @@ class LivraisonType extends AbstractType
         $builder->add('espece')->add('name')->add('poid_norme');
         $builder->add('parcelle', EntityType::class, array(
             'class'        => 'AgriBundle:Parcelle',
-            'choice_label' => 'completeName',
             'choices' => $options['parcelles'],
         ));
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));

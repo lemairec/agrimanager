@@ -322,6 +322,7 @@ class DefaultController extends CommonController
             $livraison = $em->getRepository('AgriBundle:Livraison')->findOneById($livraison_id);
         }
         $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
+        $parcelles[] = null;
         $form = $this->createForm(LivraisonType::class, $livraison, array(
             'parcelles' => $parcelles));
         $form->handleRequest($request);

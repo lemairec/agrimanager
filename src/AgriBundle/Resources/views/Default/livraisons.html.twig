@@ -15,12 +15,14 @@
             <tr>
                 <th>Name</th>
                 <th>Date</th>
+                <th>Parcelle</th>
                 <th class="text-right">Poid normé</th>
             </tr>
             {% for livraison in livraisons %}
                 <tr>
                     <td><a href="/livraison/{{livraison.id}}">{{livraison.espece}} - {{livraison.name}}</a></td>
                     <td>{{livraison.getDateStr()}}</td>
+                    <td>{{livraison.parcelle}}</td>
                     <td class="text-right">{{ base_agri.show_unity(livraison.poid_norme, 't')}}</td>
 
                 </tr>
