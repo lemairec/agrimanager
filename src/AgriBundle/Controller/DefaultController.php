@@ -321,8 +321,9 @@ class DefaultController extends CommonController
         } else {
             $livraison = $em->getRepository('AgriBundle:Livraison')->findOneById($livraison_id);
         }
+        $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
         $form = $this->createForm(LivraisonType::class, $livraison, array(
-            'parcelles' => []));
+            'parcelles' => $parcelles));
         $form->handleRequest($request);
 
 
@@ -334,7 +335,7 @@ class DefaultController extends CommonController
             //$response->setStatusCode(Response::HTTP_OK);
             //return $response;
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AgriBundle:Default:livraison.html.twig', array(
             'form' => $form->createView(),
         ));
     }

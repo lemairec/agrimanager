@@ -56,6 +56,6 @@ class Livraison
     public $parcelle;
 
     function getDateStr(){
-        return $this->date->format(' d/m/y');
+        return $this->date->format('d/m/y');
     }
 }

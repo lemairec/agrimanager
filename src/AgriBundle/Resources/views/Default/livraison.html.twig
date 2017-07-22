@@ -24,13 +24,14 @@
 <div class="well">
     {{ form_start(form) }}
     {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
-    {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.espece, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.poid_norme, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.parcelle, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(form.save) }}
     {{ form_end(form) }}
 </div>
 
 
 </div>
-{% endblock %}
 {% endblock %}
