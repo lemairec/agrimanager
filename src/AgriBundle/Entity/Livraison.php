@@ -54,4 +54,8 @@ class Livraison
      * @ORM\JoinColumn(name="parcelle_id",nullable=true)
      */
     public $parcelle;
+
+    function getDateStr(){
+        return $this->date->format(' d/m/y');
+    }
 }

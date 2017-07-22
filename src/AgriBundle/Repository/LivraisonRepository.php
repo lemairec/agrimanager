@@ -10,4 +10,14 @@ namespace AgriBundle\Repository;
  */
 class LivraisonRepository extends \Doctrine\ORM\EntityRepository
 {
+    function getAllForCampagne($campagne){
+        $query = $this->createQueryBuilder('p')
+            //->where('p.campagne = :campagne')
+            //->leftJoin('p.ilot', 'i')
+            //->setParameter('campagne', $campagne)
+            ->addorderBy('p.name', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

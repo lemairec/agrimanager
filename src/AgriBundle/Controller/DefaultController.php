@@ -298,7 +298,7 @@ class DefaultController extends CommonController
         $cultures = [];
         $total = 0;
 
-        $livraisons = $em->getRepository('AgriBundle:Livraison')->findAll();
+        $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
 
         return $this->render('AgriBundle:Default:livraisons.html.twig', array(
             'campagnes' => $this->campagnes,
