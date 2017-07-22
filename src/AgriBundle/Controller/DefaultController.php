@@ -23,11 +23,13 @@ use AgriBundle\Entity\InterventionProduit;
 use AgriBundle\Repository\IlotRepository;
 use AgriBundle\Entity\Parcelle;
 use AgriBundle\Entity\Materiel;
+use AgriBundle\Entity\Livraison;
 use AgriBundle\Entity\Produit;
 
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\CompanyType;
+use AgriBundle\Form\LivraisonType;
 use AgriBundle\Form\ParcelleType;
 use AgriBundle\Form\MaterielType;
 use AgriBundle\Form\ProduitType;
@@ -282,6 +284,58 @@ class DefaultController extends CommonController
             'form' => $form->createView(),
             'interventions' => $interventions,
             'priceHa' => $priceHa
+        ));
+    }
+
+    /**
+     * @Route("livraisons", name="livraisons")
+     */
+    public function livraisonsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+        $total = 0;
+
+        $livraisons = $em->getRepository('AgriBundle:Livraison')->findAll();
+
+        return $this->render('AgriBundle:Default:livraisons.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'livraisons' => $livraisons
+        ));
+    }
+
+    /**
+     * @Route("/livraison/{livraison_id}", name="livraison")
+     **/
+    public function livraisonEditAction($livraison_id, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        if($livraison_id == '0'){
+            $livraison = new Livraison();
+            $livraison->date = new \Datetime();
+        } else {
+            $livraison = $em->getRepository('AgriBundle:Livraison')->findOneById($livraison_id);
+        }
+        $form = $this->createForm(LivraisonType::class, $livraison, array(
+            'parcelles' => []));
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($livraison);
+            $em->flush();
+            return $this->redirectToRoute('livraisons');
+            //$response = new Response();
+            //$response->setStatusCode(Response::HTTP_OK);
+            //return $response;
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 
@@ -724,7 +778,7 @@ class DefaultController extends CommonController
             $cultures[$p->culture]['rendement'] += $p->surface*$p->rendement;
 
         }
-        
+
         return $this->render('AgriBundle:Default:bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
