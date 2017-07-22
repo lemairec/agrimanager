@@ -16,7 +16,7 @@ class CommonController extends Controller
 
         $this->getUser()->show_unity=true;
 
-        $show_unity = $request->query->get('show_unity', '');
+        $show_unity = $request->query->get('show_unity');
         if($show_unity == 'false'){
             $this->getUser()->show_unity=false;
         }

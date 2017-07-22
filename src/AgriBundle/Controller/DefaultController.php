@@ -804,7 +804,7 @@ class DefaultController extends CommonController
     /**
      * @Route("/materiels", name="materiels")
      */
-    public function materielsAction()
+    public function materielsAction(Request $request)
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
