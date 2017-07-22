@@ -18,6 +18,12 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
+    function getAll(){
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.name')
+            ->getQuery()->getResult();
+    }
+
     function getAllBanques(){
         return $this->createQueryBuilder('p')
             ->where("p.type = 'banque'")

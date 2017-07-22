@@ -21,7 +21,12 @@
             {% for operation in operations %}
                 <tr>
                     <td><a href="/operation/{{operation.id}}">{{operation.getDateStr()}}</a></td>
-                    <td>{{operation.name}}</td>
+                    <td>
+                        {% if operation.facture %}
+                            Facture -
+                        {% endif %}
+                        {{operation.name}}
+                        </td>
                     <td><a href="/operation/{{operation.id}}/delete">d</td>
                 </tr>
                 {% for ecriture in operation.ecritures %}

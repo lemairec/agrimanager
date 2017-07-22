@@ -211,7 +211,7 @@ class DefaultController extends CommonController
         } else {
             $ecriture = $em->getRepository('GestionBundle:Ecriture')->findOneById($ecriture_id);
         }
-        $form = $this->createForm(EcritureType::class, $ecriture);
+        $form = $this->createForm(EcritureType::class, $ecriture, array('comptes' => $em->getRepository('GestionBundle:Compte')->getAll()));
         $form->handleRequest($request);
 
 
