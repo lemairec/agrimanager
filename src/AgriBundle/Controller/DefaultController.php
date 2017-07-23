@@ -128,7 +128,7 @@ class DefaultController extends CommonController
     /**
      * @Route("/ilots", name="ilots")
      */
-    public function ilotsAction()
+    public function ilotsAction(Request $request)
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
@@ -300,10 +300,21 @@ class DefaultController extends CommonController
 
         $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
 
+        $cultures = [];
+        foreach ($livraisons as $livraison) {
+            if (!array_key_exists($livraison->espece, $cultures)) {
+                $cultures[$livraison->espece] = 0;
+            }
+            $cultures[$livraison->espece] += $livraison->poid_norme;
+            # code...
+        }
+        //$ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
+
         return $this->render('AgriBundle:Default:livraisons.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
-            'livraisons' => $livraisons
+            'livraisons' => $livraisons,
+            'cultures' => $cultures
         ));
     }
 
@@ -327,14 +338,10 @@ class DefaultController extends CommonController
             'parcelles' => $parcelles));
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted()) {
             $em->persist($livraison);
             $em->flush();
             return $this->redirectToRoute('livraisons');
-            //$response = new Response();
-            //$response->setStatusCode(Response::HTTP_OK);
-            //return $response;
         }
         return $this->render('AgriBundle:Default:livraison.html.twig', array(
             'form' => $form->createView(),

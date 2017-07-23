@@ -221,8 +221,7 @@ class DefaultController extends CommonController
             return $this->redirectToRoute('operation', array('operation_id' => $operation_id));
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
-            'form' => $form->createView(),
-            'parcelles' => []
+            'form' => $form->createView()
         ));
     }
 
