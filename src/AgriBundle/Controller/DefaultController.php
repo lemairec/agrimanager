@@ -311,7 +311,7 @@ class DefaultController extends CommonController
         $parcelles = [];
         foreach ($livraisons as $livraison) {
             if($livraison->parcelle){
-            if (!array_key_exists($livraison->parcelle->id, $cultures)) {
+                if (!array_key_exists($livraison->parcelle->id, $parcelles)) {
                     $parcelles[$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'surface'=>$livraison->parcelle->surface, 'poid' => 0];
                 }
                 $parcelles[$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
