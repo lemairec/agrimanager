@@ -306,7 +306,16 @@ class DefaultController extends CommonController
                 $cultures[$livraison->espece] = 0;
             }
             $cultures[$livraison->espece] += $livraison->poid_norme;
-            # code...
+        }
+
+        $parcelles = [];
+        foreach ($livraisons as $livraison) {
+            if($livraison->parcelle){
+            if (!array_key_exists($livraison->parcelle->id, $cultures)) {
+                    $parcelles[$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'surface'=>$livraison->parcelle->surface, 'poid' => 0];
+                }
+                $parcelles[$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
+            }
         }
         //$ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
 
@@ -314,7 +323,8 @@ class DefaultController extends CommonController
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'livraisons' => $livraisons,
-            'cultures' => $cultures
+            'cultures' => $cultures,
+            'parcelles' => $parcelles
         ));
     }
 

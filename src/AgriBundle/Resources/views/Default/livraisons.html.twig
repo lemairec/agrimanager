@@ -48,5 +48,28 @@
             {% endfor %}
         </table>
     </div>
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Parcelles
+        </div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th class="text-right">Poid normé</th>
+                <th class="text-right">Surface</th>
+                <th class="text-right">rendement</th>
+            </tr>
+            {% for parcelle in parcelles %}
+                <tr>
+                    <td>{{parcelle['name']}}</td>
+                    <td class="text-right">{{ base_agri.show_unity(parcelle['poid'], 't')}}</td>
+                    <td class="text-right">{{ base_agri.show_ha(parcelle['surface'])}}</td>
+                    <td class="text-right">{{ base_agri.show_unity(parcelle['poid']/parcelle['surface'], 't/ha')}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 {% endblock %}
