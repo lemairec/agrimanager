@@ -86,8 +86,16 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/ilots">Ilots</a></li>
-                        <li><a href="/campagnes">Campagnes</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Company<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/campagnes">Campagnes</a></li>
+                                <li><a href="/ilots">Ilots</a></li>
+                                <li><a href="/cultures">Cultures</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/materiels">Materiel</a></li>
+                            </ul>
+                        </li>
                         <li><a href="/parcelles">Parcelles</a></li>
                         <li><a href="/interventions">Interventions</a></li>
 
@@ -103,7 +111,6 @@
 
                             </ul>
                         </li>
-                        <li><a href="/livraisons">Livraisons</a></li>
                         <li><a href="/calendar">Calendrier</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bilan <span class="caret"></span></a>
@@ -112,8 +119,8 @@
                                 <li><a href="/bilan_detail">Bilan Detaillé</a></li>
                             </ul>
                         </li>
-                        <li><a href="/materiels">Materiel</a></li>
                         {% if app.user.username == "lejard" %}
+                        <li><a href="/livraisons">Livraisons</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gestion <span class="caret"></span></a>
                             <ul class="dropdown-menu">

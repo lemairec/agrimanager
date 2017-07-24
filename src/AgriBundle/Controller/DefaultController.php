@@ -25,10 +25,12 @@ use AgriBundle\Entity\Parcelle;
 use AgriBundle\Entity\Materiel;
 use AgriBundle\Entity\Livraison;
 use AgriBundle\Entity\Produit;
+use AgriBundle\Entity\Culture;
 
 use AgriBundle\Form\InterventionType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\CompanyType;
+use AgriBundle\Form\CultureType;
 use AgriBundle\Form\LivraisonType;
 use AgriBundle\Form\ParcelleType;
 use AgriBundle\Form\MaterielType;
@@ -211,6 +213,47 @@ class DefaultController extends CommonController
             $em->persist($campagne);
             $em->flush();
             return $this->redirectToRoute('campagnes');
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/cultures", name="cultures")
+     */
+    public function culturesAction(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $cultures = $em->getRepository('AgriBundle:Culture')->getAllforCompany($this->company);
+        return $this->render('AgriBundle:Default:cultures.html.twig', array(
+            'cultures' => $cultures,
+        ));
+    }
+
+    /**
+     * @Route("/culture/{culture_id}", name="culture")
+     **/
+    public function cultureEditAction($culture_id, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        if($culture_id == '0'){
+            $culture = new Culture();
+            $culture->company = $this->company;
+        } else {
+            $culture = $em->getRepository('AgriBundle:Culture')->findOneById($culture_id);
+        }
+        $form = $this->createForm(CultureType::class, $culture);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($culture);
+            $em->flush();
+            return $this->redirectToRoute('cultures');
         }
         return $this->render('AgriBundle::base_form.html.twig', array(
             'form' => $form->createView(),

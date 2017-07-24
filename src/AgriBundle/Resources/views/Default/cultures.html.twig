@@ -1,0 +1,25 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Cultures
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/culture/0'">ADD</button>
+        </div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+            </tr>
+            {% for culture in cultures %}
+            <tr>
+                <td><a href="/culture/{{culture.id}}">{{culture.name}}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

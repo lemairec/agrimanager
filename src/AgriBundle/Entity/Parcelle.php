@@ -28,6 +28,12 @@ class Parcelle
     public $campagne;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Culture")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $culture2;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="surface", type="float")

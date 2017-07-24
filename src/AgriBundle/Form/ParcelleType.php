@@ -20,6 +20,10 @@ class ParcelleType extends AbstractType
             'class'        => 'AgriBundle:Ilot',
             'choices' => $options['ilots'],
         ));
+        $builder->add('culture2', EntityType::class, array(
+            'class'        => 'AgriBundle:Culture',
+            'choices' => $options['cultures'],
+        ));
         $builder->add('rendement');
         $builder->add('active')->add('comment');
 
@@ -34,7 +38,8 @@ class ParcelleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AgriBundle\Entity\Parcelle',
-            'ilots' => null
+            'ilots' => null,
+            'cultures' => null
         ));
     }
 
