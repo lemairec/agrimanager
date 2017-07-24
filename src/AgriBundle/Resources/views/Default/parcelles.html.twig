@@ -29,7 +29,7 @@
                 <th>{{parcelle.active}}</th>
                 <td>{{parcelle.name}}</td>
                 <td>{{parcelle.getIlotName()}}</td>
-                <td>{{parcelle.culture2}}</td>
+                <td>{{parcelle.getCultureName()}}</td>
                 <td class="text-right">{{ base_agri.show_ha(parcelle.surface)}}</td>
                 <td class="text-right">{{ base_agri.show_unity(parcelle.rendement, 't')}}</td>
                 <td><a href="/parcelle/{{parcelle.id}}/delete">d</td>

@@ -273,11 +273,11 @@ class DefaultController extends CommonController
 
         $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
         foreach ($parcelles as $p) {
-            if($p->active){
-                if (!array_key_exists($p->culture, $cultures)) {
-                    $cultures[$p->culture] = 0;
+            if($p->active && $p->culture){
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = 0;
                 }
-                $cultures[$p->culture] += $p->surface;
+                $cultures[$p->getCultureName()] += $p->surface;
                 $total += $p->surface;
             }
         }
@@ -766,10 +766,10 @@ class DefaultController extends CommonController
         ->setParameters(array('campagne'=>$campagne))
         ->getQuery()->getResult();
         foreach ($parcelles as $p) {
-            if (!array_key_exists($p->culture, $cultures)) {
-                $cultures[$p->culture] = 0;
+            if (!array_key_exists($p->getCultureName(), $cultures)) {
+                $cultures[$p->getCultureName()] = 0;
             }
-            $cultures[$p->culture] += $p->surface;
+            $cultures[$p->getCultureName()] += $p->surface;
 
             $p->interventions = [];
             if($p->id != '0'){
@@ -813,8 +813,8 @@ class DefaultController extends CommonController
         $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagneWithoutActive($campagne);
 
         foreach ($parcelles as $p) {
-            if (!array_key_exists($p->culture, $cultures)) {
-                $cultures[$p->culture] = ['culture'=>$p->culture,'surface'=>0, 'priceHa'=>0, 'rendement'=>0];
+            if (!array_key_exists($p->getCultureName(), $cultures)) {
+                $cultures[$p->getCultureName()] = ['culture'=>$p->getCultureName(),'surface'=>0, 'priceHa'=>0, 'rendement'=>0];
             }
 
 
@@ -839,9 +839,9 @@ class DefaultController extends CommonController
                 }
             }
 
-            $cultures[$p->culture]['surface'] += $p->surface;
-            $cultures[$p->culture]['priceHa'] += $p->surface*$p->priceHa;
-            $cultures[$p->culture]['rendement'] += $p->surface*$p->rendement;
+            $cultures[$p->getCultureName()]['surface'] += $p->surface;
+            $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
+            $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
 
         }
 

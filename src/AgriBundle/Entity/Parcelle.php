@@ -31,7 +31,7 @@ class Parcelle
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Culture")
      * @ORM\JoinColumn(nullable=true)
      */
-    public $culture2;
+    public $culture;
 
     /**
      * @var float
@@ -60,7 +60,7 @@ class Parcelle
      * @ORM\Column(name="complete_name", type="string")
      */
     public $completeName;
-    
+
     /**
      * @var float
      *
@@ -87,6 +87,14 @@ class Parcelle
             return $this->ilot->name;
         } else {
             return "";
+        }
+    }
+
+    public function getCultureName(){
+        if($this->culture){
+            return $this->culture->name;
+        } else {
+            return "???";
         }
     }
 

@@ -15,12 +15,12 @@ class ParcelleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('surface')->add('name')->add('culture');
+        $builder->add('surface')->add('name');
         $builder->add('ilot', EntityType::class, array(
             'class'        => 'AgriBundle:Ilot',
             'choices' => $options['ilots'],
         ));
-        $builder->add('culture2', EntityType::class, array(
+        $builder->add('culture', EntityType::class, array(
             'class'        => 'AgriBundle:Culture',
             'choices' => $options['cultures'],
         ));
