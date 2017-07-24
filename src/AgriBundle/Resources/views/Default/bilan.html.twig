@@ -19,12 +19,12 @@
                 </tr>
                 {% for parcelle in parcelles %}
                 <tr>
-                    <td>{{parcelle.completeName}}</td>
+                    <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
                     <td>{{parcelle.culture}}</td>
                     <td class="text-right">{{base_agri.show_ha(parcelle.surface)}}</td>
                     <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
 
-                    <td class="text-right">{{base_agri.show_unity(parcelle.rendement, 't/ha')}}</td>
+                    <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -42,6 +42,7 @@
                     <th>Culture</th>
                     <th class="text-right">Surface</th>
                     <th class="text-right">Prix</th>
+                    <th class="text-right">Poid Norme</th>
                     <th class="text-right">Rendement</th>
                 </tr>
                 {% for culture in cultures %}
@@ -50,7 +51,8 @@
                     <td>{{culture['culture']}}</td>
                     <td class="text-right">{{base_agri.show_ha(culture['surface'])}}</td>
                     <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
-                    <td class="text-right">{{base_agri.show_unity(culture['rendement']/culture['surface'], 't/ha')}}</td>
+                    <td class="text-right">{{base_agri.show_unity(culture['poid_norme'], 't')}}</td>
+                    <td class="text-right">{{base_agri.show_unity(culture['poid_norme']/culture['surface'], 't/ha')}}</td>
 
 
                 </tr>

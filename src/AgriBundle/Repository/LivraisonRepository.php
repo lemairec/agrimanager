@@ -19,4 +19,15 @@ class LivraisonRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    function getSumForParcelle($parcelle){
+        $res = $this->createQueryBuilder('p')
+            ->andWhere('p.parcelle = :parcelle')
+            ->setParameter('parcelle', $parcelle)
+            ->select('SUM(p.poid_norme) as poid_norme')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $res['poid_norme'];
+    }
 }

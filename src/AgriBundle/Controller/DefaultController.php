@@ -814,7 +814,7 @@ class DefaultController extends CommonController
 
         foreach ($parcelles as $p) {
             if (!array_key_exists($p->getCultureName(), $cultures)) {
-                $cultures[$p->getCultureName()] = ['culture'=>$p->getCultureName(),'surface'=>0, 'priceHa'=>0, 'rendement'=>0];
+                $cultures[$p->getCultureName()] = ['culture'=>$p->getCultureName(),'surface'=>0, 'priceHa'=>0, 'rendement'=>0, 'poid_norme'=>0];
             }
 
 
@@ -838,12 +838,21 @@ class DefaultController extends CommonController
                     $p->s += $produit->getQtyHa() * $produit->produit->s;
                 }
             }
+            $p->poid_norme = $em->getRepository('AgriBundle:Livraison')->getSumForParcelle($p);
 
             $cultures[$p->getCultureName()]['surface'] += $p->surface;
             $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
             $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
 
         }
+
+        $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
+        foreach ($livraisons as $l) {
+            if (array_key_exists($l->parcelle->getCultureName(), $cultures)) {
+                $cultures[$l->parcelle->getCultureName()]['poid_norme'] += $l->poid_norme;
+            }
+        }
+
 
         return $this->render('AgriBundle:Default:bilan.html.twig', array(
             'campagnes' => $this->campagnes,
