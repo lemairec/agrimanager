@@ -50,7 +50,7 @@ class Parcelle
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string")
+     * @ORM\Column(name="name", type="string", nullable=true)
      */
     public $name;
 

@@ -11,26 +11,16 @@ use AgriBundle\Entity\Parcelle;
  */
 class ParcelleRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($campagne, $ilot_id, $name, $culture, $surface){
-        $em = $this->getEntityManager();
-        $ilot = $em->getRepository('AgriBundle:Ilot')->getById($ilot_id);
-        $parcelle = new Parcelle();
-        $parcelle->ilot = $ilot;
-        $parcelle->name = $name;
-        $parcelle->culture = $culture;
-        $parcelle->campagne= $campagne;
-        $parcelle->surface = $surface;
-        $parcelle->comment = "";
-        $parcelle = $this->save($parcelle);
-        return $parcelle;
-    }
-
     function save($parcelle){
         $em = $this->getEntityManager();
         if($parcelle->ilot){
-            $parcelle->completeName = $parcelle->ilot->name." - ".$parcelle->name;
+            $parcelle->completeName = $parcelle->getIlotName()." - ";
         } else {
-            $parcelle->completeName = $parcelle->name;
+            $parcelle->completeName = "";
+        }
+        $parcelle->completeName = $parcelle->completeName.$parcelle->getCultureName();
+        if($parcelle->name){
+            $parcelle->completeName = $parcelle->completeName." - ".$parcelle->name;
         }
         $em->persist($parcelle);
         $em->flush();
