@@ -60,14 +60,7 @@ class Parcelle
      * @ORM\Column(name="complete_name", type="string")
      */
     public $completeName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="culture", type="string")
-     */
-    public $culture;
-
+    
     /**
      * @var float
      *

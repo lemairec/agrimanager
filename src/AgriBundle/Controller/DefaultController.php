@@ -299,6 +299,8 @@ class DefaultController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $ilots = $em->getRepository('AgriBundle:Ilot')->getAllforCompany($this->company);
         $ilots[] = null;
+        $cultures = $em->getRepository('AgriBundle:Culture')->getAllforCompany($this->company);
+        $cultures[] = null;
         if($parcelle_id == '0'){
             $parcelle = new Parcelle();
             $parcelle->campagne = $campagne;
@@ -306,7 +308,8 @@ class DefaultController extends CommonController
             $parcelle = $em->getRepository('AgriBundle:Parcelle')->findOneById($parcelle_id);
         }
         $form = $this->createForm(ParcelleType::class, $parcelle, array(
-            'ilots' => $ilots
+            'ilots' => $ilots,
+            'cultures' => $cultures
         ));
         $form->handleRequest($request);
 
