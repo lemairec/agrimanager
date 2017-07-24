@@ -48,7 +48,9 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->check_user($request);
 
-        $courss = $em->getRepository('GestionBundle:Cours')->findByCampagne($campagne);
+        $courss = [['name'=>'2017_ble', 'value'=>150], ['name'=>'2018_ble', 'value'=>150]
+            ,['name'=>'2017_colza', 'value'=>350], ['name'=>'2018_colza', 'value'=>350]
+            ,['name'=>'2017_orge', 'value'=>170], ['name'=>'2018_orge', 'value'=>170]];
         if ($request->getMethod() == 'POST') {
             $em->getRepository('GestionBundle:Cours')->saveArray($this->company, $request->request->all());
             return $this->redirectToRoute('cours');

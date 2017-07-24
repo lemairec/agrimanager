@@ -339,6 +339,7 @@ class DefaultController extends CommonController
         if($livraison_id == '0'){
             $livraison = new Livraison();
             $livraison->date = new \Datetime();
+            $livraison->campagne = $campagne;
         } else {
             $livraison = $em->getRepository('AgriBundle:Livraison')->findOneById($livraison_id);
         }

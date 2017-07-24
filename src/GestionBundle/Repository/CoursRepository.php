@@ -14,7 +14,9 @@ use GestionBundle\Entity\Cours;
 class CoursRepository extends \Doctrine\ORM\EntityRepository
 {
     function saveArray($company, $array){
-        $date = Datetime::createFromFormat("d-m-Y", $array["date"]);
+        print_r("cocuou");
+        $date = Datetime::createFromFormat("d/m/Y", $array["date"]);
+        print_r($date);
         foreach($array as $key => $value){
             if($key != "date"){
                 $this->save($company, $date, $key, $value);

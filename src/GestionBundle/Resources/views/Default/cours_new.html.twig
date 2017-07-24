@@ -17,38 +17,20 @@
 
         </div>
 
+        {% for cours in courss %}
         <div class="form-group row">
             <div class="col-sm-2">
-                <label for="cours_2017_colza" class="required">Colza - 2017</label>
+                <label for="cours_{{cours['name']}}" class="required">{{cours['name']}}</label>
             </div>
 
             <div class="col-sm-10">
-                <input id="cours_2017_colza" name="2017_colza" required="required" class="form-control" type="text" value="350">
+                <input id="cours_{{cours['name']}}" name="{{cours['name']}}" required="required" class="form-control" type="text" value="{{cours['value']}}">
             </div>
 
         </div>
 
-        <div class="form-group row">
-            <div class="col-sm-2">
-                <label for="cours_2017_ble" class="required">Blé - 2017</label>
-            </div>
-
-            <div class="col-sm-10">
-                <input id="cours_2017_ble" name="2017_ble" required="required" class="form-control" type="text" value="160">
-            </div>
-
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-2">
-                <label for="cours_2017_orge" class="required">Orge - 2017</label>
-            </div>
-
-            <div class="col-sm-10">
-                <input id="cours_2017_orge" name="2017_orge" required="required" class="form-control" value="180">
-            </div>
-
-        </div>
+        {% endfor %}
+        
         <div><button type="submit" id="cours">Save</button></div>
     </form>
 </div></div>
