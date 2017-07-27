@@ -1,6 +1,9 @@
 {% macro show_eur(value) %}
     {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }} €
+    {{ value | number_format(2, ',', ' ') }}
+    {% if app.user.show_unity %}
+     €
+    {% endif %}
     {% endspaceless -%}
 {% endmacro %}
 
