@@ -233,6 +233,7 @@ class DefaultController extends CommonController
     public function factureFournisseursAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
         $facture_fournisseurs = $em->getRepository('GestionBundle:FactureFournisseur')->getAll();
 
         return $this->render('GestionBundle:Default:facture_fournisseurs.html.twig', array(
