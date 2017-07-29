@@ -97,6 +97,9 @@
                                 <li><a href="/cultures">Cultures</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="/materiels">Materiel</a></li>
+                                {% if app.user.username == "lejard" %}
+                                <li><a href="/gasoils">Gasoil</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li><a href="/parcelles">Parcelles</a></li>

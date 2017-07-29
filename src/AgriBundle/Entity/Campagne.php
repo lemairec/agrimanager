@@ -35,4 +35,8 @@ class Campagne
      */
     public $company;
 
+    public function __toString ( ){
+        return $this->name;
+    }
+
 }

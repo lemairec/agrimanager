@@ -61,4 +61,8 @@ class Materiel
      * @ORM\JoinColumn(nullable=false)
      */
     public $company;
+
+    public function __toString ( ){
+        return $this->name;
+    }
 }
