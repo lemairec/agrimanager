@@ -72,7 +72,7 @@
         {% for it in intervention.produits %}
         <tr>
             <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}">{{it.id}}</a></td>
-            <td>{{it.produit.completeName}}</td>
+            <td>{{it.name}}</td>
             <td>{{it.qty}}</td>
             <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}/delete">d</td>
         </tr>
