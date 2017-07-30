@@ -29,6 +29,7 @@ class GasoilType extends AbstractType
                 'Cuve' => 'Cuve',
                 'Steph' => 'Steph',
                 'Pocquet' => 'Pocquet',
+                'Papa' => 'Papa'
             ]]);
 
         $builder->add('materiel', EntityType::class, array(
