@@ -20,16 +20,16 @@
             {% for intervention in interventions %}
                 <tr>
                     <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
-                    <td><b>{{intervention.type}}</b></td>
+                    <td><b>{{intervention.type}}
+                        {% if intervention.comment %}
+                            - {{ intervention.comment }}
+                        {% endif %}
+                        </b>
+                    </td>
                     <td class="text-right"><b>{{ intervention.surface | showHa }}</b></td>
                     <td class="text-right"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
                 </tr>
-                {% if intervention.comment %}
-                <tr>
-                    <td></td>
-                    <td colspan="3" class="text-center"> {{ intervention.comment }} </td>
-                </tr>
-                {% endif %}
+
                 {% for it in intervention.parcelles %}
                 <tr>
                     <td>{{it.parcelle.culture}}</td>
