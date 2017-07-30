@@ -7,12 +7,6 @@
     {% endspaceless -%}
 {% endmacro %}
 
-{% macro show_eur_unity(value, unity) %}
-    {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }} €/{{ unity }}
-    {% endspaceless -%}
-{% endmacro %}
-
 {% macro show_unity(value, unity) %}
     {%- spaceless %}
     {{ value | number_format(2, ',', ' ') }}

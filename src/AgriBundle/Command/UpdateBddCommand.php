@@ -60,19 +60,7 @@ class UpdateBddCommand extends ContainerAwareCommand
         $this->output = $output;
         $argument = $input->getArgument('argument');
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
-
-        $interventions = $em->getRepository('AgriBundle:Intervention')->findAll();
-        foreach ($interventions as $it) {
-            foreach ($it->produits as $p) {
-                if($p->produit){
-                    $p->name = $p->produit->completeName;
-                }
-            }
-            $em->persist($it);
-            $em->flush();
-        }
-
-
+        
         /*
         $achats = $em->getRepository('AgriBundle:Achat')->findAll();
         foreach ($achats as $a) {

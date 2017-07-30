@@ -27,7 +27,7 @@
                 <td>{{p.type}}</td>
                 <td>{{p.unity}}</td>
                 <td class="text-right">{{ base_agri.show_unity(p.qty, 'u') }}</td>
-                <td class="text-right">{{ base_agri.show_eur_unity(p.price, 'u') }}</td>
+                <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
                 <td class="text-right">{{ base_agri.show_eur(p.price*p.qty) }}</td>
                 <td><a href="/produit/{{p.id}}/delete">d</a></td>
 

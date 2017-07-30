@@ -26,6 +26,7 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
             new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
             new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
+            new \Twig_SimpleFilter('showEurUnity', array($this, 'showEurUnityFilter')),
         );
     }
 
@@ -57,6 +58,11 @@ class AppExtension extends \Twig_Extension
     public function showHaFilter($number, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
         return $this->showUnityFilter($number, "ha", $decimals, $decPoint, $thousandsSep);
+    }
+
+    public function showEurUnityFilter($number, $unity='u', $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
+    {
+        return $this->showUnityFilter($number, "€/".$unity, $decimals, $decPoint, $thousandsSep);
     }
 
 
