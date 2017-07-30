@@ -10,6 +10,7 @@ class CommonController extends Controller
             throw $this->createAccessDeniedException();
         }
         $this->getUser()->show_unity=true;
+        $this->getUser()->show_unity=true;
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $this->company = $em->getRepository('AgriBundle:Company')->findOrCreate($user);

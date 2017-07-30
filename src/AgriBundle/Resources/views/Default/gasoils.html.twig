@@ -1,8 +1,6 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
-
 
 <div class="container bs-docs-container">
     <div class="panel panel-default", style="width:100%">
@@ -19,9 +17,9 @@
             </tr>
             {% for gasoil in gasoils %}
                 <tr>
-                    <td><a href="/gasoil/{{gasoil.id}}">{{gasoil.getDateStr()}}</a></td>
+                    <td><a href="/gasoil/{{gasoil.id}}">{{gasoil.date | showDate }}</a></td>
                     <td>{{gasoil.type}}</td>
-                    <td class="text-right">{{ base_agri.show_unity(gasoil.litre, 'l') }}</td>
+                    <td class="text-right">{{ gasoil.litre| showLitre }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -38,7 +36,7 @@
         {% for gasoil in gasoilsType %}
             <tr>
                 <td>{{gasoil.type}}</td>
-                <td class="text-right">{{ base_agri.show_unity(gasoil.sum_litre, 'l') }}</td>
+                <td class="text-right">{{ gasoil.sum_litre| showLitre }}</td>
             </tr>
         {% endfor %}
     </table>

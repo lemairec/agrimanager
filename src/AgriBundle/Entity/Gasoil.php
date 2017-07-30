@@ -67,11 +67,4 @@ class Gasoil
      * @ORM\Column(name="nb_heure", type="integer",nullable=true)
      */
     public $nb_heure;
-
-
-    function getDateStr(){
-        return $this->date->format(' d/m/y');
-    }
-
-
 }

@@ -19,12 +19,12 @@
             {% for ilot in ilots %}
                 <tr>
                     <td><a href="/ilot/{{ilot.id}}">{{ilot.name}}</a></td>
-                    <td class="text-right">{{ base_agri.show_ha(ilot.surface) }}</td>
+                    <td class="text-right">{{ ilot.surface | showHa  }}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <th>TOTAL</th>
-                <th class="text-right">{{ base_agri.show_ha(sum_ilots)}}</th>
+                <th class="text-right">{{ sum_ilots | showHa }}</th>
             </tr>
         </table>
     </div>

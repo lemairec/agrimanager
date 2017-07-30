@@ -21,7 +21,7 @@
                 <tr>
                     <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
                     <td>{{parcelle.culture}}</td>
-                    <td class="text-right">{{base_agri.show_ha(parcelle.surface)}}</td>
+                    <td class="text-right">{{ parcelle.surface | showHa }}</td>
                     <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
 
                     <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
@@ -49,7 +49,7 @@
                 <tr>
                     <td></td>
                     <td>{{culture['culture']}}</td>
-                    <td class="text-right">{{base_agri.show_ha(culture['surface'])}}</td>
+                    <td class="text-right">{{ culture['surface'] | showHa }}</td>
                     <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
                     <td class="text-right">{{base_agri.show_unity(culture['poid_norme'], 't')}}</td>
                     <td class="text-right">{{base_agri.show_unity(culture['poid_norme']/culture['surface'], 't/ha')}}</td>

@@ -30,7 +30,7 @@
                 <td>{{parcelle.name}}</td>
                 <td>{{parcelle.getIlotName()}}</td>
                 <td>{{parcelle.getCultureName()}}</td>
-                <td class="text-right">{{ base_agri.show_ha(parcelle.surface)}}</td>
+                <td class="text-right">{{ parcelle.surface | showHa }}</td>
                 <td class="text-right">{{ base_agri.show_unity(parcelle.rendement, 't')}}</td>
                 <td><a href="/parcelle/{{parcelle.id}}/delete">d</td>
             </tr>
@@ -46,13 +46,13 @@
             {% for key, culture in cultures %}
                 <tr>
                     <td>{{key}}</td>
-                    <td class="text-right">{{ base_agri.show_ha(culture)}}</td>
+                    <td class="text-right">{{ culture | showHa }}</td>
                     <td class="text-right">{{ base_agri.show_percent(culture/total)}}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <th>TOTAL</th>
-                <th class="text-right">{{ base_agri.show_ha(total)}}</th>
+                <th class="text-right">{{ total | showHa }}</th>
                 <th></th>
             </tr>
         </table>

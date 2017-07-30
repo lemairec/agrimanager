@@ -17,7 +17,7 @@
                     </tr>
                     <tr>
                         <td>Surface</td>
-                        <td>{{base_agri.show_ha( parcelle.surface )}}</td>
+                        <td>{{ parcelle.surface | showHa }}</td>
                     </tr>
                     <tr>
                         <td>Culture</td>
@@ -52,7 +52,7 @@
                         <tr>
                             <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
                             <td><b>{{intervention.type}}</b></td>
-                            <td class="text-right"><b>{{base_agri.show_ha(intervention.surface)}}</b></td>
+                            <td class="text-right"><b>{{ intervention.surface | showHa }}</b></td>
                             <td class="text-right"></td>
                             <td class="text-right"><b>{{ base_agri.show_eur_ha(intervention.getPriceHa())}}</b></td>
                         </tr>

@@ -67,7 +67,7 @@
                     <td>{{parcelle['name']}}</td>
                     <td>{{parcelle['espece']}}</td>
                     <td class="text-right">{{ base_agri.show_unity(parcelle['poid'], 't')}}</td>
-                    <td class="text-right">{{ base_agri.show_ha(parcelle['surface'])}}</td>
+                    <td class="text-right">{{ parcelle['surface'] | showHa }}</td>
                     <td class="text-right">{{ base_agri.show_unity(parcelle['poid']/parcelle['surface'], 't/ha')}}</td>
                 </tr>
             {% endfor %}

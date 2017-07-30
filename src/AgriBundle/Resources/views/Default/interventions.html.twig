@@ -21,7 +21,7 @@
                 <tr>
                     <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
                     <td><b>{{intervention.type}}</b></td>
-                    <td class="text-right"><b>{{ base_agri.show_ha(intervention.surface)}}</b></td>
+                    <td class="text-right"><b>{{ intervention.surface | showHa }}</b></td>
                     <td class="text-right"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
                 </tr>
                 {% if intervention.comment %}
@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{it.parcelle.culture}}</td>
                     <td>{{it.parcelle.completeName}}</td>
-                    <td class="text-right">{{ base_agri.show_ha(it.parcelle.surface)}}</td>
+                    <td class="text-right">{{ it.parcelle.surface | showHa }}</td>
                     <td></td>
                 </tr>
                 {% endfor %}
