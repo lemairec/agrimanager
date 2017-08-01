@@ -876,9 +876,11 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForCompany($this->company);
         $gasoils = $em->getRepository('AgriBundle:Gasoil')->findAll();
+        $deplacements = $em->getRepository('AgriBundle:Deplacement')->findAll();
         return $this->render('AgriBundle:Default:calendar.html.twig', array(
             'interventions' => $interventions,
-            'gasoils' => $gasoils
+            'gasoils' => $gasoils,
+            'deplacements' => $deplacements
         ));
     }
 

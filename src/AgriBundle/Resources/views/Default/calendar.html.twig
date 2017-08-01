@@ -27,6 +27,14 @@
 					color: '#378006'
 				},
                 {% endfor %}
+				{% for deplacement in deplacements %}
+                {
+					title: '{{deplacement.name}} - {{deplacement.comment}}',
+                    url: '/deplacement/{{deplacement.id}}',
+					start: '{{deplacement.date | showIsoDate}}',
+					color: '#888888'
+				},
+                {% endfor %}
 				{% for gasoil in gasoils %}
                 {
 					title: 'gasoil',
