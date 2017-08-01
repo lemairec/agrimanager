@@ -27,6 +27,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
             new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
             new \Twig_SimpleFilter('showEurUnity', array($this, 'showEurUnityFilter')),
+            new \Twig_SimpleFilter('showIsoDate', array($this, 'showIsoDateFilter')),
+
         );
     }
 
@@ -35,10 +37,6 @@ class AppExtension extends \Twig_Extension
         return $this->tokenStorage->getToken()->getUser();
     }
 
-    public function showDateFilter($date)
-    {
-        return $date->format('d/m/y');
-    }
 
     public function showUnityFilter($number, $unity, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
@@ -64,6 +62,17 @@ class AppExtension extends \Twig_Extension
     {
         return $this->showUnityFilter($number, "€/".$unity, $decimals, $decPoint, $thousandsSep);
     }
+
+    public function showIsoDateFilter($date)
+    {
+        return $date->format(' Y-m-d');
+    }
+
+    public function showDateFilter($date)
+    {
+        return $date->format('d/m/y');
+    }
+
 
 
 

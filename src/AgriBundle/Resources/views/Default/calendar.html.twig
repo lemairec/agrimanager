@@ -23,7 +23,15 @@
                 {
 					title: '{{intervention.getTypeCalendar()}}',
                     url: '/intervention/{{intervention.id}}',
-					start: '{{intervention.getIsoDate()}}'
+					start: '{{intervention.getIsoDate()}}',
+					color: '#378006'
+				},
+                {% endfor %}
+				{% for gasoil in gasoils %}
+                {
+					title: 'gasoil',
+                    url: '/gasoil/{{gasoil.id}}',
+					start: '{{gasoil.date | showIsoDate}}'
 				},
                 {% endfor %}
 			]

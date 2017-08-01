@@ -23,7 +23,7 @@
             </tr>
             {% for p in stocks %}
             <tr>
-                <td><a href="/produit/{{p.id}}">{{p.completeName}}</a></td>
+                <td><a href="/produit/{{p.id}}">{{p.name}}</a></td>
                 <td>{{p.type}}</td>
                 <td>{{p.unity}}</td>
                 <td class="text-right">{{ base_agri.show_unity(p.qty, 'u') }}</td>
