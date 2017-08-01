@@ -12,26 +12,29 @@ use Datetime;
 
 
 use AgriBundle\Controller\CommonController;
+
 use AgriBundle\Entity\Achat;
-use AgriBundle\Entity\Ilot;
 use AgriBundle\Entity\Campagne;
+use AgriBundle\Entity\Culture;
+use AgriBundle\Entity\Deplacement;
+use AgriBundle\Entity\Gasoil;
+use AgriBundle\Entity\Ilot;
 use AgriBundle\Entity\Intervention;
 use AgriBundle\Entity\InterventionParcelle;
 use AgriBundle\Entity\InterventionMateriel;
-use AgriBundle\Entity\MaterielEntretien;
 use AgriBundle\Entity\InterventionProduit;
-use AgriBundle\Repository\IlotRepository;
-use AgriBundle\Entity\Parcelle;
-use AgriBundle\Entity\Materiel;
 use AgriBundle\Entity\Livraison;
+use AgriBundle\Entity\Materiel;
+use AgriBundle\Entity\MaterielEntretien;
+use AgriBundle\Entity\Parcelle;
 use AgriBundle\Entity\Produit;
-use AgriBundle\Entity\Gasoil;
-use AgriBundle\Entity\Culture;
+
 
 use AgriBundle\Form\AchatType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\CompanyType;
 use AgriBundle\Form\CultureType;
+use AgriBundle\Form\DeplacementType;
 use AgriBundle\Form\GasoilType;
 use AgriBundle\Form\IlotType;
 use AgriBundle\Form\InterventionType;
@@ -1000,6 +1003,52 @@ class DefaultController extends CommonController
         }
         return $this->render('AgriBundle:Default:gasoil.html.twig', array(
             'form' => $form->createView()
+        ));
+    }
+
+
+    /**
+     * @Route("deplacements", name="deplacements")
+     */
+    public function deplacementsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $deplacements = $em->getRepository('AgriBundle:Deplacement')->getAllForCampagne($campagne);
+        return $this->render('AgriBundle:Default:deplacements.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'deplacements' => $deplacements
+        ));
+    }
+
+    /**
+     * @Route("/deplacement/{deplacement_id}", name="deplacement")
+     **/
+    public function deplacementEditAction($deplacement_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        if($deplacement_id == '0'){
+            $deplacement = new Deplacement();
+            $deplacement->campagne = $campagne;
+            $deplacement->date = new \DateTime();
+        } else {
+            $deplacement = $em->getRepository('AgriBundle:Deplacement')->findOneById($deplacement_id);
+        }
+        $form = $this->createForm(DeplacementType::class, $deplacement);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $gasoil = $em->getRepository('AgriBundle:Deplacement')->save($deplacement);
+            return $this->redirectToRoute('deplacements');
+        }
+        return $this->render('AgriBundle:Default:deplacement.html.twig', array(
+            'form' => $form->createView(),
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
         ));
     }
 }

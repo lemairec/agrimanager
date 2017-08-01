@@ -23,6 +23,7 @@ class AppExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
+            new \Twig_SimpleFilter('showUnity', array($this, 'showUnityFilter')),
             new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
             new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
             new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
