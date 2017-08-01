@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{key}}</td>
                     <td class="text-right">{{ culture | showHa }}</td>
-                    <td class="text-right">{{ base_agri.show_percent(culture/total)}}</td>
+                    <td class="text-right">{{ (culture/total) | showPercent}}</td>
                 </tr>
             {% endfor %}
             <tr>
