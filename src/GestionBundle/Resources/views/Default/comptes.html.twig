@@ -25,7 +25,7 @@
                     <td>{{ compte.type }}</td>
                     {% if compte.previsionnel != 0 %}
                         <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
-                        <td class="text-right">{{base_agri.show_percent(compte.getPrice()/compte.previsionnel)}}</td>
+                        <td class="text-right">{{ (compte.getPrice()/compte.previsionnel) | showPercent}}</td>
                     {% else %}
                         <td class="text-right">-</td>
                         <td class="text-right">-</td>
