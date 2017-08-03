@@ -26,6 +26,7 @@
         {{ form_start(form) }}
         {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
         {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.campagne, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.montantHT, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.montantTTC, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.banque, {'attr': {'class': 'form-control'}}) }}
@@ -45,18 +46,21 @@
         <tr>
             <th>Date</th>
             <th>Name</th>
+            <th></th>
             <th>Prix</th>
         </tr>
         {% for operation in operations %}
             <tr>
                 <td><a href="/operation/{{operation.id}}">{{operation.getDateStr()}}</a></td>
                 <td>{{operation.name}}</td>
+                <td></td>
                 <td><a href="/operation/{{operation.id}}/delete">d</td>
             </tr>
             {% for ecriture in operation.ecritures %}
                 <tr>
                     <td></td>
                     <td>{{ecriture.compte.name}}</a></td>
+                    <td>{{ecriture.campagne}}</td>
                     <td>{{ base_agri.show_eur(ecriture.value) }}</td>
                 </tr>
             {% endfor %}

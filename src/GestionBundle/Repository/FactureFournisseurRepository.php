@@ -38,6 +38,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
         $ecriture->compte = $facture->compte;
         $ecriture->operation = $operation;
         $ecriture->value = -$facture->montantHT;
+        $ecriture->campagne = $facture->campagne;
         $em->persist($ecriture);
 
         if($facture->montantTTC!=$facture->montantHT){
@@ -48,7 +49,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             $em->persist($ecriture);
         }
         $em->flush();
-    
+
     }
 
     function dalete($facture){
@@ -61,6 +62,17 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
 
     function getAll(){
         $query = $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
+
+    function getAllForCampagne($campagne){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->orWhere('p.campagne is NULL')
+            ->setParameter('campagne', $campagne)
             ->orderBy('p.date', 'DESC')
             ->getQuery();
 

@@ -67,6 +67,26 @@ class Compte
         return -$res;
     }
 
+    public function getPriceNull(){
+        $res = 0;
+        foreach($this->ecritures as $e){
+            if($e->campagne==null){
+                $res += $e->value;
+            }
+        }
+        return -$res;
+    }
+
+    public function getPriceCampagne($campagne){
+        $res = 0;
+        foreach($this->ecritures as $e){
+            if($e->campagne==$campagne){
+                $res += $e->value;
+            }
+        }
+        return -$res;
+    }
+
     public function __toString ( ){
         return $this->name;
     }

@@ -20,18 +20,38 @@
                 <th class="text-right">Montant</th>
             </tr>
             {% for compte in comptes %}
+                {% if compte.type != 'campagne' or compte.getPriceNull() != 0 %}
                 <tr>
                     <td><a href="/compte/{{compte.id}}">{{compte.name}}</a></td>
                     <td>{{ compte.type }}</td>
                     {% if compte.previsionnel != 0 %}
                         <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
-                        <td class="text-right">{{ (compte.getPrice()/compte.previsionnel) | showPercent}}</td>
+                        <td class="text-right">{{ (compte.getPriceNull()/compte.previsionnel) | showPercent}}</td>
                     {% else %}
                         <td class="text-right">-</td>
                         <td class="text-right">-</td>
                     {% endif %}
-                    <td class="text-right">{{base_agri.show_eur(compte.getPrice())}}</td>
+                    <td class="text-right">{{base_agri.show_eur(compte.getPriceNull())}}</td>
                 </tr>
+                {% endif %}
+            {% endfor %}
+            {% for campagne in campagnes %}
+                {% for compte in comptes %}
+                    {% if compte.type == 'campagne' or compte.getPriceCampagne(campagne) != 0 %}
+                    <tr>
+                        <td><a href="/compte/{{compte.id}}">{{compte.name}}</a></td>
+                        <td>{{ compte.type }} - {{campagne}}</td>
+                        {% if compte.previsionnel != 0 %}
+                            <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
+                            <td class="text-right">{{ (compte.getPriceCampagne(campagne)/compte.previsionnel) | showPercent}}</td>
+                        {% else %}
+                            <td class="text-right">-</td>
+                            <td class="text-right">-</td>
+                        {% endif %}
+                        <td class="text-right">{{base_agri.show_eur(compte.getPriceCampagne(campagne))}}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
         </table>
     </div>

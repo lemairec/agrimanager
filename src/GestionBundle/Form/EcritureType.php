@@ -20,6 +20,10 @@ class EcritureType extends AbstractType
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
+        $builder->add('campagne', EntityType::class, array(
+            'class'        => 'AgriBundle:Campagne',
+            'choices' => $options['campagnes'],
+        ));
         $builder->add('value');
         $builder->add('save',      SubmitType::class);
     }
@@ -32,6 +36,7 @@ class EcritureType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'GestionBundle\Entity\Ecriture',
             'comptes' => null,
+            'campagnes' => null
         ));
     }
 

@@ -256,11 +256,14 @@ class DefaultController extends CommonController
             $facture = $em->getRepository('GestionBundle:FactureFournisseur')->findOneById($facture_id);
             $operations = $em->getRepository('GestionBundle:Operation')->getForFacture($facture);
         }
+        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllforCompany($this->company);
+        $campagnes[] = null;
         $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques($this->company);
         $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques($this->company);
         $form = $this->createForm(FactureFournisseurType::class, $facture, array(
             'banques' => $banques,
-            'comptes' => $comptes
+            'comptes' => $comptes,
+            'campagnes' => $campagnes
         ));
         $form->handleRequest($request);
 

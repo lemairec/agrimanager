@@ -35,6 +35,12 @@ class Ecriture
     public $compte;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $campagne;
+
+    /**
      * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Operation", inversedBy="ecritures")
      * @ORM\JoinColumn(nullable=false)
      */

@@ -23,6 +23,10 @@ class FactureFournisseurType extends AbstractType
             'html5' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
+        $builder->add('campagne', EntityType::class, array(
+            'class'        => 'AgriBundle:Campagne',
+            'choices' => $options['campagnes'],
+        ));
         $builder->add('montantHT')->add('montantTTC')->add('compte');
         $builder->add('banque', EntityType::class, array(
             'class'        => 'GestionBundle:Compte',
@@ -45,7 +49,8 @@ class FactureFournisseurType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'GestionBundle\Entity\FactureFournisseur',
             'banques' => null,
-            'comptes' => null
+            'comptes' => null,
+            'campagnes' => null
         ));
     }
 

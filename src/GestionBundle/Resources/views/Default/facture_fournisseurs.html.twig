@@ -14,6 +14,7 @@
         <table class="table">
             <tr>
                 <th>Date</th>
+                <th>Campagne</th>
                 <th>Name</th>
                 <th>Banque</th>
                 <th>Compte</th>
@@ -23,6 +24,7 @@
             {% for facture in facture_fournisseurs %}
                 <tr>
                     <td><a href="/facture_fournisseur/{{facture.id}}">{{facture.getDateStr()}}</a></td>
+                    <td>{{ facture.getCampagneStr() }}</td>
                     <td>{{ facture.name }}</td>
                     <td>{{ facture.banque }}</td>
                     <td>{{ facture.compte }}</td>

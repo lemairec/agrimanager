@@ -22,6 +22,12 @@ class FactureFournisseur
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $campagne;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -63,6 +69,14 @@ class FactureFournisseur
 
     function getDateStr(){
         return $this->date->format(' d/m/y');
+    }
+
+    function getCampagneStr(){
+        if($this->campagne){
+            return $this->campagne->name;
+        } else {
+            return "";
+        }
     }
 
 }
