@@ -1034,6 +1034,8 @@ class DefaultController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         if($deplacement_id == '0'){
             $deplacement = new Deplacement();
+            $deplacement->name = "Warmo";
+            $deplacement->km = 164;
             $deplacement->campagne = $campagne;
             $deplacement->date = new \DateTime();
         } else {
