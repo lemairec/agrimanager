@@ -27,4 +27,15 @@ class DeplacementRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    function getAllForCompany($company){
+        $query = $this->createQueryBuilder('p')
+            ->join('p.campagne', 'c')
+            ->where('c.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
