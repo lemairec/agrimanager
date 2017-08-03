@@ -36,6 +36,11 @@
                 {% endif %}
             {% endfor %}
             {% for campagne in campagnes %}
+                <tr>
+                    <td colspan = "5"  class="text-center">
+                        {{campagne.name}}
+                    </td>
+                </tr>
                 {% for compte in comptes %}
                     {% if compte.type == 'campagne' or compte.getPriceCampagne(campagne) != 0 %}
                     <tr>
