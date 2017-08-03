@@ -110,14 +110,24 @@ class DefaultController extends CommonController
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
                 $operation = $operations[$i];
-                $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
-                if($compte->type == 'banque'){
-                    $ecriture['value'] = -$ecriture['value'];
-                }
-                $value += $ecriture['value'];
-                $ecriture['sum_value'] = $value;
+                foreach($operation->ecritures as $e){
+                    if($e->compte == $compte){
+                    $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value];
+                    $ecriture['campagne'] = "";
+                    if($e->campagne){
+                        $ecriture['campagne'] = $e->campagne->name;
+                    }
+                    if($compte->type == 'banque'){
+                        $ecriture['value'] = -$ecriture['value'];
+                    }
 
-                $ecritures[] = $ecriture;
+                    $value += $ecriture['value'];
+                    $ecriture['sum_value'] = $value;
+
+                    $ecritures[] = $ecriture;
+                }
+                }
+
             }
             $ecritures = array_reverse($ecritures);
         }
