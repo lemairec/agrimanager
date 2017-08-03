@@ -20,36 +20,43 @@ class CampagneRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-     function findFirstOrCreate($company, $name){
-         $em = $this->getEntityManager();
-         $campagne = $this->findOneByCompany($company);
-         if($campagne){
-             return $campagne;
-         }
-         $campagne = new Campagne();
-         $campagne->name = $name;
-         $campagne->company = $company;
-         $em->persist($campagne);
-         $em->flush();
-         return $campagne;
-     }
+    function getAllAndNullforCompany($company){
+        $res = $this->getAllforCompany($company);
+        $res[] = null;
 
-     function findOrCreate($company, $name){
-         $em = $this->getEntityManager();
-         $campagne = $query = $this->createQueryBuilder('p')
-             ->where('p.company = :company')
-             ->andWhere('p.name = :name')
-             ->setParameter('company', $company)
-             ->setParameter('name', $name)
-             ->getQuery()->getSingleResult();
-         if($campagne){
-             return $campagne;
-         }
-         $campagne = new Campagne();
-         $campagne->name = $name;
-         $campagne->company = $company;
-         $em->persist($campagne);
-         $em->flush();
+        return $res;
+    }
+
+    function findFirstOrCreate($company, $name){
+        $em = $this->getEntityManager();
+        $campagne = $this->findOneByCompany($company);
+        if($campagne){
          return $campagne;
-     }
+        }
+        $campagne = new Campagne();
+        $campagne->name = $name;
+        $campagne->company = $company;
+        $em->persist($campagne);
+        $em->flush();
+        return $campagne;
+    }
+
+    function findOrCreate($company, $name){
+        $em = $this->getEntityManager();
+        $campagne = $query = $this->createQueryBuilder('p')
+         ->where('p.company = :company')
+         ->andWhere('p.name = :name')
+         ->setParameter('company', $company)
+         ->setParameter('name', $name)
+         ->getQuery()->getSingleResult();
+        if($campagne){
+         return $campagne;
+        }
+        $campagne = new Campagne();
+        $campagne->name = $name;
+        $campagne->company = $company;
+        $em->persist($campagne);
+        $em->flush();
+        return $campagne;
+    }
 }

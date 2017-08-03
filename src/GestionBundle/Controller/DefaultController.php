@@ -223,7 +223,11 @@ class DefaultController extends CommonController
         } else {
             $ecriture = $em->getRepository('GestionBundle:Ecriture')->findOneById($ecriture_id);
         }
-        $form = $this->createForm(EcritureType::class, $ecriture, array('comptes' => $em->getRepository('GestionBundle:Compte')->getAll()));
+        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllAndNullforCompany($this->company);
+        $form = $this->createForm(EcritureType::class, $ecriture, array(
+            'comptes' => $em->getRepository('GestionBundle:Compte')->getAll(),
+            'campagnes' => $campagnes
+        ));
         $form->handleRequest($request);
 
 
@@ -266,8 +270,7 @@ class DefaultController extends CommonController
             $facture = $em->getRepository('GestionBundle:FactureFournisseur')->findOneById($facture_id);
             $operations = $em->getRepository('GestionBundle:Operation')->getForFacture($facture);
         }
-        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllforCompany($this->company);
-        $campagnes[] = null;
+        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllAndNullforCompany($this->company);
         $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques($this->company);
         $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques($this->company);
         $form = $this->createForm(FactureFournisseurType::class, $facture, array(
