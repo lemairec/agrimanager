@@ -41,6 +41,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
     function getNoBanques(){
         return $this->createQueryBuilder('p')
             ->where("p.type is null")
+            ->orWhere("p.type != 'banque'")
             ->orderBy('p.name')
             ->getQuery()->getResult();
     }
