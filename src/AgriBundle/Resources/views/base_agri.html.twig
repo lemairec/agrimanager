@@ -48,6 +48,7 @@
         <script src="/js/jquery.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/bootstrap-datepicker.min.js"></script>
+        <script src="/js/bootstrap-datepicker.fr.min.js"></script>
         {% block javascripts %}{% endblock %}
     </head>
     <body>
@@ -167,7 +168,8 @@ $(function(){
     <script>
 $(document).ready(function() {
     $('.js-datepicker').datepicker({
-        format: 'dd/mm/yyyy'
+        format: 'dd/mm/yyyy',
+        language: 'fr'
     });
 });
     </script>
