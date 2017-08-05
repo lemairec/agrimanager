@@ -67,7 +67,12 @@ class AppExtension extends \Twig_Extension
 
     public function showPercentFilter($number, $decimals = 0, $decPoint = ',', $thousandsSep = ' ')
     {
-        return $this->showUnityFilter($number*100, "%", $decimals, $decPoint, $thousandsSep);
+        if($this->getUser()->show_unity){
+            return number_format($number*100, $decimals, $decPoint, $thousandsSep)." %";
+        } else {
+            $decimals += 2;
+            return number_format($number, $decimals, $decPoint, $thousandsSep);
+        }
     }
 
     public function showIsoDateFilter($date)
