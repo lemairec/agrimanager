@@ -14,15 +14,36 @@ use GestionBundle\Entity\Cours;
 class CoursRepository extends \Doctrine\ORM\EntityRepository
 {
     function saveArray($company, $array){
-        print_r("cocuou");
         $date = Datetime::createFromFormat("d/m/Y", $array["date"]);
-        print_r($date);
         foreach($array as $key => $value){
             if($key != "date"){
                 $this->save($company, $date, $key, $value);
             }
         }
 
+    }
+
+    function setArray($company, $array){
+        foreach($array as $key => $value){
+            $array[$key]["value"]=$this->getLast($company, $array[$key]["name"])->value;
+        }
+        return $array;
+    }
+
+    function getLast($company, $produit){
+        $values = explode("_", $produit);
+        $em = $this->getEntityManager();
+        $campagne = $em->getRepository('AgriBundle:Campagne')->findOrCreate($company, $values[0]);
+        $produit2 = $values[1];
+        print(json_encode($produit2));
+        return $this->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->andWhere('p.produit = :produit')
+            ->orderBy('p.date', 'DESC')
+            ->setParameter('campagne', $campagne)
+            ->setParameter('produit', $produit2)
+            ->setMaxResults(1)
+            ->getQuery()->getResult()[0];
     }
 
     function save($company, $date, $produit, $value){
@@ -44,6 +65,7 @@ class CoursRepository extends \Doctrine\ORM\EntityRepository
             return $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->orderBy('p.date', 'DESC')
+            ->addOrderBy('p.produit', 'ASC')
             ->setParameter('campagne', $campagne)
             ->getQuery()->getResult();
     }

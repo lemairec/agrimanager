@@ -33,10 +33,23 @@ class DefaultController extends CommonController
 
         $courss = $em->getRepository('GestionBundle:Cours')->getAllForCampagne($campagne);
 
+        $produits = [];
+        foreach($courss as $c){
+            $produit = $c->produit;
+            $value = $c->value;
+            if (!array_key_exists($produit, $produits)) {
+                $produits[$produit] = ['name'=>$produit,'last' => $value,  'min' => $value, 'max' => $value];
+            }
+            $produits[$produit]['min'] = min($produits[$produit]['min'], $value);
+            $produits[$produit]['max'] = max($produits[$produit]['max'], $value);
+        }
+        $courss = $em->getRepository('GestionBundle:Cours')->getAllForCampagne($campagne);
+
         return $this->render('GestionBundle:Default:cours.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'courss' => $courss,
+            'produits' => $produits
         ));
     }
 
@@ -51,6 +64,8 @@ class DefaultController extends CommonController
         $courss = [['name'=>'2017_ble', 'value'=>150], ['name'=>'2018_ble', 'value'=>150]
             ,['name'=>'2017_colza', 'value'=>350], ['name'=>'2018_colza', 'value'=>350]
             ,['name'=>'2017_orge', 'value'=>170], ['name'=>'2018_orge', 'value'=>170]];
+        $courss = $em->getRepository('GestionBundle:Cours')->setArray($this->company, $courss);
+        print(json_encode($courss));
         if ($request->getMethod() == 'POST') {
             $em->getRepository('GestionBundle:Cours')->saveArray($this->company, $request->request->all());
             return $this->redirectToRoute('cours');
