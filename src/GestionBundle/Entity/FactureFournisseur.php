@@ -3,6 +3,7 @@
 namespace GestionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * FactureFournisseur
@@ -66,6 +67,14 @@ class FactureFournisseur
      * @ORM\JoinColumn(nullable=false)
      */
     public $banque;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\File(mimeTypes={ "application/pdf" })
+     */
+    public $brochure;
 
     function getDateStr(){
         return $this->date->format(' d/m/y');

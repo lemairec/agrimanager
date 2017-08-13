@@ -5,7 +5,7 @@ namespace GestionBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AgriBundle\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\Response;
 use DateTime;
 use GestionBundle\Entity\Compte;
 use GestionBundle\Entity\Ecriture;
@@ -15,6 +15,7 @@ use GestionBundle\Form\CompteType;
 use GestionBundle\Form\EcritureType;
 use GestionBundle\Form\OperationType;
 use GestionBundle\Form\FactureFournisseurType;
+use Symfony\Component\HttpFoundation\File\File;
 
 //COMPTE
 //ECRITURE
@@ -65,7 +66,6 @@ class DefaultController extends CommonController
             ,['name'=>'2017_colza', 'value'=>350], ['name'=>'2018_colza', 'value'=>350]
             ,['name'=>'2017_orge', 'value'=>170], ['name'=>'2018_orge', 'value'=>170]];
         $courss = $em->getRepository('GestionBundle:Cours')->setArray($this->company, $courss);
-        print(json_encode($courss));
         if ($request->getMethod() == 'POST') {
             $em->getRepository('GestionBundle:Cours')->saveArray($this->company, $request->request->all());
             return $this->redirectToRoute('cours');
@@ -271,6 +271,18 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/facture_fournisseur/{facture_id}/delete_pdf", name="facture_fournisseur_delete_pdf")
+     **/
+    public function factureFournisseurDeletePdfAction($facture_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $facture = $em->getRepository('GestionBundle:FactureFournisseur')->findOneById($facture_id);
+        $facture->brochure = null;
+        $em->getRepository('GestionBundle:FactureFournisseur')->save($facture);
+        return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $facture_id));
+    }
+
+    /**
      * @Route("/facture_fournisseur/{facture_id}", name="facture_fournisseur")
      **/
     public function factureFournisseurAction($facture_id, Request $request)
@@ -283,6 +295,9 @@ class DefaultController extends CommonController
             $facture->date = new Datetime();
         } else {
             $facture = $em->getRepository('GestionBundle:FactureFournisseur')->findOneById($facture_id);
+            if($facture->brochure){
+                //$facture->brochure = new File($this->getParameter('brochures_directory').'/'.$facture->brochure);
+            }
             $operations = $em->getRepository('GestionBundle:Operation')->getForFacture($facture);
         }
         $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllAndNullforCompany($this->company);
@@ -297,14 +312,56 @@ class DefaultController extends CommonController
 
 
         if ($form->isSubmitted()) {
+            $file = $facture->brochure;
+            if($file){
+                $fileName = $facture->date->format('ym').'_'.str_replace(' ', '_', strtolower($facture->name));
+                $fileName = $fileName.'.'.$file->guessExtension();
+                $file->move(
+                    $this->getParameter('brochures_directory'),
+                    $fileName
+                );
+                $facture->brochure = $fileName;
+            } else {
+                $facture->brochure = $em->getRepository('GestionBundle:FactureFournisseur')->selectLastDocument($facture_id);
+            }
             $em->getRepository('GestionBundle:FactureFournisseur')->save($facture);
-            return $this->redirectToRoute('factures_fournisseurs');
+            //return $this->redirectToRoute('factures_fournisseurs');
         }
         return $this->render('GestionBundle:Default:facture_fournisseur.html.twig', array(
             'form' => $form->createView(),
             'facture' => $facture,
             'operations' => $operations
         ));
+    }
+
+    /**
+     * @Route("/extract", name="extract")
+     **/
+    public function factureFournisseurExtractAction(Request $request)
+    {
+        $files = array();
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($em->getRepository('GestionBundle:FactureFournisseur')->findAll() as $f) {
+            if($f->brochure){
+                array_push($files, $this->getParameter('brochures_directory').'/'.$f->brochure);
+            }
+        }
+
+        $zip = new \ZipArchive();
+        $zipName = 'Documents_'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+        foreach ($files as $f) {
+            $zip->addFromString(basename($f),  file_get_contents($f));
+        }
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        return $response;
     }
 
     /**

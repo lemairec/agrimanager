@@ -52,7 +52,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
-    function dalete($facture){
+    function delete($facture){
         $em = $this->getEntityManager();
 
         $em->getRepository('GestionBundle:Operation')->deleteForFacture($facture);
@@ -66,6 +66,20 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
             return $query->getResult();
+    }
+
+    function selectLastDocument($facture_id){
+        $query = $this->createQueryBuilder('p')
+            ->select('p.brochure')
+            ->where('p.id = :facture_id')
+            ->setParameter('facture_id', $facture_id)
+            ->setMaxResults(1)
+            ->getQuery();
+        $result = $query->getOneOrNullResult();
+        if($result){
+            return $result['brochure'];
+        }
+        return null;
     }
 
     function getAllForCampagne($campagne){

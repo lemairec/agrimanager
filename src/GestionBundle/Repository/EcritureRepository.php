@@ -10,4 +10,5 @@ namespace GestionBundle\Repository;
  */
 class EcritureRepository extends \Doctrine\ORM\EntityRepository
 {
+    
 }
