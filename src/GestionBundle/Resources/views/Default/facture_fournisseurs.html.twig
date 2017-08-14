@@ -1,5 +1,4 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
@@ -20,6 +19,7 @@
                 <th>Compte</th>
                 <th class="text-right">montant HT</th>
                 <th class="text-right">montant TTC</th>
+                <th class="text-right">TVA</th>
             </tr>
             {% for facture in facture_fournisseurs %}
                 <tr>
@@ -28,8 +28,9 @@
                     <td>{{ facture.name }}</td>
                     <td>{{ facture.banque }}</td>
                     <td>{{ facture.compte }}</td>
-                    <td class="text-right">{{base_agri.show_eur(facture.montantHT)}}</td>
-                    <td class="text-right">{{base_agri.show_eur(facture.montantTTC)}}</td>
+                    <td class="text-right">{{ facture.montantHT|showEur }}</td>
+                    <td class="text-right">{{ facture.montantTTC|showEur }}</td>
+                    <td class="text-right">{{ ((facture.montantTTC-facture.montantHT)/facture.montantHT)|showPercent }}</td>
                 </tr>
             {% endfor %}
         </table>

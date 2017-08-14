@@ -28,6 +28,7 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
             new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
             new \Twig_SimpleFilter('showPercent', array($this, 'showPercentFilter')),
+            new \Twig_SimpleFilter('showEur', array($this, 'showEurFilter')),
             new \Twig_SimpleFilter('showEurUnity', array($this, 'showEurUnityFilter')),
             new \Twig_SimpleFilter('showIsoDate', array($this, 'showIsoDateFilter')),
 
@@ -63,6 +64,11 @@ class AppExtension extends \Twig_Extension
     public function showEurUnityFilter($number, $unity='u', $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
         return $this->showUnityFilter($number, "€/".$unity, $decimals, $decPoint, $thousandsSep);
+    }
+
+    public function showEurFilter($number, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
+    {
+        return $this->showUnityFilter($number, "€", $decimals, $decPoint, $thousandsSep);
     }
 
     public function showPercentFilter($number, $decimals = 0, $decPoint = ',', $thousandsSep = ' ')
