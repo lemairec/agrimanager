@@ -298,7 +298,7 @@ class DefaultController extends CommonController
 
         if ($form->isSubmitted()) {
             $em->getRepository('GestionBundle:FactureFournisseur')->save($facture);
-            return $this->redirectToRoute('factures_fournisseurs');
+            return $this->redirectPreviousPage($request);
         }
         return $this->render('GestionBundle:Default:facture_fournisseur.html.twig', array(
             'form' => $form->createView(),

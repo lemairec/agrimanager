@@ -2,6 +2,7 @@
 namespace AgriBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CommonController extends Controller
 {
@@ -21,6 +22,8 @@ class CommonController extends Controller
         if($show_unity == 'false'){
             $this->getUser()->show_unity=false;
         }
+
+        $this->saveLastUrl($request);
     }
 
 
@@ -58,5 +61,34 @@ class CommonController extends Controller
         } else {
             return $this->campagnes[0];
         }
+    }
+
+    public function saveLastUrl($request){
+        $last_url = $this->get('session')->get('last_url', []);
+        $url = $request->getUri();
+        if(count($last_url) > 0){
+            if($last_url[count($last_url)-1] != $url){
+                $last_url[] = $url;
+                if(count($last_url) > 10){
+                    array_shift($last_url);
+                }
+                $this->get('session')->set('last_url', $last_url);
+            }
+        }
+    }
+
+    public function popLastUrl($request){
+        $last_url = $this->get('session')->get('last_url', []);
+        array_pop($last_url);
+        $this->get('session')->set('last_url', $last_url);
+    }
+
+    public function redirectPreviousPage($request){
+        $last_url = $this->get('session')->get('last_url', []);
+        $url = '/';
+        if(count($last_url) > 1){
+            $url = $last_url[count($last_url)-2];
+        }
+        return new RedirectResponse($url);
     }
 }
