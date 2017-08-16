@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class FactureFournisseurType extends AbstractType
 {
@@ -38,6 +39,12 @@ class FactureFournisseurType extends AbstractType
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
+        $builder->add('brochure', FileType::class, array(
+                    'label' => 'Votre photo : ',
+                    'required' => false,
+                    'data_class' => null
+                    ));
+
         $builder->add('save',      SubmitType::class);
     }
 
