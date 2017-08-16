@@ -314,8 +314,7 @@ class DefaultController extends CommonController
         if ($form->isSubmitted()) {
             $file = $facture->brochure;
             if($file){
-                $fileName = $facture->date->format('ym').'_'.str_replace(' ', '_', strtolower($facture->name));
-                $fileName = $fileName.'.'.$file->guessExtension();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
                 $file->move(
                     $this->getParameter('factures_directory'),
                     $fileName
@@ -342,15 +341,17 @@ class DefaultController extends CommonController
         $files = array();
         $em = $this->getDoctrine()->getManager();
 
-        foreach ($em->getRepository('GestionBundle:FactureFournisseur')->findAll() as $f) {
-            if($f->brochure){
-                array_push($files, $this->getParameter('factures_directory').'/'.$f->brochure);
-            }
-        }
-
         $zip = new \ZipArchive();
         $zipName = 'Documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
+
+        foreach ($em->getRepository('GestionBundle:FactureFournisseur')->findAll() as $f) {
+            if($f->brochure){
+                $file = $f->brochure;
+                $fileName = $f->date->format('ymd').'_'.str_replace(' ', '_', strtolower($f->name));
+                $zip->addFile($this->getParameter('factures_directory').'/'.$file, $fileName.'.pdf');
+            }
+        }
         foreach ($files as $f) {
             $zip->addFromString(basename($f),  file_get_contents($f));
         }
