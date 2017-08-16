@@ -66,15 +66,14 @@ class CommonController extends Controller
     public function saveLastUrl($request){
         $last_url = $this->get('session')->get('last_url', []);
         $url = $request->getUri();
-        if(count($last_url) > 0){
-            if($last_url[count($last_url)-1] != $url){
-                $last_url[] = $url;
-                if(count($last_url) > 10){
-                    array_shift($last_url);
-                }
-                $this->get('session')->set('last_url', $last_url);
+        if(count($last_url)==0 || $last_url[count($last_url)-1] != $url){
+            $last_url[] = $url;
+            if(count($last_url) > 10){
+                array_shift($last_url);
             }
+            $this->get('session')->set('last_url', $last_url);
         }
+        //print(json_encode( $this->get('session')->get('last_url', [])));
     }
 
     public function popLastUrl($request){
