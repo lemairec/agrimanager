@@ -12,6 +12,7 @@
         </div>
         <table class="table">
             <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Campagne</th>
                 <th>Name</th>
@@ -23,6 +24,7 @@
             </tr>
             {% for facture in facture_fournisseurs %}
                 <tr>
+                    <td>{% if(facture.brochure) %}<i class="ion-paperclip">{% endif %}</i></td>
                     <td><a href="/facture_fournisseur/{{facture.id}}">{{facture.getDateStr()}}</a></td>
                     <td>{{ facture.getCampagneStr() }}</td>
                     <td>{{ facture.name }}</td>
