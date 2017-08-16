@@ -10,7 +10,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    brochures_directory: '%kernel.root_dir%/../web/uploads/brochures'
+    factures_directory: '%kernel.root_dir%/../web/uploads/factures'
 
 
 framework:

@@ -296,7 +296,7 @@ class DefaultController extends CommonController
         } else {
             $facture = $em->getRepository('GestionBundle:FactureFournisseur')->findOneById($facture_id);
             if($facture->brochure){
-                //$facture->brochure = new File($this->getParameter('brochures_directory').'/'.$facture->brochure);
+                //$facture->brochure = new File($this->getParameter('factures_directory').'/'.$facture->brochure);
             }
             $operations = $em->getRepository('GestionBundle:Operation')->getForFacture($facture);
         }
@@ -317,7 +317,7 @@ class DefaultController extends CommonController
                 $fileName = $facture->date->format('ym').'_'.str_replace(' ', '_', strtolower($facture->name));
                 $fileName = $fileName.'.'.$file->guessExtension();
                 $file->move(
-                    $this->getParameter('brochures_directory'),
+                    $this->getParameter('factures_directory'),
                     $fileName
                 );
                 $facture->brochure = $fileName;
@@ -344,7 +344,7 @@ class DefaultController extends CommonController
 
         foreach ($em->getRepository('GestionBundle:FactureFournisseur')->findAll() as $f) {
             if($f->brochure){
-                array_push($files, $this->getParameter('brochures_directory').'/'.$f->brochure);
+                array_push($files, $this->getParameter('factures_directory').'/'.$f->brochure);
             }
         }
 
