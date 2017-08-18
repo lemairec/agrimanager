@@ -13,11 +13,9 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
 {
     function save($parcelle){
         $em = $this->getEntityManager();
-        $parcelle->completeName = $parcelle->completeName.$parcelle->getCultureName();
+        $parcelle->completeName = $parcelle->getCultureName();
         if($parcelle->ilot){
             $parcelle->completeName = $parcelle->completeName." - ".$parcelle->getIlotName();
-        } else {
-            $parcelle->completeName = "";
         }
         if($parcelle->name){
             $parcelle->completeName = $parcelle->completeName." - ".$parcelle->name;
