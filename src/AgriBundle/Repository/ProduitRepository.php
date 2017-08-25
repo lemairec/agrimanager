@@ -20,6 +20,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         }
         $produit = new Produit();
         $produit->campagne = $campagne;
+        $produit->company = $campagne->company;
         $produit->name = $completeName;
         $produit->completeName = $completeName;
         $ephy = $em->getRepository('EphyBundle:EphyProduit')->findOneByCompleteName($completeName);
@@ -49,6 +50,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         }
         $produit = new Produit();
         $produit->campagne = $campagne;
+        $produit->company = $campagne->company;
         $produit->name = $name;
         $produit->type = $type;
         $produit->unity = $unity;
@@ -118,5 +120,17 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit = $this->findOneById($produit_id);
         $em->remove($produit);
         $em->flush();
+    }
+
+    public function findByCampagne($campagne){
+        return $this->getAllForCompany($campagne->company);
+    }
+
+    public function getAllForCompany($company){
+        return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->add('orderBy','p.type ASC, p.name ASC')
+            ->setParameter('company', $company)
+            ->getQuery()->getResult();
     }
 }

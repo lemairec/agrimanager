@@ -605,15 +605,9 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $produits = $em->getRepository('AgriBundle:Produit')
-            ->createQueryBuilder('p')
-            ->where('p.campagne = :campagne')
-            ->add('orderBy','p.type ASC, p.name ASC')
-            ->setParameter('campagne', $campagne)
-            ->getQuery()->getResult();
+            ->getAllForCompany($this->company);
 
         return $this->render('AgriBundle:Default:stocks.html.twig', array(
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
             'stocks' => $produits,
         ));
     }
