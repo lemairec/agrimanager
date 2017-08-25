@@ -664,17 +664,9 @@ class DefaultController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('AgriBundle:Produit')
-            ->createQueryBuilder('p')
-            ->where('p.campagne = :campagne')
-            ->andWhere('ABS(p.qty) > 0.001')
-            ->add('orderBy','p.type ASC, p.name ASC')
-            ->setParameter('campagne', $campagne)
-            ->getQuery()->getResult();
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllForCompanyStock($this->company);
 
         return $this->render('AgriBundle:Default:stocks.html.twig', array(
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
             'stocks' => $produits,
         ));
     }
@@ -758,12 +750,6 @@ class DefaultController extends CommonController
         $cultures = [];
 
         $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
-        $parcelles = $em->getRepository('AgriBundle:Parcelle')
-        ->createQueryBuilder('p')
-        ->where('p.campagne = :campagne')
-        ->add('orderBy','p.culture DESC, p.ilot ASC')
-        ->setParameters(array('campagne'=>$campagne))
-        ->getQuery()->getResult();
         foreach ($parcelles as $p) {
             if (!array_key_exists($p->getCultureName(), $cultures)) {
                 $cultures[$p->getCultureName()] = 0;

@@ -29,11 +29,9 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
-            ->leftJoin('p.ilot', 'i')
             ->setParameter('campagne', $campagne)
             ->addorderBy('p.active', 'DESC')
-            ->addorderBy('i.surface', 'DESC')
-            ->addorderBy('p.surface', 'DESC')
+            ->addorderBy('p.completeName', 'ASC')
             ->getQuery();
 
         return $query->getResult();
@@ -43,9 +41,9 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->andWhere('p.active = true')
-            ->leftJoin('p.ilot', 'i')
             ->setParameter('campagne', $campagne)
-            ->add('orderBy','p.culture DESC, p.ilot ASC')
+            ->addorderBy('p.active', 'DESC')
+            ->addorderBy('p.completeName', 'ASC')
             ->getQuery();
 
         return $query->getResult();
