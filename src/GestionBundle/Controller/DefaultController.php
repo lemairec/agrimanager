@@ -334,9 +334,9 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/extract", name="extract")
+     * @Route("export", name="export")
      **/
-    public function factureFournisseurExtractAction(Request $request)
+    public function factureFournisseurExportAction(Request $request)
     {
         $files = array();
         $em = $this->getDoctrine()->getManager();
