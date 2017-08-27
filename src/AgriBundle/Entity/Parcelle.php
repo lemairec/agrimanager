@@ -90,6 +90,14 @@ class Parcelle
         }
     }
 
+    public function getCultureColor(){
+        if($this->culture){
+            return $this->culture->color;
+        } else {
+            return "";
+        }
+    }
+
     public function getCultureName(){
         if($this->culture){
             return $this->culture->name;

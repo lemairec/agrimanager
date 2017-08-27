@@ -15,7 +15,7 @@
                 <th>Name</th>
             </tr>
             {% for culture in cultures %}
-            <tr>
+            <tr bgcolor='{{ culture.color}}'>
                 <td><a href="/culture/{{culture.id}}">{{culture.name}}</a></td>
             </tr>
             {% endfor %}

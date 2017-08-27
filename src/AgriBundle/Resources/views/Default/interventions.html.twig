@@ -31,7 +31,7 @@
                 </tr>
 
                 {% for it in intervention.parcelles %}
-                <tr>
+                <tr  bgcolor='{{ it.parcelle.cultureColor}}'>
                     <td>{{it.parcelle.culture}}</td>
                     <td>{{it.parcelle.completeName}}</td>
                     <td class="text-right">{{ it.parcelle.surface | showHa }}</td>
