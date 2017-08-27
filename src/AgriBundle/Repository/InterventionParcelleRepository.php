@@ -14,13 +14,6 @@ class InterventionParcelleRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $em->persist($intervention_parcelle);
         $em->flush();
-        $intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_parcelle->intervention->id);
-        $intervention->surface = 0;
-        foreach($intervention->parcelles as $p){
-            $intervention->surface += $p->parcelle->surface;
-        }
-        $em->persist($intervention);
-        $em->flush();
-        return $intervention;
+        $em->getRepository('AgriBundle:Intervention')->updateSurface($intervention_parcelle->intervention->id);
     }
 }

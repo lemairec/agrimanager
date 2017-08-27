@@ -14,23 +14,6 @@ use \DateTime;
  */
 class InterventionRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($type, $date, $parcelles){
-        $em = $this->getEntityManager();
-        $intervention = new Intervention();
-        $intervention->type = $type;
-        $intervention->date = new Datetime($date);
-        $em->persist($intervention);
-        foreach($parcelles as $p){
-            $it = new InterventionParcelle();
-            $it->intervention = $intervention;
-            $it->parcelle = $p;
-            $em->persist($it);
-            //$intervention->parcelles[] = $it;
-        }
-        $em->flush();
-        return $intervention;
-    }
-
     function delete($intervention_id){
         $em = $this->getEntityManager();
         $intervention = $em->getRepository('AgriBundle:Intervention')->findOneById($intervention_id);
@@ -62,6 +45,17 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getResult();
+    }
+
+    function updateSurface($intervention_id){
+        $intervention = $this->findOneById($intervention_id);
+        $intervention->surface = 0;
+        foreach($intervention->parcelles as $p){
+            $intervention->surface += $p->parcelle->surface;
+        }
+        $em = $this->getEntityManager();
+        $em->persist($intervention);
+        $em->flush();
     }
 
     function getAllForCompany($company){
