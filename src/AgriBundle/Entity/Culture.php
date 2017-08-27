@@ -32,7 +32,7 @@ class Culture
     /**
      * @var color
      *
-     * @ORM\Column(name="color", type="string", length=25)
+     * @ORM\Column(name="color", type="string", length=25, nullable=true)
      */
     public $color;
 
