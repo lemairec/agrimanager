@@ -64,7 +64,7 @@ class Compte
         foreach($this->ecritures as $e){
             $res += $e->value;
         }
-        return -$res;
+        return $res;
     }
 
     public function getPriceNull(){
@@ -74,7 +74,7 @@ class Compte
                 $res += $e->value;
             }
         }
-        return -$res;
+        return $res;
     }
 
     public function getPriceCampagne($campagne){
@@ -84,7 +84,7 @@ class Compte
                 $res += $e->value;
             }
         }
-        return -$res;
+        return $res;
     }
 
     public function __toString ( ){
