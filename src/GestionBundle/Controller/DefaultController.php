@@ -348,7 +348,12 @@ class DefaultController extends CommonController
         foreach ($em->getRepository('GestionBundle:FactureFournisseur')->findAll() as $f) {
             if($f->brochure){
                 $file = $f->brochure;
-                $fileName = $f->date->format('ymd').'_'.str_replace(' ', '_', strtolower($f->name));
+                $str = strtolower($f->name);
+                $str = str_replace(" - ", '_', $str);
+                $str = str_replace(' ', '_', $str);
+                $str = str_replace('-', '', $str);
+
+                $fileName = $f->date->format('Ymd').'_'.$str;
                 $zip->addFile($this->getParameter('factures_directory').'/'.$file, $fileName.'.pdf');
             }
         }
