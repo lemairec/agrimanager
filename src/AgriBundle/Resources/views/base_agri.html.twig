@@ -50,6 +50,8 @@
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/bootstrap-datepicker.min.js"></script>
         <script src="/js/bootstrap-datepicker.fr.min.js"></script>
+        <link href='/lib/DataTables/datatables.min.css' rel='stylesheet' />
+        <script src='/lib/DataTables/datatables.min.js'></script>
         {% block javascripts %}{% endblock %}
     </head>
     <body>
@@ -172,7 +174,12 @@ $(document).ready(function() {
         format: 'dd/mm/yyyy',
         language: 'fr'
     });
+
+    $('.js-datatable').DataTable({
+        "lengthMenu": [[15, 100, -1], [15, 100, "All"]]
+    });
 });
+
     </script>
 
 </html>

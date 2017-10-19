@@ -21,6 +21,11 @@
     {{ form_widget(form, {'attr': {'class': 'form-control js-datepicker'}}) }}
 {% endblock date_widget %}
 
+{% block entity_widget %}
+    {{ form_widget(form, {'attr': {'class': 'form-control js-select'}}) }}
+{% endblock entity_widget %}
+
+
 {% block body %}
     <div class="container bs-docs-container">
     <div class="well">
