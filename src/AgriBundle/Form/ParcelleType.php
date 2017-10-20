@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ParcelleType extends AbstractType
 {
@@ -25,7 +26,8 @@ class ParcelleType extends AbstractType
             'choices' => $options['cultures'],
         ));
         $builder->add('rendement');
-        $builder->add('active')->add('comment');
+        $builder->add('active');
+        $builder->add('comment', TextareaType::class, array('required' => false));
 
 
         $builder->add('save',      SubmitType::class);
