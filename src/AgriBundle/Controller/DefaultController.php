@@ -31,6 +31,7 @@ use AgriBundle\Entity\Produit;
 
 
 use AgriBundle\Form\AchatType;
+use AgriBundle\Form\DataType;
 use AgriBundle\Form\CampagneType;
 use AgriBundle\Form\CompanyType;
 use AgriBundle\Form\CultureType;
@@ -734,6 +735,28 @@ class DefaultController extends CommonController
         return $this->render('AgriBundle:Default:achat.html.twig', array(
             'form' => $form->createView(),
             'produits' => $produits,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+        ));
+    }
+
+    /**
+     * @Route("/achats_data", name="data")
+     **/
+    public function achatsDataEditAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(DataType::class);
+        $form->handleRequest($request);
+
+        $campagne = $this->getCurrentCampagne($request);
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $em->getRepository('AgriBundle:Achat')->saveCAJData($data['data'], $campagne);
+            //return $this->redirectToRoute('achats');
+        }
+        return $this->render('AgriBundle::base_form.html.twig', array(
+            'form' => $form->createView(),
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
         ));

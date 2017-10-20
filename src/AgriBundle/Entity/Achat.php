@@ -27,6 +27,12 @@ class Achat
      */
     public $campagne;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="extern_id", type="string", length=255)
+     */
+    public $externId;
 
     /**
      * @var \DateTime

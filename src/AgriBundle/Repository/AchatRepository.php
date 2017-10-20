@@ -24,12 +24,46 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
 
     function addCaj($achat, $campagne){
         $em = $this->getEntityManager();
+
+        if(!empty($achat->externId)){
+            $achats = $em->getRepository('AgriBundle:Achat')->findByExternId($achat->externId);
+            foreach($achats as $a){
+                $em->remove($a);
+                $em->flush();
+            }
+        }
+
         $produit = $em->getRepository('AgriBundle:Produit')->findOrCreateCaj($achat->name, $achat->type, $achat->unity, $campagne);
         $achat->produit = $produit;
         $achat->campagne = $campagne;
         $em->persist($achat);
         $em->flush();
         $em->getRepository('AgriBundle:Produit')->update($produit);
+    }
+
+    function saveCAJData($data, $campagne){
+        $lines = explode(PHP_EOL, $data);
+        print ("tutu");
+        foreach ($lines as $line) {
+            $rows = preg_split('/[\t]/', $line);
+            print_r($rows);
+            $achat = new Achat();
+            $achat->externId = trim($rows[0]);
+            $achat->comment = $line;
+            $date = trim($rows[1]);
+            $achat->date = date_create_from_format('d/m/Y',$date);
+            $name = trim($rows[2]);
+            $name = str_replace(" pdr","",$name);
+            $achat->name = $name;
+            $achat->type = trim($rows[3]);
+            $achat->qty = floatval(str_replace(",",".",trim($rows[4])));
+            $achat->unity = trim($rows[5]);
+            $achat->price = floatval(str_replace(",",".",trim($rows[6])));
+            $achat->price_total = floatval(str_replace(",",".",trim($rows[7])));
+            $this->addCaj($achat, $campagne);
+            //print_r($achat);
+        }
+
     }
 
     function addRows($rows, $campagne){
