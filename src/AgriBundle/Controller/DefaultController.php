@@ -80,7 +80,8 @@ class DefaultController extends CommonController
         $this->get("security.token_storage")->setToken($token);
         $this->get('session')->set('_security_main',serialize($token));
 
-        return $this->redirectToRoute("home");
+        //home
+        return $this->indexAction($request);
 }
 
     /**
