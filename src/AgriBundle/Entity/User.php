@@ -41,9 +41,12 @@ class User implements UserInterface, \Serializable
      */
     public $isActive;
 
+    public $show_unity = true;
+
     public function __construct()
     {
         $this->isActive = true;
+        $this->show_unity = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }

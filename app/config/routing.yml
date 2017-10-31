@@ -1,3 +1,8 @@
+annonce:
+    resource: "@AnnonceBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 gestion:
     resource: "@GestionBundle/Controller/"
     type:     annotation

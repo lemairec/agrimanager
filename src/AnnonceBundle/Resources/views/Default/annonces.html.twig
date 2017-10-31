@@ -1,0 +1,53 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+{% from "AgriBundle::base_agri.html.twig" import show_eur %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div id="annonces">
+
+    <form name="search" method="post">
+        <input  id="label" name="label" class="search" placeholder="Search" />
+        <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
+        <button type="submit" id="Ok">Ok</button>
+    </form>
+    <div class="list list-group">
+        {% for annonce in annonces %}
+        <div>
+            <a href="{{annonce.url}}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="media">
+                <div class="media-left">
+                    {% if annonce.image %}
+                        <img class="media-object" height="120" width="120" style="object-fit: contain; background:lightgray;" src="{{annonce.image}}" alt="...">
+                    {% else %}
+                        <img class="media-object"  height="120" width="120" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEzLjQ2MDkzNzUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" alt="...">
+                    {% endif %}
+                </div>
+                <div class="media-body">
+                    <h4 class="name">{{ annonce.title }}</h4>
+                    <h5>{{ annonce.price | showEur }}</h5>
+                    <div>{{ annonce.type }} {{ annonce.description }}</div>
+                    <h5 class="date">{{annonce.firstView | showDateTime }} ---- {{annonce.lastView | showDateTime }}</h5>
+                </div>
+            </div>
+
+        </a></div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+$( function() {
+    var options = {
+      valueNames: [ 'name', 'date' ]
+    };
+    var userList = new List('annonces', options);
+    console.log("toto");
+} );
+</script>
+{% endblock %}

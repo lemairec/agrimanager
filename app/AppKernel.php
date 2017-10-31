@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AgriBundle\AgriBundle(),
             new EphyBundle\EphyBundle(),
             new GestionBundle\GestionBundle(),
+            new AnnonceBundle\AnnonceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

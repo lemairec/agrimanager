@@ -15,8 +15,6 @@ use AgriBundle\Entity\Company;
 use AgriBundle\Entity\Campagne;
 use AgriBundle\Entity\Produit;
 
-use Goutte\Client;
-
 class InitbddCommand extends ContainerAwareCommand
 {
     protected function configure()
