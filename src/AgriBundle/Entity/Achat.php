@@ -30,7 +30,7 @@ class Achat
     /**
      * @var string
      *
-     * @ORM\Column(name="extern_id", type="string", length=255)
+     * @ORM\Column(name="extern_id", type="string", length=255, nullable=true)
      */
     public $externId;
 
