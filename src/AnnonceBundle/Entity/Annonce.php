@@ -84,6 +84,13 @@ class Annonce
     public $image;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    public $new;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="log", type="string", length=2550)

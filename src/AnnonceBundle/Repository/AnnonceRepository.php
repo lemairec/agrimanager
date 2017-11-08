@@ -30,4 +30,15 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    function updateNew(){
+        $res = $this->findByNew(true);
+        $em = $this->getEntityManager();
+        foreach($res as $r){
+            $r->new = false;
+            $em->persist($r);
+        }
+        $em->flush();
+
+    }
 }

@@ -16,7 +16,7 @@
         {% for annonce in annonces %}
         <div>
             <a href="{{annonce.url}}" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="media">
+            <div class="media" {% if not annonce.new %} style="background-color: grey;" {% endif %}>
                 <div class="media-left">
                     {% if annonce.image %}
                         <img class="media-object" height="120" width="120" style="object-fit: contain; background:lightgray;" src="{{annonce.image}}" alt="...">

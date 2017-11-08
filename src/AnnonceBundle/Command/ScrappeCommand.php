@@ -42,7 +42,10 @@ class ScrappeCommand extends ContainerAwareCommand
         }
 
         $output->writeln('Command result.');
-        $this->scrappe_leboncoins();
+
+		$em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em->getRepository('AnnonceBundle:Annonce')->updateNew();
+		$this->scrappe_leboncoins();
         $this->scrappe_agriaffaires();
     }
 
@@ -93,6 +96,7 @@ class ScrappeCommand extends ContainerAwareCommand
 
 
             $annonce = new Annonce();
+			$annonce->new = true;
             $annonce->type = "leboncoin";
             $annonce->title = $title;
             $annonce->price = intval($price);
@@ -145,6 +149,7 @@ class ScrappeCommand extends ContainerAwareCommand
         	//print("\n***********".$description);
 
             $annonce = new Annonce();
+			$annonce->new = true;
             $annonce->title = $title;
             $annonce->type = "agriaffaire";
             $annonce->price = intval($price);
