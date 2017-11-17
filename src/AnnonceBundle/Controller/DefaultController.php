@@ -15,12 +15,27 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
-        
+
         if(empty($params["label"])){
             $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAll();
         } else {
             $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAll2($params["label"]);
         }
+        return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
+            'annonces' => $annonces,
+        ));
+    }
+
+    /**
+     * @Route("/annonces/bennes")
+     */
+    public function bennesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $params = $request->request->all();
+
+        $annonces = $em->getRepository('AnnonceBundle:Annonce')->getBennes();
+
         return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
             'annonces' => $annonces,
         ));

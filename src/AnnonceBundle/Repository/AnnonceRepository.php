@@ -13,7 +13,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
     function getAll(){
         $query = $this->createQueryBuilder('p')
             ->addorderBy('p.firstView', 'DESC')
-            ->setMaxResults(200)
+            ->setMaxResults(400)
             ->getQuery();
 
         return $query->getResult();
@@ -24,12 +24,26 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
             ->where('p.title LIKE :label')
             ->OrWhere('p.description LIKE :label')
             ->addorderBy('p.firstView', 'DESC')
-            ->setMaxResults(200)
+            ->setMaxResults(400)
             ->setParameter('label', '%'.$label.'%')
             ->getQuery();
 
         return $query->getResult();
     }
+
+    function getBennes(){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.price > 1000 and p.price < 10000 and (p.title LIKE :label or p.description LIKE :label or p.title LIKE :label2 or p.description LIKE :label2)')
+
+            ->addorderBy('p.firstView', 'DESC')
+            ->setMaxResults(400)
+            ->setParameter('label', '%benne%')
+            ->setParameter('label2', '%brimont%')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
 
     function updateNew(){
         $res = $this->findByNew(true);
