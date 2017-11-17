@@ -46,6 +46,8 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('unity', $unity)
             ->getQuery()->getOneOrNullResult();;
         if($produit){
+            $produit->type = $type;
+            $this->save($produit);
             return $produit;
         }
         $produit = new Produit();
