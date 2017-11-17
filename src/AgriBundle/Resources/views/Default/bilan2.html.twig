@@ -26,6 +26,15 @@
 
                     <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
                 </tr>
+                {% for key,t in parcelle.details %}
+                <tr  bgcolor='{{ parcelle.cultureColor}}'>
+                    <td></td>
+                    <td></td>
+                    <td>{{key}}</td>
+                    <td class="text-right">{{base_agri.show_eur_ha(t)}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
                 {% endfor %}
             </table>
         </div>
@@ -46,15 +55,13 @@
                     <th class="text-right">Rendement</th>
                 </tr>
                 {% for culture in cultures %}
-                <tr  bgcolor='{{ culture['color']}}'>
+                <tr>
                     <td></td>
                     <td>{{culture['culture']}}</td>
                     <td class="text-right">{{ culture['surface'] | showHa }}</td>
                     <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
                     <td class="text-right">{{base_agri.show_unity(culture['poid_norme'], 't')}}</td>
                     <td class="text-right">{{base_agri.show_unity(culture['poid_norme']/culture['surface'], 't/ha')}}</td>
-
-
                 </tr>
                 {% endfor %}
             </table>
