@@ -55,11 +55,11 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->type = $type;
         $produit->unity = $unity;
         $ephy = $em->getRepository('EphyBundle:EphyProduit')->findOneByCompleteName($name);
-        if($ephy){
+        /*if($ephy){
             $produit->type = "ppp";
         } else {
             $produit->type = "autre";
-        }
+        }*/
         $produit->ephyProduit = $ephy;
         $this->save($produit);
         return $produit;
