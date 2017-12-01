@@ -47,7 +47,23 @@ class ScrappeCommand extends ContainerAwareCommand
         $em->getRepository('AnnonceBundle:Annonce')->updateNew();
 		$this->scrappe_leboncoins();
         $this->scrappe_agriaffaires();
+		//$this->pass([]);
+
     }
+
+	protected function saveOrUpdate($array){
+		$url = "localhost:8000/annonces/api";
+        $postfield = array(
+            "annonces" => json_encode($array),
+        );
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfield);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+		print $response;
+	}
 
     protected function scrappe_leboncoins(){
         for ($i = 1; $i <= 3; $i++) {
@@ -79,6 +95,8 @@ class ScrappeCommand extends ContainerAwareCommand
         $client = new Client();
         $crawler = $client->request('GET', $path);
         //print($crawler->text());
+		$this->annonces = [];
+
         $crawler->filter('body > section > main > section > section > section > section > ul > li > a')->each(function ($node) {
             $url = $node->attr('href');
             $title = $node->filter('section[class="item_infos"] > h2')->text();
@@ -107,11 +125,12 @@ class ScrappeCommand extends ContainerAwareCommand
             $annonce->clientId = $url;
             $annonce->description = "";
 
-            $this->saveOrUpdate($annonce);
-            //print($node->html());
+			$this->annonces[] = $annonce;
+			//print($node->html());
             //
             //$this->scrapper_ephy_link($link);
         });
+		$this->saveOrUpdate($this->annonces);
     }
 
     protected function scrappe_agriaffaires(){
@@ -128,7 +147,8 @@ class ScrappeCommand extends ContainerAwareCommand
         $client = new Client();
         $crawler = $client->request('GET', $path);
         //print($crawler->text());
-        $crawler->filter('div[class="liste-simple"]')->each(function ($node) {
+		$this->annonces = [];
+		$crawler->filter('div[class="liste-simple"]')->each(function ($node) {
             $title = $node->filter('h3')->text();
             $title = superTrim($title);
             //print("\n***********".$title);
@@ -149,55 +169,25 @@ class ScrappeCommand extends ContainerAwareCommand
         	//print("\n***********".$description);
 
             $annonce = new Annonce();
-			$annonce->new = true;
-            $annonce->title = $title;
+			$annonce->title = $title;
             $annonce->type = "agriaffaire";
             $annonce->price = intval($price);
             $annonce->url = $url;
             $annonce->image = $image;
-            $annonce->lastView = new \Datetime();
             $annonce->description = $description;
-            $annonce->log = "";
             $annonce->clientId = $url;
 
-            if($annonce->price > 10){
-                $this->saveOrUpdate($annonce);
-            }
+			$this->annonces[] = $annonce;
+
             //print($node->html());
             //
             //$this->scrapper_ephy_link($link);
         });
+		$this->saveOrUpdate($this->annonces);
 
     }
 
-    function saveOrUpdate($annonce){
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $annoncerepository = $em->getRepository('AnnonceBundle:Annonce');
-        $annonce2 = $annoncerepository->findOneByClientId($annonce->url);
-        if($annonce2 == null){
-            $annonce->firstView = $annonce->lastView;
-            print("\n*******");
-            print("\n*******");
-            print("\nlink :   ".$annonce->url);
-            print("\ntitle :  ".$annonce->title);
-            print("\nprice :  ".$annonce->price);
-            $em->persist($annonce);
-            $em->flush();
-            //print("\nimage :  ".$image);
-            //print("\ntime :   ".$time);
 
-            //print("\n*******\n");
-            return true;
-        } else {
-            print("find annonce \n");
-            $annonce2->lastView = $annonce->lastView;
-            $em->persist($annonce2);
-            $em->flush();
-            return false;
-        }
-
-
-    }
 
 
 

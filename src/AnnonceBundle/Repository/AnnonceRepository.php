@@ -35,7 +35,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.price > 1000 and p.price < 10000 and (p.title LIKE :label or p.description LIKE :label or p.title LIKE :label2 or p.description LIKE :label2)')
 
-            ->addorderBy('p.firstView', 'DESC')
+            ->addorderBy('p.price', 'DESC')
             ->setMaxResults(400)
             ->setParameter('label', '%benne%')
             ->setParameter('label2', '%brimont%')
@@ -54,5 +54,37 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
         }
         $em->flush();
 
+    }
+
+
+    function saveOrUpdate($annonce){
+        $annonce->log = "";
+        $annonce->new = true;
+        $annonce->lastView = new \Datetime();
+
+        $em = $this->getEntityManager();
+        $annoncerepository = $this;
+        $annonce2 = $annoncerepository->findOneByClientId($annonce->url);
+        if($annonce2 == null){
+            $annonce->firstView = $annonce->lastView;
+            print("\n*******");
+            print("\n*******");
+            print("\nlink :   ".$annonce->url);
+            print("\ntitle :  ".$annonce->title);
+            print("\nprice :  ".$annonce->price);
+            $em->persist($annonce);
+            $em->flush();
+            //print("\nimage :  ".$image);
+            //print("\ntime :   ".$time);
+
+            //print("\n*******\n");
+            return true;
+        } else {
+            print("find annonce \n");
+            $annonce2->lastView = $annonce->lastView;
+            $em->persist($annonce2);
+            $em->flush();
+            return false;
+        }
     }
 }
