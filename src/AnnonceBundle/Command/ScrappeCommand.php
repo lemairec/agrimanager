@@ -49,8 +49,8 @@ class ScrappeCommand extends ContainerAwareCommand
 	}
 
 	protected function saveOrUpdate($array){
+		$url = "https://www.maplaine.fr/annonces/api";
 		//$url = "localhost:8000/annonces/api";
-        $url = "https://www.maplaine.fr/annonces/api";
         $postfield = array(
             "annonces" => json_encode($array),
         );
@@ -64,8 +64,8 @@ class ScrappeCommand extends ContainerAwareCommand
 	}
 
 	protected function updateNew(){
+		$url = "https://www.maplaine.fr/annonces/api";
 		//$url = "localhost:8000/annonces/api/update_new";
-        $url = "https://www.maplaine.fr/annonces/api";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
