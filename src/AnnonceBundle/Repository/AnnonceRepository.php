@@ -60,8 +60,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
     function saveOrUpdate($annonce){
         $annonce->log = "";
         $annonce->new = true;
-        $annonce->lastView = new \Datetime();
-
+        
         $em = $this->getEntityManager();
         $annoncerepository = $this;
         $annonce2 = $annoncerepository->findOneByClientId($annonce->url);

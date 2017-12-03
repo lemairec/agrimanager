@@ -43,16 +43,14 @@ class ScrappeCommand extends ContainerAwareCommand
 
         $output->writeln('Command result.');
 
-		$em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $em->getRepository('AnnonceBundle:Annonce')->updateNew();
+		$this->updateNew();
 		$this->scrappe_leboncoins();
         $this->scrappe_agriaffaires();
-		//$this->pass([]);
-
-    }
+	}
 
 	protected function saveOrUpdate($array){
-		$url = "localhost:8000/annonces/api";
+		//$url = "localhost:8000/annonces/api";
+        $url = "https://www.maplaine.fr/annonces/api";
         $postfield = array(
             "annonces" => json_encode($array),
         );
@@ -60,6 +58,17 @@ class ScrappeCommand extends ContainerAwareCommand
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postfield);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+		print $response;
+	}
+
+	protected function updateNew(){
+		//$url = "localhost:8000/annonces/api/update_new";
+        $url = "https://www.maplaine.fr/annonces/api";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
 		print $response;
@@ -116,7 +125,7 @@ class ScrappeCommand extends ContainerAwareCommand
             $annonce = new Annonce();
 			$annonce->new = true;
             $annonce->type = "leboncoin";
-            $annonce->title = $title;
+			$annonce->title = $title;
             $annonce->price = intval($price);
             $annonce->url = $url;
             $annonce->image = $image;
@@ -126,10 +135,7 @@ class ScrappeCommand extends ContainerAwareCommand
             $annonce->description = "";
 
 			$this->annonces[] = $annonce;
-			//print($node->html());
-            //
-            //$this->scrapper_ephy_link($link);
-        });
+		});
 		$this->saveOrUpdate($this->annonces);
     }
 
@@ -169,20 +175,19 @@ class ScrappeCommand extends ContainerAwareCommand
         	//print("\n***********".$description);
 
             $annonce = new Annonce();
-			$annonce->title = $title;
+			$annonce->new = true;
             $annonce->type = "agriaffaire";
+			$annonce->title = $title;
             $annonce->price = intval($price);
             $annonce->url = $url;
             $annonce->image = $image;
-            $annonce->description = $description;
-            $annonce->clientId = $url;
+			$annonce->lastView = $datetime;
+			$annonce->log = "";
+			$annonce->clientId = $url;
+			$annonce->description = $description;
 
 			$this->annonces[] = $annonce;
-
-            //print($node->html());
-            //
-            //$this->scrapper_ephy_link($link);
-        });
+		});
 		$this->saveOrUpdate($this->annonces);
 
     }

@@ -30,7 +30,7 @@ security:
 
         annonce_api:
             # Cette expression régulière permet de prendre /login (mais pas /login_check !)
-            pattern:   ^/annonces/api$
+            pattern:   ^/annonces/api
             anonymous: true # On autorise alors les anonymes sur ce pare-feu
 
         main:
