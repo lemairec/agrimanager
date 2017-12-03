@@ -64,11 +64,10 @@ class ScrappeCommand extends ContainerAwareCommand
 	}
 
 	protected function updateNew(){
-		$url = "https://www.maplaine.fr/annonces/api";
+		$url = "https://www.maplaine.fr/annonces/api/update_new";
 		//$url = "localhost:8000/annonces/api/update_new";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
 		print $response;
