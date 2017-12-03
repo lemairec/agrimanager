@@ -180,7 +180,7 @@ class ScrappeCommand extends ContainerAwareCommand
             $annonce->price = intval($price);
             $annonce->url = $url;
             $annonce->image = $image;
-			$annonce->lastView = $datetime;
+			$annonce->lastView = new \DateTime();;
 			$annonce->log = "";
 			$annonce->clientId = $url;
 			$annonce->description = $description;

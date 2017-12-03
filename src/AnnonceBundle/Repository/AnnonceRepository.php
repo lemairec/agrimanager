@@ -80,7 +80,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
             return true;
         } else {
             print("find annonce \n");
-            $annonce2->lastView = $annonce->lastView;
+            $annonce2->lastView = new \DateTime();
             $em->persist($annonce2);
             $em->flush();
             return false;
