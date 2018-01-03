@@ -97,8 +97,7 @@ class DefaultController extends CommonController
             }
             $comptes_campagnes[$campagne->name] = $res;
         }
-        print(json_encode($comptes_campagnes));
-
+        
         return $this->render('GestionBundle:Default:comptes.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
