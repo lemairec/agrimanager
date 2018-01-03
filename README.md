@@ -26,7 +26,9 @@ php bin/console doctrine:schema:update --force
 
 modify web/app.dev => true
 
+Back_up
+-------
+
 ````
--$kernel = new AppKernel('prod', false);
-+$kernel = new AppKernel('prod', true);
+mysql --host localhost --user root --password maplaine < ~/Downloads/maplainemkagri_2.sql
 ````
