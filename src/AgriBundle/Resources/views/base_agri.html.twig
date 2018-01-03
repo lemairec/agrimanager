@@ -44,15 +44,15 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/bootstrap-datepicker.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
-        <link href="http://ionicons.com/css/ionicons.min.css?v=2.0.1" rel="stylesheet">
+        <link href="/css/jquery.dataTables.min.css" rel="stylesheet">
+        <link href="/css/ionicons.min.css?v=2.0.1" rel="stylesheet">
         <script src="/js/jquery.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/bootstrap-datepicker.min.js"></script>
         <script src="/js/bootstrap-datepicker.fr.min.js"></script>
         <link href='/lib/DataTables/datatables.min.css' rel='stylesheet' />
         <script src='/lib/DataTables/datatables.min.js'></script>
-        <script src='http://listjs.com/assets/javascripts/list.min.js'></script>
+        <script src='/js/list.min.js'></script>
         {% block javascripts %}{% endblock %}
     </head>
     <body>
@@ -151,7 +151,7 @@
             {% if app.user.show_unity %}
                 <a href="?show_unity=false">Not show unity</a>
             {% else %}
-                <a href="?show_unity=true">Show unity</a>    
+                <a href="?show_unity=true">Show unity</a>
             {% endif %}
         </div>
         {% block body %}{% endblock %}
