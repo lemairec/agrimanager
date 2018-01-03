@@ -87,10 +87,23 @@ class DefaultController extends CommonController
 
         $comptes = $em->getRepository('GestionBundle:Compte')->getAllForCampagne($campagne);
 
+        $comptes_campagnes = [];
+        foreach ($this->campagnes as $campagne) {
+            $res = 0;
+            foreach ($comptes as $compte) {
+                if ($compte->type == 'campagne' || $compte->getPriceCampagne($campagne) != 0){
+                    $res = $res + $compte->getPriceCampagne($campagne);
+                }
+            }
+            $comptes_campagnes[$campagne->name] = $res;
+        }
+        print(json_encode($comptes_campagnes));
+
         return $this->render('GestionBundle:Default:comptes.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'comptes' => $comptes,
+            'comptes_campagnes' => $comptes_campagnes
         ));
     }
 
