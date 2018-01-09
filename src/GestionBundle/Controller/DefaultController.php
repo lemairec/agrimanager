@@ -97,7 +97,7 @@ class DefaultController extends CommonController
             }
             $comptes_campagnes[$campagne->name] = $res;
         }
-        
+
         return $this->render('GestionBundle:Default:comptes.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
@@ -114,7 +114,65 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $banque = $em->getRepository('GestionBundle:Compte')->getFirstBanque();
-        return $this->redirectToRoute('compte', array('compte_id' => $banque->id));
+        $compte = $banque;
+        $operations = $em->getRepository('GestionBundle:Operation')->getAllForCompte($compte);
+        $ecritures = [];
+        $value = 0;
+        $l = count($operations);
+        $year = "";
+        for($i = 0; $i < $l; ++$i){
+            $operation = $operations[$i];
+            $ignore = false;
+            foreach($operation->ecritures as $e){
+                if($e->compte->name=="400. Installation"
+                || $e->compte->name=="800. reprise"
+                || $e->compte->name=="300. Cours Terme"
+                || $e->compte->name=="002. hsbc"){
+                    $ignore = true;
+
+                }
+                if($e->compte->name=="910. emprunt lt" && $e->value > 0){
+                    $ignore = true;
+                }
+            }
+
+            foreach($operation->ecritures as $e){
+
+                if($e->compte == $compte){
+                    $new_year = $operation->date->format('Y');
+                    if($new_year != $year){
+                        $ecriture = ['operation_id'=>'annee', 'campagne'=>$year, 'date'=>$year, 'name'=>$year, 'value'=>0, 'ignore'=>false, 'sum_value'=>$value];
+                        $ecritures[] = $ecriture;
+                        $year = $new_year;
+                        $value = 0;
+                    }
+                    print($new_year);
+                    $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value, 'ignore'=>$ignore];
+                    $ecriture['campagne'] = "";
+                    if($e->campagne){
+                        $ecriture['campagne'] = $e->campagne->name;
+                    }
+                    if($compte->type == 'banque'){
+                        $ecriture['value'] = -$ecriture['value'];
+                    }
+
+                    if($ignore){
+
+                    } else {
+                        $value += $ecriture['value'];
+
+                    }
+                    $ecriture['sum_value'] = $value;
+
+                    $ecritures[] = $ecriture;
+                }
+            }
+        }
+        $ecritures = array_reverse($ecritures);
+        return $this->render('GestionBundle:Default:ecritures.html.twig', array(
+            'compte' => $compte,
+            'ecritures' => $ecritures
+        ));
     }
 
 
