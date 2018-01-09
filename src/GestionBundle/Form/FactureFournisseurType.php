@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class FactureFournisseurType extends AbstractType
 {
@@ -27,6 +28,13 @@ class FactureFournisseurType extends AbstractType
         $builder->add('campagne', EntityType::class, array(
             'class'        => 'AgriBundle:Campagne',
             'choices' => $options['campagnes'],
+        ));
+        $builder->add('type', ChoiceType::class, array(
+            'choices' => array(
+                'Achat' => 'Achat',
+                'Vente' => 'Vente',
+            )
+
         ));
         $builder->add('montantHT')->add('montantTTC')->add('compte');
         $builder->add('banque', EntityType::class, array(

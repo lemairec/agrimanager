@@ -57,6 +57,13 @@ class FactureFournisseur
     public $montantTTC;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $type;
+
+    /**
      * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Compte")
      * @ORM\JoinColumn(nullable=false)
      */

@@ -312,6 +312,13 @@ class DefaultController extends CommonController
             }
             $operations = $em->getRepository('GestionBundle:Operation')->getForFacture($facture);
         }
+        if($facture->type == "V"){
+            $facture->type = "Vente";
+            $facture->montantTTC = -$facture->montantTTC;
+            $facture->montantHT = -$facture->montantHT;
+        } else {
+            $facture->type = "Achat";
+        }
         $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllAndNullforCompany($this->company);
         $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques($this->company);
         $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques($this->company);
@@ -334,6 +341,13 @@ class DefaultController extends CommonController
                 $facture->brochure = $fileName;
             } else {
                 $facture->brochure = $em->getRepository('GestionBundle:FactureFournisseur')->selectLastDocument($facture_id);
+            }
+            if($facture->type == "Vente"){
+                $facture->type = "V";
+                $facture->montantTTC = -$facture->montantTTC;
+                $facture->montantHT = -$facture->montantHT;
+            } else {
+                $facture->type == "A";
             }
             $em->getRepository('GestionBundle:FactureFournisseur')->save($facture);
             return $this->redirectPreviousPage($request);
