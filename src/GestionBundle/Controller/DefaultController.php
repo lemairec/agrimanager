@@ -437,6 +437,7 @@ class DefaultController extends CommonController
                 $str = str_replace(' ', '_', $str);
                 $str = str_replace('-', '', $str);
                 $str = str_replace('/', '_', $str);
+                $str = str_replace('&', '_', $str);
 
                 $fileName = $f->date->format('Ymd').'_'.$str;
                 $zip->addFile($this->getParameter('factures_directory').'/'.$file, $fileName.'.pdf');
