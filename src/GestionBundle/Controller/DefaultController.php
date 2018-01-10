@@ -146,7 +146,7 @@ class DefaultController extends CommonController
                         $year = $new_year;
                         $value = 0;
                     }
-                    print($new_year);
+                    //print($new_year);
                     $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value, 'ignore'=>$ignore];
                     $ecriture['campagne'] = "";
                     if($e->campagne){
@@ -436,6 +436,7 @@ class DefaultController extends CommonController
                 $str = str_replace(" - ", '_', $str);
                 $str = str_replace(' ', '_', $str);
                 $str = str_replace('-', '', $str);
+                $str = str_replace('/', '_', $str);
 
                 $fileName = $f->date->format('Ymd').'_'.$str;
                 $zip->addFile($this->getParameter('factures_directory').'/'.$file, $fileName.'.pdf');
