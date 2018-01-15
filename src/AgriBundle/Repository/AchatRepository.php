@@ -119,4 +119,11 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    function delete($achat_id){
+        $em = $this->getEntityManager();
+        $achat = $this->findOneById($achat_id);
+        $em->remove($achat);
+        $em->flush();
+    }
 }
