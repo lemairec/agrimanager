@@ -139,12 +139,17 @@ class ScrappeCommand extends ContainerAwareCommand
     }
 
     protected function scrappe_agriaffaires(){
-        $this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/outil-non-anime/1-france_champagne-ardennes.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/tracteur-agricole/1-france_champagne-ardennes.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/tracteur-agricole/2-france_champagne-ardennes.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/tracteur-agricole/3-france_champagne-ardennes.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/tracteur-agricole/1-france_picardie.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/tracteur-agricole/2-france_picardie.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/outil-non-anime/1-france_champagne-ardennes.html");
         $this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/outil-non-anime/1-france_picardie.html");
         $this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/benne-cerealiere/1-france_champagne-ardennes.html");
         $this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/benne-cerealiere/1-france_picardie.html");
         $this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/semoir/1-france_champagne-ardennes.html");
-        $this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/semoir/1-france_picardie.html");
+		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/semoir/1-france_picardie.html");
     }
 
     protected function scrappe_agriaffaire($path){
