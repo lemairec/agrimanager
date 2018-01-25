@@ -34,12 +34,12 @@
     <!-- Default panel contents -->
     <div class="panel-heading">
         Parcelles
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/parcelle/0'">ADD</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/parcelle/0'">{{'Add' | trans}}</button>
     </div>
     <table class="table">
         <tr>
             <th>Id</th>
-            <th>Name</th>
+            <th>{{'Name' | trans}}</th>
             <th>Surface</th>
         </tr>
         {% for it in intervention.parcelles %}
@@ -60,12 +60,12 @@
     <!-- Default panel contents -->
     <div class="panel-heading">
         Produits
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/produit/0'">ADD</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/produit/0'">{{'Add' | trans}}</button>
     </div>
     <table class="table">
         <tr>
             <th>Amm</th>
-            <th>Name</th>
+            <th>{{'Name' | trans}}</th>
             <th>Qty</th>
             <th></th>
         </tr>
@@ -83,11 +83,11 @@
     <!-- Default panel contents -->
     <div class="panel-heading">
         Materiel
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/materiel/0'">ADD</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/materiel/0'">{{'Add' | trans}}</button>
     </div>
     <table class="table">
         <tr>
-            <th>Name</th>
+            <th>{{'Name' | trans}}</th>
         </tr>
         {% for it in intervention.materiels %}
         <tr>

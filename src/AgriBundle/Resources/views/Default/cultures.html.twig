@@ -8,11 +8,11 @@
         <!-- Default panel contents -->
         <div class="panel-heading">
             Cultures
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/culture/0'">ADD</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/culture/0'">{{'Add' | trans }}</button>
         </div>
         <table class="table">
             <tr>
-                <th>Name</th>
+                <th>{{'Name' | trans }}</th>
             </tr>
             {% for culture in cultures %}
             <tr bgcolor='{{ culture.color}}'>
