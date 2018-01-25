@@ -55,12 +55,14 @@ class Company
      * @ORM\Column(name="meto_city", type="string", length=255, nullable=true)
      */
     public $meteoCity;
-
+    
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinTable(name="_fos_user_user_company",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="company_id", referencedColumnName="id")}
+     * )
      */
-    public $user;
-
+    public $users;
 
 }

@@ -11,15 +11,25 @@ use AgriBundle\Entity\Company;
  */
 class CompanyRepository extends \Doctrine\ORM\EntityRepository
 {
+    function getAllForUser($user){
+        $em = $this->getEntityManager();
+        $companies = $this->createQueryBuilder('c')
+            ->innerJoin('c.users', 'u')
+            ->where('u.id = :user_id')
+            ->setParameter('user_id', $user->id)
+            ->getQuery()->getResult();
+        return $companies;
+    }
+
     function findOrCreate($user){
         $em = $this->getEntityManager();
-        $company = $this->findOneByUser($user);
-        if($company){
-            return $company;
+        $companies = $this->getAllForUser($user);
+        if(count($companies)>0){
+            return $companies[0];
         }
         $company = new Company();
-        $company->user = $user;
-        $company->name = "";
+        $company->users = [$user];
+        $company->name = $user->getUserName();
         $company->adresse = "";
         $em->persist($company);
         $em->flush();

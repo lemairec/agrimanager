@@ -41,6 +41,16 @@ framework:
     php_errors:
         log: true
 
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    from_email:
+        address: "toto@toto.fr"
+        sender_name: "toto@toto.fr"
+    user_class: AppBundle\Entity\User
+    group:
+        group_class: AppBundle\Entity\Group
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"

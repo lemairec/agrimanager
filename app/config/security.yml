@@ -1,45 +1,29 @@
 # app/config/security.yml
 security:
     encoders:
-        AgriBundle\Entity\User:
+        AppBundle\Entity\User:
             algorithm: bcrypt
 
     # ...
 
     providers:
-        our_db_provider:
-            entity:
-                class: AgriBundle:User
-                property: username
-                # if you're using multiple entity managers
-                # manager_name: customer
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        no_login:
-            pattern: ^/k8f96gtb$
-            anonymous: true
-
-        main_login:
-            # Cette expression régulière permet de prendre /login (mais pas /login_check !)
-            pattern:   ^/login$
-            anonymous: true # On autorise alors les anonymes sur ce pare-feu
-
-        annonce_api:
-            # Cette expression régulière permet de prendre /login (mais pas /login_check !)
-            pattern:   ^/annonces/api
-            anonymous: true # On autorise alors les anonymes sur ce pare-feu
-
         main:
-            pattern:      ^/
-            anonymous:    false
+            pattern: ^/
             form_login:
-                login_path: login
-                check_path: login_check
-            logout:
-                path:       logout
-                target:     /
-            provider: our_db_provider
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        - { path: ^/init$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/k8f96gtb$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/annonces/api, role: IS_AUTHENTICATED_ANONYMOUSLY }

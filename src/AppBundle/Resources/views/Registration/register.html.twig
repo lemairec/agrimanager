@@ -1,0 +1,92 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block head %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock head %}
+
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-2">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-10">
+        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+{% block choice_widget_expanded %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+    {% for child in form %}
+        <div class="radio">
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
+        </div>
+    {% endfor %}
+    </div>
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+<div class="ab-vertical-center">
+		<div class="container">
+			<div class="row">
+                <div class="col-xs-10 col-sm-8 col-md-6 col-lg-4 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 col-lg-offset-4  ab-form-wrapper">
+                    {% if not form.vars.valid %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form) }}
+                        {{ form_errors(form.email) }}
+                        {{ form_errors(form.username) }}
+                        {{ form_errors(form.plainPassword) }}
+                        {{ form_errors(form.plainPassword.first) }}
+                        {{ form_errors(form.plainPassword.second) }}
+                    </div>
+                    {% endif %}
+                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                        <div class="form-group row">
+							<div class="col-sm-12">
+								<label for="fos_user_registration_form_username" class="required">{{ 'form.username'|trans }} <span class="frm_required">*</span></label>
+                                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                        	</div>
+						</div>
+                        <div class="form-group row">
+							<div class="col-sm-12">
+								<label for="fos_user_registration_form_email" class="required">{{ 'form.email'|trans }} <span class="frm_required">*</span></label>
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+						</div>
+                        <div class="form-group row top-spacer-medium">
+							<div class="col-sm-12">
+								<label for="fos_user_registration_form_plainPassword_first" class="required">{{ 'form.password'|trans }} <span class="frm_required">*</span></label>
+                                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+						</div>
+                        <div class="form-group row">
+							<div class="col-sm-12">
+								<label for="fos_user_registration_form_plainPassword_second" class="required">{{ 'form.password_confirmation'|trans }} <span class="frm_required">*</span></label>
+                                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+						</div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <div class="g-recaptcha" data-sitekey="6Lc2tTwUAAAAAAZMO5NRtNQyLiTR9EgqlQVRl620"></div>
+                            </div>
+                        </div>
+                        <input id="_submit" class="btn btn-primary ab-rounded" value="{{ 'registration.submit'|trans }}" type="submit">
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

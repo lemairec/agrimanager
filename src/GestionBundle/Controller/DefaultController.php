@@ -120,6 +120,8 @@ class DefaultController extends CommonController
         $value = 0;
         $l = count($operations);
         $year = "";
+        $month = "";
+        $value_month = [];
         for($i = 0; $i < $l; ++$i){
             $operation = $operations[$i];
             $ignore = false;
@@ -140,12 +142,19 @@ class DefaultController extends CommonController
 
                 if($e->compte == $compte){
                     $new_year = $operation->date->format('Y');
+                    $new_month = $operation->date->format('Y-m');
+                    if($new_month != $month){
+                        $m = $operation->date->format('m');
+                        $value_month[] = ['year'=>$year, 'month'=>$m, 'value'=>$value];
+                        $month = $new_month;
+                    }
                     if($new_year != $year){
                         $ecriture = ['operation_id'=>'annee', 'campagne'=>$year, 'date'=>$year, 'name'=>$year, 'value'=>0, 'ignore'=>false, 'sum_value'=>$value];
                         $ecritures[] = $ecriture;
                         $year = $new_year;
                         $value = 0;
                     }
+
                     //print($new_year);
                     $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value, 'ignore'=>$ignore];
                     $ecriture['campagne'] = "";
@@ -168,6 +177,7 @@ class DefaultController extends CommonController
                 }
             }
         }
+        //print(json_encode($value_month));
         $ecritures = array_reverse($ecritures);
         return $this->render('GestionBundle:Default:ecritures.html.twig', array(
             'compte' => $compte,

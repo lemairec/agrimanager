@@ -1,0 +1,27 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+{% from "AgriBundle::base_agri.html.twig" import show_eur %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Qty</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td><a href="{{ url("admin_user", {'id': user.id}) }}">{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.getLastLogin | date}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new EphyBundle\EphyBundle(),
             new GestionBundle\GestionBundle(),
             new AnnonceBundle\AnnonceBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
