@@ -74,7 +74,7 @@ class DefaultController extends CommonController
         if($user_id == ''){
             return new Response("user not found");
         }
-        $user = $em->getRepository('AgriBundle:User')->findOneById($user_id);
+        $user = $em->getRepository('AppBundle:User')->findOneById($user_id);
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
         $this->get("security.token_storage")->setToken($token);
