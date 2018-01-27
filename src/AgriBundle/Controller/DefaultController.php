@@ -5,7 +5,6 @@ namespace AgriBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use Datetime;
@@ -62,27 +61,6 @@ class DefaultController extends CommonController
             'company' => $this->company
         ));
     }
-
-    /**
-     * @Route("/k8f96gtb")
-     */
-    public function testAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $user_id = $request->query->get('user_id');
-        if($user_id == ''){
-            return new Response("user not found");
-        }
-        $user = $em->getRepository('AppBundle:User')->findOneById($user_id);
-
-        $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
-        $this->get("security.token_storage")->setToken($token);
-        $this->get('session')->set('_security_main',serialize($token));
-
-        //home
-        return $this->indexAction($request);
-}
 
     /**
      * @Route("/profil")

