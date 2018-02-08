@@ -14,16 +14,19 @@
         <table class="table">
             <tr>
                 <th>{{'Name' | trans }}</th>
+                <th>{{'Number' | trans }}</th>
                 <th class="text-right">Surface</th>
             </tr>
             {% for ilot in ilots %}
                 <tr>
                     <td><a href="/ilot/{{ilot.id}}">{{ilot.name}}</a></td>
+                    <td>{{ilot.number}}</td>
                     <td class="text-right">{{ ilot.surface | showHa  }}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <th>TOTAL</th>
+                <th></th>
                 <th class="text-right">{{ sum_ilots | showHa }}</th>
             </tr>
         </table>
