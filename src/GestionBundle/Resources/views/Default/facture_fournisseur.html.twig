@@ -1,5 +1,4 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 
 
@@ -78,7 +77,7 @@
                     <td></td>
                     <td>{{ecriture.compte.name}}</a></td>
                     <td>{{ecriture.campagne}}</td>
-                    <td>{{ base_agri.show_eur(ecriture.value) }}</td>
+                    <td>{{ ecriture.value | showEur }}</td>
                 </tr>
             {% endfor %}
         {% endfor %}
