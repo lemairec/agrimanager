@@ -28,6 +28,13 @@ class Ilot
     public $company;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="number", type="integer", nullable=true)
+     */
+    public $number;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="surface", type="float")
