@@ -19,6 +19,11 @@ security:
 
             logout:       true
             anonymous:    true
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+            
 
     access_control:
         - { path: ^/init$, role: IS_AUTHENTICATED_ANONYMOUSLY }
