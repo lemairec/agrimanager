@@ -162,7 +162,7 @@ class ScrappeCommand extends ContainerAwareCommand
             $title = $node->filter('h3')->text();
             $title = superTrim($title);
             //print("\n***********".$title);
-            $url = "https://agriaffaires.com".$node->filter('a')->attr('href');
+            $url = "https://www.agriaffaires.com".$node->filter('a')->attr('href');
             //print("\n***********".$url);
             $image = "";
             if($node->filter('img')->count() > 0){
