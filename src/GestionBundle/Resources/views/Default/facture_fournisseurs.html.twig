@@ -24,7 +24,15 @@
                 <th class="text-right">TVA</th>
             </tr>
             {% for facture in facture_fournisseurs %}
+                {% if facture.name == "sfr" %}
+                    <tr  bgcolor='#ffff99'>
+                {% elseif facture.name == "free" %}
+                    <tr  bgcolor='#ff99ff'>
+                {% elseif facture.name == "bip&go" %}
+                    <tr  bgcolor='#99ffff'>
+                {% else %}
                 <tr>
+                {% endif %}
                     <td>{% if(facture.brochure) %}<i class="ion-paperclip">{% endif %}</i></td>
                     <td><a href="/facture_fournisseur/{{facture.id}}">{{facture.getDateStr()}}</a></td>
                     <td>{{ facture.getCampagneStr() }}</td>
