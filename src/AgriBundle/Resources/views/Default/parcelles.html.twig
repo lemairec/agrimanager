@@ -24,7 +24,7 @@
                 <th></th>
             </tr>
             {% for parcelle in parcelles %}
-            <tr>
+            <tr  bgcolor='{{ parcelle.cultureColor}}'>
                 <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
                 <th>{{parcelle.active}}</th>
                 <td>{{parcelle.name}}</td>
