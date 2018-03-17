@@ -5,7 +5,7 @@
 <div class="container bs-docs-container">
 
     {% for parcelle in parcelles %}
-        <div class="well", style="background-color:{{ parcelle.cultureColor }}">
+        <div class="well", style="background-color:{{ parcelle.cultureColor }};page-break-after: always">
 
 
             <div class="panel panel-default", style="width:100%">
@@ -29,8 +29,8 @@
                         <td>{{ "%d"|format(parcelle.n)}}</td>
                     </tr>
                     <tr>
-                        <td>P - K - Mg - S</td>
-                        <td>{{ "%d"|format(parcelle.p)}} - {{ "%d"|format(parcelle.k)}} - {{ "%d"|format(parcelle.mg)}} - {{ "%d"|format(parcelle.s)}}</td>
+                        <td>P - K - S - Mg</td>
+                        <td>{{ "%d"|format(parcelle.p)}} - {{ "%d"|format(parcelle.k)}} - {{ "%d"|format(parcelle.s)}} - {{ "%d"|format(parcelle.mg)}}</td>
                     </tr>
                 </table>
             </div>
