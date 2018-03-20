@@ -14,7 +14,7 @@ use AnnonceBundle\Entity\Annonce;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/annonces")
+     * @Route("/annonces", name="annonces")
      */
     public function indexAction(Request $request)
     {

@@ -83,30 +83,30 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{'Company' | trans}}<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/campagnes">Campagnes</a></li>
-                                <li><a href="/ilots">Ilots</a></li>
-                                <li><a href="/cultures">Cultures</a></li>
+                                <li><a href="{{ url('campagnes') }}">Campagnes</a></li>
+                                <li><a href="{{ url('ilots') }}">Ilots</a></li>
+                                <li><a href="{{ url('cultures') }}">Cultures</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/materiels">Materiel</a></li>
+                                <li><a href="{{ url('materiels') }}">Materiel</a></li>
                                 {% if app.user.username == "lejard" %}
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/gasoils">Gasoil</a></li>
-                                <li><a href="/deplacements">Deplacements</a></li>
+                                <li><a href="{{ url('gasoils') }}">Gasoil</a></li>
+                                <li><a href="{{ url('deplacements') }}">Deplacements</a></li>
                                 {% endif %}
                             </ul>
                         </li>
-                        <li><a href="/parcelles">Parcelles</a></li>
-                        <li><a href="/interventions">Interventions</a></li>
+                        <li><a href="/{{ url('parcelles') }}">Parcelles</a></li>
+                        <li><a href="/{{ url('interventions') }}">Interventions</a></li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Produits <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/produits">Produits</a></li>
-                                <li><a href="/achats">Achats</a></li>
+                                <li><a href="{{ url('produits') }}">Produits</a></li>
+                                <li><a href="{{ url('achats') }}">Achats</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/stocks">Stocks</a></li>
+                                <li><a href="{{ url('stocks') }}">Stocks</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/ephy_produits">Produits Ephy</a></li>
+                                <li><a href="{{ url('ephy_produits') }}">Produits Ephy</a></li>
 
                             </ul>
                         </li>
@@ -114,9 +114,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bilan <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/bilan">Bilan</a></li>
-                                <li><a href="/bilan2">Bilan charges</a></li>
-                                <li><a href="/bilan_detail">Bilan Detaillé</a></li>
+                                <li><a href="{{ url('bilan') }}">Bilan</a></li>
+                                <li><a href="{{ url('bilan2') }}">Bilan charges</a></li>
+                                <li><a href="{{ url('bilan_detail') }}">Bilan Detaillé</a></li>
                             </ul>
                         </li>
                         {% if app.user.username == "lejard" %}
@@ -126,14 +126,14 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/cours">Cours</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/comptes">Comptes</a></li>
-                                <li><a href="/banque">Banque</a></li>
+                                <li><a href="{{ url('comptes') }}">Comptes</a></li>
+                                <li><a href="{{ url('banque') }}">Banque</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/operations">Operations</a></li>
-                                <li><a href="/facture_fournisseurs">Factures</a></li>
+                                <li><a href="{{ url('operations') }}">Operations</a></li>
+                                <li><a href="{{ url('factures_fournisseurs') }}">Factures</a></li>
                             </ul>
                         </li>
-                        <li><a href="/annonces">Annonces</a></li>
+                        <li><a href="{{ url('annonces') }}">Annonces</a></li>
                         {% endif %}
                         {% endif %}
                     </ul>
@@ -143,8 +143,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                    <li><a href="/logout">Deconnexion</a></li>
-                                    <li><a href="/profil">{{ app.user.username }}</a></li>
+                                    <li><a href="{{ url('fos_user_security_logout') }}">Deconnexion</a></li>
+                                    <li><a href="{{ url('fos_user_profile_edit') }}">{{ app.user.username }}</a></li>
                                 {% else %}
                                     <li><a href="{{ url('fos_user_security_login') }}">{{ 'base.Login'|trans }} </a></li>
                                     <li><a href="{{ url('fos_user_registration_register') }}">{{ 'base.Register'|trans }} </a></li>
@@ -175,7 +175,6 @@
         </div>
         {% endif %}
         {% block body %}{% endblock %}
-        {% block body2 %}{% endblock %}
         {% block fos_user_content %}{% endblock %}
     </body>
     <script>

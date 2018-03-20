@@ -603,6 +603,7 @@ class DefaultController extends CommonController
             'achats' => $achats,
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
+            'ephy_produit' => $produit->ephyProduit
         ));
     }
 
@@ -617,7 +618,7 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/stocks")
+     * @Route("/stocks", name="stocks")
      */
     public function stocksAction(Request $request)
     {
