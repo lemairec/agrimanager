@@ -3,6 +3,7 @@
 // src/AppBundle/Twig/AppExtension.php
 namespace AppBundle\Twig;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AppExtension extends \Twig_Extension
 {
@@ -15,9 +16,11 @@ class AppExtension extends \Twig_Extension
     /**
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage    $tokenStorage
      */
-    public function __construct(TokenStorage $tokenStorage)
+    public function __construct(TokenStorage $tokenStorage, ContainerInterface $container)
     {
         $this->tokenStorage = $tokenStorage;
+        $this->container = $container;
+
     }
 
     public function getFilters()
@@ -32,6 +35,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFilter('showEur', array($this, 'showEurFilter')),
             new \Twig_SimpleFilter('showEurUnity', array($this, 'showEurUnityFilter')),
             new \Twig_SimpleFilter('showIsoDate', array($this, 'showIsoDateFilter')),
+            new \Twig_SimpleFilter('my_path', array($this, 'my_path')),
+
 
         );
     }
@@ -97,6 +102,16 @@ class AppExtension extends \Twig_Extension
         return $date->format('d/m/Y H:i');
     }
 
+    public function my_path($label, $route, $parameters = array())
+    {
+        if($this->getUser()->show_unity){
+            //$url = $this->generateUrl('fos_user_profile_edit');
+            $url = $this->container->get('router')->generate($route, $parameters);
+            return "<a href=\"".$url."\">".$label."</a>";
+        } else {
+            return $label;
+        }
+    }
 
 
 

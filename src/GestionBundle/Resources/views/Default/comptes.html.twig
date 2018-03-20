@@ -22,7 +22,7 @@
             {% for compte in comptes %}
                 {% if compte.type != 'campagne' or compte.getPriceNull() != 0 %}
                 <tr>
-                    <td><a href="/compte/{{compte.id}}">{{compte.name}}</a></td>
+                    <td>{{ compte.name | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
                     <td>{{ compte.type }}</td>
 
                     {% if compte.previsionnel != 0 %}
@@ -46,7 +46,7 @@
                 {% for compte in comptes %}
                     {% if compte.type == 'campagne' or compte.getPriceCampagne(campagne) != 0 %}
                     <tr>
-                        <td><a href="/compte/{{compte.id}}">{{compte.name}}</a></td>
+                        <td>{{ compte.name | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
                         <td>{{ compte.type }} - {{campagne}}</td>
                         {% if compte.previsionnel != 0 %}
                             <td class="text-right">{{base_agri.show_eur(compte.previsionnel)}}</td>
