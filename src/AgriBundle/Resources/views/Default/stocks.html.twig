@@ -14,6 +14,7 @@
         <table class="table">
             <tr>
                 <th>{{'Name' | trans}}</th>
+                <th>Ephy</th>
                 <th>Type</th>
                 <th>{{'Unity' | trans}}</th>
                 <th class="text-right">{{'Qty' | trans}}</th>
@@ -24,6 +25,7 @@
             {% for p in stocks %}
             <tr>
                 <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
+                <td>{{ p.ephyProduit }}</td>
                 <td>{{p.type}}</td>
                 <td>{{p.unity}}</td>
                 <td class="text-right">{{ base_agri.show_unity(p.qty, 'u') }}</td>

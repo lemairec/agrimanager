@@ -59,7 +59,7 @@
                         {% for it in intervention.produits %}
                             <tr>
                                 <td></td>
-                                <td>{{it.name}}</td>
+                                <td>{{it.produit}}</td>
                                 <td class="text-right">{{ base_agri.show_unity(it.qty, it.produit.unity)}}</td>
                                 <td class="text-right">{{ base_agri.show_unity_ha(it.qtyha, it.produit.unity)}}</td>
                                 <td class="text-right">{{ base_agri.show_eur_ha(it.getPriceHa())}}</td>

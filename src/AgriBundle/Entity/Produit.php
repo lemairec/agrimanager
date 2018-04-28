@@ -112,4 +112,13 @@ class Produit
      * @ORM\Column(name="s", type="float")
      */
     public $s = 0;
+
+    public function __toString ( ){
+        $res = $this->name;
+        $res = $res." (".$this->unity.")";
+        if($this->ephyProduit){
+            $res = $res." - ".$this->ephyProduit->amm;
+        }
+        return $res;
+    }
 }
