@@ -20,4 +20,13 @@ class EphySubstanceProduitRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    function deleteForEphyProduit($ephyproduit){
+        $em = $this->getEntityManager();
+        $list = $this->findByEphyproduit($ephyproduit);
+        foreach ($list as $l) {
+            $em->remove($l);
+        }
+        $em->flush();
+    }
 }

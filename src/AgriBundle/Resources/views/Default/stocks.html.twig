@@ -23,17 +23,21 @@
                 <th></th>
             </tr>
             {% for p in stocks %}
-            <tr>
-                <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
-                <td>{{ p.ephyProduit }}</td>
-                <td>{{p.type}}</td>
-                <td>{{p.unity}}</td>
-                <td class="text-right">{{ base_agri.show_unity(p.qty, 'u') }}</td>
-                <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
-                <td class="text-right">{{ base_agri.show_eur(p.price*p.qty) }}</td>
-                <td><a href="/produit/{{p.id}}/delete">d</a></td>
+                {% if p.isCMR() %}
+                <tr  bgcolor='{{ p.getColor() }}'>
+                {% else %}
+                <tr>
+                {% endif %}
+                    <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
+                    <td>{{ p.ephyProduit }}</td>
+                    <td>{{p.type}}</td>
+                    <td>{{p.unity}}</td>
+                    <td class="text-right">{{ base_agri.show_unity(p.qty, 'u') }}</td>
+                    <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
+                    <td class="text-right">{{ base_agri.show_eur(p.price*p.qty) }}</td>
+                    <td><a href="/produit/{{p.id}}/delete">d</a></td>
 
-            </tr>
+                </tr>
             {% endfor %}
         </table>
     </div>

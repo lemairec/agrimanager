@@ -5,7 +5,7 @@ use EphyBundle\Entity\EphyProduit;
 use EphyBundle\Entity\EphySubstance;
 use EphyBundle\Entity\EphySubstanceProduit;
 use EphyBundle\Entity\EphyCommercialName;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * EphyProduitRepository
  *
@@ -62,6 +62,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
     function getEphySubstance($id, $name){
         $em = $this->getEntityManager();
         $ephysubstancerepository = $em->getRepository('EphyBundle:EphySubstance');
+        $ephysubstanceproduitrepository = $em->getRepository('EphyBundle:EphySubstanceProduit');
         $ephysubstance = $ephysubstancerepository->findOneById($id);
         if($ephysubstance){
             return $ephysubstance;
@@ -101,6 +102,8 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $xml = simplexml_load_file($file);
         $ppps = $xml->{'intrants'}->{'PPPs'};
         $ephyCommercialNameRepository = $em->getRepository('EphyBundle:EphyCommercialName');
+        $ephyPhraseRisque = $em->getRepository('EphyBundle:EphyPhraseRisque');
+        $ephysubstanceproduitrepository= $em->getRepository('EphyBundle:EphySubstanceProduit');
         foreach ($ppps->children() as $ppp) {
             //print_r($ppp);
             if($ppp->{'etat-produit'} != "AUTORISE"){
@@ -131,12 +134,37 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name . ' ('. $ephyproduit->unity.')';
             $produitbdd = $this->findOneByCompleteName($ephyproduit->completeName);
             if($produitbdd != null){
-                print("error ".$ephyproduit->completeName."\n");
-                continue;
+                $ephyproduit = $produitbdd;
+                //continue;
             }
+
+            print("la");
+            if(isset($ppp->{'classement-CLP'}->{'classes-danger'})) {
+                foreach ($ppp->{'classement-CLP'}->{'classes-danger'}->children() as $substance) {
+                    print("ici");
+                }
+            }
+            $ephyproduit->phraseRisques = new ArrayCollection();
+            if(isset($ppp->{'classement-CLP'}->{'phrases-risque'})) {
+                foreach ($ppp->{'classement-CLP'}->{'phrases-risque'}->children() as $phraseRisque) {
+                    $name = $phraseRisque->attributes()['lib-court'];
+                    $description = $phraseRisque;
+                    $ephyproduit->addPhraseRisque($ephyPhraseRisque->get($name, $description));
+                }
+            }
+            if(isset($ppp->{'classement-DSD'}->{'phrases-risque'})) {
+                foreach ($ppp->{'classement-DSD'}->{'phrases-risque'}->children() as $phraseRisque) {
+                    $name = $phraseRisque->attributes()['lib-court'];
+                    $description = $phraseRisque;
+                    $ephyproduit->addPhraseRisque($ephyPhraseRisque->get($name, $description));
+
+                }
+            }
+
             $em->persist($ephyproduit);
             $em->flush();
 
+            $ephysubstanceproduitrepository->deleteForEphyProduit($ephyproduit);
             if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
                 foreach ($ppp->{'composition-integrale'}->{'substances-actives'}->children() as $substance) {
                     //print_r($substance);

@@ -121,4 +121,20 @@ class Produit
         }
         return $res;
     }
+
+    public function isCMR(){
+        if($this->ephyProduit){
+            return $this->ephyProduit->isCMR();
+        }
+        return false;
+    }
+
+
+    public function getColor(){
+        if($this->isCMR()){
+            return "#ffdddd";
+        } else {
+            return "";
+        }
+    }
 }

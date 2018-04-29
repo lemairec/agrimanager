@@ -61,6 +61,20 @@ class EphyProduit
     public $substances;
 
     /**
+    * @ORM\ManyToMany(targetEntity="EphyBundle\Entity\EphyPhraseRisque")
+    * @ORM\JoinTable(
+     *  name="ephy_phrase_risques",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="produit", referencedColumnName="complete_name")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="phrase", referencedColumnName="id")
+     *  }
+     * )
+    */
+    public $phraseRisques;
+
+    /**
     * @ORM\OneToMany(targetEntity="EphyBundle\Entity\EphyCommercialName", mappedBy="ephyproduit",cascade={"persist"})
     */
     public $commercialeNames;
@@ -70,4 +84,21 @@ class EphyProduit
         return $this->completeName;
     }
 
+    public function addPhraseRisque($phrase){
+        foreach ($this->phraseRisques as $p) {
+            if($p == $phrase){
+                return;
+            }
+        }
+        $this->phraseRisques[] = $phrase;
+    }
+
+    public function isCMR(){
+        foreach ($this->phraseRisques as $p) {
+            if($p->cmr){
+                return true;
+            }
+        }
+        return false;
+    }
 }

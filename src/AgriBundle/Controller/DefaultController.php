@@ -599,6 +599,7 @@ class DefaultController extends CommonController
         }
         return $this->render('AgriBundle:Default:produit.html.twig', array(
             'form' => $form->createView(),
+            'produit' => $produit,
             'interventions' => $interventions,
             'achats' => $achats,
             'campagnes' => $this->campagnes,
