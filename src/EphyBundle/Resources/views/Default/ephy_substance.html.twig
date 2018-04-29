@@ -19,7 +19,7 @@
                 <th>Unity</th>
             </tr>
             {% for ephy_substanceproduit in ephy_substanceproduits %}
-                <tr>
+                <tr  style="background-color:{{ephy_substanceproduit.ephyproduit.getColor()}}">
                     <td><a href="/ephy_produit/{{ephy_substanceproduit.ephyproduit.completeName}}">{{ephy_substanceproduit.ephyproduit.completeName}}</a></td>
                     <td></td>
                     <td></td>

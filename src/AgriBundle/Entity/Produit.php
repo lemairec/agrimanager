@@ -131,8 +131,8 @@ class Produit
 
 
     public function getColor(){
-        if($this->isCMR()){
-            return "#ffdddd";
+        if($this->ephyProduit){
+            return $this->ephyProduit->getColor();
         } else {
             return "";
         }

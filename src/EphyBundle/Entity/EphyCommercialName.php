@@ -36,6 +36,9 @@ class EphyCommercialName
         return $this->ephyproduit->amm;
     }
 
+    public function getColor(){
+        return $this->ephyproduit->getColor();
+    }
 
 
 }

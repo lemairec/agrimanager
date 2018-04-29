@@ -21,7 +21,7 @@
             </tfoot>
             <tbody>
                 {% for p in produits %}
-                <tr>
+                <tr  style="background-color:{{p.getColor()}}">
                     <td><a href="/ephy_produit/{{p.completeName}}">{{p.completeName}}</a></td>
                     <td>{{p.amm}}</td>
                     <td>{{p.name}}</td>

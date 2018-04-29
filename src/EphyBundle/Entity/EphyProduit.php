@@ -101,4 +101,12 @@ class EphyProduit
         }
         return false;
     }
+
+    public function getColor(){
+        if($this->isCMR()){
+            return "#ffdddd";
+        } else {
+            return "";
+        }
+    }
 }
