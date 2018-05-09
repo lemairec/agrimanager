@@ -17,6 +17,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $achat->produit = $produit;
         $achat->campagne = $campagne;
         $achat->price = $achat->price_total/$achat->qty;
+        $achat->complement = $achat->complement_total/$achat->qty;
         $em->persist($achat);
         $em->flush();
         $em->getRepository('AgriBundle:Produit')->update($produit);

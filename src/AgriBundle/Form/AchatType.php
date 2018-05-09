@@ -24,7 +24,7 @@ class AchatType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
             ));
         $builder->add('name', TextType::class, array('label'=> 'Produit'));
-        $builder->add('qty')->add('price_total')->add('externId')->add('comment');
+        $builder->add('qty')->add('price_total')->add('complement_total')->add('externId')->add('comment');
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 

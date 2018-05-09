@@ -67,9 +67,13 @@ class AppExtension extends \Twig_Extension
         return $this->showUnityFilter($number, "ha", $decimals, $decPoint, $thousandsSep);
     }
 
-    public function showEurUnityFilter($number, $unity='u', $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
+    public function showEurUnityFilter($number, $unity='u', $showZero=true, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
-        return $this->showUnityFilter($number, "€/".$unity, $decimals, $decPoint, $thousandsSep);
+        if($number != 0 || $showZero){
+            return $this->showUnityFilter($number, "€/".$unity, 2, ',', ' ');
+        } else {
+            return "-";
+        }
     }
 
     public function showEurFilter($number, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')

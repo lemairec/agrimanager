@@ -83,6 +83,20 @@ class Achat
     public $price_total;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="complement_total", type="float")
+     */
+    public $complement_total = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="complement", type="float")
+     */
+    public $complement = 0;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="comment", type="string", length=255, nullable=true)
