@@ -145,6 +145,16 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
+    public function getAllEngraisForCompany($company){
+        return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->Andwhere('p.n != 0 or p.k != 0 or p.p != 0')
+            ->addorderBy('p.type', 'ASC')
+            ->addorderBy('p.name', 'ASC')
+            ->setParameter('company', $company)
+            ->getQuery()->getResult();
+    }
+
     public function getAllForCompanyStock($company){
         return $this->createQueryBuilder('p')
         ->where('p.company = :company')
