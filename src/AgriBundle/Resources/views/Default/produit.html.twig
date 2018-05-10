@@ -2,6 +2,30 @@
 
 {% block body_form %}
 
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Campagne
+    </div>
+    <table class="table">
+        <tr>
+            <th>Campagne</th>
+            <th>Stock</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
+        {% for p in produitcampagnes %}
+        <tr>
+            <td><b>{{p.campagne.name}}</b></td>
+            <td><b>{{p.stock}}</b></td>
+            <td><b>{{p.qty_totale}}</b></td>
+            <td><b>{{p.price | showEur}}</b></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 <div class="panel panel-default", style="width:100%">
     <!-- Default panel contents -->
     <div class="panel-heading">

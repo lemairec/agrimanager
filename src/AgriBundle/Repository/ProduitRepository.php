@@ -69,36 +69,22 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function update($produit){
         $em = $this->getEntityManager();
-        $qty = $em->getRepository('AgriBundle:Achat')->createQueryBuilder('a')
-            ->select('SUM(a.qty)')
-            ->where('a.produit = :produit')
-            ->setParameter('produit', $produit)
-            ->getQuery()
-            ->getSingleScalarResult();
-        $qty2 = $em->getRepository('AgriBundle:InterventionProduit')->createQueryBuilder('a')
-            ->select('SUM(a.qty)')
-            ->where('a.produit = :produit')
-            ->setParameter('produit', $produit)
-            ->getQuery()
-            ->getSingleScalarResult();
-        $price = $em->getRepository('AgriBundle:Achat')->createQueryBuilder('a')
-            ->select('MAX(a.price)')
-            ->where('a.produit = :produit')
-            ->setParameter('produit', $produit)
-            ->getQuery()
-            ->getSingleScalarResult();
-        $complement = $em->getRepository('AgriBundle:Achat')->createQueryBuilder('a')
-            ->select('MAX(a.complement)')
-            ->where('a.produit = :produit')
-            ->setParameter('produit', $produit)
-            ->getQuery()
-            ->getSingleScalarResult();
-        print("$complement");
 
-        $produit->qty = $qty - $qty2;
-        if($price > 0){
-            $produit->price = $price + $complement;
+        $em->getRepository('AgriBundle:ProduitCampagne')->update($produit);
+        $ps = $em->getRepository('AgriBundle:ProduitCampagne')->findByProduit($produit);
+        $stock = 0;
+        $price = 0;
+        $nb = 0;
+        foreach($ps as $p){
+            $stock += $p->stock;
+            $price += $p->price;
+            $nb += 1;
         }
+        $produit->qty = $stock;
+        if($nb > 0){
+            $produit->price = $price/$nb;
+        }
+
         $this->save($produit);
     }
 

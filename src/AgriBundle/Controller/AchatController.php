@@ -72,6 +72,8 @@ class AchatController extends CommonController
             $achat->date = new \DateTime();
         } else {
             $achat = $em->getRepository('AgriBundle:Achat')->findOneById($achat_id);
+            $achat->name = $achat->produit->__toString();
+            print($achat->name);
         }
         $form = $this->createForm(AchatType::class, $achat);
         $form->handleRequest($request);

@@ -597,11 +597,13 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $interventions = [];
         $achats = [];
+        $produitcampagnes = [];
         if($produit_id == '0'){
             $produit = new Produit();
         } else {
             $produit = $em->getRepository('AgriBundle:Produit')->findOneById($produit_id);
             $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
+            $produitcampagnes = $em->getRepository('AgriBundle:ProduitCampagne')->findByProduit($produit);
             $achats = $em->getRepository('AgriBundle:Achat')->getAllForProduit($produit);
         }
         $form = $this->createForm(ProduitType::class, $produit);
@@ -611,11 +613,12 @@ class DefaultController extends CommonController
         if ($form->isSubmitted()) {
             $produit->campagne = $campagne;
             $em->getRepository('AgriBundle:Produit')->update($produit);
-            return $this->redirectToRoute('produits');
+            //return $this->redirectToRoute('produits');
         }
         return $this->render('AgriBundle:Default:produit.html.twig', array(
             'form' => $form->createView(),
             'produit' => $produit,
+            'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
             'campagnes' => $this->campagnes,
