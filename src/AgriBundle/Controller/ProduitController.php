@@ -92,7 +92,7 @@ class ProduitController extends CommonController
 
         $produits = $em->getRepository('AgriBundle:Produit')->getAllForCompanyStock($this->company);
 
-        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+        return $this->render('AgriBundle:Default:produits.html.twig', array(
             'produits' => $produits,
         ));
     }
