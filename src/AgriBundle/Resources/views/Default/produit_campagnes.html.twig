@@ -13,19 +13,24 @@
         </div>
         <table class="table">
             <tr>
-                <th>Campagne</th>
+                <th>Type</th>
                 <th>Produit</th>
-                <th>Qty</th>
-                <th>Prix</th>
-                <th></th>
+
+                {% for c in campagnes2 %}
+                    <th>{{ c.name }}</th>
+                {% endfor %}
             </tr>
-            {% for p in produit_campagnes %}
+            {% for p in produits %}
                 <tr>
-                    <td>{{ p.campagne }}</td>
-                    <td>{{ p.produit.type }}</td>
-                    <td>{{ p.produit }}</td>
-                    <td>{{ p.qty_totale }}</td>
-                    <td>{{p.price | showEur }}</td>
+                    <td>{{ p.type }}</td>
+                    <td>{{ p }}</td>
+                    {% for p2 in p.produit_campagnes %}
+                        {% if p2==null %}
+                            <td></td>
+                        {% else %}
+                            <td>{{ p2.price | showEur }}</td>
+                        {% endif %}
+                    {% endfor %}
 
 
                 </tr>

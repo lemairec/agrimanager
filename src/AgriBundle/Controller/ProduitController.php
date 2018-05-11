@@ -28,9 +28,19 @@ class ProduitController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $produit_campagnes = $em->getRepository('AgriBundle:ProduitCampagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        foreach($produits as $produit){
+            $produit->produit_campagnes = [];
+            foreach($campagnes as $campagne){
+                $p = $em->getRepository('AgriBundle:ProduitCampagne')->get($produit, $campagne);
+                $produit->produit_campagnes[] = $p;
+            }
+        }
+
         return $this->render('AgriBundle:Default:produit_campagnes.html.twig', array(
-            'produit_campagnes' => $produit_campagnes,
+            'produits' => $produits,
+            'campagnes2' => $campagnes,
         ));
     }
 

@@ -72,13 +72,25 @@ class AppExtension extends \Twig_Extension
         if($number != 0 || $showZero){
             return $this->showUnityFilter($number, "€/".$unity, 2, ',', ' ');
         } else {
-            return "-";
+            if($this->getUser()->show_unity){
+                return "-";
+            } else {
+                return "";
+            }
         }
     }
 
-    public function showEurFilter($number, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
+    public function showEurFilter($number, $showZero=true, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
-        return $this->showUnityFilter($number, "€", $decimals, $decPoint, $thousandsSep);
+        if($number != 0 || $showZero){
+            return $this->showUnityFilter($number, "€", $decimals, $decPoint, $thousandsSep);
+        } else {
+            if($this->getUser()->show_unity){
+                return "-";
+            } else {
+                return "";
+            }
+        }
     }
 
     public function showPercentFilter($number, $decimals = 0, $decPoint = ',', $thousandsSep = ' ')
