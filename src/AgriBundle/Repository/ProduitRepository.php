@@ -114,6 +114,10 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
     function delete($produit_id){
         $em = $this->getEntityManager();
         $produit = $this->findOneById($produit_id);
+        $ps = $em->getRepository('EphyBundle:ProduitCampagne')->findByProduit($produit);
+        foreach($ps as $p){
+            $em->remove($p);
+        }
         $em->remove($produit);
         $em->flush();
     }
