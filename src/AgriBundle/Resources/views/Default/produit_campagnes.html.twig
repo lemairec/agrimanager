@@ -1,5 +1,4 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
@@ -15,7 +14,7 @@
             <tr>
                 <th>Produit</th>
                 <th>Type</th>
-                
+
                 {% for c in campagnes2 %}
                     <th>{{ c.name }}</th>
                 {% endfor %}

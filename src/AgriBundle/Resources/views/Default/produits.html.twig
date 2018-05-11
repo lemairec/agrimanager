@@ -1,5 +1,4 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
@@ -32,9 +31,9 @@
                     <td>{{ p.ephyProduit }}</td>
                     <td>{{p.type}}</td>
                     <td>{{p.unity}}</td>
-                    <td class="text-right">{{ base_agri.show_unity(p.qty, 'u') }}</td>
+                    <td class="text-right">{{ p.qty | showUnity('u') }}</td>
                     <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
-                    <td class="text-right">{{ base_agri.show_eur(p.price*p.qty) }}</td>
+                    <td class="text-right">{{ p.price*p.qty | showEur }}</td>
                     <td><a href="/produit/{{p.id}}/delete">d</a></td>
 
                 </tr>

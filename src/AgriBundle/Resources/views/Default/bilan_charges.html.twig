@@ -1,5 +1,4 @@
 {% extends 'AgriBundle::base_agri.html.twig' %}
-{% import 'AgriBundle::base_agri.html.twig' as base_agri %}
 
 {% block body %}
 <div class="container bs-docs-container">
@@ -22,16 +21,16 @@
                     <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
                     <td>{{parcelle.culture}}</td>
                     <td class="text-right">{{ parcelle.surface | showHa }}</td>
-                    <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
+                    <td class="text-right">{{ (parcelle.priceHa) | showEurUnity('ha')}}</td>
 
-                    <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
+                    <td class="text-right">{{ (parcelle.poid_norme/parcelle.surface) | showUnity('t/ha')}}</td>
                 </tr>
                 {% for key,t in parcelle.details %}
                 <tr  bgcolor='{{ parcelle.cultureColor}}'>
                     <td></td>
                     <td></td>
                     <td>{{key}}</td>
-                    <td class="text-right">{{base_agri.show_eur_ha(t)}}</td>
+                    <td class="text-right">{{ t | showEurUnity('ha')}}</td>
                     <td></td>
                 </tr>
                 {% endfor %}
@@ -56,8 +55,8 @@
                 <tr bgcolor='{{ culture.color}}'>
                     <td>{{culture['culture']}}</td>
                     <td class="text-right">{{ culture['surface'] | showHa }}</td>
-                    <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
-                    <td class="text-right">{{base_agri.show_unity(culture['poid_norme']/culture['surface'], 't/ha')}}</td>
+                    <td class="text-right">{{ (culture['poid_norme']/culture['surface']) | showEurUnity('ha')}}</td>
+                    <td class="text-right">{{ (culture['poid_norme']/culture['surface']) | showUnity('t/ha')}}</td>
                 </tr>
                 {% for key,t in culture.details %}
                 <tr bgcolor='{{ culture.color}}'>
