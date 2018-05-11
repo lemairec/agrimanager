@@ -22,7 +22,7 @@
                 <th class="text-right">{{'TotalPrice' | trans}}</th>
                 <th></th>
             </tr>
-            {% for p in stocks %}
+            {% for p in produits %}
                 {% if p.isCMR() %}
                 <tr  bgcolor='{{ p.getColor() }}'>
                 {% else %}

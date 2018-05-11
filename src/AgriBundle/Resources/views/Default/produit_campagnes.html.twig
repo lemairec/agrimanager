@@ -13,17 +13,17 @@
         </div>
         <table class="table">
             <tr>
-                <th>Type</th>
                 <th>Produit</th>
-
+                <th>Type</th>
+                
                 {% for c in campagnes2 %}
                     <th>{{ c.name }}</th>
                 {% endfor %}
             </tr>
             {% for p in produits %}
                 <tr>
+                    <td>{{ p | my_path('produit', {'produit_id': p.id}) | raw }}</td>
                     <td>{{ p.type }}</td>
-                    <td>{{ p }}</td>
                     {% for p2 in p.produit_campagnes %}
                         {% if p2==null %}
                             <td></td>

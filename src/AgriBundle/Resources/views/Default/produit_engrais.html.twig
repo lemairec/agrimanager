@@ -21,7 +21,7 @@
                 <th>Mg</th>
                 <th class="text-right">{{'Price' | trans}}</th>
             </tr>
-            {% for p in stocks %}
+            {% for p in produits %}
                 {% if p.isCMR() %}
                 <tr  bgcolor='{{ p.getColor() }}'>
                 {% else %}

@@ -11,16 +11,92 @@ use Datetime;
 
 use AgriBundle\Controller\CommonController;
 
-use AgriBundle\Entity\Achat;
-
-
-
-use AgriBundle\Form\AchatType;
-use AgriBundle\Form\DataType;
+use AgriBundle\Entity\Produit;
+use AgriBundle\Form\ProduitType;
 
 
 class ProduitController extends CommonController
 {
+    /**
+     * @Route("/produits", name="produits")
+     */
+    public function produitsAction(Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('AgriBundle:Produit')
+            ->getAllForCompany($this->company);
+
+        return $this->render('AgriBundle:Default:produits.html.twig', array(
+            'produits' => $produits,
+        ));
+    }
+
+    /**
+     * @Route("/produit/{produit_id}", name="produit")
+     **/
+    public function produitEditAction($produit_id, Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+        $interventions = [];
+        $achats = [];
+        $produitcampagnes = [];
+        if($produit_id == '0'){
+            $produit = new Produit();
+        } else {
+            $produit = $em->getRepository('AgriBundle:Produit')->findOneById($produit_id);
+            $interventions = $em->getRepository('AgriBundle:Intervention')->getAllForProduit($produit);
+            $produitcampagnes = $em->getRepository('AgriBundle:ProduitCampagne')->findByProduit($produit);
+            $achats = $em->getRepository('AgriBundle:Achat')->getAllForProduit($produit);
+        }
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $produit->campagne = $campagne;
+            $em->getRepository('AgriBundle:Produit')->update($produit);
+            //return $this->redirectToRoute('produits');
+        }
+        return $this->render('AgriBundle:Default:produit.html.twig', array(
+            'form' => $form->createView(),
+            'produit' => $produit,
+            'produitcampagnes' => $produitcampagnes,
+            'interventions' => $interventions,
+            'achats' => $achats,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'ephy_produit' => $produit->ephyProduit
+        ));
+    }
+
+    /**
+     * @Route("/produit/{produit_id}/delete", name="produit_delete")
+     **/
+    public function produitDeleteAction($produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('AgriBundle:Produit')->delete($produit_id);
+        return $this->redirectToRoute('produits');
+    }
+
+    /**
+     * @Route("/stocks", name="stocks")
+     */
+    public function stocksAction(Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('AgriBundle:Produit')->getAllForCompanyStock($this->company);
+
+        return $this->render('AgriBundle:Default:stocks.html.twig', array(
+            'produits' => $produits,
+        ));
+    }
+
     /**
      * @Route("/produit_campagnes", name = "produit_campagnes")
      */
@@ -44,22 +120,20 @@ class ProduitController extends CommonController
         ));
     }
 
-    /*public function achatsDataEditAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(DataType::class);
-        $form->handleRequest($request);
 
+    /**
+     * @Route("/engrais", name="engrais")
+     **/
+    public function engraisAction(Request $request)
+    {
         $campagne = $this->getCurrentCampagne($request);
-        if ($form->isSubmitted()) {
-            $data = $form->getData();
-            $em->getRepository('AgriBundle:Achat')->saveCAJData($data['data'], $campagne);
-            //return $this->redirectToRoute('achats');
-        }
-        return $this->render('AgriBundle::base_form.html.twig', array(
-            'form' => $form->createView(),
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
-        ));
-    }*/
+            $em = $this->getDoctrine()->getManager();
+
+            $produits = $em->getRepository('AgriBundle:Produit')
+                ->getAllEngraisForCompany($this->company);
+
+            return $this->render('AgriBundle:Default:produit_engrais.html.twig', array(
+                'produits' => $produits,
+            ));
+    }
 }
