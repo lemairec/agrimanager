@@ -171,6 +171,7 @@ class BilanController extends CommonController
                     }
                     $cultures[$p->getCultureName()]['details'][$produit->produit->type] += $produit->getQtyHa() * $p->surface * $produit->produit->price;
                 }
+                ksort($p->details);
 
             }
             $p->poid_norme = $em->getRepository('AgriBundle:Livraison')->getSumForParcelle($p);
@@ -180,7 +181,7 @@ class BilanController extends CommonController
             $cultures[$p->getCultureName()]['surface'] += $p->surface;
             $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
             $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
-
+            ksort($cultures[$p->getCultureName()]['details']);
         }
 
         $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
