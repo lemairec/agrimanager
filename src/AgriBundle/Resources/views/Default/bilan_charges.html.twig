@@ -55,7 +55,7 @@
                 <tr bgcolor='{{ culture.color}}'>
                     <td>{{culture['culture']}}</td>
                     <td class="text-right">{{ culture['surface'] | showHa }}</td>
-                    <td class="text-right">{{ (culture['poid_norme']/culture['surface']) | showEurUnity('ha')}}</td>
+                    <td class="text-right">{{ (culture['priceHa']/culture['surface']) | showEurUnity('ha')}}</td>
                     <td class="text-right">{{ (culture['poid_norme']/culture['surface']) | showUnity('t/ha')}}</td>
                 </tr>
                 {% for key,t in culture.details %}
