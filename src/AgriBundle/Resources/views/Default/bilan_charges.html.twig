@@ -47,22 +47,26 @@
             <!-- Default panel contents -->
             <table class="table">
                 <tr>
-                    <th>Parcelle</th>
                     <th>Culture</th>
                     <th class="text-right">Surface</th>
                     <th class="text-right">Prix</th>
-                    <th class="text-right">Poid Norme</th>
                     <th class="text-right">Rendement</th>
                 </tr>
                 {% for culture in cultures %}
-                <tr>
-                    <td></td>
+                <tr bgcolor='{{ culture.color}}'>
                     <td>{{culture['culture']}}</td>
                     <td class="text-right">{{ culture['surface'] | showHa }}</td>
                     <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
-                    <td class="text-right">{{base_agri.show_unity(culture['poid_norme'], 't')}}</td>
                     <td class="text-right">{{base_agri.show_unity(culture['poid_norme']/culture['surface'], 't/ha')}}</td>
                 </tr>
+                {% for key,t in culture.details %}
+                <tr bgcolor='{{ culture.color}}'>
+                    <td></td>
+                    <td>{{key}}</td>
+                    <td class="text-right">{{ (t/culture['surface']) | showEurUnity('ha')}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
                 {% endfor %}
             </table>
         </div>
