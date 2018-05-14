@@ -199,4 +199,71 @@ class BilanController extends CommonController
             'cultures' => $cultures,
         ));
     }
+
+    /**
+     * @Route("/bilan_produits", name="bilan_produits")
+     */
+    public function bilanProduitsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $campagnes2 = $em->getRepository('AgriBundle:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $cultures = [];
+
+        foreach($campagnes2 as $campagne){
+            $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagneWithoutActive($campagne);
+
+            foreach ($parcelles as $p) {
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = ['culture'=>$p->getCultureName()
+                    ,'produits'=>[], 'surface'=>[]];
+                    foreach($campagnes2 as $c){
+                        $cultures[$p->getCultureName()]["surface"][$c->name] = 0;
+                    }
+                }
+                $cultures[$p->getCultureName()]["surface"][$campagne->name] += $p->surface;
+                $culture = $cultures[$p->getCultureName()];
+
+                $p->interventions = [];
+                if($p->id != '0'){
+                    $p->interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($p);
+                }
+                $p->n = 0;
+                $p->p = 0;
+                $p->k = 0;
+                $p->mg = 0;
+                $p->s = 0;
+                $p->priceHa = 0;
+                $p->details = [];
+                foreach($p->interventions as $it){
+                    $p->priceHa += $it->getPriceHa();
+                    foreach($it->produits as $produit){
+                        $p->n += $produit->getQtyHa() * $produit->produit->n;
+                        $p->p += $produit->getQtyHa() * $produit->produit->p;
+                        $p->k += $produit->getQtyHa() * $produit->produit->k;
+                        $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                        $p->s += $produit->getQtyHa() * $produit->produit->s;
+                        $produit_name = $produit->produit->type. " - ".$produit->produit->name;
+                        if (!array_key_exists($produit_name, $culture["produits"])) {
+                            $cultures[$p->getCultureName()]["produits"][$produit_name] = [];
+                            foreach($campagnes2 as $c){
+                                $cultures[$p->getCultureName()]["produits"][$produit_name][$c->name] = 0;
+                            }
+                        }
+                        $cultures[$p->getCultureName()]["produits"][$produit_name][$campagne->name] += $produit->getQtyHa() * $p->surface * $produit->produit->price;
+                    }
+                }
+                $p->poid_norme = $em->getRepository('AgriBundle:Livraison')->getSumForParcelle($p);
+
+
+
+                ksort($cultures[$p->getCultureName()]['produits']);
+            }
+        }
+
+        return $this->render('AgriBundle:Default:bilan_produits.html.twig', array(
+            'campagnes2' => $campagnes2,
+            'cultures' => $cultures,
+        ));
+    }
 }
