@@ -15,7 +15,7 @@ class CampagneRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.company = :company')
             ->setParameter('company', $company)
-            ->orderBy('p.name', 'ASC')
+            ->orderBy('p.name', 'DESC')
             ->getQuery();
 
         return $query->getResult();
