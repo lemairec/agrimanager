@@ -193,6 +193,8 @@ class DefaultController extends CommonController
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+
         $operations = [];
         if($compte_id == '0'){
             $compte = new Compte();
@@ -235,6 +237,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('comptes');
         }
+        $session->set("redirect_url_facture", $this->generateUrl('compte', array('compte_id' => $compte_id)));
         return $this->render('GestionBundle:Default:compte.html.twig', array(
             'form' => $form->createView(),
             'compte' => $compte,
@@ -423,9 +426,8 @@ class DefaultController extends CommonController
 
             $redirect_url_facture = $session->get("redirect_url_facture");
             if($redirect_url_facture){
-                $this->redirect($redirect_url_facture);
+                return $this->redirect($redirect_url_facture);
             }
-
             return $this->redirectToRoute('factures_fournisseurs');
         }
         return $this->render('GestionBundle:Default:facture_fournisseur.html.twig', array(
