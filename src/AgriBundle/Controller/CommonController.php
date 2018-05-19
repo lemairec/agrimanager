@@ -75,19 +75,4 @@ class CommonController extends Controller
         }
         //print(json_encode( $this->get('session')->get('last_url', [])));
     }
-
-    public function popLastUrl($request){
-        $last_url = $this->get('session')->get('last_url', []);
-        array_pop($last_url);
-        $this->get('session')->set('last_url', $last_url);
-    }
-
-    public function redirectPreviousPage($request){
-        $last_url = $this->get('session')->get('last_url', []);
-        $url = '/';
-        if(count($last_url) > 1){
-            $url = $last_url[count($last_url)-2];
-        }
-        return new RedirectResponse($url);
-    }
 }

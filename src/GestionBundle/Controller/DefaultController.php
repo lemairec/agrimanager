@@ -368,6 +368,8 @@ class DefaultController extends CommonController
     public function factureFournisseurAction($facture_id, Request $request)
     {
         $this->check_user($request);
+        $session = $request->getSession();
+
         $em = $this->getDoctrine()->getManager();
         $operations = [];
         if($facture_id == '0'){
@@ -418,7 +420,13 @@ class DefaultController extends CommonController
                 $facture->type == "A";
             }
             $em->getRepository('GestionBundle:FactureFournisseur')->save($facture);
-            return $this->redirectPreviousPage($request);
+
+            $redirect_url_facture = $session->get("redirect_url_facture");
+            if($redirect_url_facture){
+                $this->redirect($redirect_url_facture);
+            }
+
+            return $this->redirectToRoute('factures_fournisseurs');
         }
         return $this->render('GestionBundle:Default:facture_fournisseur.html.twig', array(
             'form' => $form->createView(),
