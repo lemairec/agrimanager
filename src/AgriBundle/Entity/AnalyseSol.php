@@ -26,11 +26,50 @@ class AnalyseSol
     public $id;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date")
+     */
+    public $date;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Parcelle")
      * @ORM\JoinColumn(nullable=false)
      */
     public $parcelle;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $ph = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $mo = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $p = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $k = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $mg = 0;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -75,5 +114,9 @@ class AnalyseSol
     public function getDocName(): ?string
     {
         return $this->docName;
+    }
+
+    function get_date(){
+        return $this->date->format(' d/m/y');
     }
 }

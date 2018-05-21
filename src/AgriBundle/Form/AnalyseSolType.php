@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class AnalyseSolType extends AbstractType
@@ -23,6 +24,18 @@ class AnalyseSolType extends AbstractType
             'choice_label' => 'completeName',
             'choices' => $options['parcelles'],
         ));
+        $builder
+            ->add('date', DateType::class, array(
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
+            ));
+        $builder->add('mo');
+        $builder->add('ph');
+        $builder->add('p');
+        $builder->add('k');
+        $builder->add('mg');
         $builder->add('docFile', VichFileType::class, array(
             'required' => false,
             'allow_delete' => true,

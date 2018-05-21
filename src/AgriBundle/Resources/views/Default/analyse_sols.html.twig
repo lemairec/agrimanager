@@ -11,11 +11,24 @@
         </div>
         <table class="table">
             <tr>
+                <th>Date</th>
                 <th>Name</th>
+                <th>Ph</th>
+                <th>Mo</th>
+                <th>P (220)</th>
+                <th>K (300)</th>
+                <th>Mg (100)</th>
+
             </tr>
             {% for analyse_sol in analyse_sols %}
             <tr>
-                <td><a href="{{ url("analyse_sol", {'analyse_sol_id': analyse_sol.id}) }}">{{analyse_sol.parcelle.campagne}} - {{analyse_sol.parcelle }}</td>
+                <td><a href="{{ url("analyse_sol", {'analyse_sol_id': analyse_sol.id}) }}"> {{analyse_sol.get_date() }}</td>
+                <td>{{analyse_sol.parcelle.campagne}} - {{analyse_sol.parcelle }}</td>
+                <td> {{analyse_sol.ph }}</td>
+                <td> {{analyse_sol.mo }}</td>
+                <td> {{analyse_sol.p }}</td>
+                <td> {{analyse_sol.k }}</td>
+                <td> {{analyse_sol.mg }}</td>
             </tr>
             {% endfor %}
         </table>
