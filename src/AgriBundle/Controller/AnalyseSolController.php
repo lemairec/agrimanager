@@ -42,11 +42,14 @@ class AnalyseSolController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         if($analyse_sol_id == '0'){
-            $analyse_sol_id = new AnalyseSol();
+            $analyse_sol = new AnalyseSol();
         } else {
             $analyse_sol = $em->getRepository('AgriBundle:AnalyseSol')->findOneById($analyse_sol_id);
         }
-        $form = $this->createForm(AnalyseSolType::class, $analyse_sol);
+        $parcelles =  $em->getRepository('AgriBundle:Parcelle')->getAllForCampagne($campagne);
+        $form = $this->createForm(AnalyseSolType::class, $analyse_sol, array(
+            'parcelles' => $parcelles
+        ));
         $form->handleRequest($request);
 
 
@@ -54,11 +57,14 @@ class AnalyseSolController extends CommonController
             $analyse_sol->campagne = $campagne;
             $em->persist($analyse_sol);
             $em->flush();
-            //return $this->redirectToRoute('produits');
+            return $this->redirectToRoute('analyse_sols');
         }
         return $this->render('AgriBundle:Default:analyse_sol.html.twig', array(
             'form' => $form->createView(),
-            'analyse_sol' => $analyse_sol
+            'analyse_sol' => $analyse_sol,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+
         ));
     }
 }

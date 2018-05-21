@@ -91,11 +91,15 @@ easy_admin:
             class:  AgriBundle\Entity\AnalyseSol
             form:
                 fields:
-                    - { property: 'imageFile', type: 'vich_image' }
+                    - { property: 'docFile', type: 'vich_file' }
+                    - parcelle
+
 
             list:
                 fields:
-                    - { property: 'imageName', type: 'image', base_path: '%app.path.analyse_sol%' }
+                    - parcelle
+                    - { property: 'docName', type: 'image', base_path: '%app.path.analyse_sol%' }
+
 
 
 vich_uploader:

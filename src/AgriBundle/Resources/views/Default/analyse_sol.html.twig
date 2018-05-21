@@ -22,16 +22,17 @@
 <div class="container bs-docs-container">
     <div class="well">
         {{ form_start(form) }}
-        {% if (analyse_sol.imageName != '') %}
+        {{ form_row(form.parcelle, {'attr': {'class': 'form-control'}}) }}
+        {% if (analyse_sol.docName != '') %}
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <embed src="{{ vich_uploader_asset(analyse_sol, 'imageFile') }}" width="500" height="800" type='application/pdf'>
+                    <embed src="{{ vich_uploader_asset(analyse_sol, 'docFile') }}" width="500" height="800" type='application/pdf'>
                 </div>
             </div>
         {% else %}
         {% endif %}
 
-    {{ form_end(form) }}
+        {{ form_end(form) }}
     </div>
 
 </div>

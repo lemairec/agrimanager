@@ -17,40 +17,36 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class AnalyseSol
 {
     /**
-     * @var int
+     * @var guid
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $id;
-
+    public $id;
 
     /**
-     * Get id.
-     *
-     * @return int
+     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Parcelle")
+     * @ORM\JoinColumn(nullable=false)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public $parcelle;
+
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="analyse_sol", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="analyse_sol", fileNameProperty="docName")
      *
      * @var File
      */
-    private $imageFile;
+    private $docFile;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @var string
      */
-    private $imageName;
+    private $docName;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -59,25 +55,25 @@ class AnalyseSol
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $doc
      */
-    public function setImageFile(?File $image = null): void
+    public function setDocFile(?File $doc = null): void
     {
-        $this->imageFile = $image;
+        $this->docFile = $doc;
     }
 
-    public function getImageFile(): ?File
+    public function getDocFile(): ?File
     {
-        return $this->imageFile;
+        return $this->docFile;
     }
 
-    public function setImageName(?string $imageName): void
+    public function setDocName(?string $docName): void
     {
-        $this->imageName = $imageName;
+        $this->docName = $docName;
     }
 
-    public function getImageName(): ?string
+    public function getDocName(): ?string
     {
-        return $this->imageName;
+        return $this->docName;
     }
 }
