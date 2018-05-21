@@ -83,3 +83,26 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+easy_admin:
+    entities:
+        # change the following to the namespaces of your own entities
+        AnalyseSol:
+            class:  AgriBundle\Entity\AnalyseSol
+            form:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+
+            list:
+                fields:
+                    - { property: 'imageName', type: 'image', base_path: '%app.path.analyse_sol%' }
+
+
+vich_uploader:
+    db_driver: orm # or mongodb or propel or phpcr
+
+    mappings:
+        analyse_sol:
+            uri_prefix: '%app.path.analyse_sol%'
+            upload_destination: '%kernel.root_dir%/../public%app.path.analyse_sol%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
