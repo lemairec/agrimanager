@@ -30,19 +30,34 @@
     </div>
 
     <div class="panel panel-default", style="width:100%">
-    <table class="table">
-        <tr>
-            <th>Type</th>
-            <th class="text-right">Litre</th>
-        </tr>
-        {% for gasoil in gasoilsType %}
+        <table class="table">
             <tr>
-                <td>{{gasoil.type}}</td>
-                <td class="text-right">{{ gasoil.sum_litre| showLitre }}</td>
+                <th>Type</th>
+                <th class="text-right">Litre</th>
             </tr>
-        {% endfor %}
-    </table>
-</div>
+            {% for gasoil in gasoilsType %}
+                <tr>
+                    <td>{{gasoil.type}}</td>
+                    <td class="text-right">{{ gasoil.sum_litre| showLitre }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="panel panel-default", style="width:100%">
+        <table class="table">
+            <tr>
+                <th>Type</th>
+                <th class="text-right">Litre</th>
+            </tr>
+            {% for  key,t in campagnes_g %}
+                <tr>
+                    <td>{{key}}</td>
+                    <td class="text-right">{{ t | showLitre }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 
 </div>
 {% endblock %}
