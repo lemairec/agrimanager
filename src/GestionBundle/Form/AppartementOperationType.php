@@ -30,12 +30,13 @@ class AppartementOperationType extends AbstractType
                 'Charges' => 'Charges',
                 'Loyer' => 'Loyer',
                 'Versement' => 'Versement',
+                'Agence' => 'Agence',
                 'Autre' => 'Autre'
             ]]);
         $builder->add('annee', ChoiceType::class, [
             'choices'  => [
-                2017 => 2017,
-                2018 => 2018
+                2018 => 2018,
+                2017 => 2017
             ]]);
         $builder->add('value');
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));

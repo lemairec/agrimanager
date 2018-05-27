@@ -12,7 +12,7 @@ class AppartementOperationRepository extends \Doctrine\ORM\EntityRepository
 {
     function getAll(){
         return $this->createQueryBuilder('p')
-            ->orderBy('p.date')
+            ->orderBy('p.date','DESC')
             ->getQuery()->getResult();
     }
 }
