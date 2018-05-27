@@ -27,7 +27,9 @@ class AppartementController extends CommonController
         $operations = $em->getRepository("GestionBundle:AppartementOperation")->getAll();
 
         $sum = 0;
-        foreach ($operations as $o) {
+        $l = count($operations);
+        for($i = 0; $i < $l; ++$i){
+            $o = $operations[$l-1-$i];
             $sum += $o->value;
             $o->sum = $sum;
         }

@@ -26,11 +26,11 @@ class AppartementOperationType extends AbstractType
         ));
         $builder->add('type', ChoiceType::class, [
             'choices'  => [
-                'Impot' => 'Impot',
-                'Charges' => 'Charges',
                 'Loyer' => 'Loyer',
-                'Versement' => 'Versement',
                 'Agence' => 'Agence',
+                'Charges' => 'Charges',
+                'Impot' => 'Impot',
+                'Versement' => 'Versement',
                 'Autre' => 'Autre'
             ]]);
         $builder->add('annee', ChoiceType::class, [
