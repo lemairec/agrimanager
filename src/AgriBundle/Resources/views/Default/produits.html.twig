@@ -21,6 +21,18 @@
                 <th class="text-right">{{'TotalPrice' | trans}}</th>
                 <th></th>
             </tr>
+            {% if totalPrice is defined %}
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-right">{{ totalPrice | showEur }}</th>
+                <th></th>
+            </tr>
+            {% endif %}
             {% for p in produits %}
                 {% if p.isCMR() %}
                 <tr  bgcolor='{{ p.getColor() }}'>

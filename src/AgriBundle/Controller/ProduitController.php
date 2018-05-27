@@ -91,9 +91,15 @@ class ProduitController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $produits = $em->getRepository('AgriBundle:Produit')->getAllForCompanyStock($this->company);
+        $sum = 0;
+        foreach ($produits as $p) {
+            $sum += $p->qty * $p->price;
+        }
+        print($sum);
 
         return $this->render('AgriBundle:Default:produits.html.twig', array(
             'produits' => $produits,
+            'totalPrice' => $sum
         ));
     }
 
