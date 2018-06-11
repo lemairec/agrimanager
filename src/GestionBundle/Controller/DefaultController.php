@@ -235,6 +235,7 @@ class DefaultController extends CommonController
 
             }
             $ecritures = array_reverse($ecritures);
+            $ecritures_futures = array_reverse($ecritures_futures);
         }
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
