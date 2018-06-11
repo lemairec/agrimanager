@@ -203,26 +203,34 @@ class DefaultController extends CommonController
             $compte = $em->getRepository('GestionBundle:Compte')->findOneById($compte_id);
             $operations = $em->getRepository('GestionBundle:Operation')->getAllForCompte($compte);
             $ecritures = [];
+            $ecritures_futures = [];
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
                 $operation = $operations[$i];
                 foreach($operation->ecritures as $e){
                     if($e->compte == $compte){
-                    $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value];
-                    $ecriture['campagne'] = "";
-                    if($e->campagne){
-                        $ecriture['campagne'] = $e->campagne->name;
-                    }
-                    if($compte->type == 'banque'){
-                        $ecriture['value'] = -$ecriture['value'];
+                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value];
+                        $ecriture['campagne'] = "";
+                        if($e->campagne){
+                            $ecriture['campagne'] = $e->campagne->name;
+                        }
+                        if($compte->type == 'banque'){
+                            $ecriture['value'] = -$ecriture['value'];
+                        }
+
+                        $value += $ecriture['value'];
+                        $ecriture['sum_value'] = $value;
+
+                        if($operation->date > new DateTime()){
+                            $ecritures_futures[] = $ecriture;
+                        } else {
+                            $ecritures[] = $ecriture;
+                        }
+
                     }
 
-                    $value += $ecriture['value'];
-                    $ecriture['sum_value'] = $value;
 
-                    $ecritures[] = $ecriture;
-                }
                 }
 
             }
@@ -241,7 +249,8 @@ class DefaultController extends CommonController
         return $this->render('GestionBundle:Default:compte.html.twig', array(
             'form' => $form->createView(),
             'compte' => $compte,
-            'ecritures' => $ecritures
+            'ecritures' => $ecritures,
+            'ecritures_futures' => $ecritures_futures
         ));
     }
 

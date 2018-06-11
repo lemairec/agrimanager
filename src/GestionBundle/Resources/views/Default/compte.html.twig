@@ -43,6 +43,29 @@
             <th class="text-right">C</th>
             <th class="text-right">Value</th>
         </tr>
+        {% for ecriture in ecritures_futures %}
+            <tr>
+                <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
+                <td>{{ecriture['name']}}</a></td>
+                <td>{{ecriture['campagne']}}</td>
+                {% if ecriture['value'] > 0 %}
+                    <td class="text-right"></td>
+                    <td class="text-right" style="color: #006e36;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                {% else %}
+                    <td class="text-right" style="color: #e70b0b;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                    <td class="text-right"></td>
+                {% endif %}
+                <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         {% for ecriture in ecritures %}
             <tr>
                 <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
@@ -58,6 +81,7 @@
                 <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
             </tr>
         {% endfor %}
+
     </table>
 {% endif %}
 </div>
