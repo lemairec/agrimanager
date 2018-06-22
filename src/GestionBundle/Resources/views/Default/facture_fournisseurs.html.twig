@@ -11,18 +11,21 @@
             <button type="button" class="btn btn-primary" onclick="window.location.href='export'">EXPORT</button>
             Factures
         </div>
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>Date</th>
-                <th>Campagne</th>
-                <th>Name</th>
-                <th>Banque</th>
-                <th>Compte</th>
-                <th class="text-right">montant HT</th>
-                <th class="text-right">montant TTC</th>
-                <th class="text-right">TVA</th>
-            </tr>
+        <table class="table example">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Campagne</th>
+                    <th>Name</th>
+                    <th>Banque</th>
+                    <th>Compte</th>
+                    <th class="text-right">montant HT</th>
+                    <th class="text-right">montant TTC</th>
+                    <th class="text-right">TVA</th>
+                </tr>
+            </thead>
+            <tbody>
             {% for facture in facture_fournisseurs %}
                 {% if facture.name == "sfr" %}
                     <tr  bgcolor='#ffff99'>
@@ -34,7 +37,7 @@
                 <tr>
                 {% endif %}
                     <td>{% if(facture.brochure) %}<i class="ion-paperclip">{% endif %}</i></td>
-                    <td><a href="/facture_fournisseur/{{facture.id}}">{{facture.getDateStr()}}</a></td>
+                    <td><a href="/facture_fournisseur/{{facture.id}}">{{ facture.date | showIsoDate }}</a></td>
                     <td>{{ facture.getCampagneStr() }}</td>
                     <td>{{ facture.name }}</td>
                     <td>{{ facture.banque }}</td>
@@ -44,7 +47,52 @@
                     <td class="text-right">{{ ((facture.montantTTC-facture.montantHT)/facture.montantHT)|showPercent }}</td>
                 </tr>
             {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6" style="text-align:right">Total:</th>
+                <th colspan="3" style="text-align:left"></th>
+            </tr>
+        </tfoot>
         </table>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('.js-datatable').DataTable({
+    });
+    $('.example').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+        ,"footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                if(typeof i === 'string'){
+                    i = i.replace(',','.');
+                    i = i.replace(' ','');
+                }
+                l = parseFloat(i, 2);
+                return l;
+            };
+
+            // Total over this page
+            pageTotal = api
+                .column( 6, { page: 'current'} )
+                .data()
+                .reduce( function (c, d) {
+                    return intVal(c) + intVal(d);
+                }, 0 );
+
+            // Update footer
+            $( api.column( 6 ).footer() ).html(
+                Number((pageTotal).toFixed(2)) + '€'
+            );
+        }
+    } );
+} );
+</script>
 {% endblock %}
