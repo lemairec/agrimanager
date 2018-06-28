@@ -11,7 +11,7 @@
             <button type="button" class="btn btn-primary" onclick="window.location.href='export'">EXPORT</button>
             Factures
         </div>
-        <table class="table example">
+        <table class="table {% if app.user.show_unity %} example {% endif %}">
             <thead>
                 <tr>
                     <th></th>
@@ -62,11 +62,12 @@
 {% block scripts %}
 <script>
 $(document).ready(function() {
-    $('.js-datatable').DataTable({
+        $('.js-datatable').DataTable({
     });
     $('.example').DataTable( {
-        "lengthMenu": [[-1], ["All"]]
-        ,"footerCallback": function ( row, data, start, end, display ) {
+        "lengthMenu": [[-1], ["All"]],
+        "order": [[ 1, "desc" ]],
+        "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
 
             // Remove the formatting to get integer data for summation
