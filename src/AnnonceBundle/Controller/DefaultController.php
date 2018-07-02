@@ -22,7 +22,7 @@ class DefaultController extends Controller
         $params = $request->request->all();
 
         if(empty($params["label"])){
-            $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllCategories("");
+            $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllMyCategories("");
         } else {
             $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAll2($params["label"]);
         }
@@ -39,7 +39,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
 
-        $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllCategories("immobilier");
+        $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllMyCategories("immobilier");
 
         return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
             'annonces' => $annonces,

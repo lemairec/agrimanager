@@ -19,10 +19,10 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    function getAllCategories($category){
+    function getAllMyCategories($mycategory){
         $query = $this->createQueryBuilder('p')
-            ->where('p.category LIKE :category')
-            ->setParameter('category', $category)
+            ->where('p.mycategory LIKE :mycategory')
+            ->setParameter('mycategory', $mycategory)
             ->addorderBy('p.firstView', 'DESC')
             ->setMaxResults(400)
             ->getQuery();
