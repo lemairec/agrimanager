@@ -22,7 +22,7 @@ class DefaultController extends Controller
         $params = $request->request->all();
 
         if(empty($params["label"])){
-            $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAll();
+            $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllCategories("");
         } else {
             $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAll2($params["label"]);
         }
@@ -30,6 +30,22 @@ class DefaultController extends Controller
             'annonces' => $annonces,
         ));
     }
+
+    /**
+     * @Route("/annonces/immobilier", name="annonces_immobilier")
+     */
+    public function indexAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $params = $request->request->all();
+
+        $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllCategories("immobilier");
+
+        return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
+            'annonces' => $annonces,
+        ));
+    }
+
 
     /**
      * @Route("/annonces/bennes", name="bennes")

@@ -19,6 +19,17 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    function getAllCategories($category){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.category LIKE :category')
+            ->setParameter('category', $category)
+            ->addorderBy('p.firstView', 'DESC')
+            ->setMaxResults(400)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     function getAll2($label){
         $query = $this->createQueryBuilder('p')
             ->where('p.title LIKE :label')
@@ -60,7 +71,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
     function saveOrUpdate($annonce){
         $annonce->log = "";
         $annonce->new = true;
-        
+
         $em = $this->getEntityManager();
         $annoncerepository = $this;
         $annonce2 = $annoncerepository->findOneByClientId($annonce->url);
