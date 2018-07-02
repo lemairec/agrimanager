@@ -73,6 +73,13 @@ class ScrappeCommand extends ContainerAwareCommand
 		print $response;
 	}
 
+	/**
+	 *
+	 * LEBONCOIN
+	 *
+	 **/
+
+
     protected function scrappe_leboncoins(){
         for ($i = 1; $i <= 3; $i++) {
             $this->scrappe_leboncoin("https://www.leboncoin.fr/materiel_agricole/offres/champagne_ardenne/?ps=8&o=".$i);
@@ -137,6 +144,12 @@ class ScrappeCommand extends ContainerAwareCommand
 		});
 		$this->saveOrUpdate($this->annonces);
     }
+
+	/**
+	 *
+	 * AGRIAFFAIRE
+	 *
+	 **/
 
     protected function scrappe_agriaffaires(){
 		$this->scrappe_agriaffaire("https://www.agriaffaires.com/occasion/tracteur-agricole/1-france_champagne-ardennes.html");
