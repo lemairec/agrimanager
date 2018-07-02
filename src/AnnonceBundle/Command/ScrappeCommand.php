@@ -51,6 +51,11 @@ class ScrappeCommand extends ContainerAwareCommand
 	protected function saveOrUpdate($array){
 		$url = "https://www.maplaine.fr/annonces/api";
 		//$url = "localhost:8000/annonces/api";
+		foreach($array as $annonce){
+			print($annonce->title."\n");
+			print($annonce->category."\n");
+		}
+		//return;
         $postfield = array(
             "annonces" => json_encode($array),
         );
