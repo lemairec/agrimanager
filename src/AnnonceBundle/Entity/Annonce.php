@@ -52,9 +52,9 @@ class Annonce
     /**
      * @var string
      *
-     * @ORM\Column(type="mycategory", length=255)
+     * @ORM\Column(type="string", length=255)
      */
-    public $mycategory;
+    public $category;
 
     /**
      * @var int

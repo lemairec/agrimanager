@@ -31,7 +31,7 @@ class ApiController extends Controller
             $annonce->price = $a->price;
             $annonce->clientId = $a->clientId;
             $annonce->image = $a->image;
-            $annonce->mycategory = $a->mycategory;
+            $annonce->category = $a->category;
             $annonce->lastView = new \DateTime($a->lastView->date);
             //print(json_encode($annonce));
             //print("\n");
