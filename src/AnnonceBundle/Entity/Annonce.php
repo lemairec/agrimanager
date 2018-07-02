@@ -50,6 +50,13 @@ class Annonce
     public $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="category", length=255)
+     */
+    public $category;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="price", type="integer")
