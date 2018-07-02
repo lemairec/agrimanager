@@ -34,7 +34,7 @@ class DefaultController extends Controller
     /**
      * @Route("/annonces/immobilier", name="annonces_immobilier")
      */
-    public function indexAction(Request $request)
+    public function index2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
