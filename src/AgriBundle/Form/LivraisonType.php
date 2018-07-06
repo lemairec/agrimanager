@@ -18,15 +18,16 @@ class LivraisonType extends AbstractType
     {
         $builder->add('date', DateType::class, array(
             'widget' => 'single_text',
-            'format' => 'dd/MM/yyyy',
+            'format' => 'dd/MM/yyyy HH:mm',
             'html5' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
-        $builder->add('espece')->add('name')->add('poid_norme');
         $builder->add('parcelle', EntityType::class, array(
             'class'        => 'AgriBundle:Parcelle',
             'choices' => $options['parcelles'],
         ));
+        $builder->add('espece')->add('poid_total')->add('tare')->add('poid_norme');
+        $builder->add('humidite')->add('ps')->add('proteine')->add('calibrage');
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 

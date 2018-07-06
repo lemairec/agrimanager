@@ -23,11 +23,20 @@
 <div class="container bs-docs-container">
 <div class="well">
     {{ form_start(form) }}
-    {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
-    {{ form_row(form.espece, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.poid_norme, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.date, {'attr': {'class': 'form-control'}}) }}
+    <hr>
     {{ form_row(form.parcelle, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.espece, {'attr': {'class': 'form-control'}}) }}
+    <hr>
+    {{ form_row(form.poid_total, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.tare, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.poid_norme, {'attr': {'class': 'form-control'}}) }}
+    <hr>
+    {{ form_row(form.humidite, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.ps, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.proteine, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.calibrage, {'attr': {'class': 'form-control'}}) }}
+    <hr>
     {{ form_row(form.save) }}
     {{ form_end(form) }}
 </div>

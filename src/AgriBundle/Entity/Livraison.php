@@ -44,9 +44,65 @@ class Livraison
     /**
      * @var string
      *
+     * @ORM\Column(name="vehicule", type="string", length=255,nullable=true))
+     */
+    public $vehicule;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255,nullable=true))
      */
     public $espece;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float",nullable=true)
+     */
+    public $poid_total;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float",nullable=true)
+     */
+    public $tare;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $humidite;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $impurete;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $ps;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $proteine;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $calibrage;
 
     /**
      * @var float
