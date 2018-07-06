@@ -27,7 +27,7 @@ class LivraisonType extends AbstractType
             'choices' => $options['parcelles'],
         ));
         $builder->add('espece')->add('poid_total')->add('tare')->add('poid_norme');
-        $builder->add('humidite')->add('ps')->add('proteine')->add('calibrage');
+        $builder->add('humidite')->add('impurete')->add('ps')->add('proteine')->add('calibrage');
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 
