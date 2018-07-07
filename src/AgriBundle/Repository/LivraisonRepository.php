@@ -14,7 +14,7 @@ class LivraisonRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->setParameter('campagne', $campagne)
-            ->addorderBy('p.name', 'DESC')
+            ->addorderBy('p.date', 'DESC')
             ->getQuery();
 
         return $query->getResult();
