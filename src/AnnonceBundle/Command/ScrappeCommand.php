@@ -45,12 +45,14 @@ class ScrappeCommand extends ContainerAwareCommand
 
 		$this->updateNew();
 		$this->scrappe_leboncoins();
+		$this->scrappe_leboncoin_appartements();
         $this->scrappe_agriaffaires();
 	}
 
 	protected function saveOrUpdate($array){
 		$url = "https://www.maplaine.fr/annonces/api";
 		//$url = "localhost:8000/annonces/api";
+
 		foreach($array as $annonce){
 			print($annonce->title."\n");
 			print($annonce->category."\n");
@@ -86,10 +88,13 @@ class ScrappeCommand extends ContainerAwareCommand
 
 
     protected function scrappe_leboncoins(){
-        for ($i = 1; $i <= 3; $i++) {
-            $this->scrappe_leboncoin("https://www.leboncoin.fr/materiel_agricole/offres/champagne_ardenne/?ps=8&o=".$i);
-            $this->scrappe_leboncoin("https://www.leboncoin.fr/materiel_agricole/offres/picardie/?ps=8&o=".$i);
-        }
+		$paths = ["https://www.leboncoin.fr/materiel_agricole/offres/champagne_ardenne/", "https://www.leboncoin.fr/materiel_agricole/offres/picardie/"];
+		foreach($paths as $path){
+			$this->scrappe_leboncoin($path);
+			for ($i = 2; $i <= 3; $i++) {
+	            $this->scrappe_leboncoin($path."p-".$i."/");
+	        }
+		}
     }
 
     public function leboncoin_time($time){
@@ -111,43 +116,120 @@ class ScrappeCommand extends ContainerAwareCommand
     }
 
     protected function scrappe_leboncoin($path){
-        print("\n".$path."\n");
-        $client = new Client();
-        $crawler = $client->request('GET', $path);
-        //print($crawler->text());
-		$this->annonces = [];
+		print("path $path \n");
+		$ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $path);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $crawler->filter('body > section > main > section > section > section > section > ul > li > a')->each(function ($node) {
-            $url = $node->attr('href');
-            $title = $node->filter('section[class="item_infos"] > h2')->text();
-            $title = superTrim($title);
-            $price = $node->filter('section[class="item_infos"] > h3')->text();
-            $price = superTrim($this->leboncoin_price($price));
-            $image = '';
-            if(strlen(superTrim($node->filter('div[class="item_image"] > span')->html())) > 0){
-                $image = $node->filter('div[class="item_image"] > span > span')->attr('data-imgsrc');
-            }
-            $time = $node->filter('section[class="item_infos"] >  aside')->text();
-            $time = superTrim($time);
-			//print("*******".$time);
-            $datetime = $this->leboncoin_time($time);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		$response = curl_exec($ch);
 
 
-            $annonce = new Annonce();
+		$pos = strpos($response, 'window.FLUX_STATE = ');
+		$pos = $pos + 20;
+		$pos2 = strpos($response, "</script>", $pos);
+
+		$response = substr($response, $pos, $pos2-$pos);
+		$response = json_decode($response);
+
+		//print($response);
+		$d = $response->adSearch->data;
+		if(isset($d->ads)){
+			$data = $d->ads;
+		} else {
+			$data = [];
+		}
+
+		$annonces = [];
+		foreach($data as $d){
+			$annonce = new Annonce();
 			$annonce->new = true;
             $annonce->type = "leboncoin";
-			$annonce->title = $title;
-            $annonce->price = intval($price);
-            $annonce->url = $url;
-            $annonce->image = $image;
-            $annonce->lastView = $datetime;
-            $annonce->log = "";
-            $annonce->clientId = $url;
+			$annonce->title = $d->subject;
+			$annonce->price = 0;
+			if(isset($d->price) && count($d->price)){
+	            $annonce->price = intval($d->price[0]);
+			}
+            $annonce->url = $d->url;;
+			$annonce->image = "";
+			if(isset($d->images->thumb_url)){
+				$annonce->image = $d->images->thumb_url;
+			}
+            $annonce->lastView = new Datetime();
+            $annonce->log = json_encode($d);
+            $annonce->clientId = $d->url;
             $annonce->description = "";
+			$annonce->category = "";
+			$annonces[] = $annonce;//print(json_encode($annonce)."\n\n");
+		}
+		$this->saveOrUpdate($annonces);
+    }
 
-			$this->annonces[] = $annonce;
-		});
-		$this->saveOrUpdate($this->annonces);
+
+	protected function scrappe_leboncoin_appartement($ville){
+		$path = "https://www.leboncoin.fr/recherche/?category=9&region=8&region_near=1&cities=".$ville;
+		print("path $path \n");
+		$ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $path);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		$response = curl_exec($ch);
+
+
+		$pos = strpos($response, 'window.FLUX_STATE = ');
+		$pos = $pos + 20;
+		$pos2 = strpos($response, "</script>", $pos);
+
+		$response = substr($response, $pos, $pos2-$pos);
+		$response = json_decode($response);
+
+		//print($response);
+		$d = $response->adSearch->data;
+		if(isset($d->ads)){
+			$data = $d->ads;
+		} else {
+			$data = [];
+		}
+		
+		$annonces = [];
+		foreach($data as $d){
+			$annonce = new Annonce();
+			$annonce->new = true;
+            $annonce->type = "leboncoin ".$ville;
+			$annonce->title = $d->subject;
+			$annonce->price = 0;
+			if(isset($d->price) && count($d->price)){
+	            $annonce->price = intval($d->price[0]);
+			}
+            $annonce->url = $d->url;;
+			$annonce->image = "";
+			if(isset($d->images->thumb_url)){
+				$annonce->image = $d->images->thumb_url;
+			}
+            $annonce->lastView = new Datetime();
+            $annonce->log = json_encode($d);
+            $annonce->clientId = $d->url;
+            $annonce->description = "";
+			$annonce->category = "immobilier";
+
+			if(strpos($annonce->title, "Terrain") !== false){
+				$annonce->category = "terrain";
+			}
+			$annonces[] = $annonce;//print(json_encode($annonce)."\n\n");
+		}
+		$this->saveOrUpdate($annonces);
+	}
+
+
+	protected function scrappe_leboncoin_appartements(){
+		$r = ["Pignicourt_02190", "Brimont_51220", "Fresne-l%C3%A8s-Reims_51110", "Loivre_51220", "Aum%C3%A9nancourt_51110", "Orainville_02190", "Berm%C3%A9ricourt_51220", "Brimont_51220", "Bourgogne_51110"];
+		foreach ($r as $i) {
+			$this->scrappe_leboncoin_appartement($i);
+
+		}
     }
 
 	/**
