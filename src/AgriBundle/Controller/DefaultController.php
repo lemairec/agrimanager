@@ -336,7 +336,7 @@ class DefaultController extends CommonController
         }
         foreach ($parcelles as $key => $value) {
             $parcelles[$key]['humidite'] = $parcelles[$key]['humidite']/$parcelles[$key]['poid'];
-            $parcelles[$key]['ps'] = $parcelles[$key]['ps']/$parcelles[$key]['poid']
+            $parcelles[$key]['ps'] = $parcelles[$key]['ps']/$parcelles[$key]['poid'];
             $parcelles[$key]['proteine'] = $parcelles[$key]['proteine']/$parcelles[$key]['poid'];
             $parcelles[$key]['calibrage'] = $parcelles[$key]['calibrage']/$parcelles[$key]['poid'];
             $parcelles[$key]['impurete'] = $parcelles[$key]['impurete']/$parcelles[$key]['poid'];
