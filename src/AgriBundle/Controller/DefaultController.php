@@ -335,11 +335,11 @@ class DefaultController extends CommonController
             }
         }
         foreach ($parcelles as $key => $value) {
-            $parcelles[$key]['humidite'] = $parcelles[$key]['humidite']/$livraison->poid_norme;
-            $parcelles[$key]['ps'] = $parcelles[$key]['ps']/$livraison->poid_norme;
-            $parcelles[$key]['proteine'] = $parcelles[$key]['proteine']/$livraison->poid_norme;
-            $parcelles[$key]['calibrage'] = $parcelles[$key]['calibrage']/$livraison->poid_norme;
-            $parcelles[$key]['impurete'] = $parcelles[$key]['impurete']/$livraison->poid_norme;
+            $parcelles[$key]['humidite'] = $parcelles[$key]['humidite']/$parcelles[$key]['poid'];
+            $parcelles[$key]['ps'] = $parcelles[$key]['ps']/$parcelles[$key]['poid']
+            $parcelles[$key]['proteine'] = $parcelles[$key]['proteine']/$parcelles[$key]['poid'];
+            $parcelles[$key]['calibrage'] = $parcelles[$key]['calibrage']/$parcelles[$key]['poid'];
+            $parcelles[$key]['impurete'] = $parcelles[$key]['impurete']/$parcelles[$key]['poid'];
             $parcelles[$key]['caracteristiques'] = Livraison::getStaticCarateristiques($parcelles[$key]['humidite']
                 , $parcelles[$key]['ps'], $parcelles[$key]['proteine'], $parcelles[$key]['calibrage'], $parcelles[$key]['impurete']);
         }
