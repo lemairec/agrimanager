@@ -328,10 +328,10 @@ class DefaultController extends CommonController
                 }
                 $parcelles[$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
                 $parcelles[$livraison->parcelle->id]['humidite'] += $livraison->humidite*$livraison->poid_norme;
-                $parcelles[$livraison->parcelle->id]['ps'] += $livraison->humidite*$livraison->ps;
-                $parcelles[$livraison->parcelle->id]['proteine'] += $livraison->humidite*$livraison->proteine;
-                $parcelles[$livraison->parcelle->id]['calibrage'] += $livraison->humidite*$livraison->calibrage;
-                $parcelles[$livraison->parcelle->id]['impurete'] += $livraison->humidite*$livraison->impurete;
+                $parcelles[$livraison->parcelle->id]['ps'] += $livraison->ps*$livraison->poid_norme;
+                $parcelles[$livraison->parcelle->id]['proteine'] += $livraison->proteine*$livraison->poid_norme;
+                $parcelles[$livraison->parcelle->id]['calibrage'] += $livraison->calibrage*$livraison->poid_norme;
+                $parcelles[$livraison->parcelle->id]['impurete'] += $livraison->impurete*$livraison->poid_norme;
             }
         }
         foreach ($parcelles as $key => $value) {
