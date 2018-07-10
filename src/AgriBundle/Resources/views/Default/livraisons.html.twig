@@ -17,6 +17,7 @@
                 <th>Date</th>
                 <th>Parcelle</th>
                 <th class="text-right">Poid normé</th>
+                <th class="text-right">Caracteristiques</th>
             </tr>
             {% for livraison in livraisons %}
                 <tr>
@@ -24,7 +25,7 @@
                     <td>{{livraison.date | showDateTime}}</td>
                     <td>{{livraison.parcelle}}</td>
                     <td class="text-right">{{ base_agri.show_unity(livraison.poid_norme, 't')}}</td>
-
+                    <td class="text-right">{{ livraison.getCarateristiques()}}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -61,6 +62,7 @@
                 <th class="text-right">Poid normé</th>
                 <th class="text-right">Surface</th>
                 <th class="text-right">rendement</th>
+                <th class="text-right">caracteristiques</th>
             </tr>
             {% for parcelle in parcelles %}
                 <tr>
@@ -69,6 +71,8 @@
                     <td class="text-right">{{ base_agri.show_unity(parcelle['poid'], 't')}}</td>
                     <td class="text-right">{{ parcelle['surface'] | showHa }}</td>
                     <td class="text-right">{{ base_agri.show_unity(parcelle['poid']/parcelle['surface'], 't/ha')}}</td>
+                    <td class="text-right">{{ parcelle['caracteristiques']  }}</td>
+
                 </tr>
             {% endfor %}
         </table>

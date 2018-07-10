@@ -120,4 +120,40 @@ class Livraison
     function getDateStr(){
         return $this->date->format('d/m/y');
     }
+
+    static function getStaticCarateristiques($humidite, $ps, $proteine, $calibrage, $impurete){
+        $res = "";
+        if($humidite){
+            $res = $res."HUM ".number_format($humidite, 2);
+        }
+        if($ps){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."PS ".number_format($ps, 2);
+        }
+        if($proteine){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."PROT ".number_format($proteine, 2);
+        }
+        if($calibrage){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."CAL ".number_format($calibrage, 2);
+        }
+        if($impurete){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."IMP ".number_format($impurete, 2);
+        }
+        return $res;
+    }
+
+    function getCarateristiques(){
+        return $this->getStaticCarateristiques($this->humidite, $this->ps, $this->proteine, $this->calibrage, $this->impurete);
+    }
 }

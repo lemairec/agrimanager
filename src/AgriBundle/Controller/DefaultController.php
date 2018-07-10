@@ -323,11 +323,27 @@ class DefaultController extends CommonController
         foreach ($livraisons as $livraison) {
             if($livraison->parcelle){
                 if (!array_key_exists($livraison->parcelle->id, $parcelles)) {
-                    $parcelles[$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->espece, 'surface'=>$livraison->parcelle->surface, 'poid' => 0];
+                    $parcelles[$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->espece, 'surface'=>$livraison->parcelle->surface
+                    , 'poid' => 0, 'humidite' => 0, 'ps' => 0, 'proteine' => 0, 'calibrage' => 0, 'impurete' => 0];
                 }
                 $parcelles[$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
+                $parcelles[$livraison->parcelle->id]['humidite'] += $livraison->humidite*$livraison->poid_norme;
+                $parcelles[$livraison->parcelle->id]['ps'] += $livraison->humidite*$livraison->ps;
+                $parcelles[$livraison->parcelle->id]['proteine'] += $livraison->humidite*$livraison->proteine;
+                $parcelles[$livraison->parcelle->id]['calibrage'] += $livraison->humidite*$livraison->calibrage;
+                $parcelles[$livraison->parcelle->id]['impurete'] += $livraison->humidite*$livraison->impurete;
             }
         }
+        foreach ($parcelles as $key => $value) {
+            $parcelles[$key]['humidite'] = $parcelles[$key]['humidite']/$livraison->poid_norme;
+            $parcelles[$key]['ps'] = $parcelles[$key]['ps']/$livraison->poid_norme;
+            $parcelles[$key]['proteine'] = $parcelles[$key]['proteine']/$livraison->poid_norme;
+            $parcelles[$key]['calibrage'] = $parcelles[$key]['calibrage']/$livraison->poid_norme;
+            $parcelles[$key]['impurete'] = $parcelles[$key]['impurete']/$livraison->poid_norme;
+            $parcelles[$key]['caracteristiques'] = Livraison::getStaticCarateristiques($parcelles[$key]['humidite']
+                , $parcelles[$key]['ps'], $parcelles[$key]['proteine'], $parcelles[$key]['calibrage'], $parcelles[$key]['impurete']);
+        }
+
         //$ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
 
         return $this->render('AgriBundle:Default:livraisons.html.twig', array(
