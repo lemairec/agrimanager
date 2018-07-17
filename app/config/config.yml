@@ -87,6 +87,8 @@ swiftmailer:
 easy_admin:
     entities:
         # change the following to the namespaces of your own entities
+        Annonce:
+            class: AnnonceBundle\Entity\Annonce
         AnalyseSol:
             class:  AgriBundle\Entity\AnalyseSol
             form:

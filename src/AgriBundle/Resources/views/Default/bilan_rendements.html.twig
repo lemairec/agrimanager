@@ -1,0 +1,61 @@
+{% extends 'AgriBundle::base_agri.html.twig' %}
+
+{% block body %}
+<div class="container bs-docs-container">
+
+    <div class="well">
+
+
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <table class="table">
+                <tr>
+                    <th>Année</th>
+                    <th>Parcelle</th>
+                    <th></th>
+                    <th>Surface</th>
+                    <th>Rendement</th>
+                </tr>
+                {% for rendement in rendements %}
+                    {% for parcelle in rendement['parcelles'] %}
+                        <tr>
+                            <td>{{rendement['name']}}</td>
+                            <td>{{parcelle['name']}}</td>
+                            <td>{{parcelle['espece']}}</td>
+                            <td>{{parcelle['caracteristiques']}}</td>
+                            <td>{{parcelle['surface'] | showHa}}</td>
+                            <td>{{parcelle['rendement'] | showUnity('t/ha')}}</td>
+                        </tr>
+                {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="well">
+
+
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <table class="table">
+                <tr>
+                    <th>Année</th>
+                    <th>Parcelle</th>
+                    <th></th>
+                    <th>Surface</th>
+                    <th>Rendement</th>
+                </tr>
+                {% for rendement in rendements %}
+                    {% for key, value in rendement['cultures'] %}
+                        <tr>
+                            <td>{{rendement['name']}}</td>
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
+                        </tr>
+                {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use Datetime;
-
+use AgriBundle\Entity\Livraison;
 
 use AgriBundle\Controller\CommonController;
 
@@ -264,6 +264,59 @@ class BilanController extends CommonController
         return $this->render('AgriBundle:Default:bilan_produits.html.twig', array(
             'campagnes2' => $campagnes2,
             'cultures' => $cultures,
+        ));
+    }
+
+    /**
+     * @Route("/rendements", name="rendements")
+     */
+    public function bilanRendementsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $campagnes2 = $em->getRepository('AgriBundle:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $rendements = [];
+
+        foreach($campagnes2 as $campagne){
+            $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
+            $rendements[$campagne->name] = ['parcelles'=>[], 'cultures'=>[], 'name'=>$campagne->name];
+            foreach ($livraisons as $livraison) {
+                if($livraison->parcelle){
+                    if (!array_key_exists($livraison->parcelle->id, $rendements[$campagne->name]['parcelles'])) {
+                        $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->parcelle->culture, 'surface'=>$livraison->parcelle->surface
+                        , 'poid' => 0, 'humidite' => 0, 'ps' => 0, 'proteine' => 0, 'calibrage' => 0, 'impurete' => 0];
+                    }
+                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
+                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['humidite'] += $livraison->humidite*$livraison->poid_norme;
+                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['ps'] += $livraison->ps*$livraison->poid_norme;
+                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['proteine'] += $livraison->proteine*$livraison->poid_norme;
+                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['calibrage'] += $livraison->calibrage*$livraison->poid_norme;
+                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['impurete'] += $livraison->impurete*$livraison->poid_norme;
+                }
+            }
+            foreach ($rendements[$campagne->name]['parcelles'] as $key => $value) {
+                $rendements[$campagne->name]['parcelles'][$key]['rendement'] = $rendements[$campagne->name]['parcelles'][$key]['poid']/$rendements[$campagne->name]['parcelles'][$key]['surface'];
+                $rendements[$campagne->name]['parcelles'][$key]['humidite'] = $rendements[$campagne->name]['parcelles'][$key]['humidite']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
+                $rendements[$campagne->name]['parcelles'][$key]['ps'] = $rendements[$campagne->name]['parcelles'][$key]['ps']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
+                $rendements[$campagne->name]['parcelles'][$key]['proteine'] = $rendements[$campagne->name]['parcelles'][$key]['proteine']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
+                $rendements[$campagne->name]['parcelles'][$key]['calibrage'] = $rendements[$campagne->name]['parcelles'][$key]['calibrage']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
+                $rendements[$campagne->name]['parcelles'][$key]['impurete'] = $rendements[$campagne->name]['parcelles'][$key]['impurete']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
+                $rendements[$campagne->name]['parcelles'][$key]['caracteristiques'] = Livraison::getStaticCarateristiques($rendements[$campagne->name]['parcelles'][$key]['humidite']
+                    , $rendements[$campagne->name]['parcelles'][$key]['ps'], $rendements[$campagne->name]['parcelles'][$key]['proteine'], $rendements[$campagne->name]['parcelles'][$key]['calibrage'], $rendements[$campagne->name]['parcelles'][$key]['impurete']);
+            }
+
+            foreach ($livraisons as $livraison) {
+                if (!array_key_exists($livraison->espece, $rendements[$campagne->name]['cultures'])) {
+                    $rendements[$campagne->name]['cultures'][$livraison->espece] = 0;
+                }
+                $rendements[$campagne->name]['cultures'][$livraison->espece] += $livraison->poid_norme;
+            }
+        }
+
+        dump($rendements);
+        return $this->render('AgriBundle:Default:bilan_rendements.html.twig', array(
+            'campagnes2' => $campagnes2,
+            'rendements' => $rendements,
         ));
     }
 }
