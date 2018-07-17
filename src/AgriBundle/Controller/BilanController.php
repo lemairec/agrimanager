@@ -313,7 +313,6 @@ class BilanController extends CommonController
             }
         }
 
-        dump($rendements);
         return $this->render('AgriBundle:Default:bilan_rendements.html.twig', array(
             'campagnes2' => $campagnes2,
             'rendements' => $rendements,
