@@ -276,10 +276,11 @@ class BilanController extends CommonController
 
         $campagnes2 = $em->getRepository('AgriBundle:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
         $rendements = [];
+        $cultures = [];
 
         foreach($campagnes2 as $campagne){
             $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
-            $rendements[$campagne->name] = ['parcelles'=>[], 'cultures'=>[], 'name'=>$campagne->name];
+            $rendements[$campagne->name] = ['parcelles'=>[], 'name'=>$campagne->name];
             foreach ($livraisons as $livraison) {
                 if($livraison->parcelle){
                     if (!array_key_exists($livraison->parcelle->id, $rendements[$campagne->name]['parcelles'])) {
@@ -303,19 +304,31 @@ class BilanController extends CommonController
                 $rendements[$campagne->name]['parcelles'][$key]['impurete'] = $rendements[$campagne->name]['parcelles'][$key]['impurete']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
                 $rendements[$campagne->name]['parcelles'][$key]['caracteristiques'] = Livraison::getStaticCarateristiques($rendements[$campagne->name]['parcelles'][$key]['humidite']
                     , $rendements[$campagne->name]['parcelles'][$key]['ps'], $rendements[$campagne->name]['parcelles'][$key]['proteine'], $rendements[$campagne->name]['parcelles'][$key]['calibrage'], $rendements[$campagne->name]['parcelles'][$key]['impurete']);
+
+                $culture = $rendements[$campagne->name]['parcelles'][$key]['espece']->__toString();
+                if (!array_key_exists($culture, $cultures)) {
+                    $cultures[$culture] = [];
+                }
+                if (!array_key_exists($campagne->name, $cultures[$culture])) {
+                    $cultures[$culture][$campagne->name] = ['poid' => 0, 'surface' => 0];
+                }
+                $cultures[$culture][$campagne->name]['poid'] += $value['poid'];
+                $cultures[$culture][$campagne->name]['surface'] += $value['surface'];
+
             }
 
-            foreach ($livraisons as $livraison) {
-                if (!array_key_exists($livraison->espece, $rendements[$campagne->name]['cultures'])) {
-                    $rendements[$campagne->name]['cultures'][$livraison->espece] = 0;
+            foreach($cultures as $key => $value){
+                foreach($cultures[$key] as $key2 => $value2){
+                    $cultures[$key][$key2]['rendement'] =  $value2['poid']/$value2['surface'];
                 }
-                $rendements[$campagne->name]['cultures'][$livraison->espece] += $livraison->poid_norme;
             }
         }
+        
 
         return $this->render('AgriBundle:Default:bilan_rendements.html.twig', array(
             'campagnes2' => $campagnes2,
             'rendements' => $rendements,
+            'cultures' => $cultures,
         ));
     }
 }

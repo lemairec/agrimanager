@@ -10,22 +10,23 @@
             <!-- Default panel contents -->
             <table class="table">
                 <tr>
+                    <th>Culture</th>
                     <th>Année</th>
-                    <th>Parcelle</th>
-                    <th></th>
-                    <th>Surface</th>
                     <th>Rendement</th>
                 </tr>
-                {% for rendement in rendements %}
-                    {% for parcelle in rendement['parcelles'] %}
+                {% for key, value in cultures %}
+                    <tr>
+                        <td>{{key}}</td>
+                        <td></td>
+                        <td></td>
+                    <tr>
+                    {% for key2, value2 in value %}
                         <tr>
-                            <td>{{rendement['name']}}</td>
-                            <td>{{parcelle['name']}}</td>
-                            <td>{{parcelle['espece']}}</td>
-                            <td>{{parcelle['caracteristiques']}}</td>
-                            <td>{{parcelle['surface'] | showHa}}</td>
-                            <td>{{parcelle['rendement'] | showUnity('t/ha')}}</td>
+                            <td></td>
+                            <td>{{key2}}</td>
+                            <td>{{value2['rendement'] | showUnity('t/ha')}}</td>
                         </tr>
+
                 {% endfor %}
                 {% endfor %}
             </table>
@@ -45,17 +46,31 @@
                     <th>Surface</th>
                     <th>Rendement</th>
                 </tr>
+
                 {% for rendement in rendements %}
-                    {% for key, value in rendement['cultures'] %}
+                    <tr>
+                        <td>{{rendement['name']}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% for parcelle in rendement['parcelles'] %}
                         <tr>
-                            <td>{{rendement['name']}}</td>
-                            <td>{{key}}</td>
-                            <td>{{value}}</td>
+                            <td></td>
+                            <td>{{parcelle['name']}}</td>
+                            <td>{{parcelle['espece']}}</td>
+                            <td>{{parcelle['caracteristiques']}}</td>
+                            <td>{{parcelle['surface'] | showHa}}</td>
+                            <td>{{parcelle['rendement'] | showUnity('t/ha')}}</td>
                         </tr>
                 {% endfor %}
                 {% endfor %}
             </table>
         </div>
     </div>
+
+
 </div>
 {% endblock %}
