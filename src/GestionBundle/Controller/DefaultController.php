@@ -177,11 +177,29 @@ class DefaultController extends CommonController
                 }
             }
         }
+
+        $colors = ["" => "", "2016" => "#99ccff", "2017" => "#ff9966"];
+
+        $chartjss = [];
+        $chartjs = NULL;
+        foreach($ecritures as $ecriture){
+            if($ecriture['operation_id'] == 'annee'){
+                if($chartjs){
+                    $chartjss[] = $chartjs;
+                }
+                $chartjs = ['annee'=> $ecriture['campagne'], 'data' => [], 'color' => $colors[$ecriture['campagne']]];
+                continue;
+            }
+            $chartjs['data'][] = ['date' => substr($ecriture['date'], 1, 6)."2017", 'value' => $ecriture['sum_value']];
+        }
+        $chartjss[] = $chartjs;
+
         //print(json_encode($value_month));
         $ecritures = array_reverse($ecritures);
-        return $this->render('GestionBundle:Default:ecritures.html.twig', array(
+        return $this->render('GestionBundle:Default:banques.html.twig', array(
             'compte' => $compte,
-            'ecritures' => $ecritures
+            'ecritures' => $ecritures,
+            'chartjss' => $chartjss
         ));
     }
 

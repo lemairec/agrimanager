@@ -200,6 +200,7 @@ class BilanController extends CommonController
         ));
     }
 
+
     /**
      * @Route("/bilan_produits", name="bilan_produits")
      */
