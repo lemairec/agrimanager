@@ -30,6 +30,13 @@ class Campagne
     public $name;
 
     /**
+     * @var color
+     *
+     * @ORM\Column(name="color", type="string", length=25, nullable=true)
+     */
+    public $color;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
      * @ORM\JoinColumn(nullable=false)
      */

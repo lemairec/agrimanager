@@ -26,6 +26,7 @@ class AppExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
+            new \Twig_SimpleFilter('showDecimal', array($this, 'showDecimal')),
             new \Twig_SimpleFilter('showUnity', array($this, 'showUnityFilter')),
             new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
             new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
@@ -54,6 +55,12 @@ class AppExtension extends \Twig_Extension
             $value = $value." ".$unity;
         }
 
+        return $value;
+    }
+
+    public function showDecimal($number, $decimals = 2, $decPoint = '.', $thousandsSep = ' ')
+    {
+        $value = number_format($number, $decimals, $decPoint, $thousandsSep);
         return $value;
     }
 

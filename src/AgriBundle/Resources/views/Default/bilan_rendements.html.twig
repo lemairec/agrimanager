@@ -4,6 +4,51 @@
 <div class="container bs-docs-container">
 
     <div class="well">
+        <div class="panel panel-default", style="width:100%">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+
+        labels: [
+            {% for chartjs_label in chartjs_labels %}
+                "{{chartjs_label}}",
+            {% endfor %}
+            ],
+        datasets: [
+            {% for chartjs_campagne in chartjs_campagnes %}
+                {
+
+                    label: '{{chartjs_campagne['name']}}',
+                    backgroundColor: '{{chartjs_campagne['color']}}',
+                    borderColor: 'rgba(100, 100, 100, 1)',
+                    borderWidth: 1,
+                    data: [
+                        {% for data in chartjs_campagne['data'] %}
+                            "{{data | showDecimal}}",
+                        {% endfor %}
+                    ]
+                },
+            {% endfor %}
+            ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        }
+    }
+});
+</script>
+
+    <div class="well">
 
 
         <div class="panel panel-default", style="width:100%">

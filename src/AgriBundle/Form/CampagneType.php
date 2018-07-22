@@ -14,7 +14,7 @@ class CampagneType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')        ;
+        $builder->add('name')->add('color')        ;
         $builder->add('save',      SubmitType::class);
     }
 

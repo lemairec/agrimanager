@@ -323,12 +323,34 @@ class BilanController extends CommonController
                 }
             }
         }
-        
+
+        $chartjs_labels = [];
+        foreach($cultures as $key => $value){
+            $chartjs_labels[] = $key;
+        }
+
+        $chartjs_campagnes = [];
+        foreach($campagnes2 as $campagne){
+            $chartjs_campagne = ['name'=> $campagne->name, 'color'=> $campagne->color, 'data'=> []];
+            foreach($cultures as $key => $value){
+                if(array_key_exists($key, $cultures)){
+                    if(array_key_exists($campagne->name, $cultures[$key])){
+                        $chartjs_campagne['data'][]= $cultures[$key][$campagne->name]['rendement'];
+                        continue;
+                    }
+                }
+                $chartjs_campagne['data'][]= NULL;
+            }
+            $chartjs_campagnes[] = $chartjs_campagne;
+        }
+
 
         return $this->render('AgriBundle:Default:bilan_rendements.html.twig', array(
             'campagnes2' => $campagnes2,
             'rendements' => $rendements,
             'cultures' => $cultures,
+            'chartjs_labels' => $chartjs_labels,
+            'chartjs_campagnes' => $chartjs_campagnes,
         ));
     }
 }
