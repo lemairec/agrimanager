@@ -61,10 +61,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan", name="bilan")
-     */
-    public function bilanAction(Request $request)
+    /*public function bilanAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
@@ -120,6 +117,92 @@ class BilanController extends CommonController
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,
+        ));
+    }*/
+
+    /**
+     * @Route("/bilan", name="bilan")
+     */
+    public function bilanAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $campagnes2 = [];
+
+        foreach($this->campagnes as $campagne){
+            $parcelles = $em->getRepository('AgriBundle:Parcelle')->getAllForCampagneWithoutActive($campagne);
+
+            $cultures = [];
+            foreach ($parcelles as $p) {
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = ['color'=> $p->getCultureColor(),'culture'=>$p->getCultureName(), 'culture'=>$p->getCultureName()
+                        ,'surface'=>0, 'priceHa'=>0, 'rendement'=>0, 'poid_norme'=>0
+                        ,'price_total' => 0];
+                }
+
+
+                $p->interventions = [];
+                if($p->id != '0'){
+                    $p->interventions = $em->getRepository('AgriBundle:Intervention')->getAllForParcelle($p);
+                }
+                $p->n = 0;
+                $p->p = 0;
+                $p->k = 0;
+                $p->mg = 0;
+                $p->s = 0;
+                $p->priceHa = 0;
+                foreach($p->interventions as $it){
+                    $p->priceHa += $it->getPriceHa();
+                    foreach($it->produits as $produit){
+                        $p->n += $produit->getQtyHa() * $produit->produit->n;
+                        $p->p += $produit->getQtyHa() * $produit->produit->p;
+                        $p->k += $produit->getQtyHa() * $produit->produit->k;
+                        $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                        $p->s += $produit->getQtyHa() * $produit->produit->s;
+                    }
+                }
+                $p->poid_norme = $em->getRepository('AgriBundle:Livraison')->getSumForParcelle($p);
+
+
+
+                $cultures[$p->getCultureName()]['surface'] += $p->surface;
+                $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
+                $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
+            }
+
+            $livraisons = $em->getRepository('AgriBundle:Livraison')->getAllForCampagne($campagne);
+            foreach ($livraisons as $l) {
+                $cultures[$l->parcelle->getCultureName()]['poid_norme'] += $l->poid_norme;
+            }
+
+            $commercialisations = $em->getRepository('GestionBundle:Commercialisation')->getAllForCampagne($campagne);
+
+            foreach($commercialisations as $commercialisation){
+                $cultures[strval($commercialisation->culture)]['price_total'] += $commercialisation->price_total;
+            }
+
+            foreach ($cultures as $key => $value) {
+                $cultures[$key]['margesHa'] = 0;
+                $cultures[$key]['chargesHa'] = $cultures[$key]['priceHa']/$cultures[$key]['surface'];
+                $cultures[$key]['rendementHa'] = $cultures[$key]['poid_norme']/$cultures[$key]['surface'];
+                if($cultures[$key]['poid_norme'] != 0){
+                    $cultures[$key]['price'] = $cultures[$key]['price_total']/$cultures[$key]['poid_norme'];
+                    $cultures[$key]['margesHa'] = $cultures[$key]['rendementHa']*$cultures[$key]['price'] - $cultures[$key]['chargesHa'];
+                } else {
+                    $cultures[$key]['price'] = 0;
+                }
+            }
+
+            $c = ['parcelles' => $parcelles, 'cultures'=> $cultures, 'campagne'=>$campagne];
+            $campagnes2[] = $c;
+
+
+        }
+
+
+        return $this->render('AgriBundle:Default:bilan.html.twig', array(
+            'campagnes2' => $campagnes2
         ));
     }
 

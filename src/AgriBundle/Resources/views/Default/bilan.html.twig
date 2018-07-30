@@ -17,15 +17,24 @@
                     <th class="text-right">Prix</th>
                     <th class="text-right">Rendement</th>
                 </tr>
-                {% for parcelle in parcelles %}
-                <tr  bgcolor='{{ parcelle.cultureColor}}'>
-                    <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
-                    <td>{{parcelle.culture}}</td>
-                    <td class="text-right">{{ parcelle.surface | showHa }}</td>
-                    <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
+                {% for campagne in campagnes2 %}
+                    <tr>
+                        <td>{{campagne['campagne']}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% for parcelle in campagne['parcelles'] %}
+                    <tr  bgcolor='{{ parcelle.cultureColor}}'>
+                        <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
+                        <td>{{parcelle.culture}}</td>
+                        <td class="text-right">{{ parcelle.surface | showHa }}</td>
+                        <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
 
-                    <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
-                </tr>
+                        <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
+                    </tr>
+                    {% endfor %}
                 {% endfor %}
             </table>
         </div>
@@ -40,22 +49,36 @@
                 <tr>
                     <th>Parcelle</th>
                     <th>Culture</th>
-                    <th class="text-right">Surface</th>
-                    <th class="text-right">Prix</th>
-                    <th class="text-right">Poid Norme</th>
+                    <th class="text-right">Charge</th>
                     <th class="text-right">Rendement</th>
+                    <th class="text-right">Prix</th>
+                    <th class="text-right">Marge</th>
                 </tr>
-                {% for culture in cultures %}
-                <tr  bgcolor='{{ culture['color']}}'>
-                    <td></td>
-                    <td>{{culture['culture']}}</td>
-                    <td class="text-right">{{ culture['surface'] | showHa }}</td>
-                    <td class="text-right">{{base_agri.show_eur_ha(culture['priceHa']/culture['surface'])}}</td>
-                    <td class="text-right">{{base_agri.show_unity(culture['poid_norme'], 't')}}</td>
-                    <td class="text-right">{{base_agri.show_unity(culture['poid_norme']/culture['surface'], 't/ha')}}</td>
+                {% for campagne in campagnes2 %}
+                    <tr>
+                        <td>{{campagne['campagne']}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% for culture in campagne['cultures'] %}
+                    <tr  bgcolor='{{ culture['color']}}'>
+                        <td>{{culture['culture']}}</td>
+                        <td class="text-right">{{ culture['surface'] | showHa }}</td>
+                        <td class="text-right">{{base_agri.show_eur_ha(culture['chargesHa'])}}</td>
+                        <td class="text-right">{{base_agri.show_unity(culture['rendementHa'], 't/ha')}}</td>
+                        {% if culture['price'] != 0 %}
+                            <td class="text-right">{{base_agri.show_unity(culture['price'], '€/t')}}</td>
+                            <td class="text-right">{{base_agri.show_unity(culture['margesHa'], '€/t')}}</td>
+                        {% else %}
+                            <td></td>
+                            <td></td>
+                        {% endif %}
 
-
-                </tr>
+                    </tr>
+                    {% endfor %}
                 {% endfor %}
             </table>
         </div>
