@@ -43,7 +43,6 @@
             <!-- Default panel contents -->
             <table class="table">
                 <tr>
-                    <th>Année</th>
                     <th>Parcelle</th>
                     <th></th>
                     <th>Surface</th>
@@ -57,11 +56,9 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
                     </tr>
                     {% for parcelle in rendement['parcelles'] %}
-                        <tr>
-                            <td></td>
+                        <tr  bgcolor='{{ parcelle['color']}}'>
                             <td>{{parcelle['name']}}</td>
                             <td>{{parcelle['espece']}}</td>
                             <td>{{parcelle['caracteristiques']}}</td>

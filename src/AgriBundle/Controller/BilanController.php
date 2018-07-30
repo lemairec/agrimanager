@@ -269,7 +269,7 @@ class BilanController extends CommonController
     }
 
     /**
-     * @Route("/rendements", name="rendements")
+     * @Route("/bilan_rendements", name="bilan_rendements")
      */
     public function bilanRendementsAction(Request $request)
     {
@@ -285,7 +285,7 @@ class BilanController extends CommonController
             foreach ($livraisons as $livraison) {
                 if($livraison->parcelle){
                     if (!array_key_exists($livraison->parcelle->id, $rendements[$campagne->name]['parcelles'])) {
-                        $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->parcelle->culture, 'surface'=>$livraison->parcelle->surface
+                        $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->parcelle->culture, 'color' => $livraison->parcelle->culture->color, 'surface'=>$livraison->parcelle->surface
                         , 'poid' => 0, 'humidite' => 0, 'ps' => 0, 'proteine' => 0, 'calibrage' => 0, 'impurete' => 0];
                     }
                     $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['poid'] += $livraison->poid_norme;

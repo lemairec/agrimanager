@@ -21,7 +21,7 @@
                     <td><b>{{key}}</b></td>
                     <td></td>
                     {% for campagne in campagnes2 %}
-                        <th class="text-right">{{ t["surface"][campagne.name] }}</th>
+                        <th class="text-right">{{ t["surface"][campagne.name] | showUnity('ha')}}</th>
                     {% endfor %}
                 </tr>
                 {% for key,t2 in t.produits %}
@@ -29,7 +29,12 @@
                         <td></td>
                         <td>{{key}}</td>
                         {% for campagne in campagnes2 %}
-                            <td class="text-right">{{ (t2[campagne.name] / t["surface"][campagne.name]) | showEurUnity('ha')}}</td>
+                            {%if  t["surface"][campagne.name] != 0 %}
+                                <td class="text-right">{{ (t2[campagne.name] / t["surface"][campagne.name]) | showEurUnity('ha')}}</td>
+                            {% else %}
+                                <td class="text-right">-</td>
+
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
