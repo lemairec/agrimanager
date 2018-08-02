@@ -3,7 +3,7 @@
 namespace GestionBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AgriBundle\Controller\CommonController;
+use AppBundle\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
@@ -349,7 +349,7 @@ class DefaultController extends CommonController
         } else {
             $ecriture = $em->getRepository('GestionBundle:Ecriture')->findOneById($ecriture_id);
         }
-        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllAndNullforCompany($this->company);
+        $campagnes = $em->getRepository('AppBundle:Campagne')->getAllAndNullforCompany($this->company);
         $form = $this->createForm(EcritureType::class, $ecriture, array(
             'comptes' => $em->getRepository('GestionBundle:Compte')->getAll(),
             'campagnes' => $campagnes
@@ -362,7 +362,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('operation', array('operation_id' => $operation_id));
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AppBundle::base_form.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -420,7 +420,7 @@ class DefaultController extends CommonController
         } else {
             $facture->type = "Achat";
         }
-        $campagnes = $em->getRepository('AgriBundle:Campagne')->getAllAndNullforCompany($this->company);
+        $campagnes = $em->getRepository('AppBundle:Campagne')->getAllAndNullforCompany($this->company);
         $banques = $em->getRepository('GestionBundle:Compte')->getAllBanques($this->company);
         $comptes = $em->getRepository('GestionBundle:Compte')->getNoBanques($this->company);
         $form = $this->createForm(FactureFournisseurType::class, $facture, array(

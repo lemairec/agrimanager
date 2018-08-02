@@ -35,7 +35,7 @@ class Ecriture
     public $compte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Campagne")
      * @ORM\JoinColumn(nullable=true)
      */
     public $campagne;

@@ -33,7 +33,7 @@ class CoursRepository extends \Doctrine\ORM\EntityRepository
     function getLast($company, $produit){
         $values = explode("_", $produit);
         $em = $this->getEntityManager();
-        $campagne = $em->getRepository('AgriBundle:Campagne')->findOrCreate($company, $values[0]);
+        $campagne = $em->getRepository('AppBundle:Campagne')->findOrCreate($company, $values[0]);
         $produit2 = $values[1];
         print(json_encode($produit2));
         return $this->createQueryBuilder('p')
@@ -51,7 +51,7 @@ class CoursRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
 
         $cours = new Cours();
-        $cours->campagne = $em->getRepository('AgriBundle:Campagne')->findOrCreate($company, $values[0]);
+        $cours->campagne = $em->getRepository('AppBundle:Campagne')->findOrCreate($company, $values[0]);
         $cours->date = $date;
         $cours->value = $value;
         $cours->produit = $values[1];

@@ -1,6 +1,6 @@
 <?php
 
-namespace AgriBundle\Tests\Controller;
+namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

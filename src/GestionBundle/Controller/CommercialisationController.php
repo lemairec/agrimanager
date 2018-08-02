@@ -3,7 +3,7 @@
 namespace GestionBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AgriBundle\Controller\CommonController;
+use AppBundle\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
@@ -66,7 +66,7 @@ class CommercialisationController extends CommonController
         } else {
             $commercialisation = $em->getRepository('GestionBundle:Commercialisation')->find($commercialisation_id);
         }
-        $cultures = $em->getRepository('AgriBundle:Culture')->getAllforCompany($this->company);
+        $cultures = $em->getRepository('AppBundle:Culture')->getAllforCompany($this->company);
         $form = $this->createForm(CommercialisationType::class, $commercialisation, array(
             'cultures' => $cultures
         ));
@@ -80,7 +80,7 @@ class CommercialisationController extends CommonController
             $em->flush();
             return $this->redirectToRoute('commercialisations');
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AppBundle::base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }

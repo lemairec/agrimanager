@@ -1,0 +1,161 @@
+{% extends 'AppBundle::base_form.html.twig' %}
+
+{% block body_form %}
+
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Campagne
+    </div>
+    <table class="table">
+        <tr>
+            <th>Campagne</th>
+            <th>Stock</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
+        {% for p in produitcampagnes %}
+        <tr>
+            <td><b>{{p.campagne.name}}</b></td>
+            <td><b>{{p.stock}}</b></td>
+            <td><b>{{p.qty_totale}}</b></td>
+            <td><b>{{p.price | showEur}}</b></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Interventions
+    </div>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>{{'Name' | trans}}</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for intervention in interventions %}
+        <tr>
+            <td><a href="/intervention/{{intervention.id}}">{{intervention.id}}</td>
+            <td><b>{{intervention.get_date()}}</b></td>
+            <td><b>{{intervention.type}}</b></td>
+            <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+            <td></td>
+        </tr>
+        {% for it in intervention.produits %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td>{{it.name}}</td>
+            <td>{{ "%.2f  u"|format(it.qty)}}</td>
+            <td>{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
+
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Achats
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>{{'Name' | trans}}</th>
+            <th>Qty</th>
+            <th>Prix</th>
+            <th>Complement</th>
+        </tr>
+        {% for achat in     achats %}
+        <tr>
+            <td>{{achat.getDateStr()}}</td>
+            <td>{{achat.name}}</td>
+            <td>{{ "%.2f  u"|format(achat.qty)}}</td>
+            <td>{{ achat.price | showEurUnity('u', false) }}</td>
+            <td>{{ achat.complement | showEurUnity('u', false) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% if produit.ephyProduit %}
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><th>{{produit.ephyProduit.completeName}}</th></div>
+        <table class="table">
+            <tr>
+                <th>Amm</th>
+                <th>{{produit.ephyProduit.amm}}</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>{{produit.ephyProduit.name}}</th>
+
+            </tr>
+            {% for commercialeName in produit.ephyProduit.commercialeNames %}
+            <tr>
+                <td></td>
+                <td>{{commercialeName.name}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Societe</td>
+                <td>{{produit.ephyProduit.society}}</td>
+
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Substances</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Unity</th>
+            </tr>
+            {% for substance in produit.ephyProduit.substances %}
+            <tr>
+                <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
+                <td>{{substance.quantity}}</td>
+                <td>{{substance.unity}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Phrases risque</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            {% for phrase in produit.ephyProduit.phraseRisques %}
+            {% if phrase.cmr %}
+            <tr  bgcolor='#ffaaaa'>
+            {% else %}
+            <tr>
+            {% endif %}
+                <td>{{phrase.id}}</td>
+                <td>{{phrase.description}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endif %}
+
+{% endblock %}

@@ -23,7 +23,7 @@ class CommercialisationType extends AbstractType
             'attr' => ['class' => 'js-datepicker'],
         ));
         $builder->add('culture', EntityType::class, array(
-            'class'        => 'AgriBundle:Culture',
+            'class'        => 'AppBundle:Culture',
             'choices' => $options['cultures'],
         ));
         $builder->add('type')->add('qty')->add('price_total')->add('comment');

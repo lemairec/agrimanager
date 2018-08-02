@@ -23,7 +23,7 @@ class Commercialisation
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Campagne")
      * @ORM\JoinColumn(nullable=false)
      */
     public $campagne;
@@ -36,7 +36,7 @@ class Commercialisation
     public $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Culture")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Culture")
      * @ORM\JoinColumn(nullable=false)
      */
     public $culture;

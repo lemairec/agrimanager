@@ -25,7 +25,7 @@ class CompanyAdminType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AgriBundle\Entity\Company'
+            'data_class' => 'AppBundle\Entity\Company'
         ));
     }
 
@@ -34,7 +34,7 @@ class CompanyAdminType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'agribundle_company';
+        return 'AppBundle_company';
     }
 
 

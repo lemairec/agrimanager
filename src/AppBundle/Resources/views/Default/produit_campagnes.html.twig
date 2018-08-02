@@ -1,0 +1,40 @@
+{% extends 'AppBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/produit/0'">{{'Add' | trans}}</button>
+            Panel heading
+        </div>
+        <table class="table">
+            <tr>
+                <th>Produit</th>
+                <th>Type</th>
+
+                {% for c in campagnes2 %}
+                    <th>{{ c.name }}</th>
+                {% endfor %}
+            </tr>
+            {% for p in produits %}
+                <tr>
+                    <td>{{ p | my_path('produit', {'produit_id': p.id}) | raw }}</td>
+                    <td>{{ p.type }}</td>
+                    {% for p2 in p.produit_campagnes %}
+                        {% if p2==null %}
+                            <td></td>
+                        {% else %}
+                            <td>{{ p2.price | showEur }}</td>
+                        {% endif %}
+                    {% endfor %}
+
+
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

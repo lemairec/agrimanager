@@ -22,13 +22,13 @@ class Compte
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Company")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Company")
      * @ORM\JoinColumn(nullable=false)
      */
     public $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AgriBundle\Entity\Campagne")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Campagne")
      * @ORM\JoinColumn(nullable=true)
      */
     public $campagne;

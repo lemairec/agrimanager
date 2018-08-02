@@ -1,0 +1,27 @@
+{% extends 'AppBundle::base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/0'">{{'Add' | trans }}</button>
+            Materiels
+        </div>
+        <table class="table">
+            <tr>
+                <th>{{'Name' | trans }}</th>
+                <th>Année</th>
+            </tr>
+            {% for materiel in materiels %}
+                <tr>
+                    <td><a href="/materiel/{{materiel.id}}">{{materiel.name}}</a></td>
+                    <td>{{materiel.annee}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

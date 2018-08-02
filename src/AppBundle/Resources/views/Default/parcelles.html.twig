@@ -1,0 +1,61 @@
+{% extends 'AppBundle::base_agri.html.twig' %}
+{% import 'AppBundle::base_agri.html.twig' as base_agri %}
+
+
+{% block body %}
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/parcelle/0'">{{'Add' | trans }}</button>
+
+            Parcelle
+        </div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>{{'Active' | trans }}</th>
+                <th>{{'Name' | trans }}</th>
+                <th>Ilot</th>
+                <th>Culture</th>
+                <th class="text-right">Surface</th>
+                <th class="text-right">Rendement</th>
+                <th></th>
+            </tr>
+            {% for parcelle in parcelles %}
+            <tr  bgcolor='{{ parcelle.cultureColor}}'>
+                <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
+                <th>{{parcelle.active}}</th>
+                <td>{{parcelle.name}}</td>
+                <td>{{parcelle.getIlotName()}}</td>
+                <td>{{parcelle.getCultureName()}}</td>
+                <td class="text-right">{{ parcelle.surface | showHa }}</td>
+                <td class="text-right">{{ base_agri.show_unity(parcelle.rendement, 't')}}</td>
+                <td><a href="/parcelle/{{parcelle.id}}/delete">d</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="panel panel-default", style="width:100%">
+        <table class="table">
+            <tr>
+                <th>Culture</th>
+                <th class="text-right">Surface</th>
+            </tr>
+            {% for key, culture in cultures %}
+                <tr>
+                    <td>{{key}}</td>
+                    <td class="text-right">{{ culture | showHa }}</td>
+                    <td class="text-right">{{ (culture/total) | showPercent}}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th>TOTAL</th>
+                <th class="text-right">{{ total | showHa }}</th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}

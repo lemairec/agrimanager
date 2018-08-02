@@ -48,7 +48,7 @@ class AdminController extends Controller
                 $em->flush();
                 return $this->redirectToRoute('admin_users');
             }
-            return $this->render('AgriBundle::base_form.html.twig', array(
+            return $this->render('AppBundle::base_form.html.twig', array(
                 'form' => $form->createView(),
             ));
         }
@@ -59,7 +59,7 @@ class AdminController extends Controller
         public function adminCompaniesAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
-            $companies = $em->getRepository('AgriBundle:Company')->findAll();
+            $companies = $em->getRepository('AppBundle:Company')->findAll();
 
             return $this->render('AppBundle:Admin:companies.html.twig', array(
                 'companies' => $companies
@@ -76,7 +76,7 @@ class AdminController extends Controller
             if($id == '0'){
                 return;
             } else {
-                $company = $em->getRepository('AgriBundle:Company')->findOneById($id);
+                $company = $em->getRepository('AppBundle:Company')->findOneById($id);
             }
             $form = $this->createForm(CompanyAdminType::class, $company);
             $form->handleRequest($request);
@@ -87,7 +87,7 @@ class AdminController extends Controller
                 $em->flush();
                 return $this->redirectToRoute('admin_companies');
             }
-            return $this->render('AgriBundle::base_form.html.twig', array(
+            return $this->render('AppBundle::base_form.html.twig', array(
                 'form' => $form->createView(),
             ));
         }

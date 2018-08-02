@@ -2,7 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@AgriBundle/Resources/config/services.yml" }
     - { resource: "@EphyBundle/Resources/config/services.yml" }
     - { resource: "@GestionBundle/Resources/config/services.yml" }
     - { resource: "@AnnonceBundle/Resources/config/services.yml" }
@@ -90,7 +89,7 @@ easy_admin:
         Annonce:
             class: AnnonceBundle\Entity\Annonce
         AnalyseSol:
-            class:  AgriBundle\Entity\AnalyseSol
+            class:  AppBundle\Entity\AnalyseSol
             form:
                 fields:
                     - { property: 'docFile', type: 'vich_file' }

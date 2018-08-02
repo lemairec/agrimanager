@@ -1,0 +1,83 @@
+{% extends 'AppBundle::base_agri.html.twig' %}
+
+
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-2">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-10">
+        {{ form_widget(form) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+
+{% block body %}
+
+<div class="container bs-docs-container">
+<div class="well">
+    {{ form_start(form) }}
+    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.dateAchat, {'attr': {'class': 'form-control js-datepicker'}}) }}
+    {{ form_row(form.annee, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.caracteristique, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
+    {{ form_end(form) }}
+</div>
+
+{% if (materiel.id != '') %}
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Entretiens
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/{{materiel.id}}/entretien/0'">{{'Add' | trans }}</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Nb Heure</th>
+            <th>Type</th>
+        </tr>
+        {% for entretien in entretiens %}
+        <tr>
+            <td><a href="/materiel/{{materiel.id}}/entretien/{{entretien.id}}">{{entretien.getDateStr()}}</td>
+            <td>{{entretien.nbHeure}}</td>
+            <td>{{entretien.name}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Interventions
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/{{materiel.id}}/entretien/0'">{{'Add' | trans }}</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Campagne</th>
+            <th>Intervention</th>
+            <th>ha</th>
+        </tr>
+        {% for intervention in interventions %}
+            <tr>
+                <td>{{intervention.get_date()}}</td>
+                <td>{{intervention.campagne.name}}</td>
+                <td>{{intervention.type}}</td>
+                <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endif %}
+{% endblock %}

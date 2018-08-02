@@ -13,11 +13,6 @@ ephy:
     type:     annotation
     prefix:   /
 
-agri:
-    resource: "@AgriBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

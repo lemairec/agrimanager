@@ -26,7 +26,7 @@ class FactureFournisseurType extends AbstractType
             'attr' => ['class' => 'js-datepicker'],
         ));
         $builder->add('campagne', EntityType::class, array(
-            'class'        => 'AgriBundle:Campagne',
+            'class'        => 'AppBundle:Campagne',
             'choices' => $options['campagnes'],
         ));
         $builder->add('type', ChoiceType::class, array(

@@ -21,7 +21,7 @@ class EcritureType extends AbstractType
             'choices' => $options['comptes'],
         ));
         $builder->add('campagne', EntityType::class, array(
-            'class'        => 'AgriBundle:Campagne',
+            'class'        => 'AppBundle:Campagne',
             'choices' => $options['campagnes'],
         ));
         $builder->add('value');

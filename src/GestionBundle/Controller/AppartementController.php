@@ -3,7 +3,7 @@
 namespace GestionBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AgriBundle\Controller\CommonController;
+use AppBundle\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
@@ -59,7 +59,7 @@ class AppartementController extends CommonController
             $em->flush();
             return $this->redirectToRoute('appartement_operations');
         }
-        return $this->render('AgriBundle::base_form.html.twig', array(
+        return $this->render('AppBundle::base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }
