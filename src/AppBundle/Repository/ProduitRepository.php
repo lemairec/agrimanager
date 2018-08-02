@@ -23,7 +23,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->company = $campagne->company;
         $produit->name = $completeName;
         $produit->completeName = $completeName;
-        $ephy = $em->getRepository('EphyBundle:EphyProduit')->findOneByCompleteName($completeName);
+        $ephy = $em->getRepository('AppBundle:EphyProduit')->findOneByCompleteName($completeName);
         if($ephy){
             $produit->type = "ppp";
             $produit->unity = $ephy->unity;
@@ -56,7 +56,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->name = $name;
         $produit->type = $type;
         $produit->unity = $unity;
-        $ephy = $em->getRepository('EphyBundle:EphyProduit')->findOneByCompleteName($name);
+        $ephy = $em->getRepository('AppBundle:EphyProduit')->findOneByCompleteName($name);
         /*if($ephy){
             $produit->type = "ppp";
         } else {
@@ -103,7 +103,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         foreach($produits as $p){
             $res[] = $p->completeName;
         }
-        $produits = $em->getRepository('EphyBundle:EphyProduit')->findAll();
+        $produits = $em->getRepository('AppBundle:EphyProduit')->findAll();
         foreach($produits as $p){
             $res[] = $p->completeName;
         }

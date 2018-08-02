@@ -1,11 +1,11 @@
 <?php
 
-namespace EphyBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class DefaultController extends Controller
+class EphyController extends Controller
 {
     /**
      * @Route("/ephy_produits", name="ephy_produits")
@@ -14,9 +14,9 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('EphyBundle:EphyProduit')->getAllWithCommercialesNames();
+        $produits = $em->getRepository('AppBundle:EphyProduit')->getAllWithCommercialesNames();
 
-        return $this->render('EphyBundle:Default:ephy_produits.html.twig', array(
+        return $this->render('AppBundle:Default:ephy_produits.html.twig', array(
             'produits' => $produits,
         ));
     }
@@ -27,9 +27,9 @@ class DefaultController extends Controller
     public function produitEditAction($completeName)
     {
         $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository('EphyBundle:EphyProduit')->getByCompleteName($completeName);
+        $produit = $em->getRepository('AppBundle:EphyProduit')->getByCompleteName($completeName);
 
-        return $this->render('EphyBundle:Default:ephy_produit.html.twig', array(
+        return $this->render('AppBundle:Default:ephy_produit.html.twig', array(
             'produit' => $produit,
         ));
     }
@@ -40,11 +40,11 @@ class DefaultController extends Controller
     public function subtanceEditAction($name)
     {
         $em = $this->getDoctrine()->getManager();
-        $ephy_substance = $em->getRepository('EphyBundle:EphySubstance')->findOneByName($name);
-        $ephy_substanceproduits = $em->getRepository('EphyBundle:EphySubstanceProduit')->findByEphySubstance($ephy_substance);
+        $ephy_substance = $em->getRepository('AppBundle:EphySubstance')->findOneByName($name);
+        $ephy_substanceproduits = $em->getRepository('AppBundle:EphySubstanceProduit')->findByEphySubstance($ephy_substance);
 
 
-        return $this->render('EphyBundle:Default:ephy_substance.html.twig', array(
+        return $this->render('AppBundle:Default:ephy_substance.html.twig', array(
             'ephy_substance' => $ephy_substance,
             'ephy_substanceproduits' => $ephy_substanceproduits
         ));

@@ -1,6 +1,6 @@
 <?php
 
-namespace EphyBundle\Command;
+namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,7 +33,7 @@ class EphyCommand extends ContainerAwareCommand
 
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $ephyrepository = $em->getRepository('EphyBundle:EphyProduit');
+        $ephyrepository = $em->getRepository('AppBundle:EphyProduit');
 
         $ephyrepository->xml_file($argument);
 

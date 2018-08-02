@@ -1,6 +1,6 @@
 <?php
 
-namespace EphyBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EphyCommercialName
  *
  * @ORM\Table(name="ephy_commercial_name")
- * @ORM\Entity(repositoryClass="EphyBundle\Repository\EphyCommercialNameRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EphyCommercialNameRepository")
  */
 class EphyCommercialName
 {
@@ -20,7 +20,7 @@ class EphyCommercialName
     public $completeName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EphyBundle\Entity\EphyProduit", inversedBy="commercialeNames")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EphyProduit", inversedBy="commercialeNames")
      * @ORM\JoinColumn(name="ephyproduit", referencedColumnName="complete_name")
      */
     public $ephyproduit;

@@ -76,7 +76,7 @@ class InitbddCommand extends ContainerAwareCommand
 
     function ephy_csv(){
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $ephyrepository = $em->getRepository('EphyBundle:EphyProduit');
+        $ephyrepository = $em->getRepository('AppBundle:EphyProduit');
         $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");

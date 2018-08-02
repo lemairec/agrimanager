@@ -8,11 +8,6 @@ gestion:
     type:     annotation
     prefix:   /
 
-ephy:
-    resource: "@EphyBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

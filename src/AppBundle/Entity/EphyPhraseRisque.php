@@ -1,6 +1,6 @@
 <?php
 
-namespace EphyBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EphyPhraseRisque
  *
  * @ORM\Table(name="ephy_phrase_risque")
- * @ORM\Entity(repositoryClass="EphyBundle\Repository\EphyPhraseRisqueRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EphyPhraseRisqueRepository")
  */
 class EphyPhraseRisque
 {

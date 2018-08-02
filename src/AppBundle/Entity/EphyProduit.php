@@ -1,6 +1,6 @@
 <?php
 
-namespace EphyBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EphyProduit
  *
  * @ORM\Table(name="ephy_produit")
- * @ORM\Entity(repositoryClass="EphyBundle\Repository\EphyProduitRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EphyProduitRepository")
  */
 class EphyProduit
 {
@@ -56,12 +56,12 @@ class EphyProduit
     public $completeName;
 
     /**
-    * @ORM\OneToMany(targetEntity="EphyBundle\Entity\EphySubstanceProduit", mappedBy="ephyproduit",cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\EphySubstanceProduit", mappedBy="ephyproduit",cascade={"persist"})
     */
     public $substances;
 
     /**
-    * @ORM\ManyToMany(targetEntity="EphyBundle\Entity\EphyPhraseRisque")
+    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\EphyPhraseRisque")
     * @ORM\JoinTable(
      *  name="ephy_phrase_risques",
      *  joinColumns={
@@ -75,7 +75,7 @@ class EphyProduit
     public $phraseRisques;
 
     /**
-    * @ORM\OneToMany(targetEntity="EphyBundle\Entity\EphyCommercialName", mappedBy="ephyproduit",cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\EphyCommercialName", mappedBy="ephyproduit",cascade={"persist"})
     */
     public $commercialeNames;
 

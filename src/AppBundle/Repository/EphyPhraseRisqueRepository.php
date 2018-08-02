@@ -1,7 +1,7 @@
 <?php
 
-namespace EphyBundle\Repository;
-use EphyBundle\Entity\EphyPhraseRisque;
+namespace AppBundle\Repository;
+use AppBundle\Entity\EphyPhraseRisque;
 
 /**
  * EphyPhraseRisqueRepository

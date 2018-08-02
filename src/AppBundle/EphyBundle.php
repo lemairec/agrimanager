@@ -1,9 +1,9 @@
 <?php
 
-namespace EphyBundle;
+namespace AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class EphyBundle extends Bundle
+class AppBundle extends Bundle
 {
 }

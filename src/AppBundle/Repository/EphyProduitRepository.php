@@ -1,10 +1,10 @@
 <?php
 
-namespace EphyBundle\Repository;
-use EphyBundle\Entity\EphyProduit;
-use EphyBundle\Entity\EphySubstance;
-use EphyBundle\Entity\EphySubstanceProduit;
-use EphyBundle\Entity\EphyCommercialName;
+namespace AppBundle\Repository;
+use AppBundle\Entity\EphyProduit;
+use AppBundle\Entity\EphySubstance;
+use AppBundle\Entity\EphySubstanceProduit;
+use AppBundle\Entity\EphyCommercialName;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
  * EphyProduitRepository
@@ -61,8 +61,8 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function getEphySubstance($id, $name){
         $em = $this->getEntityManager();
-        $ephysubstancerepository = $em->getRepository('EphyBundle:EphySubstance');
-        $ephysubstanceproduitrepository = $em->getRepository('EphyBundle:EphySubstanceProduit');
+        $ephysubstancerepository = $em->getRepository('AppBundle:EphySubstance');
+        $ephysubstanceproduitrepository = $em->getRepository('AppBundle:EphySubstanceProduit');
         $ephysubstance = $ephysubstancerepository->findOneById($id);
         if($ephysubstance){
             return $ephysubstance;
@@ -77,10 +77,10 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function delete(){
         $em = $this->getEntityManager();
-        $em->createQuery('DELETE FROM EphyBundle:EphySubstanceProduit')->execute();
-        $em->createQuery('DELETE FROM EphyBundle:EphySubstance')->execute();
-        $em->createQuery('DELETE FROM EphyBundle:EphyCommercialName')->execute();
-        $em->createQuery('DELETE FROM EphyBundle:EphyProduit')->execute();
+        $em->createQuery('DELETE FROM AppBundle:EphySubstanceProduit')->execute();
+        $em->createQuery('DELETE FROM AppBundle:EphySubstance')->execute();
+        $em->createQuery('DELETE FROM AppBundle:EphyCommercialName')->execute();
+        $em->createQuery('DELETE FROM AppBundle:EphyProduit')->execute();
     }
 
     function xml(){
@@ -101,9 +101,9 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $xml = simplexml_load_file($file);
         $ppps = $xml->{'intrants'}->{'PPPs'};
-        $ephyCommercialNameRepository = $em->getRepository('EphyBundle:EphyCommercialName');
-        $ephyPhraseRisque = $em->getRepository('EphyBundle:EphyPhraseRisque');
-        $ephysubstanceproduitrepository= $em->getRepository('EphyBundle:EphySubstanceProduit');
+        $ephyCommercialNameRepository = $em->getRepository('AppBundle:EphyCommercialName');
+        $ephyPhraseRisque = $em->getRepository('AppBundle:EphyPhraseRisque');
+        $ephysubstanceproduitrepository= $em->getRepository('AppBundle:EphySubstanceProduit');
         foreach ($ppps->children() as $ppp) {
             //print_r($ppp);
             if($ppp->{'etat-produit'} != "AUTORISE"){
@@ -203,7 +203,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function csv(){
         $em = $this->getEntityManager();
-        $ephyrepository = $em->getRepository('EphyBundle:EphyProduit');
+        $ephyrepository = $em->getRepository('AppBundle:EphyProduit');
         $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");
@@ -223,7 +223,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
 
         $produits = $this->findAll();
-        $commercial = $em->getRepository('EphyBundle:EphyCommercialName')->findAll();
+        $commercial = $em->getRepository('AppBundle:EphyCommercialName')->findAll();
 
         $res = [];
         foreach($commercial as $c){
@@ -250,7 +250,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         if($ephyproduit){
             return $ephyproduit;
         }
-        $ephyCommercialName = $em->getRepository('EphyBundle:EphyCommercialName')->findOneByCompleteName($completName);
+        $ephyCommercialName = $em->getRepository('AppBundle:EphyCommercialName')->findOneByCompleteName($completName);
         if($ephyCommercialName){
             return $ephyCommercialName->ephyproduit;
         }
