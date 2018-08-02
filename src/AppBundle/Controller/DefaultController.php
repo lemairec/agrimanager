@@ -48,7 +48,7 @@ use AppBundle\Form\ParcelleType;
 use AppBundle\Form\ProduitType;
 
 
-class DefaultController2 extends CommonController
+class DefaultController extends CommonController
 {
 
     /**
@@ -59,28 +59,6 @@ class DefaultController2 extends CommonController
         $this->check_user($request);
         return $this->render('AppBundle:Default:index.html.twig', array(
             'company' => $this->company
-        ));
-    }
-
-    /**
-     * @Route("/profil")
-     */
-    public function profileAction(Request $request)
-    {
-        $this->check_user($request);
-        $em = $this->getDoctrine()->getManager();
-
-        $form = $this->createForm(CompanyType::class, $this->company);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted()) {
-            $em->persist($this->company);
-            $em->flush();
-            return $this->redirectToRoute("home");
-        }
-        return $this->render('AppBundle:Default:profil.html.twig', array(
-            'form' => $form->createView()
         ));
     }
 
