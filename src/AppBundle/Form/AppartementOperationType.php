@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Form;
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -47,7 +47,7 @@ class AppartementOperationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'GestionBundle\Entity\AppartementOperation'
+            'data_class' => 'AppBundle\Entity\AppartementOperation'
         ));
     }
 
@@ -56,7 +56,7 @@ class AppartementOperationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'gestionbundle_appartementoperation';
+        return 'AppBundle_appartementoperation';
     }
 
 

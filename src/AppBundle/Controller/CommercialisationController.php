@@ -1,14 +1,14 @@
 <?php
 
-namespace GestionBundle\Controller;
+namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
-use GestionBundle\Entity\Commercialisation;
-use GestionBundle\Form\CommercialisationType;
+use AppBundle\Entity\Commercialisation;
+use AppBundle\Form\CommercialisationType;
 use Symfony\Component\HttpFoundation\File\File;
 
 //COMPTE
@@ -27,7 +27,7 @@ class CommercialisationController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $commercialisations = $em->getRepository('GestionBundle:Commercialisation')->getAllForCampagne($campagne);
+        $commercialisations = $em->getRepository('AppBundle:Commercialisation')->getAllForCampagne($campagne);
 
         $cultures = [];
         foreach($commercialisations as $commercialisation){
@@ -44,7 +44,7 @@ class CommercialisationController extends CommonController
             }
         }
 
-        return $this->render('GestionBundle:Default:commercialisations.html.twig', array(
+        return $this->render('AppBundle:Default:commercialisations.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'commercialisations' => $commercialisations,
@@ -64,7 +64,7 @@ class CommercialisationController extends CommonController
             $commercialisation->campagne = $campagne;
             $commercialisation->date = new Datetime();
         } else {
-            $commercialisation = $em->getRepository('GestionBundle:Commercialisation')->find($commercialisation_id);
+            $commercialisation = $em->getRepository('AppBundle:Commercialisation')->find($commercialisation_id);
         }
         $cultures = $em->getRepository('AppBundle:Culture')->getAllforCompany($this->company);
         $form = $this->createForm(CommercialisationType::class, $commercialisation, array(

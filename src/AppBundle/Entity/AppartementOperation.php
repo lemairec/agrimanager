@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AppartementOperation
  *
  * @ORM\Table(name="appartement_operation")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\AppartementOperationRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AppartementOperationRepository")
  */
 class AppartementOperation
 {

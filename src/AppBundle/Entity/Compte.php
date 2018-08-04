@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Compte
  *
  * @ORM\Table(name="compte")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\CompteRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CompteRepository")
  */
 class Compte
 {
@@ -55,7 +55,7 @@ class Compte
     public $previsionnel = 0;
 
     /**
-    * @ORM\OneToMany(targetEntity="GestionBundle\Entity\Ecriture", mappedBy="compte",cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ecriture", mappedBy="compte",cascade={"persist"})
     */
     public $ecritures;
 

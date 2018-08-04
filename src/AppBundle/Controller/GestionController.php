@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Controller;
+namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\CommonController;
@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\File\File;
 //OPERATION
 
 
-class DefaultController extends CommonController
+class GestionController extends CommonController
 {
     /**
      * @Route("/cours", name="cours")

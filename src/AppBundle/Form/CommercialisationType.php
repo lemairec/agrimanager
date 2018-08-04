@@ -1,30 +1,32 @@
 <?php
 
-namespace GestionBundle\Form;
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-class EcritureType extends AbstractType
+class CommercialisationType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('compte', EntityType::class, array(
-            'class'        => 'GestionBundle:Compte',
-            'choice_label' => 'name',
-            'choices' => $options['comptes'],
+        $builder->add('date', DateType::class, array(
+            'widget' => 'single_text',
+            'format' => 'dd/MM/yyyy',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
         ));
-        $builder->add('campagne', EntityType::class, array(
-            'class'        => 'AppBundle:Campagne',
-            'choices' => $options['campagnes'],
+        $builder->add('culture', EntityType::class, array(
+            'class'        => 'AppBundle:Culture',
+            'choices' => $options['cultures'],
         ));
-        $builder->add('value');
+        $builder->add('type')->add('qty')->add('price_total')->add('comment');
         $builder->add('save',      SubmitType::class);
     }
 
@@ -34,9 +36,8 @@ class EcritureType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'GestionBundle\Entity\Ecriture',
-            'comptes' => null,
-            'campagnes' => null
+            'data_class' => 'AppBundle\Entity\Commercialisation',
+            'cultures' => null
         ));
     }
 
@@ -45,7 +46,7 @@ class EcritureType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'gestionbundle_ecriture';
+        return 'AppBundle_compte';
     }
 
 

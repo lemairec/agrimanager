@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * FactureFournisseur
  *
  * @ORM\Table(name="facture_fournisseur")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\FactureFournisseurRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FactureFournisseurRepository")
  */
 class FactureFournisseur
 {
@@ -64,13 +64,13 @@ class FactureFournisseur
     public $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Compte")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compte")
      * @ORM\JoinColumn(nullable=false)
      */
     public $compte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Compte")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compte")
      * @ORM\JoinColumn(nullable=false)
      */
     public $banque;

@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Commercialisation
  *
  * @ORM\Table(name="commercialisation")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\CommercialisationRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CommercialisationRepository")
  */
 class Commercialisation
 {

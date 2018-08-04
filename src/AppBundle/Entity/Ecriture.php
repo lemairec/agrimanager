@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Ecriture
  *
  * @ORM\Table(name="ecriture")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\EcritureRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EcritureRepository")
  */
 class Ecriture
 {
@@ -29,7 +29,7 @@ class Ecriture
     public $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Compte", inversedBy="ecritures")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compte", inversedBy="ecritures")
      * @ORM\JoinColumn(nullable=false)
      */
     public $compte;
@@ -41,7 +41,7 @@ class Ecriture
     public $campagne;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\Operation", inversedBy="ecritures")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Operation", inversedBy="ecritures")
      * @ORM\JoinColumn(nullable=false)
      */
     public $operation;

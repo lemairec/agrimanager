@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Operation
  *
  * @ORM\Table(name="operation")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\OperationRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\OperationRepository")
  */
 class Operation
 {
@@ -36,12 +36,12 @@ class Operation
     public $date;
 
     /**
-    * @ORM\OneToMany(targetEntity="GestionBundle\Entity\Ecriture", mappedBy="operation",cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ecriture", mappedBy="operation",cascade={"persist"})
     */
     public $ecritures;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GestionBundle\Entity\FactureFournisseur")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FactureFournisseur")
      * @ORM\JoinColumn(nullable=true)
      */
     public $facture;

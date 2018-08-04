@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Repository;
+namespace AppBundle\Repository;
 
 /**
  * CommercialisationRepository

@@ -1,6 +1,6 @@
 <?php
 
-namespace GestionBundle\Form;
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,12 +38,12 @@ class FactureFournisseurType extends AbstractType
         ));
         $builder->add('montantHT')->add('montantTTC')->add('compte');
         $builder->add('banque', EntityType::class, array(
-            'class'        => 'GestionBundle:Compte',
+            'class'        => 'AppBundle:Compte',
             'choice_label' => 'name',
             'choices' => $options['banques'],
         ));
         $builder->add('compte', EntityType::class, array(
-            'class'        => 'GestionBundle:Compte',
+            'class'        => 'AppBundle:Compte',
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
@@ -62,7 +62,7 @@ class FactureFournisseurType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'GestionBundle\Entity\FactureFournisseur',
+            'data_class' => 'AppBundle\Entity\FactureFournisseur',
             'banques' => null,
             'comptes' => null,
             'campagnes' => null
@@ -74,7 +74,7 @@ class FactureFournisseurType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'gestionbundle_facturefournisseur';
+        return 'AppBundle_facturefournisseur';
     }
 
 

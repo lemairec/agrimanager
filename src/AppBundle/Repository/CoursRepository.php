@@ -1,9 +1,9 @@
 <?php
 
-namespace GestionBundle\Repository;
+namespace AppBundle\Repository;
 
 use Datetime;
-use GestionBundle\Entity\Cours;
+use AppBundle\Entity\Cours;
 
 /**
  * CoursRepository

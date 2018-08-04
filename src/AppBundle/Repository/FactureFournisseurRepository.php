@@ -1,9 +1,9 @@
 <?php
 
-namespace GestionBundle\Repository;
+namespace AppBundle\Repository;
 
-use GestionBundle\Entity\Ecriture;
-use GestionBundle\Entity\Operation;
+use AppBundle\Entity\Ecriture;
+use AppBundle\Entity\Operation;
 /**
  * FactureFournisseurRepository
  *
@@ -15,7 +15,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
     function save($facture){
         $em = $this->getEntityManager();
 
-        $em->getRepository('GestionBundle:Operation')->deleteForFacture($facture);
+        $em->getRepository('AppBundle:Operation')->deleteForFacture($facture);
 
         $em->persist($facture);
         $em->flush();
@@ -43,7 +43,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
 
         if($facture->montantTTC!=$facture->montantHT){
             $ecriture = new Ecriture();
-            $ecriture->compte = $em->getRepository('GestionBundle:Compte')->getCompteTVA();
+            $ecriture->compte = $em->getRepository('AppBundle:Compte')->getCompteTVA();
             $ecriture->operation = $operation;
             $ecriture->value = -($facture->montantTTC-$facture->montantHT);
             $em->persist($ecriture);
@@ -55,7 +55,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
     function delete($facture){
         $em = $this->getEntityManager();
 
-        $em->getRepository('GestionBundle:Operation')->deleteForFacture($facture);
+        $em->getRepository('AppBundle:Operation')->deleteForFacture($facture);
         $em->remove($facture);
         $em->flush();
     }
