@@ -116,7 +116,7 @@ class AchatController extends CommonController
             $em->getRepository('AppBundle:Achat')->saveCAJData($data['data'], $campagne);
             //return $this->redirectToRoute('achats');
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,

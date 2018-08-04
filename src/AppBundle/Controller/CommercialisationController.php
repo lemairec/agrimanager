@@ -80,7 +80,7 @@ class CommercialisationController extends CommonController
             $em->flush();
             return $this->redirectToRoute('commercialisations');
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }

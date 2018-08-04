@@ -43,7 +43,7 @@
         </tr>
         {% for parcelle in parcelles %}
         <tr>
-            <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.campagne.name}}</td>
+            <td><a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.campagne.name}}</td>
             <td><b>{{parcelle.name}}</b></td>
             <td><b>{{parcelle.culture}}</b></td>
             <td><b>{{ "%.2f  ha"|format(parcelle.surface)}}</b></td>

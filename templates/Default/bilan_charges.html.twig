@@ -18,7 +18,7 @@
                 </tr>
                 {% for parcelle in parcelles %}
                 <tr  bgcolor='{{ parcelle.cultureColor}}'>
-                    <td><a href="/parcelle/{{parcelle.id}}">{{parcelle.completeName}}</a></td>
+                    <td><a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}</a></td>
                     <td>{{parcelle.culture}}</td>
                     <td class="text-right">{{ parcelle.surface | showHa }}</td>
                     <td class="text-right">{{ (parcelle.priceHa) | showEurUnity('ha')}}</td>

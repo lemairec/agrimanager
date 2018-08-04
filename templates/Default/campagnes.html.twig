@@ -16,7 +16,7 @@
             </tr>
             {% for campagne in campagnes2 %}
             <tr>
-                <td><a href="/campagne/{{campagne.id}}">{{campagne.name}}</a></td>
+                <td><a href="{{ url("campagne", {'campagne_id': campagne.id}) }}">{{campagne.name}}</a></td>
             </tr>
             {% endfor %}
         </table>

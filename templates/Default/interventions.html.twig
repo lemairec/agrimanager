@@ -8,7 +8,7 @@
     <div class="panel panel-default", style="width:100%">
         <div class="panel-heading">
             Interventions
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/0'">ADD</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("intervention", {'intervention_id': 0}) }}'">ADD</button>
         </div>
         <table class="table">
             <tr>
@@ -19,7 +19,7 @@
             </tr>
             {% for intervention in interventions %}
                 <tr>
-                    <td><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</td>
+                    <td><a href="{{ url("intervention", {'intervention_id': intervention.id}) }}">{{intervention.get_date()}}</td>
                     <td><b>{{intervention.type}}
                         {% if intervention.comment %}
                             - {{ intervention.comment }}

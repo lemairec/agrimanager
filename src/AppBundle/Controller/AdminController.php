@@ -48,7 +48,7 @@ class AdminController extends Controller
                 $em->flush();
                 return $this->redirectToRoute('admin_users');
             }
-            return $this->render('AppBundle::base_form.html.twig', array(
+            return $this->render('base_form.html.twig', array(
                 'form' => $form->createView(),
             ));
         }
@@ -87,7 +87,7 @@ class AdminController extends Controller
                 $em->flush();
                 return $this->redirectToRoute('admin_companies');
             }
-            return $this->render('AppBundle::base_form.html.twig', array(
+            return $this->render('base_form.html.twig', array(
                 'form' => $form->createView(),
             ));
         }

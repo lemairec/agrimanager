@@ -157,7 +157,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('campagnes');
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -198,7 +198,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('cultures');
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -467,7 +467,7 @@ class DefaultController extends CommonController
             $em->getRepository('AppBundle:InterventionParcelle')->save($intervention_parcelle);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -535,7 +535,7 @@ class DefaultController extends CommonController
             $em->getRepository('AppBundle:InterventionMateriel')->save($intervention_materiel);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }

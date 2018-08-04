@@ -362,7 +362,7 @@ class GestionController extends CommonController
             $em->flush();
             return $this->redirectToRoute('operation', array('operation_id' => $operation_id));
         }
-        return $this->render('AppBundle::base_form.html.twig', array(
+        return $this->render('base_form.html.twig', array(
             'form' => $form->createView()
         ));
     }
