@@ -30,11 +30,3 @@ framework:
         #app: cache.adapter.apcu
     templating:
         engines: ['twig', 'php']
-
-fos_user:
-    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
-    firewall_name: main
-    user_class: App\Entity\User
-    from_email:
-        address: "toto@toto.fr"
-        sender_name: "toto@toto.fr"

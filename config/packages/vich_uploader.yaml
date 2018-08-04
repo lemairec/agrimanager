@@ -1,0 +1,8 @@
+vich_uploader:
+    db_driver: orm # or mongodb or propel or phpcr
+
+    mappings:
+        analyse_sol:
+            uri_prefix: '/uploads/analyse_sol'
+            upload_destination: '%kernel.root_dir%/../public/uploads/analyse_sol'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer

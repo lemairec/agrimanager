@@ -2,13 +2,24 @@
 
 // src/App/Twig/AppExtension.php
 namespace App\Twig;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AppExtension extends \Twig_Extension
 {
+    /**
+     * @var TokenStorage
+     */
+    protected $tokenStorage;
 
 
-    public function __construct()
+    /**
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage    $tokenStorage
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, ContainerInterface $container)
     {
+        $this->tokenStorage = $tokenStorage;
+        $this->container = $container;
 
     }
 
