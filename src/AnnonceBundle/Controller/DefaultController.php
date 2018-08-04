@@ -26,7 +26,7 @@ class DefaultController extends Controller
         } else {
             $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAll2($params["label"]);
         }
-        return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
+        return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
         ));
     }
@@ -41,7 +41,7 @@ class DefaultController extends Controller
 
         $annonces = $em->getRepository('AnnonceBundle:Annonce')->getAllCategories("immobilier");
 
-        return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
+        return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
         ));
     }
@@ -57,7 +57,7 @@ class DefaultController extends Controller
 
         $annonces = $em->getRepository('AnnonceBundle:Annonce')->getBennes();
 
-        return $this->render('AnnonceBundle:Default:annonces.html.twig', array(
+        return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
         ));
     }

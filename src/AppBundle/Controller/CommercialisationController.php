@@ -44,7 +44,7 @@ class CommercialisationController extends CommonController
             }
         }
 
-        return $this->render('AppBundle:Default:commercialisations.html.twig', array(
+        return $this->render('Default/commercialisations.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'commercialisations' => $commercialisations,

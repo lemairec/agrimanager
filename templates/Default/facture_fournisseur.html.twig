@@ -1,0 +1,90 @@
+{% extends 'base_agri.html.twig' %}
+
+
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-2">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-10">
+        {{ form_widget(form) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+
+{% block body %}
+
+<div class="container bs-docs-container">
+    <div class="well">
+        {{ form_start(form) }}
+        {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
+        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.campagne, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.montantHT, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.montantTTC, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.banque, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.compte, {'attr': {'class': 'form-control'}}) }}
+        {% if (facture.brochure != '') %}
+            {{ form_row(form.brochure, {'attr': {'class': 'hidden'}}) }}
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <embed src="{{ asset('uploads/factures/' ~ facture.brochure) }}" width="500" height="800" type='application/pdf'>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <a href="/facture_fournisseur/{{facture.id}}/delete_pdf">delete pdf</a>
+                </div>
+            </div>
+        {% else %}
+            {{ form_row(form.brochure) }}
+        {% endif %}
+        {{ form_end(form) }}
+    </div>
+
+
+
+{% if (facture.id != '') %}
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Operations
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th></th>
+            <th>Prix</th>
+        </tr>
+        {% for operation in operations %}
+            <tr>
+                <td><a href="/operation/{{operation.id}}">{{operation.getDateStr()}}</a></td>
+                <td>{{operation.name}}</td>
+                <td></td>
+                <td><a href="/operation/{{operation.id}}/delete">d</td>
+            </tr>
+            {% for ecriture in operation.ecritures %}
+                <tr>
+                    <td></td>
+                    <td>{{ecriture.compte.name}}</a></td>
+                    <td>{{ecriture.campagne}}</td>
+                    <td>{{ ecriture.value | showEur }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+
+{% endif %}
+
+</div>
+{% endblock %}

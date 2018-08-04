@@ -59,7 +59,7 @@ class UserController extends Controller
             $em->flush();
             return $this->redirectToRoute("home");
         }
-        return $this->render('AppBundle:Default:profil.html.twig', array(
+        return $this->render('Default/profil.html.twig', array(
             'form' => $form->createView()
         ));
     }

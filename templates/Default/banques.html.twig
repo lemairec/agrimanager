@@ -1,0 +1,138 @@
+{% extends 'base_agri.html.twig' %}
+{% import 'base_agri.html.twig' as base_agri %}
+
+{% block body %}
+
+<div class="container bs-docs-container">
+
+    <div class="well">
+        <div class="panel panel-default", style="width:100%">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<div class="container bs-docs-container">
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Operations
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/operation/0'">ADD</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Nom</th>
+            <th>Campagne</th>
+            <th class="text-right">D</th>
+            <th class="text-right">C</th>
+            <th class="text-right">Value</th>
+        </tr>
+        {% for ecriture in ecritures %}
+            {% if ecriture['operation_id'] == "annee" %}
+                <tr>
+                    <th>{{ecriture['name']}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</th>
+                </tr>
+            {% else %}
+                <tr>
+                    <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
+                    <td>{{ecriture['name']}}</td>
+                    <td>{{ecriture['campagne']}}</td>
+                    {% if not ecriture['ignore']%}
+
+                        {% if ecriture['value'] > 0 %}
+                            <td class="text-right"></td>
+                            <td class="text-right" style="color: #006e36;">+ {{ base_agri.show_eur(ecriture['value'])}}</td>
+                        {% else %}
+                            <td class="text-right" style="color: #e70b0b;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                            <td class="text-right"></td>
+                        {% endif %}
+                    {% else %}
+                    {% if ecriture['value'] > 0 %}
+                        <td class="text-right"></td>
+                        <td class="text-right" style="color: #cccccc;">+ {{ base_agri.show_eur(ecriture['value'])}}</td>
+                    {% else %}
+                        <td class="text-right" style="color: #cccccc;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                        <td class="text-right"></td>
+                    {% endif %}
+                    {% endif %}
+                    <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+    </table>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src='/lib/Chart.js/Chart.min.js'></script>
+<script>
+    var timeFormat = 'DD/MM/YYYY';
+
+    var color = Chart.helpers.color;
+    var config = {
+        type: 'line',
+        data: {
+            datasets:[
+                {% for chartjs in chartjss %}
+                {
+                    label: '{{chartjs['annee']}}',
+                    fill: false,
+                    backgroundColor: '{{chartjs['color']}}',
+                    borderColor: '{{chartjs['color']}}',
+
+                    data: [
+                        {% for data in chartjs['data'] %}
+                            {
+                                x: "{{data['date']}}",
+                                y: {{data['value']}},
+                            },
+                        {% endfor %}
+                    ],
+                },
+                {% endfor %}
+            ]
+        },
+        options: {
+            title: {
+                text: 'Chart.js Time Scale'
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        format: timeFormat,
+                        // round: 'day'
+                        tooltipFormat: 'll'
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'value'
+                    }
+                }]
+            },
+        }
+    };
+
+    window.onload = function() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myLine = new Chart(ctx, config);
+
+    };
+</script>
+
+{% endblock %}

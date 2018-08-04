@@ -28,7 +28,7 @@ class AnalyseSolController extends CommonController
         $analyseSols = $em->getRepository('AppBundle:AnalyseSol')
             ->findAll();
 
-        return $this->render('AppBundle:Default:analyse_sols.html.twig', array(
+        return $this->render('Default/analyse_sols.html.twig', array(
             'analyse_sols' => $analyseSols,
         ));
     }
@@ -59,7 +59,7 @@ class AnalyseSolController extends CommonController
             $em->flush();
             return $this->redirectToRoute('analyse_sols');
         }
-        return $this->render('AppBundle:Default:analyse_sol.html.twig', array(
+        return $this->render('Default/analyse_sol.html.twig', array(
             'form' => $form->createView(),
             'analyse_sol' => $analyse_sol,
             'campagnes' => $this->campagnes,

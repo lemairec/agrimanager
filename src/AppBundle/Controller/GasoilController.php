@@ -41,7 +41,7 @@ class GasoilController extends CommonController
             }
         }
 
-        return $this->render('AppBundle:Default:gasoils.html.twig', array(
+        return $this->render('Default/gasoils.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'gasoils' => $gasoils,
@@ -74,7 +74,7 @@ class GasoilController extends CommonController
             $gasoil = $em->getRepository('AppBundle:Gasoil')->save($gasoil);
             return $this->redirectToRoute('gasoils');
         }
-        return $this->render('AppBundle:Default:gasoil.html.twig', array(
+        return $this->render('Default/gasoil.html.twig', array(
             'form' => $form->createView()
         ));
     }

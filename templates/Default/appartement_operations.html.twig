@@ -1,0 +1,33 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('appartement_operation', {'operation_id': 0}) }}'">ADD Operation</button>
+            Operations
+        </div>
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Annee</th>
+                <th>Type</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for operation in operations %}
+                <tr>
+                    <td><a href="{{ url('appartement_operation', {'operation_id': operation.id})}}">{{operation.getDateStr}}</a></td>
+                    <td>{{operation.annee}}</td>
+                    <td>{{operation.type}}</td>
+                    <td>{{operation.value | showEur}}</td>
+                    <td>{{operation.sum | showEur}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

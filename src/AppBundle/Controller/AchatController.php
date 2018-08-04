@@ -53,7 +53,7 @@ class AchatController extends CommonController
         ->setParameter('campagne', $campagne)
         ->getQuery()->getResult();
 
-        return $this->render('AppBundle:Default:achats.html.twig', array(
+        return $this->render('Default/achats.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'achats' => $achats,
@@ -83,7 +83,7 @@ class AchatController extends CommonController
             $em->getRepository('AppBundle:Achat')->save($achat, $campagne);
             return $this->redirectToRoute('achats');
         }
-        return $this->render('AppBundle:Default:achat.html.twig', array(
+        return $this->render('Default/achat.html.twig', array(
             'form' => $form->createView(),
             'produits' => $produits,
             'campagnes' => $this->campagnes,

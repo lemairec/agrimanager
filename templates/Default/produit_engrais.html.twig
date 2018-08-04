@@ -1,0 +1,42 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/produit/0'">{{'Add' | trans}}</button>
+            Panel heading
+        </div>
+        <table class="table">
+            <tr>
+                <th>{{'Name' | trans}}</th>
+                <th>N</th>
+                <th>P</th>
+                <th>K</th>
+                <th>S</th>
+                <th>Mg</th>
+                <th class="text-right">{{'Price' | trans}}</th>
+            </tr>
+            {% for p in produits %}
+                {% if p.isCMR() %}
+                <tr  bgcolor='{{ p.getColor() }}'>
+                {% else %}
+                <tr>
+                {% endif %}
+                    <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
+                    <td>{{p.n}}</td>
+                    <td>{{p.p}}</td>
+                    <td>{{p.k}}</td>
+                    <td>{{p.s}}</td>
+                    <td>{{p.mg}}</td>
+                    <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
+
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

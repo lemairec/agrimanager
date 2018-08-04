@@ -22,7 +22,7 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('AppBundle:User')->findAll();
 
-            return $this->render('AppBundle:Admin:users.html.twig', array(
+            return $this->render('Admin/users.html.twig', array(
                 'users' => $users
             ));
 
@@ -61,7 +61,7 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $companies = $em->getRepository('AppBundle:Company')->findAll();
 
-            return $this->render('AppBundle:Admin:companies.html.twig', array(
+            return $this->render('Admin/companies.html.twig', array(
                 'companies' => $companies
             ));
 

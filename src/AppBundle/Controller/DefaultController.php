@@ -57,7 +57,7 @@ class DefaultController extends CommonController
     public function indexAction(Request $request)
     {
         $this->check_user($request);
-        return $this->render('AppBundle:Default:index.html.twig', array(
+        return $this->render('Default/index.html.twig', array(
             'company' => $this->company
         ));
     }
@@ -67,7 +67,7 @@ class DefaultController extends CommonController
      */
     public function sendFileAction()
     {
-        return $this->render('AppBundle:Default:send_file.html.twig');
+        return $this->render('Default/send_file.html.twig');
     }
 
     /**
@@ -84,7 +84,7 @@ class DefaultController extends CommonController
             return $i += $obj->surface;
         });
 
-        return $this->render('AppBundle:Default:ilots.html.twig', array(
+        return $this->render('Default/ilots.html.twig', array(
             'ilots' => $ilots,
             'sum_ilots' => $sum_ilots,
         ));
@@ -114,7 +114,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('ilots');
         }
-        return $this->render('AppBundle:Default:ilot.html.twig', array(
+        return $this->render('Default/ilot.html.twig', array(
             'form' => $form->createView(),
             'parcelles' => $parcelles
         ));
@@ -130,7 +130,7 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $campagnes = $em->getRepository('AppBundle:Campagne')->getAllforCompany($this->company);
-        return $this->render('AppBundle:Default:campagnes.html.twig', array(
+        return $this->render('Default/campagnes.html.twig', array(
             'campagnes2' => $campagnes,
         ));
     }
@@ -171,7 +171,7 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $cultures = $em->getRepository('AppBundle:Culture')->getAllforCompany($this->company);
-        return $this->render('AppBundle:Default:cultures.html.twig', array(
+        return $this->render('Default/cultures.html.twig', array(
             'cultures' => $cultures,
         ));
     }
@@ -224,7 +224,7 @@ class DefaultController extends CommonController
                 $total += $p->surface;
             }
         }
-        return $this->render('AppBundle:Default:parcelles.html.twig', array(
+        return $this->render('Default/parcelles.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -269,7 +269,7 @@ class DefaultController extends CommonController
         foreach($interventions as $it){
             $priceHa += $it->getPriceHa();
         }
-        return $this->render('AppBundle:Default:parcelle.html.twig', array(
+        return $this->render('Default/parcelle.html.twig', array(
             'form' => $form->createView(),
             'interventions' => $interventions,
             'priceHa' => $priceHa
@@ -324,7 +324,7 @@ class DefaultController extends CommonController
 
         //$ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
 
-        return $this->render('AppBundle:Default:livraisons.html.twig', array(
+        return $this->render('Default/livraisons.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'livraisons' => $livraisons,
@@ -359,7 +359,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('livraisons');
         }
-        return $this->render('AppBundle:Default:livraison.html.twig', array(
+        return $this->render('Default/livraison.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -382,7 +382,7 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
         $interventions = $em->getRepository('AppBundle:Intervention')->getAllForCampagne($campagne);
-        return $this->render('AppBundle:Default:interventions.html.twig', array(
+        return $this->render('Default/interventions.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'interventions' => $interventions,
@@ -426,7 +426,7 @@ class DefaultController extends CommonController
             //$response->setStatusCode(Response::HTTP_OK);
             //return $response;
         }
-        return $this->render('AppBundle:Default:intervention.html.twig', array(
+        return $this->render('Default/intervention.html.twig', array(
             'form' => $form->createView(),
             'intervention' => $intervention,
             'parcelles' => $intervention->parcelles
@@ -503,7 +503,7 @@ class DefaultController extends CommonController
             $em->getRepository('AppBundle:InterventionProduit')->save($intervention_produit, $campagne);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
-        return $this->render('AppBundle:Default:intervention_produit.html.twig', array(
+        return $this->render('Default/intervention_produit.html.twig', array(
             'form' => $form->createView(),
             'produits' => $produits,
             'surface_totale' => $intervention_produit->intervention->surface
@@ -560,7 +560,7 @@ class DefaultController extends CommonController
         $interventions = $em->getRepository('AppBundle:Intervention')->getAllForCompany($this->company);
         $gasoils = $em->getRepository('AppBundle:Gasoil')->getAllForCompany($this->company);
         $deplacements = $em->getRepository('AppBundle:Deplacement')->getAllForCompany($this->company);
-        return $this->render('AppBundle:Default:calendar.html.twig', array(
+        return $this->render('Default/calendar.html.twig', array(
             'interventions' => $interventions,
             'gasoils' => $gasoils,
             'deplacements' => $deplacements
@@ -577,7 +577,7 @@ class DefaultController extends CommonController
 
         $materiels = $em->getRepository('AppBundle:Materiel')->getAllForCompany($this->company);
 
-        return $this->render('AppBundle:Default:materiels.html.twig', array(
+        return $this->render('Default/materiels.html.twig', array(
             'materiels' => $materiels,
         ));
     }
@@ -608,7 +608,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('materiels');
         }
-        return $this->render('AppBundle:Default:materiel.html.twig', array(
+        return $this->render('Default/materiel.html.twig', array(
             'form' => $form->createView(),
             'materiel' => $materiel,
             'entretiens' => $entretiens,
@@ -639,7 +639,7 @@ class DefaultController extends CommonController
             $em->flush();
             return $this->redirectToRoute('materiel', array('materiel_id' => $materiel_id));
         }
-        return $this->render('AppBundle:Default:materiel_entretien.html.twig', array(
+        return $this->render('Default/materiel_entretien.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -654,7 +654,7 @@ class DefaultController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
 
         $deplacements = $em->getRepository('AppBundle:Deplacement')->getAllForCampagne($campagne);
-        return $this->render('AppBundle:Default:deplacements.html.twig', array(
+        return $this->render('Default/deplacements.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'deplacements' => $deplacements
@@ -685,7 +685,7 @@ class DefaultController extends CommonController
             $gasoil = $em->getRepository('AppBundle:Deplacement')->save($deplacement);
             return $this->redirectToRoute('deplacements');
         }
-        return $this->render('AppBundle:Default:deplacement.html.twig', array(
+        return $this->render('Default/deplacement.html.twig', array(
             'form' => $form->createView(),
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,

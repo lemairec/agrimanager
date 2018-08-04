@@ -1,0 +1,46 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+<div class="container bs-docs-container">
+
+    <div class="well">
+
+
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <table class="table">
+                <tr>
+                    <th>Culture</th>
+                    <th class="text-right">Produit</th>
+                    {% for campagne in campagnes2 %}
+                        <th class="text-right">{{ campagne.name }}</th>
+                    {% endfor %}
+                </tr>
+                {% for key,t in cultures %}
+                <tr>
+                    <td><b>{{key}}</b></td>
+                    <td></td>
+                    {% for campagne in campagnes2 %}
+                        <th class="text-right">{{ t["surface"][campagne.name] | showUnity('ha')}}</th>
+                    {% endfor %}
+                </tr>
+                {% for key,t2 in t.produits %}
+                    <tr>
+                        <td></td>
+                        <td>{{key}}</td>
+                        {% for campagne in campagnes2 %}
+                            {%if  t["surface"][campagne.name] != 0 %}
+                                <td class="text-right">{{ (t2[campagne.name] / t["surface"][campagne.name]) | showEurUnity('ha')}}</td>
+                            {% else %}
+                                <td class="text-right">-</td>
+
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -28,7 +28,7 @@ class ProduitController extends CommonController
         $produits = $em->getRepository('AppBundle:Produit')
             ->getAllForCompany($this->company);
 
-        return $this->render('AppBundle:Default:produits.html.twig', array(
+        return $this->render('Default/produits.html.twig', array(
             'produits' => $produits,
         ));
     }
@@ -60,7 +60,7 @@ class ProduitController extends CommonController
             $em->getRepository('AppBundle:Produit')->update($produit);
             //return $this->redirectToRoute('produits');
         }
-        return $this->render('AppBundle:Default:produit.html.twig', array(
+        return $this->render('Default/produit.html.twig', array(
             'form' => $form->createView(),
             'produit' => $produit,
             'produitcampagnes' => $produitcampagnes,
@@ -97,7 +97,7 @@ class ProduitController extends CommonController
         }
         print($sum);
 
-        return $this->render('AppBundle:Default:produits.html.twig', array(
+        return $this->render('Default/produits.html.twig', array(
             'produits' => $produits,
             'totalPrice' => $sum
         ));
@@ -120,7 +120,7 @@ class ProduitController extends CommonController
             }
         }
 
-        return $this->render('AppBundle:Default:produit_campagnes.html.twig', array(
+        return $this->render('Default/produit_campagnes.html.twig', array(
             'produits' => $produits,
             'campagnes2' => $campagnes,
         ));
@@ -138,7 +138,7 @@ class ProduitController extends CommonController
             $produits = $em->getRepository('AppBundle:Produit')
                 ->getAllEngraisForCompany($this->company);
 
-            return $this->render('AppBundle:Default:produit_engrais.html.twig', array(
+            return $this->render('Default/produit_engrais.html.twig', array(
                 'produits' => $produits,
             ));
     }

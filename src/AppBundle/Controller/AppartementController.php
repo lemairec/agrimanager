@@ -34,7 +34,7 @@ class AppartementController extends CommonController
             $o->sum = $sum;
         }
 
-        return $this->render('AppBundle:Default:appartement_operations.html.twig', array(
+        return $this->render('Default/appartement_operations.html.twig', array(
             'operations' => $operations
         ));
     }
@@ -73,7 +73,7 @@ class AppartementController extends CommonController
         $operations = $em->getRepository("AppBundle:AppartementOperation")->findAll();
 
 
-        return $this->render('AppBundle:Default:appartement_operations.html.twig', array(
+        return $this->render('Default/appartement_operations.html.twig', array(
             'operations' => $operations
         ));
     }

@@ -1,0 +1,59 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block javascripts %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Autocomplete - Default functionality</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+    var availableTags = [
+    {% for produit in produits %}
+        "{{produit}}",
+    {% endfor %}
+
+    ];
+    $( "#AppBundle_achat_name" ).autocomplete({
+        source: availableTags,
+        select: function (event, ui) {
+            var label = ui.item.label;
+            var value = ui.item.value;
+            //alert("selected " + label + " " + value);
+        }
+    });
+} );
+</script>
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-2">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-10">
+        {{ form_widget(form) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+
+{% block body %}
+
+<div class="container bs-docs-container">
+<div class="well">
+    {{ form_start(form) }}
+    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
+    {{ form_row(form.qty, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.price_total, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.externId, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.save) }}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

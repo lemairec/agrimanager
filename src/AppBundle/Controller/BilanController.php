@@ -53,7 +53,7 @@ class BilanController extends CommonController
                 }
             }
         }
-        return $this->render('AppBundle:Default:bilan_detail.html.twig', array(
+        return $this->render('Default/bilan_detail.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -112,7 +112,7 @@ class BilanController extends CommonController
         }
 
 
-        return $this->render('AppBundle:Default:bilan.html.twig', array(
+        return $this->render('Default/bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -201,7 +201,7 @@ class BilanController extends CommonController
         }
 
 
-        return $this->render('AppBundle:Default:bilan.html.twig', array(
+        return $this->render('Default/bilan.html.twig', array(
             'campagnes2' => $campagnes2
         ));
     }
@@ -275,7 +275,7 @@ class BilanController extends CommonController
         }
 
 
-        return $this->render('AppBundle:Default:bilan_charges.html.twig', array(
+        return $this->render('Default/bilan_charges.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -345,7 +345,7 @@ class BilanController extends CommonController
             }
         }
 
-        return $this->render('AppBundle:Default:bilan_produits.html.twig', array(
+        return $this->render('Default/bilan_produits.html.twig', array(
             'campagnes2' => $campagnes2,
             'cultures' => $cultures,
         ));
@@ -429,7 +429,7 @@ class BilanController extends CommonController
         }
 
 
-        return $this->render('AppBundle:Default:bilan_rendements.html.twig', array(
+        return $this->render('Default/bilan_rendements.html.twig', array(
             'campagnes2' => $campagnes2,
             'rendements' => $rendements,
             'cultures' => $cultures,
@@ -459,7 +459,7 @@ class BilanController extends CommonController
             $comptes_campagnes[$campagne->name] = $res;
         }
 
-        return $this->render('AppBundle:Default:bilan_comptes.html.twig', array(
+        return $this->render('Default/bilan_comptes.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'comptes' => $comptes,
