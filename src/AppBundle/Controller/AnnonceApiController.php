@@ -1,6 +1,6 @@
 <?php
 
-namespace AnnonceBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use AnnonceBundle\Entity\Annonce;
+use AppBundle\Entity\Annonce;
 
-class ApiController extends Controller
+class AnnonceApiController extends Controller
 {
     /**
      * @Route("/annonces/api")
@@ -36,7 +36,7 @@ class ApiController extends Controller
             //print(json_encode($annonce));
             //print("\n");
             if($annonce->price > 10){
-                $em->getRepository('AnnonceBundle:Annonce')->saveOrUpdate($annonce);
+                $em->getRepository('AppBundle:Annonce')->saveOrUpdate($annonce);
             }
         }
         return new Response("ok");
@@ -48,7 +48,7 @@ class ApiController extends Controller
     public function annoncesApiUpdateNew(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('AnnonceBundle:Annonce')->updateNew();
+        $em->getRepository('AppBundle:Annonce')->updateNew();
         return new Response("ok");
     }
 

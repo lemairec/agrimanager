@@ -1,6 +1,6 @@
 <?php
 
-namespace AnnonceBundle\Command;
+namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Goutte\Client;
 use Datetime;
 
-use AnnonceBundle\Entity\Annonce;
+use AppBundle\Entity\Annonce;
 
 function superTrim($string)
 {

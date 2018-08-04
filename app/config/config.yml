@@ -2,8 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@AnnonceBundle/Resources/config/services.yml" }
-
+    
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
@@ -85,7 +84,7 @@ easy_admin:
     entities:
         # change the following to the namespaces of your own entities
         Annonce:
-            class: AnnonceBundle\Entity\Annonce
+            class: AppBundle\Entity\Annonce
         AnalyseSol:
             class:  AppBundle\Entity\AnalyseSol
             form:

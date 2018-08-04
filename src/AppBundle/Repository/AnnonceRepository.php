@@ -1,6 +1,6 @@
 <?php
 
-namespace AnnonceBundle\Repository;
+namespace AppBundle\Repository;
 
 /**
  * AnnonceRepository

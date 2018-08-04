@@ -1,9 +1,9 @@
 <?php
 
-namespace AnnonceBundle;
+namespace AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AnnonceBundle extends Bundle
+class AppBundle extends Bundle
 {
 }
