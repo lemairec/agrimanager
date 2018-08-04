@@ -14,7 +14,7 @@ $( function() {
     {% endfor %}
 
     ];
-    $( "#AppBundle_achat_name" ).autocomplete({
+    $( "#App_achat_name" ).autocomplete({
         source: availableTags,
         select: function (event, ui) {
             var label = ui.item.label;

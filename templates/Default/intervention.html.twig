@@ -102,14 +102,14 @@
 {% block javascripts %}
 <script>
 $( function() {
-    $('#AppBundle_intervention_type').on('change',function(e){
-        $.post('/intervention/{{intervention.id}}', $('form[name=AppBundle_intervention]').serialize())
+    $('#App_intervention_type').on('change',function(e){
+        $.post('/intervention/{{intervention.id}}', $('form[name=App_intervention]').serialize())
     });
-    $('#AppBundle_intervention_comment').on('change',function(e){
-        $.post('/intervention/{{intervention.id}}', $('form[name=AppBundle_intervention]').serialize())
+    $('#App_intervention_comment').on('change',function(e){
+        $.post('/intervention/{{intervention.id}}', $('form[name=App_intervention]').serialize())
     });
-    $('#AppBundle_intervention_date').on('change',function(e){
-        $.post('/intervention/{{intervention.id}}', $('form[name=AppBundle_intervention]').serialize())
+    $('#App_intervention_date').on('change',function(e){
+        $.post('/intervention/{{intervention.id}}', $('form[name=App_intervention]').serialize())
     });
 } );
 </script>

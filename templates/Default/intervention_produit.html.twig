@@ -14,7 +14,7 @@ $( function() {
     {% endfor %}
 
     ];
-    $( "#AppBundle_interventionproduit_name" ).autocomplete({
+    $( "#App_interventionproduit_name" ).autocomplete({
         source: availableTags,
         select: function (event, ui) {
             var label = ui.item.label;
@@ -35,9 +35,9 @@ $( function() {
         //event.target.textContent = "click count: " + event.detail;
         //open('http://google.com');
     }, false);*/
-    $('#AppBundle_interventionproduit_qty').on('input',function(e){
+    $('#App_interventionproduit_qty').on('input',function(e){
         surface = parseFloat(document.getElementById("surface").textContent);
-        dose = parseFloat(document.getElementById("AppBundle_interventionproduit_qty").value);
+        dose = parseFloat(document.getElementById("App_interventionproduit_qty").value);
         dose_ha = dose/surface;
         document.getElementById("qty_by_ha").innerHTML = dose_ha;
     });
