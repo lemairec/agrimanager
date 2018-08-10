@@ -51,6 +51,21 @@ class GasoilController extends CommonController
     }
 
     /**
+     * @Route("gasoils_all", name="gasoils_all")
+     */
+    public function gasoilsAllAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $gasoilsAll = $em->getRepository('App:Gasoil')->getAllForCompany($this->company);
+
+        return $this->render('Default/gasoils_all.html.twig', array(
+            'gasoilsAll' => $gasoilsAll
+        ));
+    }
+
+    /**
      * @Route("/gasoil/{gasoil_id}", name="gasoil")
      **/
     public function gasoilEditAction($gasoil_id, Request $request)

@@ -24,6 +24,7 @@ class GasoilType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
             ));
         $builder->add('litre');
+        $builder->add('litrePompe');
         $builder->add('type', ChoiceType::class, [
             'choices'  => [
                 'Cuve' => 'Cuve',

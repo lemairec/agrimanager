@@ -64,6 +64,13 @@ class Gasoil
     /**
      * @var int
      *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public $litrePompe;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="nb_heure", type="integer",nullable=true)
      */
     public $nb_heure;
