@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class FactureFournisseurType extends AbstractType
 {
@@ -47,11 +48,10 @@ class FactureFournisseurType extends AbstractType
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
-        $builder->add('brochure', FileType::class, array(
-                    'label' => 'Votre photo : ',
-                    'required' => false,
-                    'data_class' => null
-                    ));
+        $builder->add('factureFile', VichFileType::class, array(
+            'required' => false,
+            'allow_delete' => true,
+        ));
 
         $builder->add('save',      SubmitType::class);
     }

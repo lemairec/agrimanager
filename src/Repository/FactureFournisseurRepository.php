@@ -68,20 +68,6 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
-    function selectLastDocument($facture_id){
-        $query = $this->createQueryBuilder('p')
-            ->select('p.brochure')
-            ->where('p.id = :facture_id')
-            ->setParameter('facture_id', $facture_id)
-            ->setMaxResults(1)
-            ->getQuery();
-        $result = $query->getOneOrNullResult();
-        if($result){
-            return $result['brochure'];
-        }
-        return null;
-    }
-
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')

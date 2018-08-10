@@ -31,20 +31,14 @@
         {{ form_row(form.montantTTC, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.banque, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.compte, {'attr': {'class': 'form-control'}}) }}
-        {% if (facture.brochure != '') %}
-            {{ form_row(form.brochure, {'attr': {'class': 'hidden'}}) }}
+
+        {% if (facture.factureFileName != '') %}
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <embed src="{{ asset('uploads/factures/' ~ facture.brochure) }}" width="500" height="800" type='application/pdf'>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <a href="/facture_fournisseur/{{facture.id}}/delete_pdf">delete pdf</a>
+                    <embed src="{{ vich_uploader_asset(facture, 'factureFile') }}" width="500" height="800" type='application/pdf'>
                 </div>
             </div>
         {% else %}
-            {{ form_row(form.brochure) }}
         {% endif %}
         {{ form_end(form) }}
     </div>

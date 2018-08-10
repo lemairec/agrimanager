@@ -388,7 +388,7 @@ class GestionController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $facture = $em->getRepository('App:FactureFournisseur')->findOneById($facture_id);
-        $facture->brochure = null;
+        $facture->factureFile = null;
         $em->getRepository('App:FactureFournisseur')->save($facture);
         return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $facture_id));
     }
@@ -408,9 +408,6 @@ class GestionController extends CommonController
             $facture->date = new Datetime();
         } else {
             $facture = $em->getRepository('App:FactureFournisseur')->findOneById($facture_id);
-            if($facture->brochure){
-                //$facture->brochure = new File($this->getParameter('factures_directory').'/'.$facture->brochure);
-            }
             $operations = $em->getRepository('App:Operation')->getForFacture($facture);
         }
         if($facture->type == "V"){
@@ -432,17 +429,6 @@ class GestionController extends CommonController
 
 
         if ($form->isSubmitted()) {
-            $file = $facture->brochure;
-            if($file){
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $file->move(
-                    $this->getParameter('factures_directory'),
-                    $fileName
-                );
-                $facture->brochure = $fileName;
-            } else {
-                $facture->brochure = $em->getRepository('App:FactureFournisseur')->selectLastDocument($facture_id);
-            }
             if($facture->type == "Vente"){
                 $facture->type = "V";
                 $facture->montantTTC = -$facture->montantTTC;
@@ -478,8 +464,8 @@ class GestionController extends CommonController
         $zip->open($zipName,  \ZipArchive::CREATE);
 
         foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
-            if($f->brochure){
-                $file = $f->brochure;
+            if($f->factureFile){
+                $file = $f->factureFile;
                 $str = strtolower($f->name);
                 $str = str_replace(" - ", '_', $str);
                 $str = str_replace(' ', '_', $str);

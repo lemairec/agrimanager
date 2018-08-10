@@ -7,7 +7,7 @@
     <div class="panel panel-default", style="width:100%">
         <!-- Default panel contents -->
         <div class="panel-heading">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/facture_fournisseur/0'">ADD</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("facture_fournisseur", {'facture_id': 0}) }}'">ADD</button>
             <button type="button" class="btn btn-primary" onclick="window.location.href='export'">EXPORT</button>
             Factures
         </div>
@@ -36,8 +36,8 @@
                 {% else %}
                 <tr>
                 {% endif %}
-                    <td>{% if(facture.brochure) %}<i class="ion-paperclip">{% endif %}</i></td>
-                    <td><a href="/facture_fournisseur/{{facture.id}}">{{ facture.date | showIsoDate }}</a></td>
+                    <td>{% if(facture.factureFileName) %}<i class="ion-paperclip">{% endif %}</i></td>
+                    <td><a href="{{ url("facture_fournisseur", {'facture_id': facture.id}) }}">{{ facture.date | showIsoDate }}</a></td>
                     <td>{{ facture.getCampagneStr() }}</td>
                     <td>{{ facture.name }}</td>
                     <td>{{ facture.banque }}</td>
