@@ -1,5 +1,6 @@
 *.DS_Store
 *.swp
+.env
 /app/config/parameters.yml
 /build/
 /phpunit.xml
