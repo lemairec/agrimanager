@@ -466,4 +466,74 @@ class BilanController extends CommonController
             'comptes_campagnes' => $comptes_campagnes
         ));
     }
+
+    public function cmp($line1, $line2) {
+        if($line1['date'] == $line2['date']){
+            if($line1['type'] == "gasoil"){
+                return -1;
+            }
+            if($line2['type'] == "gasoil"){
+                return 1;
+            }
+        }
+        return ($line1['date'] > $line2['date']) ? -1 : 1;
+    }
+
+    /**
+     * @Route("/bilan_gasoil", name="bilan_gasoil")
+     */
+    public function bilanGasoilAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $lines = [];
+        foreach($campagnes2 as $campagne){
+            $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
+
+            $gasoils = $em->getRepository('App:Gasoil')->getAllForCampagne($campagne);
+            foreach($gasoils as $gasoil){
+                if($gasoil->litre < 0){
+                    $lines[] = ['date' => $gasoil->date, 'type' => 'gasoil', 'litre' => -$gasoil->litre, 'object'=> json_encode($gasoil), 'sumHa' => 0, 'sumL' => 0, 'conso' => 0];
+                }
+            }
+
+            foreach($interventions as $intervention){
+                $lines[] = ['date' => $intervention->date, 'type' => $intervention->type, 'litre' => 0, 'ha' => $intervention->surface, 'object'=> json_encode($intervention), 'sumHa' => 0, 'sumL' => 0, 'conso' => 0];
+            }
+
+        }
+
+        uasort($lines, array($this, 'cmp'));
+        $lines2 = [];
+        foreach ($lines as $line) {
+            $lines2[] = $line;
+        }
+
+        $sumHa = 0;
+        $sumL = 0;
+        $prevHa = 0;
+        for( $i = count($lines2)-1; $i >= 0 ; --$i){
+            if($lines2[$i]["type"] == "gasoil"){
+                if($sumHa>0){
+                    $prevHa = $sumHa;
+                }
+                $sumHa = 0;
+                $sumL = $sumL + $lines2[$i]["litre"];
+                $lines2[$i]["sumL"] = $sumL;
+                if($prevHa>0){
+                    $lines2[$i]["conso"] = $sumL/$prevHa;
+                }
+            } else {
+                $sumL = 0;
+                $sumHa = $sumHa + $lines2[$i]["ha"];
+                $lines2[$i]["sumHa"] = $sumHa;
+            }
+
+        }
+
+
+        return $this->render('Default/bilan_gasoils.html.twig', array(
+            'lines' => $lines2,
+        ));
+    }
 }

@@ -1,0 +1,40 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+<div class="container bs-docs-container">
+    <div class="well">
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <table class="table">
+                <tr>
+                    <th>Culture</th>
+                    <th>Année</th>
+                    <th class="text-right">Litre</th>
+                    <th class="text-right">Ha</th>
+                    <th></th>
+                </tr>
+                {% for line in lines %}
+                    <tr>
+                        <td>{{line.date | showDate}}</td>
+                        <td>{{line.type}}</td>
+                        {% if line.type == 'gasoil' %}
+                            <td class="text-right">{{line.litre | showLitre}}</td>
+                            <td></td>
+                            <td class="text-right">{{line.sumL | showLitre}}</td>
+                            <td class="text-right">{{line.conso | showUnity("l/ha")}}</td>
+                        {% else %}
+                            <td></td>
+                            <td class="text-right">{{line.ha | showHa}}</td>
+                            <td class="text-right">{{line.sumHa | showHa}}</td>
+                            <td></td>
+                        {% endif %}
+                    <tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}
