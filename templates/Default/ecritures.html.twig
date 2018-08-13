@@ -28,7 +28,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</th>
+                    <th class="text-right">{{ ecriture['sum_value'] | showEur }}</th>
                 </tr>
             {% else %}
                 <tr>
@@ -39,21 +39,21 @@
 
                         {% if ecriture['value'] > 0 %}
                             <td class="text-right"></td>
-                            <td class="text-right" style="color: #006e36;">+ {{ base_agri.show_eur(ecriture['value'])}}</td>
+                            <td class="text-right" style="color: #006e36;">+ {{ ecriture['value'] | showEur }}</td>
                         {% else %}
-                            <td class="text-right" style="color: #e70b0b;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                            <td class="text-right" style="color: #e70b0b;">{{ ecriture['value'] | showEur }}</td>
                             <td class="text-right"></td>
                         {% endif %}
                     {% else %}
                     {% if ecriture['value'] > 0 %}
                         <td class="text-right"></td>
-                        <td class="text-right" style="color: #cccccc;">+ {{ base_agri.show_eur(ecriture['value'])}}</td>
+                        <td class="text-right" style="color: #cccccc;">+ {{ ecriture['value'] | showEur }}</td>
                     {% else %}
-                        <td class="text-right" style="color: #cccccc;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                        <td class="text-right" style="color: #cccccc;">{{ ecriture['value'] | showEur }}</td>
                         <td class="text-right"></td>
                     {% endif %}
                     {% endif %}
-                    <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
+                    <td class="text-right">{{ ecriture['sum_value'] | showEur }}</td>
                 </tr>
             {% endif %}
 

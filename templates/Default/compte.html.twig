@@ -50,12 +50,12 @@
                 <td>{{ecriture['campagne']}}</td>
                 {% if ecriture['value'] > 0 %}
                     <td class="text-right"></td>
-                    <td class="text-right" style="color: #006e36;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                    <td class="text-right" style="color: #006e36;">{{ ecriture['value'] | showEur }}</td>
                 {% else %}
-                    <td class="text-right" style="color: #e70b0b;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                    <td class="text-right" style="color: #e70b0b;">{{ ecriture['value'] | showEur }}</td>
                     <td class="text-right"></td>
                 {% endif %}
-                <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
+                <td class="text-right">{{ ecriture['sum_value'] | showEur }}</td>
             </tr>
         {% endfor %}
         <tr>
@@ -73,12 +73,12 @@
                 <td>{{ecriture['campagne']}}</td>
                 {% if ecriture['value'] > 0 %}
                     <td class="text-right"></td>
-                    <td class="text-right" style="color: #006e36;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                    <td class="text-right" style="color: #006e36;">{{ ecriture['value'] | showEur }}</td>
                 {% else %}
-                    <td class="text-right" style="color: #e70b0b;">{{ base_agri.show_eur(ecriture['value'])}}</td>
+                    <td class="text-right" style="color: #e70b0b;">{{ ecriture['value'] | showEur }}</td>
                     <td class="text-right"></td>
                 {% endif %}
-                <td class="text-right">{{ base_agri.show_eur(ecriture['sum_value'])}}</td>
+                <td class="text-right">{{ ecriture['sum_value'] | showEur }}</td>
             </tr>
         {% endfor %}
 
