@@ -390,7 +390,7 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/intervention/{intervention_id}", name="intervention")
+     * @Route("/intervention2/{intervention_id}", name="intervention2")
      **/
     public function interventionEditAction($intervention_id, Request $request)
     {

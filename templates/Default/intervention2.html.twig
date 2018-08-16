@@ -1,0 +1,206 @@
+{% extends 'base_agri.html.twig' %}
+
+
+{% block body %}
+<div class="container bs-docs-container">
+    <div class="well">
+
+        <div id='example-3'>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_gasoil_date" class="required">Date</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control js-datepicker" v-model="intervention.date" type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_type" class="required">Type</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_intervention_type" name="App_intervention[type]" required="required" maxlength="255" class="form-control" v-model="intervention.type" type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_comment">Comment</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_intervention_comment" name="App_intervention[comment]" maxlength="2048" class="form-control" type="text" v-model="intervention.comment">
+                </div>
+
+            </div>
+            <fieldset class="form-group row">
+                <legend class="col-form-legend col-sm-12">Parcelles</legend>
+                <div class="col-sm-12" v-for="parcelle in intervention.parcelles">
+                    <div class="form-check col-sm-8">
+                        <label class="form-check-label" >
+                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios1" value="option1" v-on:change="signalChange" v-model="parcelle.checked">
+                            ${ parcelle.name }
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="form-check-label" >
+                            ${ parcelle.surface }
+                        </label>
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <label>Total</label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label> ${ total | round } ha</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group row">
+                <legend class="col-form-legend col-sm-12">Produits</legend>
+
+
+                <div class="form-group row">
+
+                    <div class="col-sm-8">
+                        <input id="App_intervention_produit" name="App_intervention[type]" required="required" maxlength="255" class="form-control" value="" type="text" v-model="newProduit">
+                    </div>
+                    <button v-on:click="addProduit">Add</button>
+                </div>
+
+                <div class="col-sm-12" v-for="produit in intervention.produits">
+                    <div class="form-check col-sm-6">
+                        <label class="form-check-label" >
+                            ${ produit.name }
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="form-check-label" >
+                            ${ produit.qty / total | round }
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" v-model:value="produit.qty">
+                    </div>
+                </div>
+            </fieldset>
+
+            <button v-on:click="save">Save</button>
+
+        </div>
+
+    </div>
+</div>`
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+$( function() {
+    console.log("toto");
+    var vue = new Vue({
+        el: '#example-3',
+        delimiters: ['${', '}'],
+        data: {
+            total: 0,
+            newQty :0,
+            newProduit : "",
+            intervention : {
+                id: "{{ id }}",
+                date: "{{ date }}",
+                type: "{{ type }}",
+                comment: "{{ comment }}",
+                parcelles: {{ parcelles | json_encode | raw}},
+                produits: {{ produitsIntervention | json_encode | raw}},
+            }
+
+        },
+        mounted () {
+            this.signalChange()
+            axios
+                .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+                .then(response => (this.info = response))
+        },
+        filters: {
+            round: function (value) {
+                return Math.round(value * 100) / 100;
+            }
+        },
+        methods: {
+            signalChange: function () {
+                this.total = 0;
+                for(var parcelle in this.intervention.parcelles){
+                    if(this.intervention.parcelles[parcelle].checked){
+                        this.total += this.intervention.parcelles[parcelle].surface;
+                    }
+                }
+            },
+            addProduit: function (message) {
+                var produit = this.newProduit && this.newProduit.trim()
+                if (!produit) {
+                    return
+                }
+                this.intervention.produits.push({
+                name: produit,
+                qty: 0
+                })
+                this.newProduit = ''
+                this.newQty = 0
+                console.log(message)
+            },
+            save: function(){
+                axios.post('/api/intervention', {
+                    intervention: this.intervention
+                })
+                .then(function (response) {
+                    console.log(response);
+                    window.location.href = "{{ url("interventions")}}"
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+        }
+
+    })
+
+    var availableTags = [
+        {% for produit in produits %}
+            "{{produit}}",
+        {% endfor %}
+    ];
+    $( "#App_intervention_produit" ).autocomplete({
+        source: availableTags,
+        select: function (event, ui) {
+            var label = ui.item.label;
+            var value = ui.item.value;
+            vue.newProduit = value;
+            //alert("selected " + label + " " + value);
+        }
+    });
+    $('.js-datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'fr'
+    });
+
+    $('.js-datepicker').datepicker("option", "dateFormat", "dd/mm/yy" );
+});
+</script>
+{% endblock %}
