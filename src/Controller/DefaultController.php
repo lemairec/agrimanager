@@ -214,6 +214,12 @@ class DefaultController extends CommonController
         $cultures = [];
         $total = 0;
 
+        $is = $em->getRepository('App:Ilot')->getAllForCompany($campagne->company);
+        $ilots = [];
+        foreach ($is as $i) {
+            $ilots[] = ["id" => $i->id, "name" => $i->name, "surface_totale" => $i->surface, "surface" => 0];
+        }
+
         $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
         foreach ($parcelles as $p) {
             if($p->active && $p->culture){
@@ -223,8 +229,25 @@ class DefaultController extends CommonController
                 $cultures[$p->getCultureName()] += $p->surface;
                 $total += $p->surface;
             }
+            if($p->ilot){
+                for ( $i = 0; $i< count($ilots);++$i) {
+                    if($ilots[$i]["id"] == $p->ilot->id){
+                        $ilots[$i]["surface"] = $ilots[$i]["surface"] + $p->surface;
+                    }
+                }
+            }
         }
+
+        $ilots2 = [];
+        foreach ($ilots as $ilot){
+            if($ilot["surface_totale"] > $ilot["surface"]){
+                $ilot["surface_restante"] = $ilot["surface_totale"]-$ilot["surface"];
+                $ilots2[] = $ilot;
+            }
+        }
+
         return $this->render('Default/parcelles.html.twig', array(
+            'ilots' => $ilots2,
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
@@ -247,6 +270,8 @@ class DefaultController extends CommonController
         if($parcelle_id == '0'){
             $parcelle = new Parcelle();
             $parcelle->campagne = $campagne;
+            $parcelle->surface = $request->query->get("surface", 0);
+            $parcelle->ilot = $em->getRepository('App:Ilot')->find($request->query->get("ilot_id", ""));
         } else {
             $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
         }
