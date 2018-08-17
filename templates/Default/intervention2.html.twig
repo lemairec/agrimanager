@@ -21,7 +21,11 @@
                 </div>
 
                 <div class="col-sm-10">
-                    <input id="App_intervention_type" name="App_intervention[type]" required="required" maxlength="255" class="form-control" v-model="intervention.type" type="text">
+                    <select v-model="intervention.type" class="form-control">
+                      <option v-for="type in types" v-bind:value="type">
+                        ${ type }
+                      </option>
+                    </select>
                 </div>
             </div>
             <div class="form-group row">
@@ -121,6 +125,13 @@ $( function() {
             total: 0,
             newQty :0,
             newProduit : "",
+            types : [
+                'dechaumage', 'preparation sol',
+                'semis', 'semis CIPAN',
+                'engrais', 'engrais - fond', 'engrais - azote',
+                'phyto', 'phyto - desherbage', 'phyto - fongicide',
+                'observation', 
+                'autre'],
             intervention : {
                 id: "{{ id }}",
                 date: "{{ date }}",
@@ -132,6 +143,15 @@ $( function() {
 
         },
         mounted () {
+            var find = false;
+            for(var type in this.types){
+                if(this.intervention.type == this.types[type]){
+                    find = true;
+                }
+            }
+            if(!find){
+                this.types.push(this.intervention.type);
+            }
             this.signalChange()
             axios
                 .get('https://api.coindesk.com/v1/bpi/currentprice.json')
