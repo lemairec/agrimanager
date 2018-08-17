@@ -31,7 +31,7 @@ class InterventionController extends CommonController
             'interventions' => $interventions,
         ));
     }
-    
+
     /**
      * @Route("/intervention/{intervention_id}", name="intervention")
      **/
@@ -72,8 +72,6 @@ class InterventionController extends CommonController
                 $parcelles[] = ["id" => $parcelle->id, "name" => $parcelle->completeName, "surface"=>$parcelle->surface, "checked"=>false];
             }
         }
-
-        dump($parcelles);
 
         $produits = $em->getRepository('App:Produit')->getAllName($campagne);
 
