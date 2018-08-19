@@ -90,6 +90,31 @@ class Intervention
         return $res;
     }
 
+    function getMainCulture(){
+        $culture = NULL;
+        $oneCulture = true;
+        foreach($this->parcelles as $p){
+            if($culture == NULL){
+                $culture = $p->parcelle->culture;
+            }
+            if($culture->id != $p->parcelle->culture->id){
+                $oneCulture = false;
+            }
+        }
+        if($oneCulture){
+            return $culture;
+        }
+        return NULL;
+    }
+
+    function getColor(){
+        $culture = $this->getMainCulture();
+        if($culture){
+            return $culture->color;
+        }
+        return "#ffffff";
+    }
+
     function getTypeCalendar(){
         return str_replace('&', '+', $this->type);
     }
