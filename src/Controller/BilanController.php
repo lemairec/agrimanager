@@ -285,6 +285,48 @@ class BilanController extends CommonController
 
 
     /**
+     * @Route("/bilan_dates", name="bilan_dates")
+     */
+    public function bilanDatesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $cultures = [];
+
+        $i = 0;
+        foreach($campagnes2 as $campagne){
+            $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+
+            foreach ($parcelles as $p) {
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = ['interventions'=>[]];
+
+                }
+
+
+                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+                foreach($p->interventions as $i){
+                    if (!array_key_exists($i->type, $cultures[$p->getCultureName()]["interventions"])) {
+                        $cultures[$p->getCultureName()]["interventions"][$i->type] = [];
+                        foreach($campagnes2 as $c){
+                            $cultures[$p->getCultureName()]["interventions"][$i->type][$c->name] = ['name' => $i->type, 'dates' => []];
+                        }
+                    }
+                    $cultures[$p->getCultureName()]["interventions"][$i->type][$campagne->name]["dates"][] = $i->date;
+                }
+            }
+
+        }
+        dump($cultures);
+
+        return $this->render('Bilan/bilan_dates.html.twig', array(
+            'campagnes2' => $campagnes2,
+            'cultures' => $cultures,
+        ));
+    }
+
+    /**
      * @Route("/bilan_produits", name="bilan_produits")
      */
     public function bilanProduitsAction(Request $request)
