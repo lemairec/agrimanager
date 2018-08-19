@@ -89,11 +89,19 @@ class FactureFournisseur
     private $factureFile;
 
     /**
-     * @ORM\Column(type="string", name="brochure", length=255)
+     * @ORM\Column(type="string", name="brochure", length=255, nullable=true)
      *
      * @var string
      */
     private $factureFileName;
+
+    /**
+    * @var \DateTime
+    *
+    * @ORM\Column(type="datetime", nullable=true)
+    */
+    public $updatedAt;
+
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -106,6 +114,8 @@ class FactureFournisseur
      */
     public function setFactureFile(?File $factureFile = null): void
     {
+
+        $this->updatedAt = new \DateTime('now');
         $this->factureFile = $factureFile;
     }
 
