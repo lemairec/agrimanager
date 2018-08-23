@@ -128,7 +128,9 @@ class InterventionController extends CommonController
                 $it = new InterventionParcelle();
                 $it->intervention = $intervention;
                 $it->parcelle = $em->getRepository('App:Parcelle')->find($parcelle["id"]);
-                $em->getRepository('App:InterventionParcelle')->save($it);
+                $em->persist($it);
+                $em->flush();
+                $intervention->surface += $it->parcelle->surface;
             }
         }
 
@@ -140,6 +142,8 @@ class InterventionController extends CommonController
             $em->getRepository('App:InterventionProduit')->save($it, $campagne);
         }
 
+        $em->persist($intervention);
+        $em->flush();
         return new JsonResponse("OK");
 
     }
