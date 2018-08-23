@@ -51,6 +51,10 @@ class InterventionController extends CommonController
 
         $intervention = $em->getRepository('App:Intervention')->find($intervention_id);
         if($intervention){
+            if($campagne->id != $intervention->campagne->id){
+                $campagne = $intervention->campagne;
+                $parcelles2 =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+            }
             $date = $intervention->date;
             $type = $intervention->type;
             $comment = $intervention->comment;

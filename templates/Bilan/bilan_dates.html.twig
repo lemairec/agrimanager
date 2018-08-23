@@ -31,7 +31,7 @@
                         {% for campagne in campagnes2 %}
                             <td>
                             {% for date in t2[campagne.name]["dates"] %}
-                                {{ date | showDate }}
+                                <a href="{{ url("intervention", {'intervention_id': date["id"] }) }}">{{ date["date"] | showDate }}
                             {% endfor %}
                             </td>
                         {% endfor %}

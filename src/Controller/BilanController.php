@@ -294,30 +294,38 @@ class BilanController extends CommonController
         $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
         $cultures = [];
 
-        $i = 0;
         foreach($campagnes2 as $campagne){
-            $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+            $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
 
-            foreach ($parcelles as $p) {
-                if (!array_key_exists($p->getCultureName(), $cultures)) {
-                    $cultures[$p->getCultureName()] = ['interventions'=>[]];
+            foreach ($interventions as $intervention) {
+                $intervention_culture = "";
+                foreach($intervention->parcelles as $it){
+                    $p = $it->parcelle;
+                    $culture = $p->getCultureName();
+                    if($intervention_culture != $culture){
+                        if (!array_key_exists($p->getCultureName(), $cultures)) {
+                            $cultures[$p->getCultureName()] = ['interventions'=>[]];
 
-                }
-
-
-                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
-                foreach($p->interventions as $i){
-                    if (!array_key_exists($i->type, $cultures[$p->getCultureName()]["interventions"])) {
-                        $cultures[$p->getCultureName()]["interventions"][$i->type] = [];
-                        foreach($campagnes2 as $c){
-                            $cultures[$p->getCultureName()]["interventions"][$i->type][$c->name] = ['name' => $i->type, 'dates' => []];
                         }
+
+
+                        if (!array_key_exists($intervention->type, $cultures[$p->getCultureName()]["interventions"])) {
+                            $cultures[$p->getCultureName()]["interventions"][$intervention->type] = [];
+                            foreach($campagnes2 as $c){
+                                $cultures[$p->getCultureName()]["interventions"][$intervention->type][$c->name] = ['name' => $intervention->type, 'dates' => []];
+                            }
+                        }
+                        $cultures[$p->getCultureName()]["interventions"][$intervention->type][$campagne->name]["dates"][]
+                            = ['date' => $intervention->date, 'id' => $intervention->id];
+
+                        $intervention_culture = $culture;
+
                     }
-                    $cultures[$p->getCultureName()]["interventions"][$i->type][$campagne->name]["dates"][] = $i->date;
                 }
             }
 
         }
+
         dump($cultures);
 
         return $this->render('Bilan/bilan_dates.html.twig', array(
