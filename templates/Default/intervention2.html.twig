@@ -30,11 +30,11 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-2">
-                    <label for="App_intervention_comment">Comment</label>
+                    <label for="App_intervention_name">Name</label>
                 </div>
 
                 <div class="col-sm-10">
-                    <input id="App_intervention_comment" name="App_intervention[comment]" maxlength="2048" class="form-control" type="text" v-model="intervention.comment">
+                    <input id="App_intervention_name" name="App_intervention[name]" maxlength="2048" class="form-control" type="text" v-model="intervention.name">
                 </div>
 
             </div>
@@ -98,7 +98,16 @@
                     </div>
                 </div>
             </fieldset>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_comment">Comment</label>
+                </div>
 
+                <div class="col-sm-10">
+                    <input id="App_intervention_comment" name="App_intervention[comment]" maxlength="2048" class="form-control" type="text" v-model="intervention.comment">
+                </div>
+
+            </div>
             <button v-on:click="save">Save</button>
 
         </div>
@@ -129,13 +138,14 @@ $( function() {
                 'dechaumage', 'preparation sol',
                 'semis', 'semis CIPAN',
                 'engrais', 'engrais - fond', 'engrais - azote',
-                'phyto', 'phyto - desherbage', 'phyto - fongicide',
-                'observation', 
+                'phyto', 'phyto - desherbage', 'phyto - fongicide', 'phyto - insecticide',
+                'observation',
                 'autre'],
             intervention : {
                 id: "{{ id }}",
                 date: "{{ date }}",
                 type: "{{ type }}",
+                name: "{{ name }}",
                 comment: "{{ comment }}",
                 parcelles: {{ parcelles | json_encode | raw}},
                 produits: {{ produitsIntervention | json_encode | raw}},

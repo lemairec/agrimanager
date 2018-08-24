@@ -51,7 +51,14 @@ class Intervention
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="string", length=2048, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    public $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="text", nullable=true)
      */
     public $comment;
 
@@ -68,7 +75,7 @@ class Intervention
     /**
     * @ORM\OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
     */
-    public $materiels   ;
+    public $materiels;
 
     /**
      * @var float

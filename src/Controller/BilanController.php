@@ -316,7 +316,7 @@ class BilanController extends CommonController
                             }
                         }
                         $cultures[$p->getCultureName()]["interventions"][$intervention->type][$campagne->name]["dates"][]
-                            = ['date' => $intervention->date, 'id' => $intervention->id];
+                            = ['date' => $intervention->date, 'id' => $intervention->id, 'name' => $intervention->name];
 
                         $intervention_culture = $culture;
 

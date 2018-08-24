@@ -20,8 +20,8 @@
         <tr bgcolor='{{ intervention.getColor() }}', style="filter:brightness(0.95)">
             <td class="col-xs-2"><a href="{{ url("intervention", {'intervention_id': intervention.id}) }}">{{intervention.get_date()}}</td>
             <td><b>{{intervention.type}}
-                {% if intervention.comment %}
-                    - {{ intervention.comment }}
+                {% if intervention.name %}
+                    - {{ intervention.name }}
                 {% endif %}
                 </b>
             </td>
@@ -45,6 +45,14 @@
             <td class="text-right">{{base_agri.show_unity_ha(it.qtyha, it.produit.unity)}}</td>
         </tr>
         {% endfor %}
+        {% if intervention.comment %}
+        <tr bgcolor='{{ intervention.getColor() }}' style="filter:brightness(1.05)">
+
+            <td colspan="4">
+                {{ intervention.comment }}
+            </td>
+        </tr>
+        {% endif %}
         </table>
     </div>
 </div>

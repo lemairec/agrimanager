@@ -47,6 +47,7 @@ class InterventionController extends CommonController
         $produitsIntervention = [];
         $date = new \Datetime();
         $type = "";
+        $name = "";
         $comment = "";
 
         $intervention = $em->getRepository('App:Intervention')->find($intervention_id);
@@ -57,6 +58,7 @@ class InterventionController extends CommonController
             }
             $date = $intervention->date;
             $type = $intervention->type;
+            $name = $intervention->name;
             $comment = $intervention->comment;
             foreach($intervention->produits as $produit){
                 $produitsIntervention[] = ["name" => $produit->name, "qty" => $produit->qty];
@@ -83,6 +85,7 @@ class InterventionController extends CommonController
             'id' => $intervention_id,
             'date' => $date->format('d/m/Y'),
             'type' => $type,
+            'name' => $name,
             'comment' => $comment,
             'produits' => $produits,
             'produitsIntervention' => $produitsIntervention,
@@ -123,6 +126,7 @@ class InterventionController extends CommonController
         $intervention->surface = 0;
         $intervention->type = $data["type"];
         $intervention->comment = $data["comment"];
+        $intervention->name = $data["name"];
         $intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
         $em->persist($intervention);
         $em->flush();
