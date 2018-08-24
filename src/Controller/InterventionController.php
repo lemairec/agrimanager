@@ -94,7 +94,7 @@ class InterventionController extends CommonController
     }
 
     /**
-     * @Route("/api/intervention")
+     * @Route("/api/intervention", name="intervention_api")
      */
     public function annoncesApiAction(Request $request)
     {
