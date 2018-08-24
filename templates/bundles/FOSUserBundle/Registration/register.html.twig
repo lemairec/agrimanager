@@ -1,0 +1,33 @@
+{% extends 'base_agri.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% form_theme form _self %}
+
+{% block form_row %}
+<div class="form-group row">
+    <div class="col-sm-6">
+        {{ form_label(form) }}
+    </div>
+
+    <div class="col-sm-6">
+        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {{ form_errors(form) }}
+</div>
+{% endblock form_row %}
+
+{% block fos_user_content %}
+<div class="container bs-docs-container">
+    <div class="well">
+            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                        {{ form_widget(form) }}
+                        <div>
+                            <input type="submit" value="{{ 'registration.submit'|trans }}" />
+                        </div>
+                    {{ form_end(form) }}
+
+
+        </div>
+    </div>
+{% endblock fos_user_content %}

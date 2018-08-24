@@ -22,17 +22,27 @@ class CompanyRepository extends \Doctrine\ORM\EntityRepository
     }
 
     function findOrCreate($user){
-        $em = $this->getEntityManager();
         $companies = $this->getAllForUser($user);
         if(count($companies)>0){
             return $companies[0];
         }
+
+        return $this->createCompany($user);
+    }
+
+    function createCompany($user){
         $company = new Company();
         $company->users = [$user];
         $company->name = $user->getUserName();
         $company->adresse = "";
+        $em = $this->getEntityManager();
         $em->persist($company);
         $em->flush();
+
+        $em = $this->getEntityManager();
+        $em->getRepository("App:Campagne")->createCurrentCampagne($company);
+        $em->getRepository("App:Culture")->createCurrentCulture($company);
+
         return $company;
     }
 }

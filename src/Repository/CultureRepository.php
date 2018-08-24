@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Repository;
+use App\Entity\Culture;
+
 
 /**
  * CultureRepository
@@ -17,5 +19,28 @@ class CultureRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getResult();
+    }
+
+    function findOrCreate($company, $name, $color = ""){
+        $em = $this->getEntityManager();
+        $culture = $query = $this->createQueryBuilder('p')
+         ->where('p.company = :company')
+         ->andWhere('p.name = :name')
+         ->setParameter('company', $company)
+         ->setParameter('name', $name)
+         ->getQuery()->getOneOrNullResult();
+        if($culture){
+            return $culture;
+        }
+        $culture = new Culture();
+        $culture->name = $name;
+        $culture->company = $company;
+        $em->persist($culture);
+        $em->flush();
+        return $culture;
+    }
+
+    function createCurrentCulture($company){
+        $this->findOrCreate($company, "Blé", "");
     }
 }
