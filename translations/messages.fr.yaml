@@ -1,0 +1,26 @@
+Company: Société
+
+NotShowUnity: Caché les unités
+ShowUnity: Voir les unités
+
+Surface: Surface
+Add: Ajouter
+Name: Label
+Color: Couleur
+Comment: Commentaire
+Active: Actif
+
+Price: Prix
+TotalPrice: Prix total
+Unity: Unité
+Qty: Qty
+Number: Numéro
+
+
+Admin:        Admin
+Adresse: 	  Adresse
+City code:	  Code postal
+City: 	      Ville
+Meteo city:   Ville référence pour la météo
+
+Save: Sauvegarder
