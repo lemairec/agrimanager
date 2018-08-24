@@ -195,7 +195,7 @@ $( function() {
                 console.log(message)
             },
             save: function(){
-                axios.post({{ url("intervention_api")}}, {
+                axios.post("{{ url("intervention_api")}}", {
                     intervention: this.intervention
                 })
                 .then(function (response) {
@@ -226,7 +226,7 @@ $( function() {
         }
     });
     $('.js-datepicker').datepicker({
-        dateFormat: "dd/mm/yyyy",
+        dateFormat: "dd/mm/yy",
         onSelect: function(dateText) {
             vue.intervention.date = dateText;
             //console.log("Selected date: " + dateText + "; input's current value: " + this.value);
