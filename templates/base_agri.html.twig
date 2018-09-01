@@ -183,11 +183,14 @@
                 {%endfor%}
             </select>
             {% endif %}
-            {% if app.user.show_unity %}
-                <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
-            {% else %}
-                <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
+            {% if app.user.username == "lejard" %}
+                {% if app.user.show_unity %}
+                    <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
+                {% else %}
+                    <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
+                {% endif %}
             {% endif %}
+
         </div>
         {% endif %}
         {% block body %}{% endblock %}

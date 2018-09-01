@@ -133,13 +133,13 @@ class ProduitController extends CommonController
     public function engraisAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            $produits = $em->getRepository('App:Produit')
-                ->getAllEngraisForCompany($this->company);
+        $produits = $em->getRepository('App:Produit')
+            ->getAllEngraisForCompany($this->company);
 
-            return $this->render('Default/produit_engrais.html.twig', array(
-                'produits' => $produits,
-            ));
+        return $this->render('Default/produit_engrais.html.twig', array(
+            'produits' => $produits,
+        ));
     }
 }
