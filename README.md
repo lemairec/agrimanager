@@ -22,6 +22,7 @@ OVH
 ````
 php composer.phar install
 php bin/console doctrine:schema:update --force
+
 ````
 
 modify web/app.dev => true
