@@ -182,6 +182,7 @@ class BilanController extends CommonController
                 $cultures[strval($commercialisation->culture)]['price_total'] += $commercialisation->price_total;
             }
 
+            $marge = 0;
             foreach ($cultures as $key => $value) {
                 $cultures[$key]['margesHa'] = 0;
                 $cultures[$key]['chargesHa'] = $cultures[$key]['priceHa']/$cultures[$key]['surface'];
@@ -192,14 +193,14 @@ class BilanController extends CommonController
                 } else {
                     $cultures[$key]['price'] = 0;
                 }
+                $marge += $cultures[$key]['price_total'] - $cultures[$key]['priceHa'];
             }
 
-            $c = ['parcelles' => $parcelles, 'cultures'=> $cultures, 'campagne'=>$campagne];
+            $c = ['parcelles' => $parcelles, 'cultures'=> $cultures, 'campagne'=>$campagne, 'marge'=>$marge];
             $campagnes2[] = $c;
 
 
         }
-
 
         return $this->render('Bilan/bilan.html.twig', array(
             'campagnes2' => $campagnes2
