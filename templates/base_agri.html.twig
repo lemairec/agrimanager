@@ -176,21 +176,28 @@
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
         <div class="container bs-docs-container">
-            {% if campagnes is defined %}
-            <select class="selectpicker" id="dynamic_select">>
-                {%for campagne in campagnes %}
-                <option value="{{campagne.id}}" {%if campagne.id == campagne_id %} selected {%endif%}>{{campagne.name}}</option>
-                {%endfor%}
-            </select>
-            {% endif %}
-            {% if app.user.username == "lejard" %}
-                {% if app.user.show_unity %}
-                    <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
-                {% else %}
-                    <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
-                {% endif %}
-            {% endif %}
+            <div class="panel panel-default", style="width:100%">
+                <div class="panel-heading">
+                    <div class="row">
+                        {% if campagnes is defined %}
+                        <select class="selectpicker" id="dynamic_select">>
+                            {%for campagne in campagnes %}
+                            <option value="{{campagne.id}}" {%if campagne.id == campagne_id %} selected {%endif%}>{{campagne.name}}</option>
+                            {%endfor%}
+                        </select>
+                        {% endif %}
+                        {% if app.user.username == "lejard" %}
+                            {% if app.user.show_unity %}
+                                <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
+                            {% else %}
+                                <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
+                            {% endif %}
+                        {% endif %}
 
+
+                    </div>
+                </div>
+            </div>
         </div>
         {% endif %}
         {% block body %}{% endblock %}

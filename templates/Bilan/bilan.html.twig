@@ -17,12 +17,12 @@
                 </tr>
                 {% for campagne in campagnes2 %}
                     <tr>
-                        <td>{{campagne['campagne']}}</td>
+                        <th>{{campagne['campagne']}}</th>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+                        <th class="text-right">{{campagne['marge']| showEur}}</th>
                     </tr>
                     {% for culture in campagne['cultures'] %}
                     <tr  bgcolor='{{ culture['color']}}'>
