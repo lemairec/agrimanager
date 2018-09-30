@@ -10,6 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
+
 
 class AppartementOperationType extends AbstractType
 {
@@ -39,6 +41,10 @@ class AppartementOperationType extends AbstractType
                 2017 => 2017
             ]]);
         $builder->add('value');
+        $builder->add('factureFile', VichFileType::class, array(
+            'required' => false,
+            'allow_delete' => true,
+        ));
         $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
 
     }/**

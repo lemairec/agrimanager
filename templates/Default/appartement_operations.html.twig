@@ -12,6 +12,7 @@
         </div>
         <table class="table">
             <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Annee</th>
                 <th>Type</th>
@@ -20,6 +21,7 @@
             </tr>
             {% for operation in operations %}
                 <tr>
+                    <td>{% if(operation.factureFileName) %}<i class="fas fa-paperclip"></i>{% endif %}</i></td>
                     <td><a href="{{ url('appartement_operation', {'operation_id': operation.id})}}">{{operation.getDateStr}}</a></td>
                     <td>{{operation.annee}}</td>
                     <td>{{operation.type}}</td>

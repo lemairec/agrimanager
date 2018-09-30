@@ -36,7 +36,7 @@
                 {% else %}
                 <tr>
                 {% endif %}
-                    <td>{% if(facture.factureFileName) %}<i class="ion-paperclip">{% endif %}</i></td>
+                    <td>{% if(facture.factureFileName) %}<i class="fas fa-paperclip"></i>{% endif %}</i></td>
                     <td><a href="{{ url("facture_fournisseur", {'facture_id': facture.id}) }}">{{ facture.date | showIsoDate }}</a></td>
                     <td>{{ facture.getCampagneStr() }}</td>
                     <td>{{ facture.name }}</td>

@@ -59,8 +59,9 @@ class AppartementController extends CommonController
             $em->flush();
             return $this->redirectToRoute('appartement_operations');
         }
-        return $this->render('base_form.html.twig', array(
+        return $this->render('Default/appartement_operation.html.twig', array(
             'form' => $form->createView(),
+            'operation' => $operation
         ));
     }
 
