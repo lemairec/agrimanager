@@ -10,7 +10,7 @@
 $( function() {
     var availableTags = [
     {% for produit in produits %}
-        "{{produit}}",
+        "{{produit |escape('js')|raw }}",
     {% endfor %}
 
     ];
