@@ -32,7 +32,7 @@ class AnnonceApiController extends Controller
             $annonce->clientId = $a->clientId;
             $annonce->image = $a->image;
             $annonce->category = $a->category;
-            $annonce->lastView = new \DateTime($a->lastView->date);
+            $annonce->lastView = new \DateTime();
             //print(json_encode($annonce));
             //print("\n");
             if($annonce->price > 10){
