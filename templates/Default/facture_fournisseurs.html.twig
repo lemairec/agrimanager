@@ -3,60 +3,59 @@
 {% block body %}
 
 
-<div class="container bs-docs-container">
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("facture_fournisseur", {'facture_id': 0}) }}'">ADD</button>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='export'">EXPORT</button>
-            Factures
-        </div>
-        <table class="table {% if app.user.show_unity %} example {% endif %}">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Date</th>
-                    <th>Campagne</th>
-                    <th>Name</th>
-                    <th>Banque</th>
-                    <th>Compte</th>
-                    <th class="text-right">montant HT</th>
-                    <th class="text-right">montant TTC</th>
-                    <th class="text-right">TVA</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for facture in facture_fournisseurs %}
-                {% if facture.name == "sfr" %}
-                    <tr  bgcolor='#ffff99'>
-                {% elseif facture.name == "free" %}
-                    <tr  bgcolor='#ff99ff'>
-                {% elseif facture.name == "bip&go" %}
-                    <tr  bgcolor='#99ffff'>
-                {% else %}
-                <tr>
-                {% endif %}
-                    <td>{% if(facture.factureFileName) %}<i class="fas fa-paperclip"></i>{% endif %}</i></td>
-                    <td><a href="{{ url("facture_fournisseur", {'facture_id': facture.id}) }}">{{ facture.date | showIsoDate }}</a></td>
-                    <td>{{ facture.getCampagneStr() }}</td>
-                    <td>{{ facture.name }}</td>
-                    <td>{{ facture.banque }}</td>
-                    <td>{{ facture.compte }}</td>
-                    <td class="text-right">{{ facture.montantHT|showEur }}</td>
-                    <td class="text-right">{{ facture.montantTTC|showEur }}</td>
-                    <td class="text-right">{{ ((facture.montantTTC-facture.montantHT)/facture.montantHT)|showPercent }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-            <tfoot>
-            <tr>
-                <th colspan="6" style="text-align:right">Total:</th>
-                <th colspan="3" style="text-align:left"></th>
-            </tr>
-        </tfoot>
-        </table>
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("facture_fournisseur", {'facture_id': 0}) }}'">ADD</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='export'">EXPORT</button>
+        Factures
     </div>
+    <table class="table {% if app.user.show_unity %} example {% endif %}">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Campagne</th>
+                <th>Name</th>
+                <th>Banque</th>
+                <th>Compte</th>
+                <th class="text-right">montant HT</th>
+                <th class="text-right">montant TTC</th>
+                <th class="text-right">TVA</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for facture in facture_fournisseurs %}
+            {% if facture.name == "sfr" %}
+                <tr  bgcolor='#ffff99'>
+            {% elseif facture.name == "free" %}
+                <tr  bgcolor='#ff99ff'>
+            {% elseif facture.name == "bip&go" %}
+                <tr  bgcolor='#99ffff'>
+            {% else %}
+            <tr>
+            {% endif %}
+                <td>{% if(facture.factureFileName) %}<i class="fas fa-paperclip"></i>{% endif %}</i></td>
+                <td><a href="{{ url("facture_fournisseur", {'facture_id': facture.id}) }}">{{ facture.date | showIsoDate }}</a></td>
+                <td>{{ facture.getCampagneStr() }}</td>
+                <td>{{ facture.name }}</td>
+                <td>{{ facture.banque }}</td>
+                <td>{{ facture.compte }}</td>
+                <td class="text-right">{{ facture.montantHT|showEur }}</td>
+                <td class="text-right">{{ facture.montantTTC|showEur }}</td>
+                <td class="text-right">{{ ((facture.montantTTC-facture.montantHT)/facture.montantHT)|showPercent }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="6" style="text-align:right">Total:</th>
+            <th colspan="3" style="text-align:left"></th>
+        </tr>
+    </tfoot>
+    </table>
 </div>
+
 {% endblock %}
 
 {% block scripts %}

@@ -1,27 +1,9 @@
-{% extends 'base_agri.html.twig' %}
-
-
-
-{% form_theme form _self %}
-
-{% block form_row %}
-<div class="form-group row">
-    <div class="col-sm-2">
-        {{ form_label(form) }}
-    </div>
-
-    <div class="col-sm-10">
-        {{ form_widget(form) }}
-    </div>
-    {{ form_errors(form) }}
-</div>
-{% endblock form_row %}
-
+{% extends 'base_form.html.twig' %}
 
 {% block body %}
 
-<div class="container bs-docs-container">
-    <div class="well">
+<div class="card mb-3">
+    <div class="card-body">
         {{ form_start(form) }}
         {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
         {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
@@ -42,13 +24,14 @@
         {% endif %}
         {{ form_end(form) }}
     </div>
+</div>
 
 
 
 {% if (facture.id != '') %}
 
 <div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
+<!-- Default panel contents -->
     <div class="panel-heading">
         Operations
     </div>
@@ -80,5 +63,4 @@
 
 {% endif %}
 
-</div>
 {% endblock %}

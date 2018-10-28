@@ -1,81 +1,79 @@
 {% extends 'base_agri.html.twig' %}
-{% import 'base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
 
-<div class="container bs-docs-container">
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/livraison/0'">ADD</button>
-            Livraisons
-        </div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Parcelle</th>
-                <th class="text-right">Poid normé</th>
-                <th class="text-right">Caracteristiques</th>
-            </tr>
-            {% for livraison in livraisons %}
-                <tr>
-                    <td><a href="/livraison/{{livraison.id}}">{{livraison.espece}} - {{livraison.name}}</a></td>
-                    <td>{{livraison.date | showDateTime}}</td>
-                    <td>{{livraison.parcelle}}</td>
-                    <td class="text-right">{{ base_agri.show_unity(livraison.poid_norme, 't')}}</td>
-                    <td class="text-right">{{ livraison.getCarateristiques()}}</td>
-                </tr>
-            {% endfor %}
-        </table>
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/livraison/0'">ADD</button>
+        Livraisons
     </div>
-
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            Culture
-        </div>
-        <table class="table">
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Parcelle</th>
+            <th class="text-right">Poid normé</th>
+            <th class="text-right">Caracteristiques</th>
+        </tr>
+        {% for livraison in livraisons %}
             <tr>
-                <th>Name</th>
-                <th class="text-right">Poid normé</th>
+                <td><a href="/livraison/{{livraison.id}}">{{livraison.espece}} - {{livraison.name}}</a></td>
+                <td>{{livraison.date | showDateTime}}</td>
+                <td>{{livraison.parcelle}}</td>
+                <td class="text-right">{{ base_agri.show_unity(livraison.poid_norme, 't')}}</td>
+                <td class="text-right">{{ livraison.getCarateristiques()}}</td>
             </tr>
-            {% for key, culture in cultures %}
-                <tr>
-                    <td>{{key}}</td>
-                    <td class="text-right">{{ base_agri.show_unity(culture, 't')}}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            Parcelles
-        </div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Espece</th>
-                <th class="text-right">Poid normé</th>
-                <th class="text-right">Surface</th>
-                <th class="text-right">rendement</th>
-                <th class="text-right">caracteristiques</th>
-            </tr>
-            {% for parcelle in parcelles %}
-                <tr>
-                    <td>{{parcelle['name']}}</td>
-                    <td>{{parcelle['espece']}}</td>
-                    <td class="text-right">{{ base_agri.show_unity(parcelle['poid'], 't')}}</td>
-                    <td class="text-right">{{ parcelle['surface'] | showHa }}</td>
-                    <td class="text-right">{{ base_agri.show_unity(parcelle['poid']/parcelle['surface'], 't/ha')}}</td>
-                    <td class="text-right">{{ parcelle['caracteristiques']  }}</td>
-
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+        {% endfor %}
+    </table>
 </div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Culture
+    </div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th class="text-right">Poid normé</th>
+        </tr>
+        {% for key, culture in cultures %}
+            <tr>
+                <td>{{key}}</td>
+                <td class="text-right">{{ culture | showUnity('t')}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Parcelles
+    </div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Espece</th>
+            <th class="text-right">Poid normé</th>
+            <th class="text-right">Surface</th>
+            <th class="text-right">rendement</th>
+            <th class="text-right">caracteristiques</th>
+        </tr>
+        {% for parcelle in parcelles %}
+            <tr>
+                <td>{{parcelle['name']}}</td>
+                <td>{{parcelle['espece']}}</td>
+                <td class="text-right">{{ parcelle['poid'] | showUnity('t')}}</td>
+                <td class="text-right">{{ parcelle['surface'] | showHa }}</td>
+                <td class="text-right">{{ (parcelle['poid']/parcelle['surface']) | showUnity('t/ha')}}</td>
+                <td class="text-right">{{ parcelle['caracteristiques']  }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
 {% endblock %}

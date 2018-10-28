@@ -1,40 +1,8 @@
-{% extends 'base_agri.html.twig' %}
+{% extends 'base_form.html.twig' %}
 
+{% block body_form %}
 
-
-{% form_theme form _self %}
-
-{% block form_row %}
-<div class="form-group row">
-    <div class="col-sm-2">
-        {{ form_label(form) }}
-    </div>
-
-    <div class="col-sm-10">
-        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    {{ form_errors(form) }}
-</div>
-{% endblock form_row %}
-
-{% block submit_widget %}
-    {{ form_widget(form, {'attr': {'class': 'btn btn-primary'}}) }}
-{% endblock submit_widget %}
-
-
-{% block body %}
-
-<div class="container bs-docs-container">
-    <div class="card mb-3">
-<div class="card-body">
-    {{ form_start(form) }}
-    {{ form_row(form.surface) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.culture) }}
-    {{ form_end(form) }}
-</div></div>
-
-<div class="card", style="width:100%">
+<div class="card mb-3">
     <!-- Default panel contents -->
     <div class="card-header">
         Interventions

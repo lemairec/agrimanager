@@ -3,35 +3,33 @@
 {% block body %}
 
 
-<div class="container bs-docs-container">
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Panel heading</div>
-        <table class="table js-datatable" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>unity</th>
-                    <th class="text-right">qty</th>
-                    <th class="text-right">price</th>
-                </tr>
-            </thead>
-            <tfoot>
-            </tfoot>
-            <tbody>
-                {% for p in produits %}
-                <tr  style="background-color:{{p.getColor()}}">
-                    <td><a href="/ephy_produit/{{p.completeName}}">{{p.completeName}}</a></td>
-                    <td>{{p.amm}}</td>
-                    <td>{{p.name}}</td>
-                    <td></td>
-                    <td></td>
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Panel heading</div>
+    <table class="table js-datatable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>unity</th>
+                <th class="text-right">qty</th>
+                <th class="text-right">price</th>
+            </tr>
+        </thead>
+        <tfoot>
+        </tfoot>
+        <tbody>
+            {% for p in produits %}
+            <tr  style="background-color:{{p.getColor()}}">
+                <td><a href="/ephy_produit/{{p.completeName}}">{{p.completeName}}</a></td>
+                <td>{{p.amm}}</td>
+                <td>{{p.name}}</td>
+                <td></td>
+                <td></td>
 
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

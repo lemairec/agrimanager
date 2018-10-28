@@ -2,35 +2,32 @@
 
 {% block body %}
 
-<div class="container bs-docs-container">
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/deplacement/0'">ADD</button>
-            Deplacements
-        </div>
-        <table class="table">
-            <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Vehicule</th>
-                <th></th>
-                <th class="text-right">Litre</th>
-            </tr>
-            {% for deplacement in deplacements %}
-                <tr>
-                    <td><a href="/deplacement/{{deplacement.id}}">{{deplacement.date | showDate }}</a></td>
-                    <td>{{deplacement.name}}</td>
-                    <td>{{deplacement.vehicule}}</td>
-                    <td>{{deplacement.comment}}</td>
-                    <td class="text-right">{{ deplacement.km| showUnity("km") }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-
-
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/deplacement/0'">ADD</button>
+        Deplacements
     </div>
-</div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Vehicule</th>
+            <th></th>
+            <th class="text-right">Litre</th>
+        </tr>
+        {% for deplacement in deplacements %}
+            <tr>
+                <td><a href="/deplacement/{{deplacement.id}}">{{deplacement.date | showDate }}</a></td>
+                <td>{{deplacement.name}}</td>
+                <td>{{deplacement.vehicule}}</td>
+                <td>{{deplacement.comment}}</td>
+                <td class="text-right">{{ deplacement.km| showUnity("km") }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
 
 </div>
+
 {% endblock %}

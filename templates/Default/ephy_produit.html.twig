@@ -2,72 +2,71 @@
 
 {% block body %}
 
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><th>{{produit.completeName}}</th></div>
+    <table class="table">
+        <tr>
+            <th>Amm</th>
+            <th>{{produit.amm}}</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>{{produit.name}}</th>
 
-<div class="container bs-docs-container">
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading"><th>{{produit.completeName}}</th></div>
-        <table class="table">
-            <tr>
-                <th>Amm</th>
-                <th>{{produit.amm}}</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>{{produit.name}}</th>
+        </tr>
+        {% for commercialeName in produit.commercialeNames %}
+        <tr>
+            <td></td>
+            <td>{{commercialeName.name}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Societe</td>
+            <td>{{produit.society}}</td>
 
-            </tr>
-            {% for commercialeName in produit.commercialeNames %}
-            <tr>
-                <td></td>
-                <td>{{commercialeName.name}}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td>Societe</td>
-                <td>{{produit.society}}</td>
+        </tr>
 
-            </tr>
+    </table>
+</div>
 
-        </table>
-    </div>
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Substances</div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Unity</th>
-            </tr>
-            {% for substance in produit.substances %}
-            <tr>
-                <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
-                <td>{{substance.quantity}}</td>
-                <td>{{substance.unity}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Phrases risque</div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-            </tr>
-            {% for phrase in produit.phraseRisques %}
-            {% if phrase.cmr %}
-            <tr  bgcolor='#ffaaaa'>
-            {% else %}
-            <tr>
-            {% endif %}
-                <td>{{phrase.id}}</td>
-                <td>{{phrase.description}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Substances</div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Unity</th>
+        </tr>
+        {% for substance in produit.substances %}
+        <tr>
+            <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
+            <td>{{substance.quantity}}</td>
+            <td>{{substance.unity}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Phrases risque</div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        {% for phrase in produit.phraseRisques %}
+        {% if phrase.cmr %}
+        <tr  bgcolor='#ffaaaa'>
+        {% else %}
+        <tr>
+        {% endif %}
+            <td>{{phrase.id}}</td>
+            <td>{{phrase.description}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}

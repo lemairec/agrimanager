@@ -1,31 +1,6 @@
-{% extends 'base_agri.html.twig' %}
-{% import 'base_agri.html.twig' as base_agri %}
+{% extends 'base_form.html.twig' %}
 
-{% form_theme form _self %}
-
-{% block form_row %}
-<div class="form-group row">
-    <div class="col-sm-2">
-        {{ form_label(form) }}
-    </div>
-
-    <div class="col-sm-10">
-        {{ form_widget(form) }}
-    </div>
-    {{ form_errors(form) }}
-</div>
-{% endblock form_row %}
-
-
-{% block body %}
-
-<div class="container bs-docs-container">
-    <div class="well">
-        {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.type) }}
-        {{ form_end(form) }}
-    </div>
+{% block body_form %}
 
 {% if (compte.id != '') %}
 <div class="panel panel-default", style="width:100%">
