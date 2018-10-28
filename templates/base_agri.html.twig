@@ -1,30 +1,3 @@
-{% macro show_unity(value, unity) %}
-    {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }}
-    {% if app.user.show_unity %}
-      {{ unity }}
-    {% endif %}
-    {% endspaceless -%}
-{% endmacro %}
-
-{% macro show_unity_ha(value, unity) %}
-    {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }}
-    {% if app.user.show_unity %}
-     {{ unity }}/ha
-    {% endif %}
-    {% endspaceless -%}
-{% endmacro %}
-
-{% macro show_eur_ha(value) %}
-    {%- spaceless %}
-    {{ value | number_format(2, ',', ' ') }}
-    {% if app.user.show_unity %}
-     €/ha
-    {% endif %}
-    {% endspaceless -%}
-{% endmacro %}
-
 <!DOCTYPE html>
 <html>
     <head>

@@ -1,5 +1,4 @@
 {% extends 'base_agri.html.twig' %}
-{% import 'base_agri.html.twig' as base_agri %}
 
 {% block body %}
 
@@ -59,9 +58,9 @@
                         <tr>
                             <td></td>
                             <td>{{it.produit}}</td>
-                            <td class="text-right">{{ base_agri.show_unity(it.qty, it.produit.unity)}}</td>
-                            <td class="text-right">{{ base_agri.show_unity_ha(it.qtyha, it.produit.unity)}}</td>
-                            <td class="text-right">{{ base_agri.show_eur_ha(it.getPriceHa())}}</td>
+                            <td class="text-right">{{ it.qty | showUnity(it.produit.unity)}}</td>
+                            <td class="text-right">{{ it.qtyha | showUnity(it.produit.unity)}}</td>
+                            <td class="text-right">{{ it.getPriceHa() | showUnity("€/ha"}}</td>
                         </tr>
                     {% endfor %}
                 {% endfor %}
