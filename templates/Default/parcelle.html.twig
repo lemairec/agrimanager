@@ -17,21 +17,26 @@
 </div>
 {% endblock form_row %}
 
+{% block submit_widget %}
+    {{ form_widget(form, {'attr': {'class': 'btn btn-primary'}}) }}
+{% endblock submit_widget %}
+
 
 {% block body %}
 
 <div class="container bs-docs-container">
-<div class="well">
+    <div class="card mb-3">
+<div class="card-body">
     {{ form_start(form) }}
     {{ form_row(form.surface) }}
     {{ form_row(form.name) }}
     {{ form_row(form.culture) }}
     {{ form_end(form) }}
-</div>
+</div></div>
 
-<div class="panel panel-default", style="width:100%">
+<div class="card", style="width:100%">
     <!-- Default panel contents -->
-    <div class="panel-heading">
+    <div class="card-header">
         Interventions
     </div>
     <table class="table">
