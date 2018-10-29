@@ -47,6 +47,7 @@ class AppartementController extends CommonController
         $em = $this->getDoctrine()->getManager();
         if($operation_id == '0'){
             $operation = new AppartementOperation();
+            $operation->date = new \DateTime();
         } else {
             $operation = $em->getRepository('App:AppartementOperation')->find($operation_id);
         }
