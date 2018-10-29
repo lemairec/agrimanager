@@ -14,6 +14,7 @@ const $ = require('jquery');
 require('bootstrap');
 require('bootstrap-datepicker');
 require('bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js');
+//<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
