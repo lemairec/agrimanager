@@ -67,9 +67,9 @@
                     <td><a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}</a></td>
                     <td>{{parcelle.culture}}</td>
                     <td class="text-right">{{ parcelle.surface | showHa }}</td>
-                    <td class="text-right">{{base_agri.show_eur_ha(parcelle.priceHa)}}</td>
+                    <td class="text-right">{{ parcelle.priceHa | showUnity('€/ha') }}</td>
 
-                    <td class="text-right">{{base_agri.show_unity(parcelle.poid_norme/parcelle.surface, 't/ha')}}</td>
+                    <td class="text-right">{{ (parcelle.poid_norme/parcelle.surface) | showUnity('t/ha')}}</td>
                 </tr>
                 {% endfor %}
             {% endfor %}

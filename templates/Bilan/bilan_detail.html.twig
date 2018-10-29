@@ -43,7 +43,7 @@
                     <th>Date</th>
                     <th>{{'Name' | trans}}</th>
                     <th></th>
-                    <th class="text-right">{{ base_agri.show_eur_ha(parcelle.priceHa)}}</th>
+                    <th class="text-right">{{ parcelle.priceHa| showUnity("€/ha") }}</th>
                     <th></th>
                 </tr>
                 {% for intervention in parcelle.interventions %}
@@ -52,7 +52,7 @@
                         <td><b>{{intervention.type}}</b></td>
                         <td class="text-right"><b>{{ intervention.surface | showHa }}</b></td>
                         <td class="text-right"></td>
-                        <td class="text-right"><b>{{ base_agri.show_eur_ha(intervention.getPriceHa())}}</b></td>
+                        <td class="text-right"><b>{{ intervention.getPriceHa() | showUnity("€/ha")}}</b></td>
                     </tr>
                     {% for it in intervention.produits %}
                         <tr>
@@ -60,7 +60,7 @@
                             <td>{{it.produit}}</td>
                             <td class="text-right">{{ it.qty | showUnity(it.produit.unity)}}</td>
                             <td class="text-right">{{ it.qtyha | showUnity(it.produit.unity)}}</td>
-                            <td class="text-right">{{ it.getPriceHa() | showUnity("€/ha"}}</td>
+                            <td class="text-right">{{ it.getPriceHa() | showUnity("€/ha")}}</td>
                         </tr>
                     {% endfor %}
                 {% endfor %}
