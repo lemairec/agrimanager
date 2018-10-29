@@ -3,25 +3,23 @@
 {% block body %}
 
 
-<div class="container bs-docs-container">
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>LastLogin</th>
-            </tr>
-            {% for user in users %}
-            <tr>
-                <td><a href="{{ url("admin_user", {'id': user.id}) }}">{{user.id}}</td>
-                <td>{{user.username}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.getLastLogin | date}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>LastLogin</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td><a href="{{ url("admin_user", {'id': user.id}) }}">{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.getLastLogin | date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}
