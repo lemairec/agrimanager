@@ -4,7 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -25,7 +25,7 @@ class EcritureType extends AbstractType
             'choices' => $options['campagnes'],
         ));
         $builder->add('value');
-        $builder->add('save',      SubmitType::class);
+        
     }
 
     /**

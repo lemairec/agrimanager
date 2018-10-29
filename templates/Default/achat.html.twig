@@ -53,7 +53,8 @@ $( function() {
     {{ form_row(form.price_total, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(form.externId, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.save) }}
+    {{ form_widget(form) }}
+    <input type="submit" class="btn btn-primary" value="Sauvegarder" />
     {{ form_end(form) }}
 </div>
 {% endblock %}

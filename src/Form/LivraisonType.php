@@ -5,7 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -28,7 +28,6 @@ class LivraisonType extends AbstractType
         ));
         $builder->add('espece')->add('poid_total')->add('tare')->add('poid_norme');
         $builder->add('humidite')->add('impurete')->add('ps')->add('proteine')->add('calibrage');
-        $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 
     /**

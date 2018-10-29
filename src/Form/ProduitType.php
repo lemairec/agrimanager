@@ -5,7 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class ProduitType extends AbstractType
 {
@@ -16,7 +16,7 @@ class ProduitType extends AbstractType
     {
         $builder->add('name')->add('type')->add('qty')->add('price')->add('unity')->add('ephyProduit');
         $builder->add('n')->add('p')->add('k')->add('s')->add('mg');
-        $builder->add('save',      SubmitType::class);
+        
     }
 
     /**

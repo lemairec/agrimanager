@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class InterventionProduitType extends AbstractType
 {
@@ -22,7 +22,7 @@ class InterventionProduitType extends AbstractType
         #    'class'        => 'App:Produit',
         #    'choice_label' => 'name',
         #));
-        $builder->add('save',      SubmitType::class);
+        
     }
 
     /**

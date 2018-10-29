@@ -25,16 +25,15 @@
     {{ form_widget(form, {'attr': {'class': 'form-control js-select'}}) }}
 {% endblock entity_widget %}
 
-{% block submit_widget %}
-    {{ form_widget(form, {'attr': {'class': 'btn btn-primary'}}) }}
-{% endblock submit_widget %}
-
-
 {% block body %}
 
 <div class="card mb-3">
     <div class="card-body">
-        {{ form(form) }}
+        {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <input type="submit" class="btn btn-primary" value="Sauvegarder" />
+    {{ form_end(form) }}
     </div>
 </div>
 {% block body_form %}{% endblock %}

@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class InterventionParcelleType extends AbstractType
 {
@@ -21,7 +21,7 @@ class InterventionParcelleType extends AbstractType
             'choice_label' => 'completeName',
             'choices' => $options['parcelles'],
         ));
-        $builder->add('save',      SubmitType::class);
+        
     }
 
     /**

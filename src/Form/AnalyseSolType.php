@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
@@ -40,7 +40,7 @@ class AnalyseSolType extends AbstractType
             'required' => false,
             'allow_delete' => true,
         ));
-        $builder->add('save',      SubmitType::class);
+
 
     }
 

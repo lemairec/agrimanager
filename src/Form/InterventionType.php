@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use App\Form\InterventionParcelleType;
 use App\Form\InterventionProduitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -39,7 +39,6 @@ class InterventionType extends AbstractType
             'allow_add'    => true,
             'allow_delete' => true
         ));**/
-        $builder->add('save',      SubmitType::class, array('label'=> 'Valider'));
     }
 
     /**

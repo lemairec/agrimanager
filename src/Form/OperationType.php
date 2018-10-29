@@ -5,7 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OperationType extends AbstractType
@@ -22,7 +22,7 @@ class OperationType extends AbstractType
             'html5' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
-        $builder->add('save',      SubmitType::class);
+        
     }
 
     /**

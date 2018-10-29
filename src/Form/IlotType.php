@@ -5,7 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class IlotType extends AbstractType
@@ -17,7 +17,6 @@ class IlotType extends AbstractType
     {
         $builder->add('surface')->add('name')->add('number');
         $builder->add('comment', TextareaType::class, array('required' => false));
-        $builder->add('save', SubmitType::class);
     }
 
     /**

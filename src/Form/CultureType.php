@@ -4,7 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CultureType extends AbstractType
@@ -16,7 +16,7 @@ class CultureType extends AbstractType
     {
         $builder->add('name');
         $builder->add('color');
-        $builder->add('save',      SubmitType::class);
+        
     }
 
     /**
