@@ -12,9 +12,20 @@ const $ = require('jquery');
 // JS is equivalent to the normal "bootstrap" package
 // no need to set this to a variable, just require it
 require('bootstrap');
+require('bootstrap-datepicker');
+require('bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js');
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // var $ = require('jquery');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+$('document').ready(function() {
+    $('.js-datepicker').datepicker({
+        dateFormat: 'dd/mm/yy',
+        language: 'fr'
+    });
+});
+
+console.log($('.js-datepicker'));
