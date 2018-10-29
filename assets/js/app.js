@@ -14,6 +14,9 @@ const $ = require('jquery');
 require('bootstrap');
 require('bootstrap-datepicker');
 require('bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js');
+
+require( 'datatables.net' )
+
 //<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
 
@@ -27,6 +30,13 @@ $('document').ready(function() {
         dateFormat: 'dd/mm/yy',
         language: 'fr'
     });
+
+    $('.js-datatable').DataTable({
+        "lengthMenu": [[15, 100, -1], [15, 100, "All"]]
+    });
 });
 
 console.log($('.js-datepicker'));
+
+
+global.$ = global.jQuery = $;
