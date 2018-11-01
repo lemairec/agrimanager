@@ -127,7 +127,7 @@ class InterventionController extends CommonController
         $intervention->type = $data["type"];
         $intervention->comment = $data["comment"];
         $intervention->name = $data["name"];
-        $intervention->date = DateTime::createFromFormat('yyyy-mm-dd', $data["date"]);
+        $intervention->date = DateTime::createFromFormat('Y-m-d', $data["date"]);
         $em->persist($intervention);
         $em->flush();
 
