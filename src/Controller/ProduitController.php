@@ -22,8 +22,8 @@ class ProduitController extends CommonController
      */
     public function produitsAction(Request $request)
     {
-        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
 
         $produits = $em->getRepository('App:Produit')
             ->getAllForCompany($this->company);
@@ -38,8 +38,8 @@ class ProduitController extends CommonController
      **/
     public function produitEditAction($produit_id, Request $request)
     {
-        $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
         $interventions = [];
         $achats = [];
         $produitcampagnes = [];
@@ -56,9 +56,9 @@ class ProduitController extends CommonController
 
 
         if ($form->isSubmitted()) {
-            $produit->campagne = $campagne;
+            $produit->company = $this->company;
             $em->getRepository('App:Produit')->update($produit);
-            //return $this->redirectToRoute('produits');
+            return $this->redirectToRoute('produits');
         }
         return $this->render('Default/produit.html.twig', array(
             'form' => $form->createView(),
@@ -66,8 +66,6 @@ class ProduitController extends CommonController
             'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
             'ephy_produit' => $produit->ephyProduit
         ));
     }

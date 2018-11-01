@@ -29,8 +29,6 @@ class EphyCommand extends ContainerAwareCommand
         }
 
         $output->writeln('Command result.');
-        print($argument);
-
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $ephyrepository = $em->getRepository('App:EphyProduit');

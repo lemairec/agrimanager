@@ -22,12 +22,6 @@ class Produit
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public $campagne;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company")
      * @ORM\JoinColumn(nullable=false)
      */

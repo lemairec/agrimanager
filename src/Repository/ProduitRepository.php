@@ -69,6 +69,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function update($produit){
         $em = $this->getEntityManager();
+        $this->save($produit);
 
         $em->getRepository('App:ProduitCampagne')->update($produit);
         $ps = $em->getRepository('App:ProduitCampagne')->findByProduit($produit);
