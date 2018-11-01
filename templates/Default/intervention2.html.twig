@@ -39,90 +39,89 @@
                 </div>
 
             </div>
-            <hr>
-            <fieldset class="form-group row">
-                <legend class="col-form-legend col-sm-12">Parcelles</legend>
-                <div class="col-sm-12" v-for="parcelle in intervention.parcelles">
-                    <div class="row">
-                        <div class="form-check col-sm-1">
-                        </div>
-                        <div class="form-check col-sm-6">
-                            <label class="form-check-label" >
-                                <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios1" value="option1" v-on:change="signalChange" v-model="parcelle.checked">
-                                ${ parcelle.name }
-                            </label>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-check-label" >
-                                ${ parcelle.surface }
-                            </label>
-                        </div>
-                    </div>
 
 
-
-                </div>
-
-                <div class="col-sm-12">
-                    <div class="form-group row">
-                        <div class="form-check col-sm-1">
-                        </div>
-                        <div class="form-check col-sm-6">
-                            <label><b>Total</b></label>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <label><b>${ total | round } ha</b></label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
 
             <hr>
-            <fieldset class="form-group row">
-                <legend class="col-form-legend col-sm-12">Produits</legend>
 
 
-                <div class="form-group row">
-
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col-sm-8">
-                        <select v-model="intervention.produits" class="form-control js-select">
-                          <option v-for="produit in produits" v-bind:value="newProduit">
-                            ${ produit }
-                          </option>
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col-sm-1">
-                        <button v-on:click="addProduit">Add</button>
-                    </div>
-
-
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Parcelles
                 </div>
+                <table class="table">
+                    <tr v-for="parcelle in intervention.parcelles">
+                        <td>
+                            <input type="checkbox" name="gridRadios" id="gridRadios1" value="option1" v-on:change="signalChange" v-model="parcelle.checked">
+                        </td>
+                        <td>${ parcelle.name }</td>
+                        <td>${ parcelle.surface } ha</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><b>Total</b></td>
+                        <td><b>${ total | round } ha</b></td>
+                    </tr>
+                </table>
+            </div>
 
-                <div class="col-sm-12" v-for="produit in intervention.produits">
-                    <div class="row">
-                        <div class="col-sm-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Produits
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter">Add</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Ajouter un produit</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="col-sm-11">
+                              Selectionner un produit existant
+                          </div>
+                          <div class="col-sm-11">
+
+                              <select v-model="produits" class="form-control js-select" style="width: 100%;">
+                                <option v-for="produit in produits">
+                                  ${ produit }
+                                </option>
+                              </select>
+                          </div>
+                          <div class="modal-body">
+                              ou
+                          </div>
+                          <div class="col-sm-11">
+                              Creer un nouveau produit
+                          </div>
+                          <div class="col-sm-11">
+                              <input id="App_intervention_name" name="App_intervention[name]" maxlength="2048" class="form-control" type="text" v-model="newProduit">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="onCancel">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="addProduit">Ajouter</button>
+                          </div>
                         </div>
-                        <div class="form-check col-sm-5">
-                            <label class="form-check-label" >
-                                ${ produit.name }
-                            </label>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-check-label" >
-                                ${ produit.qty / total | round }
-                            </label>
-                        </div>
-                        <div class="col-sm-3">
-                            <input class="form-control" type="text" v-model:value="produit.qty">
-                        </div>
+                      </div>
                     </div>
                 </div>
-            </fieldset>
+                <table class="table">
+                    <tr>
+                        <th>Produits</th>
+                        <th>Qty/ha</th>
+                        <th>Qty</th>
+                    </tr>
+                    <tr v-for="produit in intervention.produits">
+                        <td>${ produit.name }</td>
+                        <td>${ produit.qty / total | round }</td>
+                        <td><input class="form-control" type="text" v-model:value="produit.qty"></td>
+                    </tr>
+                </table>
+            </div>
+
             <hr>
             <div class="form-group row">
                 <div class="col-sm-2">
@@ -177,7 +176,7 @@ $( function() {
             },
             produits : [
                 {% for produit in produits %}
-                    "{{produit}}",
+                    "{{produit | escape('js') | raw }}",
                 {% endfor %} ]
         },
         mounted () {
@@ -209,6 +208,9 @@ $( function() {
                     }
                 }
             },
+            onCancel: function (message) {
+                this.newProduit = ''
+            },
             addProduit: function (message) {
                 var produit = this.newProduit && this.newProduit.trim()
                 if (!produit) {
@@ -238,11 +240,6 @@ $( function() {
 
     })
 
-    var availableTags = [
-        {% for produit in produits %}
-            "{{produit}}",
-        {% endfor %}
-    ];
     $('.js-select').select2();
     $('.js-select').on('select2:select', function (e) {
         vue.newProduit = e.params.data.element.label;
