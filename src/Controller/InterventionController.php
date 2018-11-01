@@ -83,7 +83,7 @@ class InterventionController extends CommonController
 
         return $this->render('Default/intervention2.html.twig', array(
             'id' => $intervention_id,
-            'date' => $date->format('Y-m-d'),
+            'date' => $date->format('d/m/Y'),
             'type' => $type,
             'name' => $name,
             'comment' => $comment,
@@ -127,7 +127,7 @@ class InterventionController extends CommonController
         $intervention->type = $data["type"];
         $intervention->comment = $data["comment"];
         $intervention->name = $data["name"];
-        $intervention->date = DateTime::createFromFormat('Y-m-d', $data["date"]);
+        $intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
         $em->persist($intervention);
         $em->flush();
 
