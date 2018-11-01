@@ -12,7 +12,9 @@
                     <label for="App_gasoil_date" class="required">Date</label>
                 </div>
 
-                <vuejs-datepicker class="col-sm-10" v-model="intervention.date" :format="customFormatter" :language="fr"></vuejs-datepicker>
+                <div class="col-sm-10">
+                    <vuejs-datepicker input-class="form-control"  v-model="intervention.date" :format="customFormatter" :language="fr"></vuejs-datepicker>
+                </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-2">
