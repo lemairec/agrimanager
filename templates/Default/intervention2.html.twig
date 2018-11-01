@@ -88,9 +88,19 @@
                     <div class="col-sm-1">
                     </div>
                     <div class="col-sm-8">
-                        <input id="App_intervention_produit" name="App_intervention[type]" required="required" maxlength="255" class="form-control" value="" type="text" v-model="newProduit">
+                        <select v-model="intervention.produits" class="form-control js-select">
+                          <option v-for="produit in produits" v-bind:value="newProduit">
+                            ${ produit }
+                          </option>
+                        </select>
                     </div>
-                    <button v-on:click="addProduit">Add</button>
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-1">
+                        <button v-on:click="addProduit">Add</button>
+                    </div>
+
+
                 </div>
 
                 <div class="col-sm-12" v-for="produit in intervention.produits">
@@ -136,9 +146,8 @@
 
 {% block javascripts %}
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href='/lib/select2/css/select2.min.css' rel='stylesheet' />
+<script src='/lib/select2/js/select2.min.js'></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 $( function() {
@@ -165,8 +174,11 @@ $( function() {
                 comment: "{{ comment }}",
                 parcelles: {{ parcelles | json_encode | raw}},
                 produits: {{ produitsIntervention | json_encode | raw}},
-            }
-
+            },
+            produits : [
+                {% for produit in produits %}
+                    "{{produit}}",
+                {% endfor %} ]
         },
         mounted () {
             var find = false;
@@ -203,12 +215,11 @@ $( function() {
                     return
                 }
                 this.intervention.produits.push({
-                name: produit,
-                qty: 0
+                    name: produit,
+                    qty: 0
                 })
                 this.newProduit = ''
                 this.newQty = 0
-                console.log(message)
             },
             save: function(){
                 axios.post("{{ url("intervention_api")}}", {
@@ -232,21 +243,15 @@ $( function() {
             "{{produit}}",
         {% endfor %}
     ];
-    $( "#App_intervention_produit" ).autocomplete({
-        source: availableTags,
-        select: function (event, ui) {
-            var label = ui.item.label;
-            var value = ui.item.value;
-            vue.newProduit = value;
-            //alert("selected " + label + " " + value);
-        }
+    $('.js-select').select2();
+    $('.js-select').on('select2:select', function (e) {
+        vue.newProduit = e.params.data.element.label;
     });
     $('#App_gasoil_date').datepicker({
-        dateFormat: "dd/mm/yy",
-        onSelect: function(dateText) {
-            vue.intervention.date = dateText;
-            //console.log("Selected date: " + dateText + "; input's current value: " + this.value);
-        }
+        dateFormat: 'dd/mm/yy',
+        language: 'fr'
+    }).on('changeDate', function(e) {
+        vue.intervention.date = e.format(0,"dd/mm/yyyy");
     });
 });
 </script>
