@@ -12,9 +12,7 @@
                     <label for="App_gasoil_date" class="required">Date</label>
                 </div>
 
-                <div class="col-sm-10">
-                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control js-datepicker" v-model="intervention.date" type="text">
-                </div>
+                <vuejs-datepicker class="col-sm-10" v-model="intervention.date" :format="customFormatter" :language="fr"></vuejs-datepicker>
             </div>
             <div class="form-group row">
                 <div class="col-sm-2">
@@ -135,9 +133,11 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="/js/moment.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
@@ -145,6 +145,9 @@ $( function() {
     console.log("toto");
     var vue = new Vue({
         el: '#example-3',
+        components: {
+          	vuejsDatepicker
+        },
         delimiters: ['${', '}'],
         data: {
             total: 0,
@@ -165,6 +168,13 @@ $( function() {
                 comment: "{{ comment }}",
                 parcelles: {{ parcelles | json_encode | raw}},
                 produits: {{ produitsIntervention | json_encode | raw}},
+            },
+            fr: {
+                language: 'French',
+                months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                monthsAbbr: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                days: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                rtl: false, ymd: false, yearSuffix: ''
             }
 
         },
@@ -189,6 +199,9 @@ $( function() {
             }
         },
         methods: {
+            customFormatter(date) {
+                return moment(date).format('DD/MM/YYYY');
+            },
             signalChange: function () {
                 this.total = 0;
                 for(var parcelle in this.intervention.parcelles){
@@ -239,13 +252,6 @@ $( function() {
             var value = ui.item.value;
             vue.newProduit = value;
             //alert("selected " + label + " " + value);
-        }
-    });
-    $('.js-datepicker').datepicker({
-        dateFormat: "dd/mm/yy",
-        onSelect: function(dateText) {
-            vue.intervention.date = dateText;
-            //console.log("Selected date: " + dateText + "; input's current value: " + this.value);
         }
     });
 });
