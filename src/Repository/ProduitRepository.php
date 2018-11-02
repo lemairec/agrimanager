@@ -100,15 +100,10 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
     function getAllName($campagne){
         $em = $this->getEntityManager();
         $res = [];
-        $produits = $this->findByCampagne($campagne);
+        $produits = $this->getAllForCompany($campagne->company);
         foreach($produits as $p){
             $res[] = $p->completeName;
         }
-        $produits = $em->getRepository('App:EphyProduit')->findAll();
-        foreach($produits as $p){
-            $res[] = $p->completeName;
-        }
-
         return  array_unique($res);
     }
 
