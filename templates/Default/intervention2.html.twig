@@ -85,21 +85,13 @@
                           </div>
                           <div class="col-sm-11">
 
-                              <select v-model="produits" class="form-control js-select" style="width: 100%;">
+                              <select id="select-produit" v-model="produits" class="form-control js-select" style="width: 100%;">
                                 <option v-for="produit in produits">
                                   ${ produit }
                                 </option>
                               </select>
                           </div>
-                          <div class="modal-body">
-                              ou
-                          </div>
-                          <div class="col-sm-11">
-                              Creer un nouveau produit
-                          </div>
-                          <div class="col-sm-11">
-                              <input id="App_intervention_name" name="App_intervention[name]" maxlength="2048" class="form-control" type="text" v-model="newProduit">
-                          </div>
+
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="onCancel">Close</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="addProduit">Ajouter</button>
@@ -212,6 +204,7 @@ $( function() {
             },
             onCancel: function (message) {
                 this.newProduit = ''
+                $('.js-select').val('').trigger('change');
             },
             addProduit: function (message) {
                 var produit = this.newProduit && this.newProduit.trim()
@@ -222,8 +215,9 @@ $( function() {
                     name: produit,
                     qty: 0
                 })
-                this.newProduit = ''
-                this.newQty = 0
+                this.newProduit = '';
+                this.newQty = 0;
+                $('.js-select').val('').trigger('change');
             },
             removeRow: function(index) {
                 console.log("Removing", index);
