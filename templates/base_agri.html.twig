@@ -13,30 +13,44 @@
     <body>
         {% include 'navbar.html.twig' %}
         <main role="main" class="container">
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div class="card mb-3">
-                    <div class="card-header">
-                        <div class="row">
-                            {% if campagnes is defined %}
-                            <select class="selectpicker" id="dynamic_select">>
-                                {%for campagne in campagnes %}
-                                <option value="{{campagne.id}}" {%if campagne.id == campagne_id %} selected {%endif%}>{{campagne.name}}</option>
-                                {%endfor%}
-                            </select>
-                            {% endif %}
-                            {% if app.user.username == "lejard" %}
-                                {% if app.user.show_unity %}
-                                    <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  and (campagnes is defined or app.user.username == "lejard") %}
+
+                <div class="card mb-3">
+                        <div class="card-header">
+                            <div class="row">
+
+                                {% if campagnes is defined %}
+                                <div class="col-sm-3">
+                                    Campagne :
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="selectpicker" id="dynamic_select">
+                                        {%for campagne in campagnes %}
+                                        <option value="{{campagne.id}}" {%if campagne.id == campagne_id %} selected {%endif%}>{{campagne.name}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
                                 {% else %}
-                                    <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
+                                <div class="col-sm-6">
+                                </div>
                                 {% endif %}
-                            {% endif %}
+                                <div class="col-sm-3">
+                                </div>
+                                {% if app.user.username == "lejard" %}
+                                    <div class="col-sm-3">
+                                        {% if app.user.show_unity %}
+                                            <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
+                                        {% else %}
+                                            <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
 
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             {% endif %}
 
             {% block body %}{% endblock %}
