@@ -107,7 +107,7 @@
                         <th>Qty</th>
                     </tr>
                     <tr v-for="(produit, index) in intervention.produits" :key="index">
-                        <td>${ produit.name } ${index}</td>
+                        <td>${ produit.name }</td>
                         <td>${ produit.qty / total | round }</td>
                         <td><input class="form-control" type="text" v-model:value="produit.qty"></td>
                         <td><button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeRow(index)"><span class="oi oi-delete"></span></button></th>
