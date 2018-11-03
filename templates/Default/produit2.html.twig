@@ -1,0 +1,317 @@
+{% extends 'base_agri.html.twig' %}
+
+
+{% block body %}
+<div class="card mb-3">
+    <div class="card-body">
+        <div id='example-3'>
+            <div name="App_produit">
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label for="App_produit_type" class="required">Type</label>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <select v-model="produit.type" class="form-control">
+                            <option v-for="type in types" v-bind:value="produit.type">
+                                ${ type }
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row" v-show="produit.type=='phytos'">
+                    <div class="col-sm-2">
+                        <label for="App_produit_ephyProduit">Ephy produit</label>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <select v-model="produit.produit_ephy" class="form-control js-select" style="width: 100%;">
+                          <option v-for="produit_ephy in produit_ephys">
+                            ${ produit_ephy.complete_name }
+                          </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label for="App_produit_name" class="required">Label</label>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <input required="required" class="form-control" v-model="produit.name" type="text">
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label for="App_produit_unity" class="required">Unité</label>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <select v-model="produit.unity" class="form-control">
+                            <option v-for="unity in unities" v-bind:value="produit.unity">
+                                ${ unity }
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default" v-if="produit.type=='engrais'">
+                    <div class="panel-heading">
+                        Engrais
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <td>N</td>
+                            <td><input type="text" class="form-control" value="0" v-model="produit.n"/></td>
+                        </tr>
+                        <tr>
+                            <td>P</td>
+                            <td><input type="text" class="form-control" value="0" v-model="produit.p" /></td>
+                        </tr>
+                        <tr>
+                            <td>K</td>
+                            <td><input type="text" class="form-control" value="0"  v-model="produit.k"/></td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td><input type="text" class="form-control" value="0"  v-model="produit.s"/></td>
+                        </tr>
+                        <tr>
+                            <td>Mg</td>
+                            <td><input type="text" class="form-control" value="0"  v-model="produit.mg"/></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <button  class="btn btn-primary" v-on:click="save">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Achats
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>{{'Name' | trans}}</th>
+            <th>Qty</th>
+            <th>Prix</th>
+            <th>Complement</th>
+        </tr>
+        {% for achat in     achats %}
+        <tr>
+            <td>{{achat.getDateStr()}}</td>
+            <td>{{achat.name}}</td>
+            <td>{{ "%.2f  u"|format(achat.qty)}}</td>
+            <td>{{ achat.price | showEurUnity('u', false) }}</td>
+            <td>{{ achat.complement | showEurUnity('u', false) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Interventions
+    </div>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>{{'Name' | trans}}</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for intervention in interventions %}
+        <tr>
+            <td><a href="/intervention/{{intervention.id}}">{{intervention.id}}</td>
+            <td><b>{{intervention.get_date()}}</b></td>
+            <td><b>{{intervention.type}}</b></td>
+            <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
+            <td></td>
+        </tr>
+        {% for it in intervention.parcelles %}
+        <tr  bgcolor='{{ it.parcelle.cultureColor}}'>
+            <td></td>
+            <td></td>
+            <td>{{it.parcelle.culture}}</td>
+            <td>{{it.parcelle.completeName}}</td>
+            <td class="text-right">{{ it.parcelle.surface | showHa }}</td>
+
+        </tr>
+        {% endfor %}
+        {% for it in intervention.produits %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td>{{it.name}}</td>
+            <td>{{ "%.2f  u"|format(it.qty)}}</td>
+            <td>{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
+
+        </tr>
+        {% endfor %}
+
+        {% endfor %}
+    </table>
+</div>
+
+{% if produit.ephyProduit %}
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><th>{{produit.ephyProduit.completeName}}</th></div>
+        <table class="table">
+            <tr>
+                <th>Amm</th>
+                <th>{{produit.ephyProduit.amm}}</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>{{produit.ephyProduit.name}}</th>
+
+            </tr>
+            {% for commercialeName in produit.ephyProduit.commercialeNames %}
+            <tr>
+                <td></td>
+                <td>{{commercialeName.name}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Societe</td>
+                <td>{{produit.ephyProduit.society}}</td>
+
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Substances</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Unity</th>
+            </tr>
+            {% for substance in produit.ephyProduit.substances %}
+            <tr>
+                <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
+                <td>{{substance.quantity}}</td>
+                <td>{{substance.unity}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Phrases risque</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            {% for phrase in produit.ephyProduit.phraseRisques %}
+            {% if phrase.cmr %}
+            <tr  bgcolor='#ffaaaa'>
+            {% else %}
+            <tr>
+            {% endif %}
+                <td>{{phrase.id}}</td>
+                <td>{{phrase.description}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link href='/lib/select2/css/select2.min.css' rel='stylesheet' />
+<script src='/lib/select2/js/select2.min.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+$( function() {
+    console.log("toto");
+    var vue = new Vue({
+        el: '#example-3',
+        delimiters: ['${', '}'],
+        data: {
+            produit : {
+                id: "{{ produit.id }}",
+                name : "{{ produit.name }}",
+                type: "{{ produit.type }}",
+                unity: "{{ produit.unity }}",
+                n: {{ produit.n }}, p: {{ produit.p }}, k: {{ produit.k }}, s: {{ produit.s }}, mg: {{ produit.mg }},
+                produit_ephy: "{{ produit.ephyProduit }}",
+            },
+            types : [
+                'phytos',
+                'semences',
+                'engrais',
+                'autre'],
+            unities : [
+                'l',
+                'ql',
+                'kg',
+                'mdose',
+                'unite'],
+
+            produit_ephys : [
+                {% for produit in ephy_produits %}
+                    {complete_name : "{{ produit.amm }} - {{ produit.name }} ({{ produit.unity }})", unity : "{{produit.unity}}", label: "{{ produit.amm }} - {{ produit.name }}", ephy: {{ produit.amm}}},
+                {% endfor %}
+            ]
+        },
+
+        mounted () {
+            this.signalChange()
+        },
+        methods: {
+            signalChange: function () {
+            },
+            save: function () {
+                axios.post("{{ url("produit_api")}}", {
+                    produit: this.produit
+                })
+                .then(function (response) {
+                    console.log(response);
+                    window.location.href = "{{ url("produits")}}"
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+        }
+
+    })
+
+    $('.js-select').select2();
+    $('.js-select').on('select2:select', function (e) {
+        console.log(e);
+        produit_ephy = vue.produit_ephys[e.params.data.element.index];
+        console.log(produit_ephy);
+        vue.produit_ephy = produit_ephy.complete_name;
+        vue.produit.name = produit_ephy.label;
+        vue.produit.unity = produit_ephy.unity;
+        console.log(JSON.stringify(vue.produit));
+    });
+});
+</script>
+{% endblock %}
