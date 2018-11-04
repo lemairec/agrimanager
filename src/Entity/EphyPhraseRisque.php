@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EphyPhraseRisque
 {
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      * @ORM\Id
      */
     public $id;
