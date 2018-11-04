@@ -11,9 +11,9 @@ namespace App\Repository;
 class EphyCommercialNameRepository extends \Doctrine\ORM\EntityRepository
 {
     public function save($ephyCommercialName){
-        $ephyCommercialNameBdd = $this->findOneByCompleteName($ephyCommercialName->completeName);
+        $ephyCommercialNameBdd = $this->find($ephyCommercialName->name);
         if($ephyCommercialNameBdd != null){
-            print("error ".$ephyCommercialName->completeName."\n");
+            print("error ".$ephyCommercialName->name."\n");
         } else {
             $em = $this->getEntityManager();
             $em->persist($ephyCommercialName);

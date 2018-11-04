@@ -71,7 +71,7 @@ class Produit
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit")
-     * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="complete_name")
+     * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="amm")
      */
     public $ephyProduit;
 
@@ -127,6 +127,14 @@ class Produit
     public function getColor(){
         if($this->ephyProduit){
             return $this->ephyProduit->getColor();
+        } else {
+            return "";
+        }
+    }
+
+    public function getAmm(){
+        if($this->ephyProduit){
+            return $this->ephyProduit->amm;
         } else {
             return "";
         }

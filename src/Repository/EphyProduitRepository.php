@@ -63,7 +63,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $ephysubstancerepository = $em->getRepository('App:EphySubstance');
         $ephysubstanceproduitrepository = $em->getRepository('App:EphySubstanceProduit');
-        $ephysubstance = $ephysubstancerepository->findOneById($id);
+        $ephysubstance = $ephysubstancerepository->findOneByName($name);
         if($ephysubstance){
             return $ephysubstance;
         }
@@ -84,7 +84,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
     }
 
     function xml(){
-        $directory = "/Users/lemairec/fablab/symfony_agri/decisionAMM_intrant_format_xml/";
+        $directory = "/Users/clementlemaire/workspace/agrimanager/data/decisionAMM_intrant_format_xml/";
         $files = ["decision_intrant_20170529_1496059873117.xml", "decision_intrant_20170529_1496061171121.xml", "decision_intrant_20170529_1496062364257.xml",
         "decision_intrant_20170529_1496063425675.xml", "decision_intrant_20170529_1496060207007.xml", "decision_intrant_20170529_1496061478517.xml",
         "decision_intrant_20170529_1496062621835.xml", "decision_intrant_20170529_1496063698899.xml", "decision_intrant_20170529_1496060536890.xml",
@@ -97,7 +97,6 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
     }
 
     function xml_file($file){
-        print("xml_file ".$file."\n");
         $em = $this->getEntityManager();
         $xml = simplexml_load_file($file);
         $ppps = $xml->{'intrants'}->{'PPPs'};
@@ -106,9 +105,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $ephysubstanceproduitrepository= $em->getRepository('App:EphySubstanceProduit');
         foreach ($ppps->children() as $ppp) {
             //print_r($ppp);
-            if($ppp->{'etat-produit'} != "AUTORISE"){
-                continue;
-            }
+
             $em = $this->getEntityManager();
             $ephyproduit = new EphyProduit();
             $ephyproduit->amm = $ppp->{'numero-AMM'};
@@ -116,7 +113,10 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             $ephyproduit->society = $ppp->{'titulaire'};
             $ephyproduit->typeCommercial = $ppp->{'type-commercial'};
             $ephyproduit->gammeUsage = $ppp->{'gamme-usage'};
-
+            $ephyproduit->enable = true;
+            if($ppp->{'etat-produit'} != "AUTORISE"){
+                $ephyproduit->enable = false;
+            }
 
 
             if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
@@ -131,8 +131,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                 }
             }
 
-            $ephyproduit->completeName = $ephyproduit->amm . ' - ' . $ephyproduit->name . ' ('. $ephyproduit->unity.')';
-            $produitbdd = $this->findOneByCompleteName($ephyproduit->completeName);
+            $produitbdd = $this->find($ephyproduit->amm);
             if($produitbdd != null){
                 $ephyproduit = $produitbdd;
                 //continue;
@@ -168,8 +167,8 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
                 foreach ($ppp->{'composition-integrale'}->{'substances-actives'}->children() as $substance) {
                     //print_r($substance);
-                    $substance_name = $substance->{'substance'};
-                    $substance_id = $substance->{'substance'}->attributes()['ref-id'];
+                    $substance_name = "".$substance->{'substance'};
+                    $substance_id = "".$substance->{'substance'}->attributes()['ref-id'];
                     $ephysubstance = $this->getEphySubstance($substance_id, $substance_name);
                     $ephysubstanceproduit = new EphySubstanceProduit();
                     $ephysubstanceproduit->ephyproduit = $ephyproduit;
@@ -182,6 +181,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                         $ephysubstanceproduit->unity = 'NA';
                     }
                     $em->persist($ephysubstanceproduit);
+
                 }
             }
 
@@ -218,6 +218,39 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
+    function findAllActive(){
+        return $this->findByEnable(true);
+    }
+
+    function findAllActiveWithCommercialesNames(){
+        $em = $this->getEntityManager();
+
+        $produits = $this->findAllActive();
+
+        $commercial = $em->getRepository('App:EphyCommercialName')->createQueryBuilder('c')
+            ->join('c.ephyproduit','p')
+            ->where('p.enable = true')
+            ->getQuery()->getResult();
+
+        $res = [];
+        foreach($commercial as $c){
+            $res[] = $c;
+        }
+
+        foreach($produits as $c){
+            $res[] = $c;
+        }
+
+
+
+        usort($res, function($a, $b) { // anonymous function
+            return strcmp($a->name,$b->name);
+        });
+
+
+        return $res;
+    }
+
     function getAllWithCommercialesNames(){
 
         $em = $this->getEntityManager();
@@ -242,17 +275,5 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
 
         return $res;
-    }
-
-    function getByCompleteName($completName){
-        $em = $this->getEntityManager();
-        $ephyproduit = $this->findOneByCompleteName($completName);
-        if($ephyproduit){
-            return $ephyproduit;
-        }
-        $ephyCommercialName = $em->getRepository('App:EphyCommercialName')->findOneByCompleteName($completName);
-        if($ephyCommercialName){
-            return $ephyCommercialName->ephyproduit;
-        }
     }
 }

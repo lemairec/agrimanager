@@ -23,7 +23,7 @@ class EphySubstanceProduit
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit", inversedBy="substances")
-     * @ORM\JoinColumn(name="ephyproduit", referencedColumnName="complete_name")
+     * @ORM\JoinColumn(name="ephyproduit", referencedColumnName="amm", nullable=false)
      */
     public $ephyproduit;
 

@@ -14,6 +14,7 @@ class EphySubstanceProduitRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->join('p.ephyproduit', 'e')
             ->where('p.ephysubstance = :ephysubstance')
+            ->andWhere('e.enable = true')
             ->orderBY('e.name')
             ->setParameter('ephysubstance', $ephy_substance)
             ->getQuery();

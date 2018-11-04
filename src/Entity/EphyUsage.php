@@ -22,7 +22,7 @@ class EphyUsage
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="complete_name")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="amm")
      */
     public $ephyProduit;
 

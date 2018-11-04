@@ -13,8 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class EphyProduit
 {
     /**
-     * @var string
-     * @ORM\Column(name="amm", type="string")
+     * @var int
+     * @ORM\Id
+     * @ORM\Column(name="amm", type="integer")
      */
     public $amm;
 
@@ -23,6 +24,12 @@ class EphyProduit
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
+
+    /**
+     * @var string
+     * @ORM\Column(name="enable", type="string", length=255)
+     */
+    public $enable;
 
     /**
      * @var string
@@ -49,13 +56,6 @@ class EphyProduit
     public $gammeUsage;
 
     /**
-     * @var string
-     * @ORM\Id
-     * @ORM\Column(name="complete_name", type="string", length=255)
-     */
-    public $completeName;
-
-    /**
     * @ORM\OneToMany(targetEntity="App\Entity\EphySubstanceProduit", mappedBy="ephyproduit",cascade={"persist"})
     */
     public $substances;
@@ -65,7 +65,7 @@ class EphyProduit
     * @ORM\JoinTable(
      *  name="ephy_phrase_risques",
      *  joinColumns={
-     *      @ORM\JoinColumn(name="produit", referencedColumnName="complete_name")
+     *      @ORM\JoinColumn(name="produit", referencedColumnName="amm")
      *  },
      *  inverseJoinColumns={
      *      @ORM\JoinColumn(name="phrase", referencedColumnName="id")
@@ -81,7 +81,7 @@ class EphyProduit
 
 
     public function __toString ( ){
-        return $this->completeName;
+        return $this->amm." - ".$this->name;
     }
 
     public function addPhraseRisque($phrase){
@@ -108,5 +108,9 @@ class EphyProduit
         } else {
             return "";
         }
+    }
+
+    public function getCompleteName(){
+        return $this->amm." - ".$this->name;
     }
 }
