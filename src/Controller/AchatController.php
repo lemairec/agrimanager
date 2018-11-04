@@ -67,17 +67,18 @@ class AchatController extends CommonController
     {
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
+        $produits = $em->getRepository('App:Produit')->findByCompany($campagne->company);
         if($achat_id == '0'){
             $achat = new Achat();
             $achat->date = new \DateTime();
         } else {
             $achat = $em->getRepository('App:Achat')->findOneById($achat_id);
             $achat->name = $achat->produit->__toString();
-            print($achat->name);
         }
-        $form = $this->createForm(AchatType::class, $achat);
+        $form = $this->createForm(AchatType::class, $achat, array(
+            'produits' => $produits
+        ));
         $form->handleRequest($request);
-        $produits = $em->getRepository('App:Produit')->getAllName($campagne);
 
         if ($form->isSubmitted()) {
             $em->getRepository('App:Achat')->save($achat, $campagne);

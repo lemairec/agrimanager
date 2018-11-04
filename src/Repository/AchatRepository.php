@@ -13,14 +13,13 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
 {
     function save($achat, $campagne){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('App:Produit')->findOrCreate($achat->name, $campagne);
-        $achat->produit = $produit;
+        $achat->name = "toto";
         $achat->campagne = $campagne;
         $achat->price = $achat->price_total/$achat->qty;
         $achat->complement = $achat->complement_total/$achat->qty;
         $em->persist($achat);
         $em->flush();
-        $em->getRepository('App:Produit')->update($produit);
+        $em->getRepository('App:Produit')->update($achat->produit);
     }
 
     function addCaj($achat, $campagne){

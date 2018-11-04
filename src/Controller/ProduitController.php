@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Datetime;
 
 
@@ -34,9 +34,56 @@ class ProduitController extends CommonController
     }
 
     /**
+     * @Route("/api/produit", name="produit_api")
+     */
+    public function produitApiAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $data = $data["produit"];
+
+        $produit = $em->getRepository('App:Produit')->find($data["id"]);
+        if($produit){
+        } else {
+            $produit = new Produit();
+            $produit->company = $campagne->company;
+        }
+        $produit->name = $data["name"];
+        $produit->unity = $data["unity"];
+        $produit->type = $data["type"];
+        $produit->n = $data["n"];
+        $produit->p = $data["p"];
+        $produit->k = $data["k"];
+        $produit->mg = $data["mg"];
+        $produit->s = $data["s"];
+        $produit->name = $data["name"];
+        $produit->ephyProduit = $em->getRepository('App:EphyProduit')->find($data["produit_ephy"]);
+        //$intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
+
+        $em->getRepository('App:Produit')->update($produit);
+
+        return new JsonResponse($produit);
+    }
+
+    function produitApi(){
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $produit->company = $this->company;
+            $em->getRepository('App:Produit')->update($produit);
+            return $this->redirectToRoute('produits');
+        }
+    }
+
+    /**
      * @Route("/produit/{produit_id}", name="produit")
      **/
-    public function produitEditAction($produit_id, Request $request)
+    public function produitEdit2Action($produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
@@ -51,22 +98,13 @@ class ProduitController extends CommonController
             $produitcampagnes = $em->getRepository('App:ProduitCampagne')->findByProduit($produit);
             $achats = $em->getRepository('App:Achat')->getAllForProduit($produit);
         }
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
 
-
-        if ($form->isSubmitted()) {
-            $produit->company = $this->company;
-            $em->getRepository('App:Produit')->update($produit);
-            return $this->redirectToRoute('produits');
-        }
-        return $this->render('Default/produit.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('Default/produit2.html.twig', array(
             'produit' => $produit,
             'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
-            'ephy_produit' => $produit->ephyProduit
+            'ephy_produits' => $em->getRepository('App:EphyProduit')->findAllActiveWithCommercialesNames()
         ));
     }
 

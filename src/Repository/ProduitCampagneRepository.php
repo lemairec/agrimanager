@@ -53,11 +53,9 @@ class ProduitCampagneRepository extends \Doctrine\ORM\EntityRepository
                         $price_total += $achat->qty * $achat->price;
                     }
                 }
-                print("ici ".$qty2);
                 if($qty2==null){
                     $qty2 = 0;
                 }
-                print($qty2);
                 $res = new ProduitCampagne();
                 $res->produit = $produit;
                 $res->campagne = $campagne;

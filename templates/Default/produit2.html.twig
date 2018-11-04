@@ -13,7 +13,7 @@
 
                     <div class="col-sm-10">
                         <select v-model="produit.type" class="form-control">
-                            <option v-for="type in types" v-bind:value="produit.type">
+                            <option v-for="type in types" v-bind:value="type">
                                 ${ type }
                             </option>
                         </select>
@@ -27,8 +27,8 @@
 
                     <div class="col-sm-10">
                         <select v-model="produit.produit_ephy" class="form-control js-select" style="width: 100%;">
-                          <option v-for="produit_ephy in produit_ephys">
-                            ${ produit_ephy.complete_name }
+                          <option v-for="produit_ephy in produit_ephys" v-bind:value="produit_ephy.amm">
+                            ${ produit_ephy.label }
                           </option>
                         </select>
                     </div>
@@ -52,7 +52,7 @@
 
                     <div class="col-sm-10">
                         <select v-model="produit.unity" class="form-control">
-                            <option v-for="unity in unities" v-bind:value="produit.unity">
+                            <option v-for="unity in unities" v-bind:value="unity">
                                 ${ unity }
                             </option>
                         </select>
@@ -258,7 +258,7 @@ $( function() {
                 type: "{{ produit.type }}",
                 unity: "{{ produit.unity }}",
                 n: {{ produit.n }}, p: {{ produit.p }}, k: {{ produit.k }}, s: {{ produit.s }}, mg: {{ produit.mg }},
-                produit_ephy: "{{ produit.ephyProduit }}",
+                produit_ephy: "{{ produit.amm }}",
             },
             types : [
                 'phytos',
@@ -274,7 +274,7 @@ $( function() {
 
             produit_ephys : [
                 {% for produit in ephy_produits %}
-                    {complete_name : "{{ produit.amm }} - {{ produit.name }} ({{ produit.unity }})", unity : "{{produit.unity}}", label: "{{ produit.amm }} - {{ produit.name }}", ephy: {{ produit.amm}}},
+                    {label : "{{ produit.amm }} - {{ produit.name }} ({{ produit.unity }})", unity : "{{produit.unity}}", amm: {{ produit.amm }}},
                 {% endfor %}
             ]
         },
@@ -306,10 +306,10 @@ $( function() {
     $('.js-select').on('select2:select', function (e) {
         console.log(e);
         produit_ephy = vue.produit_ephys[e.params.data.element.index];
-        console.log(produit_ephy);
-        vue.produit_ephy = produit_ephy.complete_name;
+        console.log(JSON.stringify(produit_ephy));
+        vue.produit.produit_ephy = produit_ephy.amm;
         vue.produit.name = produit_ephy.label;
-        vue.produit.unity = produit_ephy.unity;
+        vue.produit.unity = produit_ephy.unity.toLowerCase();
         console.log(JSON.stringify(vue.produit));
     });
 });
