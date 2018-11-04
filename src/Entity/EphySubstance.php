@@ -21,7 +21,7 @@ class EphySubstance
     /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
      public $name;
 }
