@@ -274,7 +274,7 @@ $( function() {
 
             produit_ephys : [
                 {% for produit in ephy_produits %}
-                    {label : "{{ produit.amm }} - {{ produit.name }} ({{ produit.unity }})", unity : "{{produit.unity}}", amm: {{ produit.amm }}},
+                    {label : "{{ produit.amm }} - {{ produit.name }}", unity : "{{produit.unity}}", amm: {{ produit.amm }}},
                 {% endfor %}
             ]
         },
