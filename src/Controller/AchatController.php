@@ -103,7 +103,7 @@ class AchatController extends CommonController
     }
 
     /**
-     * @Route("/achats_data", name="data")
+     * @Route("/achats_data", name="achats_data")
      **/
     public function achatsDataEditAction(Request $request)
     {
