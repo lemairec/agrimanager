@@ -113,4 +113,8 @@ class EphyProduit
     public function getCompleteName(){
         return $this->amm." - ".$this->name;
     }
+
+    public function getAmm(){
+        return $this->amm;
+    }
 }
