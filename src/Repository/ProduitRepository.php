@@ -78,8 +78,10 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $nb = 0;
         foreach($ps as $p){
             $stock += $p->stock;
-            $price += $p->price;
-            $nb += 1;
+            if($p->price != 0){
+                $price += $p->price;
+                $nb += 1;
+            }
         }
         $produit->qty = $stock;
         if($nb > 0){

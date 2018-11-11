@@ -15,6 +15,12 @@
             <th>{{produit.name}}</th>
 
         </tr>
+        {% if not produit.enable %}
+        <tr style="background: red;">
+            <th>Interdit</th>
+            <th></th>
+        </tr>
+        {% endif %}
         {% for commercialeName in produit.commercialeNames %}
         <tr>
             <td></td>

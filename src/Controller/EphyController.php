@@ -14,7 +14,21 @@ class EphyController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:EphyProduit')->findAllActiveWithCommercialesNames();
+        $produits = $em->getRepository('App:EphyProduit')->getAllActiveWithCommercialesNames();
+
+        return $this->render('Default/ephy_produits.html.twig', array(
+            'produits' => $produits,
+        ));
+    }
+
+    /**
+     * @Route("/ephy_produits_all", name="ephy_produits_all")
+     */
+    public function produitsAllAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('App:EphyProduit')->getAllWithCommercialesNames();
 
         return $this->render('Default/ephy_produits.html.twig', array(
             'produits' => $produits,

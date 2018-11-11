@@ -70,6 +70,17 @@ class ProduitCampagneRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
+    function getAllForProduit($produit){
+        $query = $this->createQueryBuilder('p')
+            ->innerJoin('p.campagne', 'c')
+            ->where('p.produit = :produit')
+             ->setParameter('produit', $produit)
+             ->orderBy('c.name', 'DESC')
+             ->getQuery();
+
+             return $query->getResult();
+    }
+
     function get($produit, $campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.produit = :produit')

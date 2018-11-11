@@ -218,14 +218,14 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
-    function findAllActive(){
+    function getAllActive(){
         return $this->findByEnable(true);
     }
 
-    function findAllActiveWithCommercialesNames(){
+    function getAllActiveWithCommercialesNames(){
         $em = $this->getEntityManager();
 
-        $produits = $this->findAllActive();
+        $produits = $this->getAllActive();
 
         $commercial = $em->getRepository('App:EphyCommercialName')->createQueryBuilder('c')
             ->join('c.ephyproduit','p')

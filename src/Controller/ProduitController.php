@@ -95,7 +95,7 @@ class ProduitController extends CommonController
         } else {
             $produit = $em->getRepository('App:Produit')->findOneById($produit_id);
             $interventions = $em->getRepository('App:Intervention')->getAllForProduit($produit);
-            $produitcampagnes = $em->getRepository('App:ProduitCampagne')->findByProduit($produit);
+            $produitcampagnes = $em->getRepository('App:ProduitCampagne')->getAllForProduit($produit);
             $achats = $em->getRepository('App:Achat')->getAllForProduit($produit);
         }
 
@@ -104,7 +104,7 @@ class ProduitController extends CommonController
             'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
-            'ephy_produits' => $em->getRepository('App:EphyProduit')->findAllActiveWithCommercialesNames()
+            'ephy_produits' => $em->getRepository('App:EphyProduit')->getAllActiveWithCommercialesNames()
         ));
     }
 
