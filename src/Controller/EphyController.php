@@ -3,21 +3,23 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EphyController extends Controller
 {
     /**
      * @Route("/ephy_produits", name="ephy_produits")
      */
-    public function produitsAction()
+    public function produitsAction(Request $request)
     {
+        $all = intval($request->query->get('all', 0));
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:EphyProduit')->getAllActiveWithCommercialesNames();
-
         return $this->render('Default/ephy_produits.html.twig', array(
-            'produits' => $produits,
+            'all' => ($all==1)
         ));
     }
 
@@ -33,6 +35,19 @@ class EphyController extends Controller
         return $this->render('Default/ephy_produits.html.twig', array(
             'produits' => $produits,
         ));
+    }
+
+    /**
+     * @Route("/api/ephy_produits", name="ephy_produits_api")
+     */
+    public function produitsApiAllAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $all = intval($request->query->get('all', 0));
+
+        $produits = $em->getRepository('App:EphyProduit')->getWithCommercialesNamesApi(($all==1));
+
+        return new JsonResponse($produits);
     }
 
     /**

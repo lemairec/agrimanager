@@ -222,6 +222,36 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         return $this->findByEnable(true);
     }
 
+
+    //$stmt = $em->getConnection()->prepare("SELECT amm, name from ephy_produit union SELECT ephyproduit as amm, name from ephy_commercial_name order by name", $rsm);
+    //$stmt->execute();
+    //$res = $stmt->fetchAll();
+    function getWithCommercialesNamesApi($all){
+        $em = $this->getEntityManager();
+        $query1 = $this->createQueryBuilder('p');
+        $query2 = $em->getRepository('App:EphyCommercialName')->createQueryBuilder('c')->join('c.ephyproduit','p');
+
+        if(!$all){
+            $query1 = $query1->where('p.enable = true');
+            $query2 = $query2->where('p.enable = true');
+        }
+
+        $produits = $query1->getQuery()->getResult();
+        $commercials = $query2->getQuery()->getResult();
+
+        //SELECT amm, name from ephy_produit union SELECT ephyproduit as amm, name from ephy_commercial_name order by name
+
+        $data = [];
+        foreach ($produits as $r) {
+            $data[] = ["name" => $r->name , "amm" => $r->getAmm()];
+        }
+        foreach ($commercials as $r) {
+            $data[] = ["name" => $r->name , "amm" => $r->getAmm()];
+        }
+
+        return ["data"=>$data];
+
+    }
     function getAllActiveWithCommercialesNames(){
         $em = $this->getEntityManager();
 
