@@ -14,15 +14,15 @@
 <div class="panel panel-default", style="width:100%">
     <table class="table">
     <tr bgcolor='{{ intervention.getColor() }}', style="filter:brightness(0.95)">
-        <td class="col-2"><a href="{{ url("intervention", {'intervention_id': intervention.id}) }}">{{intervention.get_date()}}</td>
+        <td style="width:20%"><a href="{{ url("intervention", {'intervention_id': intervention.id}) }}">{{intervention.get_date()}}</td>
         <td><b>{{intervention.type}}
             {% if intervention.name %}
                 - {{ intervention.name }}
             {% endif %}
             </b>
         </td>
-        <td class="text-right col-2"><b>{{ intervention.surface | showHa }}</b></td>
-        <td class="text-right col-2"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
+        <td class="text-right" style="width:20%"><b>{{ intervention.surface | showHa }}</b></td>
+        <td class="text-right" style="width:20%"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
     </tr>
 
     {% for it in intervention.parcelles %}
