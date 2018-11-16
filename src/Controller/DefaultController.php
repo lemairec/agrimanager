@@ -57,7 +57,7 @@ class DefaultController extends CommonController
     public function indexAction(Request $request)
     {
         $this->check_user($request);
-        return $this->render('Default/index.html.twig', array(
+        return $this->render('Default/home.html.twig', array(
             'company' => $this->company
         ));
     }

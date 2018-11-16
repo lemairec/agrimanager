@@ -140,11 +140,11 @@ $( function() {
         }
     });
     {% if(company.meteoCity) %}
-    var url = "http://api.openweathermap.org/data/2.5/forecast?q={{company.meteoCity}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
+    var url = "https://api.openweathermap.org/data/2.5/forecast?q={{company.meteoCity}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
     {% elseif(company.city) %}
-    var url = "http://api.openweathermap.org/data/2.5/forecast?q={{company.city}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
+    var url = "https://api.openweathermap.org/data/2.5/forecast?q={{company.city}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
     {% else %}
-    var url = "http://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
+    var url = "https://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
     {% endif %}
     $.getJSON(url, function( data ) {
         oldd = 0;
@@ -184,7 +184,7 @@ $( function() {
         }
         $('#meteo_title').text("Météo " + data.city.name);
     });
-    $.getJSON("http://ade.agrinext.fr/pages/white/sitefr/quotesAjax.aspx?LANG=fr",function( data ) {
+    $.getJSON("https://ade.agrinext.fr/pages/white/sitefr/quotesAjax.aspx?LANG=fr",function( data ) {
         console.log(data);
         var last_code = "";
         for(i in data.data){
