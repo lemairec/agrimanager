@@ -184,7 +184,7 @@ $( function() {
         }
         $('#meteo_title').text("Météo " + data.city.name);
     });
-    $.getJSON("https://ade.agrinext.fr/pages/white/sitefr/quotesAjax.aspx?LANG=fr",function( data ) {
+    $.getJSON("http://ade.agrinext.fr/pages/white/sitefr/quotesAjax.aspx?LANG=fr",function( data ) {
         console.log(data);
         var last_code = "";
         for(i in data.data){
