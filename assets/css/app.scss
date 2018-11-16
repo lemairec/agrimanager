@@ -8,6 +8,7 @@
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
 @import "~open-iconic/font/css/open-iconic-bootstrap.css";
 @import "~datatables.net-dt/css/jquery.dataTables.css";
+
 * {
    font-size: 14px;
    line-height: 1.428;
@@ -78,4 +79,9 @@
     background-color: rgba(0,0,0,.03);
     border-bottom: 1px solid rgba(0,0,0,.125);
 
+}
+
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
 }
