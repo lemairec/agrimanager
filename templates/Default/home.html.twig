@@ -4,7 +4,7 @@
 
     <div class="row">
 
-            <div class="col-lg-4">
+            <div class="col-xl-4">
                 <div class="card">
                     <!-- Default panel contents -->
                     <div class="card-header">
@@ -22,7 +22,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-xl-8">
                 <div class="card">
                     <!-- Default panel contents -->
                     <div id="meteo_title" class="card-header">
@@ -37,9 +37,9 @@
                             <th>Pluie</th>
                             <th>Hum</th>
                             <th>Vent</th>
+                            <th class="d-none d-lg-table-cell"></th>
                             <th></th>
-                            <th></th>
-                            <th>Atm</th>
+                            <th class="d-none d-lg-table-cell">Atm</th>
                             </tr>
                         </thead>
 
@@ -73,11 +73,10 @@ $( function() {
                 }},
             {},
             {},
-            {},
             { render: function (data, type, row) {
                     return data + ' km/h';
-                }
-            },
+                }},
+            {},
             {},
             {}
         ],
@@ -118,10 +117,12 @@ $( function() {
                 $(row).find('td:eq(4)').css('background', '#c8c8c8');
             }
 
-            $(row).find('td:eq(6)').css('background', '#33CCFF');
+            $(row).find('td:eq(5)').css('background', '#33CCFF');
             if(data[6]> 15){
-                $(row).find('td:eq(6)').css('background', '#0099FF');
+                $(row).find('td:eq(5)').css('background', '#0099FF');
             }
+            $(row).find('td:eq(6)').addClass('d-none d-lg-table-cell');
+            $(row).find('td:eq(8)').addClass('d-none d-lg-table-cell');
         }
     });
     t_euronext = $('#euronext').DataTable({
@@ -180,7 +181,7 @@ $( function() {
             } else {
                 oldd = d;
             }
-            row = t.row.add([d, h, o.main.temp, rain, o.main.humidity+" %", Math.round(o.wind.deg), Math.round(o.wind.speed*3.6), o.weather[0].description, Math.round(o.main.pressure)]).draw( false );
+            row = t.row.add([d, h, o.main.temp, rain, o.main.humidity+" %", Math.round(o.wind.speed*3.6), Math.round(o.wind.deg), o.weather[0].description, Math.round(o.main.pressure)]).draw( false );
         }
         $('#meteo_title').text("Météo " + data.city.name);
     });
