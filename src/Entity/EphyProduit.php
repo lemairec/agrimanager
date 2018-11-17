@@ -56,6 +56,12 @@ class EphyProduit
     public $gammeUsage;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    public $fonctions;
+
+    /**
     * @ORM\OneToMany(targetEntity="App\Entity\EphySubstanceProduit", mappedBy="ephyproduit",cascade={"persist"})
     */
     public $substances;
@@ -79,6 +85,17 @@ class EphyProduit
     */
     public $commercialeNames;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\EphyUsage", mappedBy="ephyProduit")
+    */
+    public $usages;
+
+
+    public function getUrlAnses ( ){
+        $res = str_replace(" ", "-", $this->name);
+        $res = strtolower($res);
+        return "//ephy.anses.fr/ppp/".$res;
+    }
 
     public function __toString ( ){
         return $this->amm." - ".$this->name;

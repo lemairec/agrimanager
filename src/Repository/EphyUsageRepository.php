@@ -10,4 +10,12 @@ namespace App\Repository;
  */
 class EphyUsageRepository extends \Doctrine\ORM\EntityRepository
 {
+    function deleteForEphyProduit($ephyproduit){
+        $em = $this->getEntityManager();
+        $list = $this->findByEphyProduit($ephyproduit);
+        foreach ($list as $l) {
+            $em->remove($l);
+        }
+        $em->flush();
+    }
 }

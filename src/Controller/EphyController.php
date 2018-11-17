@@ -22,7 +22,7 @@ class EphyController extends Controller
             'all' => ($all==1)
         ));
     }
-    
+
     /**
      * @Route("/api/ephy_produits", name="ephy_produits_api")
      */
@@ -43,9 +43,10 @@ class EphyController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $produit = $em->getRepository('App:EphyProduit')->find($amm);
+        $usages = $em->getRepository('App:EphyUsage')->findByEphyProduit($produit);
 
         return $this->render('Default/ephy_produit.html.twig', array(
-            'produit' => $produit,
+            'ephyProduit' => $produit
         ));
     }
 

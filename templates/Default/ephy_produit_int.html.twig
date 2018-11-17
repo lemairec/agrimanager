@@ -1,0 +1,106 @@
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><th>{{ephyProduit.completeName}}</th></div>
+    <table class="table">
+        <tr>
+            <th>Amm</th>
+            <th>{{ephyProduit.amm}}</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>{{ephyProduit.name}}</th>
+
+        </tr>
+        {% if not ephyProduit.enable %}
+        <tr style="background: red;">
+            <th>Interdit</th>
+            <th></th>
+        </tr>
+        {% endif %}
+        {% for commercialeName in ephyProduit.commercialeNames %}
+        <tr>
+            <td></td>
+            <td>{{commercialeName.name}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Doc</td>
+            <td><a href="{{ephyProduit.getUrlAnses()}}">ephy.anses.fr</a></td>
+        </tr>
+        
+        <tr>
+            <td>Fonctions</td>
+            <td>{{ephyProduit.fonctions}}</td>
+
+        </tr>
+        <tr>
+            <td>Societe</td>
+            <td>{{ephyProduit.society}}</td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Substances</div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Unity</th>
+        </tr>
+        {% for substance in ephyProduit.substances %}
+        <tr>
+            <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
+            <td>{{substance.quantity}}</td>
+            <td>{{substance.unity}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Phrases risque</div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        {% for phrase in ephyProduit.phraseRisques %}
+        {% if phrase.cmr %}
+        <tr  bgcolor='#ffaaaa'>
+        {% else %}
+        <tr>
+        {% endif %}
+            <td>{{phrase.id}}</td>
+            <td>{{phrase.description}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">Usages</div>
+
+    <div class="list-group">
+        {% for usage in ephyProduit.usages %}
+            <div class="list-group-item">
+                <h4 class="list-group-item-heading">{{usage.identifiantUsage}}</h4>
+                <div class="row mb-2">
+                    <div class="col-sm-3">
+                        <b>Dose retenue :</b><br> {{usage.doseRetenu | showUnity(usage.doseRetenuUnity)}}
+                    </div>
+                    <div class="col-sm-3">
+                        <b>Dar :</b><br> {{usage.dar }}
+                    </div>
+                </div>
+                <p class="list-group-item-text">{{ usage.conditionEmploi }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>

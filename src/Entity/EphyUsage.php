@@ -15,13 +15,14 @@ class EphyUsage
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     */
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+    */
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit")
+     * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit", inversedBy="usages")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="amm")
      */
     public $ephyProduit;
@@ -52,13 +53,13 @@ class EphyUsage
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     public $doseRetenu;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=55)
      */
     public $doseRetenuUnity;
 
@@ -76,7 +77,7 @@ class EphyUsage
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     public $conditionEmploi;
 

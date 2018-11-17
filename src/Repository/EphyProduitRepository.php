@@ -5,6 +5,8 @@ use App\Entity\EphyProduit;
 use App\Entity\EphySubstance;
 use App\Entity\EphySubstanceProduit;
 use App\Entity\EphyCommercialName;
+use App\Entity\EphyUsage;
+
 use Doctrine\Common\Collections\ArrayCollection;
 /**
  * EphyProduitRepository
@@ -96,19 +98,35 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
-    function xml_file($file){
+    function xml_file($file, $begin, $end){
         $em = $this->getEntityManager();
         $xml = simplexml_load_file($file);
         $ppps = $xml->{'intrants'}->{'PPPs'};
         $ephyCommercialNameRepository = $em->getRepository('App:EphyCommercialName');
         $ephyPhraseRisque = $em->getRepository('App:EphyPhraseRisque');
         $ephysubstanceproduitrepository= $em->getRepository('App:EphySubstanceProduit');
+        $ephyusageproduitrepository= $em->getRepository('App:EphyUsage');
+
+        $l = 0;
         foreach ($ppps->children() as $ppp) {
+            $l = $l+1;
+            if($l<$begin){
+                continue;
+            }
+            if($l>$end){
+                return;
+            }
             //print_r($ppp);
 
             $em = $this->getEntityManager();
             $ephyproduit = new EphyProduit();
             $ephyproduit->amm = $ppp->{'numero-AMM'};
+            $produitbdd = $this->find($ephyproduit->amm);
+            if($produitbdd != null){
+                $ephyproduit = $produitbdd;
+                //continue;
+            }
+
             $ephyproduit->name = trim($ppp->{'nom-produit'});
             $ephyproduit->society = $ppp->{'titulaire'};
             $ephyproduit->typeCommercial = $ppp->{'type-commercial'};
@@ -117,6 +135,17 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
             if($ppp->{'etat-produit'} != "AUTORISE"){
                 $ephyproduit->enable = false;
             }
+            $ephyproduit->fonctions = "";
+            if(isset($ppp->{'fonctions'})){
+                foreach ($ppp->{'fonctions'}->children() as $fonction) {
+                    if(strlen($ephyproduit->fonctions)>0){
+                        $ephyproduit->fonctions = $ephyproduit->fonctions.";";
+                    }
+                    $ephyproduit->fonctions = $ephyproduit->fonctions.$fonction;
+                }
+            }
+
+            print($l." ".$ephyproduit->name."\n");
 
 
             if(isset($ppp->{'composition-integrale'}->{'substances-actives'})) {
@@ -131,18 +160,8 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                 }
             }
 
-            $produitbdd = $this->find($ephyproduit->amm);
-            if($produitbdd != null){
-                $ephyproduit = $produitbdd;
-                //continue;
-            }
 
-            print("la");
-            if(isset($ppp->{'classement-CLP'}->{'classes-danger'})) {
-                foreach ($ppp->{'classement-CLP'}->{'classes-danger'}->children() as $substance) {
-                    print("ici");
-                }
-            }
+
             $ephyproduit->phraseRisques = new ArrayCollection();
             if(isset($ppp->{'classement-CLP'}->{'phrases-risque'})) {
                 foreach ($ppp->{'classement-CLP'}->{'phrases-risque'}->children() as $phraseRisque) {
@@ -181,6 +200,44 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                         $ephysubstanceproduit->unity = 'NA';
                     }
                     $em->persist($ephysubstanceproduit);
+
+                }
+            }
+
+            $ephyusageproduitrepository->deleteForEphyProduit($ephyproduit);
+            if(isset($ppp->{'usages'})) {
+                foreach ($ppp->{'usages'}->children() as $usage) {
+                    //print("\n####usage".$usage);
+                    $identifiant_usage = $usage->{'identifiant-usage'};
+                    $dose_retenue = $usage->{'dose-retenue'};
+                    $etat_usage = $usage->{'etat-usage'};
+                    $dar = null;
+                    if(isset($usage->{'delai-avant-recolte-jour'})){
+                        $dar = $usage->{'delai-avant-recolte-jour'};
+                    }
+                    $dose_retenue_unity = "";
+                    if(isset($usage->{'dose-retenue'})){
+                        $dose_retenue_unity = $usage->{'dose-retenue'}->attributes()['unite'];
+                    } else {
+                        $dose_retenue = null;
+                    }
+
+                    $u = new EphyUsage();
+                    $u->id = intval($usage->{'id'});
+                    $u->ephyProduit = $ephyproduit;
+                    $u->identifiantUsage = $identifiant_usage;
+                    $u->doseRetenu = $dose_retenue;
+                    $u->etatUsage = $etat_usage;
+                    $u->dar = $dar;
+                    $u->doseRetenuUnity = $dose_retenue_unity;
+                    $u->conditionEmploi = $usage->{'condition-emploi'};;
+                    $em->persist($u);
+                    //print($identifiant_usage);
+                    //print_r($usage);
+                    //print("####\n");
+                    //$name = $phraseRisque->attributes()['lib-court'];
+                    //$description = $phraseRisque;
+                    //->addPhraseRisque($ephyPhraseRisque->get($name, $description));
 
                 }
             }

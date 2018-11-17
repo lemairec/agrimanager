@@ -101,6 +101,7 @@ class ProduitController extends CommonController
 
         return $this->render('Default/produit2.html.twig', array(
             'produit' => $produit,
+            'ephyProduit' => $produit->ephyProduit,
             'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
@@ -131,7 +132,6 @@ class ProduitController extends CommonController
         foreach ($produits as $p) {
             $sum += $p->qty * $p->price;
         }
-        print($sum);
 
         return $this->render('Default/produits.html.twig', array(
             'produits' => $produits,

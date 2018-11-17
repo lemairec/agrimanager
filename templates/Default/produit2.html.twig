@@ -211,74 +211,15 @@
     </table>
 </div>
 
-{% if produit.ephyProduit %}
-
-    <div class="panel panel-default", style="width:100%">
+{% if ephyProduit %}
+    <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading"><th>{{produit.ephyProduit.completeName}}</th></div>
-        <table class="table">
-            <tr>
-                <th>Amm</th>
-                <th>{{produit.ephyProduit.amm}}</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>{{produit.ephyProduit.name}}</th>
-
-            </tr>
-            {% for commercialeName in produit.ephyProduit.commercialeNames %}
-            <tr>
-                <td></td>
-                <td>{{commercialeName.name}}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td>Societe</td>
-                <td>{{produit.ephyProduit.society}}</td>
-
-            </tr>
-
-        </table>
-    </div>
-
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Substances</div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Unity</th>
-            </tr>
-            {% for substance in produit.ephyProduit.substances %}
-            <tr>
-                <td><a href="/ephy_substance/{{substance.ephysubstance.name}}">{{substance.ephysubstance.name}}</a></td>
-                <td>{{substance.quantity}}</td>
-                <td>{{substance.unity}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Phrases risque</div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-            </tr>
-            {% for phrase in produit.ephyProduit.phraseRisques %}
-            {% if phrase.cmr %}
-            <tr  bgcolor='#ffaaaa'>
-            {% else %}
-            <tr>
-            {% endif %}
-                <td>{{phrase.id}}</td>
-                <td>{{phrase.description}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="panel-heading">
+            Produit Ephy
+        </div>
+        <div style="padding:15px">
+            {% include 'Default/ephy_produit_int.html.twig' %}
+        </div>
     </div>
 
 

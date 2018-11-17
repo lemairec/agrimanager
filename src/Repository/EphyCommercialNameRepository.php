@@ -13,7 +13,7 @@ class EphyCommercialNameRepository extends \Doctrine\ORM\EntityRepository
     public function save($ephyCommercialName){
         $ephyCommercialNameBdd = $this->find($ephyCommercialName->name);
         if($ephyCommercialNameBdd != null){
-            print("error ".$ephyCommercialName->name."\n");
+            //print("\n"."commercialName already ".$ephyCommercialName->name);
         } else {
             $em = $this->getEntityManager();
             $em->persist($ephyCommercialName);

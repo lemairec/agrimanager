@@ -17,7 +17,9 @@ class EphyCommand extends ContainerAwareCommand
         $this
             ->setName('ephy')
             ->setDescription('...')
-            ->addArgument('argument', InputArgument::OPTIONAL, 'Argument description')
+            ->addArgument('file', InputArgument::OPTIONAL, 'Argument description')
+            ->addArgument('begin', InputArgument::OPTIONAL, 'Argument description')
+            ->addArgument('end', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('option', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
@@ -30,20 +32,31 @@ class EphyCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
         $this->io = $io;
-        $argument = $input->getArgument('argument');
-
+        $file = $input->getArgument('file');
+        $begin = $input->getArgument('begin');
+        $end = $input->getArgument('end');
         if ($input->getOption('option')) {
             // ...
         }
 
         $output->writeln('Command result.');
+        $this->log($file." begin ".$begin." end ".$end);
+
+        $xml = simplexml_load_file($file);
+        $ppps = $xml->{'intrants'}->{'PPPs'};
+        $total = 0;
+        foreach ($ppps->children() as $ppp) {
+            $total = $total+1;
+        }
+        $this->log("total ".$total);
+
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $ephyrepository = $em->getRepository('App:EphyProduit');
 
-        $this->log($argument);
-        $ephyrepository->xml_file($argument);
+        $ephyrepository->xml_file($file, $begin, $end);
 
+        $this->log('Fin');
     }
 
 }
