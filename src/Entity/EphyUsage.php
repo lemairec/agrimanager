@@ -73,7 +73,7 @@ class EphyUsage
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
-    public $nombreApportMax;
+    public $nombreAppliMax;
 
     /**
      * @var string

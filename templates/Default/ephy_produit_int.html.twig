@@ -28,7 +28,7 @@
             <td>Doc</td>
             <td><a href="{{ephyProduit.getUrlAnses()}}">ephy.anses.fr</a></td>
         </tr>
-        
+
         <tr>
             <td>Fonctions</td>
             <td>{{ephyProduit.fonctions}}</td>
@@ -95,6 +95,13 @@
                     <div class="col-sm-3">
                         <b>Dose retenue :</b><br> {{usage.doseRetenu | showUnity(usage.doseRetenuUnity)}}
                     </div>
+                    <div class="col-sm-3">
+                        <b>Nbr max application :</b><br> {{usage.nombreAppliMax}}
+                    </div>
+                    <div class="col-sm-3">
+                        <b>Stade :</b><br> {{usage.stadeCulturalMin}}- {{usage.stadeCulturalMax}}
+                    </div>
+
                     <div class="col-sm-3">
                         <b>Dar :</b><br> {{usage.dar }}
                     </div>

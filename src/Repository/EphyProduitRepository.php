@@ -221,6 +221,22 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                     } else {
                         $dose_retenue = null;
                     }
+                    $apportMax = null;
+                    if(isset($usage->{'nombre-apport-max'})){
+                        $apportMax = $usage->{'nombre-apport-max'};
+                    }
+
+                    $stadeMin = null;
+                    if(isset($usage->{'stade-cultural-min'})){
+                        $stadeMin = $usage->{'stade-cultural-min'};
+                    }
+
+                    $stadeMax = null;
+                    if(isset($usage->{'stade-cultural-max'})){
+                        $stadeMax = $usage->{'stade-cultural-max'};
+                    }
+
+
 
                     $u = new EphyUsage();
                     $u->id = intval($usage->{'id'});
@@ -230,6 +246,9 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                     $u->etatUsage = $etat_usage;
                     $u->dar = $dar;
                     $u->doseRetenuUnity = $dose_retenue_unity;
+                    $u->nombreAppliMax = $apportMax;
+                    $u->stadeCulturalMin = $stadeMin;
+                    $u->stadeCulturalMax = $stadeMax;
                     $u->conditionEmploi = $usage->{'condition-emploi'};;
                     $em->persist($u);
                     //print($identifiant_usage);
