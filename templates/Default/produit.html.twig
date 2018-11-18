@@ -2,9 +2,8 @@
 
 {% block body_form %}
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Campagne
     </div>
     <table class="table">
@@ -25,9 +24,8 @@
     </table>
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Interventions
     </div>
     <table class="table">
@@ -60,9 +58,8 @@
     </table>
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Achats
     </div>
     <table class="table">
@@ -87,9 +84,8 @@
 
 {% if produit.ephyProduit %}
 
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading"><th>{{produit.ephyProduit.completeName}}</th></div>
+    <div class="card">
+        <div class="card-header"><th>{{produit.ephyProduit.completeName}}</th></div>
         <table class="table">
             <tr>
                 <th>Amm</th>
@@ -115,9 +111,8 @@
         </table>
     </div>
 
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Substances</div>
+    <div class="card">
+        <div class="card-header">Substances</div>
         <table class="table">
             <tr>
                 <th>Name</th>
@@ -134,9 +129,8 @@
         </table>
     </div>
 
-    <div class="panel panel-default", style="width:100%">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Phrases risque</div>
+    <div class="card">
+        <div class="card-header">Phrases risque</div>
         <table class="table">
             <tr>
                 <th>Name</th>

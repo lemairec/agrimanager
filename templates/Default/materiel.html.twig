@@ -3,9 +3,8 @@
 {% block body_form %}
 
 {% if (materiel.id != '') %}
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Entretiens
         <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/{{materiel.id}}/entretien/0'">{{'Add' | trans }}</button>
     </div>
@@ -26,9 +25,8 @@
 
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Interventions
         <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/{{materiel.id}}/entretien/0'">{{'Add' | trans }}</button>
     </div>

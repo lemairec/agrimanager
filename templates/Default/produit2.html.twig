@@ -60,8 +60,8 @@
 
                 </div>
 
-                <div class="panel panel-default" v-if="produit.type=='engrais'">
-                    <div class="panel-heading">
+                <div class="card" v-if="produit.type=='engrais'">
+                    <div class="card-header">
                         Engrais
                     </div>
                     <table class="table">
@@ -94,9 +94,8 @@
     </div>
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Prix/Qty
     </div>
     <div class="card-body">
@@ -140,9 +139,8 @@
     </table>
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Achats
     </div>
     <table class="table">
@@ -165,9 +163,8 @@
     </table>
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Interventions
     </div>
     <table class="table">
@@ -212,9 +209,8 @@
 </div>
 
 {% if ephyProduit %}
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             Produit Ephy
         </div>
         <div style="padding:15px">

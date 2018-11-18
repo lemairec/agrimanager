@@ -3,15 +3,15 @@
 {% block body %}
 
 
-<div class="panel panel-default", style="width:100%">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Interventions
         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("intervention", {'intervention_id': 0}) }}'">ADD</button>
     </div>
 </div>
 
 {% for intervention in interventions %}
-<div class="panel panel-default", style="width:100%">
+<div class="card">
     <table class="table">
     <tr bgcolor='{{ intervention.getColor() }}', style="filter:brightness(0.95)">
         <td style="width:20%"><a href="{{ url("intervention", {'intervention_id': intervention.id}) }}">{{intervention.get_date()}}</td>

@@ -31,9 +31,8 @@
     {{ form_end(form) }}
 </div>
 
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Parcelles
         <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/parcelle/0'">{{'Add' | trans}}</button>
     </div>
@@ -57,9 +56,8 @@
         </tr>
     </table>
 </div>
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Produits
         <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/produit/0'">{{'Add' | trans}}</button>
     </div>
@@ -80,9 +78,8 @@
         {% endfor %}
     </table>
 </div>
-<div class="panel panel-default", style="width:100%">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Materiel
         <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/materiel/0'">{{'Add' | trans}}</button>
     </div>
