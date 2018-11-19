@@ -22,7 +22,7 @@
             </b>
         </td>
         <td class="text-right" style="width:20%"><b>{{ intervention.surface | showHa }}</b></td>
-        <td class="text-right" style="width:20%"><span class="oi oi-delete" style="color:red" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')"></span>
+        <td class="text-right" style="width:20%"><button class="btn btn-danger btn-sm" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')"><span class="oi oi-delete"></span></button>
     </tr>
 
     {% for it in intervention.parcelles %}

@@ -19,7 +19,8 @@ class EphyController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         return $this->render('Default/ephy_produits.html.twig', array(
-            'all' => ($all==1)
+            'all' => ($all==1),
+            'navs' => ["Produits Ephy" => "ephy_produits"]
         ));
     }
 
@@ -46,7 +47,8 @@ class EphyController extends Controller
         $usages = $em->getRepository('App:EphyUsage')->findByEphyProduit($produit);
 
         return $this->render('Default/ephy_produit.html.twig', array(
-            'ephyProduit' => $produit
+            'ephyProduit' => $produit,
+            'navs' => ["Produits Ephy" => "ephy_produits"]
         ));
     }
 
@@ -62,7 +64,8 @@ class EphyController extends Controller
 
         return $this->render('Default/ephy_substance.html.twig', array(
             'ephy_substance' => $ephy_substance,
-            'ephy_substanceproduits' => $ephy_substanceproduits
+            'ephy_substanceproduits' => $ephy_substanceproduits,
+            'navs' => ["Produits Ephy" => "ephy_produits"]
         ));
     }
 }

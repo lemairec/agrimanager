@@ -30,6 +30,7 @@ class ProduitController extends CommonController
 
         return $this->render('Default/produits.html.twig', array(
             'produits' => $produits,
+            'navs' => ["Produits" => "produits"]
         ));
     }
 
@@ -105,7 +106,8 @@ class ProduitController extends CommonController
             'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
-            'ephy_produits' => $em->getRepository('App:EphyProduit')->getAllActiveWithCommercialesNames()
+            'ephy_produits' => $em->getRepository('App:EphyProduit')->getAllActiveWithCommercialesNames(),
+            'navs' => ["Produits" => "produits"]
         ));
     }
 
@@ -135,7 +137,8 @@ class ProduitController extends CommonController
 
         return $this->render('Default/produits.html.twig', array(
             'produits' => $produits,
-            'totalPrice' => $sum
+            'totalPrice' => $sum,
+            'navs' => ["Produits" => "produits", "Stocks" => "stocks"]
         ));
     }
 

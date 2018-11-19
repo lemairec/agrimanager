@@ -29,6 +29,7 @@ class InterventionController extends CommonController
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'interventions' => $interventions,
+            'navs' => ["Interventions" => "interventions"]
         ));
     }
 
@@ -89,7 +90,8 @@ class InterventionController extends CommonController
             'comment' => $comment,
             'produits' => $produits,
             'produitsIntervention' => $produitsIntervention,
-            'parcelles' => $parcelles
+            'parcelles' => $parcelles,
+            'navs' => ["Interventions" => "interventions"]
         ));
     }
 

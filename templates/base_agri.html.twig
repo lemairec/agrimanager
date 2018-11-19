@@ -14,47 +14,60 @@
 
     </head>
     <body>
+
         {% include 'navbar.html.twig' %}
-        <main role="main" class="container">
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  and (campagnes is defined or app.user.username == "lejard") %}
 
-                <div class="card mb-3">
-                        <div class="card-header">
-                            <div class="row">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
-                                {% if campagnes is defined %}
-                                <div class="col-sm-3">
-                                    Campagne :
-                                </div>
-                                <div class="col-sm-3">
-                                    <select class="selectpicker" id="dynamic_select">
-                                        {%for campagne in campagnes %}
-                                        <option value="{{campagne.id}}" {%if campagne.id == campagne_id %} selected {%endif%}>{{campagne.name}}</option>
-                                        {%endfor%}
-                                    </select>
-                                </div>
-                                {% else %}
-                                <div class="col-sm-6">
-                                </div>
-                                {% endif %}
-                                <div class="col-sm-3">
-                                </div>
-                                {% if app.user.username == "lejard" %}
-                                    <div class="col-sm-3">
-                                        {% if app.user.show_unity %}
-                                            <a href="?show_unity=false">{{'NotShowUnity' | trans }}</a>
-                                        {% else %}
-                                            <a href="?show_unity=true">{{'ShowUnity' | trans }}</a>
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-
-
+            <div class="my_nav">
+                <div class="container">
+                    <div class="float-left">
+                        <ol class="breadcrumb" style="margin-bottom: 0; padding: .5rem">
+                            <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a></li>
+                            {% if navs is defined %}
+                                {%for key,value in navs %}
+                                    <li class="breadcrumb-item"><a href="{{url(value)}}">{{key}}</a></li>
+                                {%endfor%}
+                            {% endif %}
+                        </ol>
+                    </div>
+                    <div class="float-right">
+                        {% if campagnes is defined %}
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Campagne
+                                {%for campagne in campagnes %}
+                                    {%if campagne.id == campagne_id %}{{campagne.name}}{%endif%}
+                                {%endfor%}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {%for campagne in campagnes %}
+                                    <a class="dropdown-item" href="?campagne_id={{campagne.id}}">{{campagne.name}}</a>
+                                {%endfor%}
                             </div>
                         </div>
+                        {% endif %}
+                    </div>
+                    {% if app.user.username == "lejard" %}
+                        <div class="float-right" style="margin-right:15px">
+                            {% if app.user.show_unity %}
+                                <button type="button" class="btn btn-light" onclick="window.location.href='?show_unity=false'">{{'NotShowUnity' | trans }}</button>
+                            {% else %}
+                                <button type="button" class="btn btn-light" onclick="window.location.href='?show_unity=true'">{{'ShowUnity' | trans }}</button>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                    {% endif %}
+
+
                     </div>
                 </div>
-            {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <main role="main" class="container">
+
 
             {% block body %}{% endblock %}
             {% block fos_user_content %}{% endblock %}
@@ -62,26 +75,6 @@
         </main>
 
     </body>
-    <script>
-$(function(){
-    // bind change event to select
-    $('#dynamic_select').on('change', function () {
-        var val = $(this).val(); // get selected value
-        if (val) { // require a URL
-            var url = window.location.href;
-            if(location.search){
-                url = url.replace(location.search,"?campagne_id="+val);
-            } else {
-                url = url + "?campagne_id="+val;
-            }
-            console.log(url);
-
-            window.location = url; // redirect
-        }
-        return false;
-    });
-});
-    </script>
     {% block scripts %}{% endblock %}
     <script>
 $(document).ready(function() {

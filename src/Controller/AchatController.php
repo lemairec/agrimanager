@@ -57,6 +57,7 @@ class AchatController extends CommonController
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'achats' => $achats,
+            'navs' => ["Produits" => "produits", "Achats" => "achats"]
         ));
     }
 
@@ -89,6 +90,7 @@ class AchatController extends CommonController
             'produits' => $produits,
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
+            'navs' => ["Produits" => "produits", "Achats" => "achats"]
         ));
     }
 

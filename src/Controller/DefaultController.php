@@ -87,6 +87,7 @@ class DefaultController extends CommonController
         return $this->render('Default/ilots.html.twig', array(
             'ilots' => $ilots,
             'sum_ilots' => $sum_ilots,
+            'navs' => ["Ilots" => "ilots"]
         ));
     }
 
@@ -116,7 +117,8 @@ class DefaultController extends CommonController
         }
         return $this->render('Default/ilot.html.twig', array(
             'form' => $form->createView(),
-            'parcelles' => $parcelles
+            'parcelles' => $parcelles,
+            'navs' => ["Ilots" => "ilots"]
         ));
     }
 
@@ -132,6 +134,7 @@ class DefaultController extends CommonController
         $campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
         return $this->render('Default/campagnes.html.twig', array(
             'campagnes2' => $campagnes,
+            'navs' => ["Campagnes" => "campagnes"]
         ));
     }
 
@@ -159,6 +162,7 @@ class DefaultController extends CommonController
         }
         return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
+            'navs' => ["Campagnes" => "campagnes"]
         ));
     }
 
@@ -173,6 +177,7 @@ class DefaultController extends CommonController
         $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
         return $this->render('Default/cultures.html.twig', array(
             'cultures' => $cultures,
+            'navs' => ["Cultures" => "cultures"]
         ));
     }
 
@@ -200,6 +205,7 @@ class DefaultController extends CommonController
         }
         return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
+            'navs' => ["Cultures" => "cultures"]
         ));
     }
 
@@ -252,7 +258,8 @@ class DefaultController extends CommonController
             'campagne_id' => $campagne->id,
             'parcelles' => $parcelles,
             'cultures' => $cultures,
-            'total' => $total
+            'total' => $total,
+            'navs' => ["Parcelles" => "parcelles"]
         ));
     }
 
@@ -297,7 +304,8 @@ class DefaultController extends CommonController
         return $this->render('Default/parcelle.html.twig', array(
             'form' => $form->createView(),
             'interventions' => $interventions,
-            'priceHa' => $priceHa
+            'priceHa' => $priceHa,
+            'navs' => ["Parcelles" => "parcelles"]
         ));
     }
 
@@ -428,6 +436,7 @@ class DefaultController extends CommonController
 
         return $this->render('Default/materiels.html.twig', array(
             'materiels' => $materiels,
+            'navs' => ["Materiels" => "materiels"]
         ));
     }
 
@@ -462,6 +471,7 @@ class DefaultController extends CommonController
             'materiel' => $materiel,
             'entretiens' => $entretiens,
             'interventions' => $interventions,
+            'navs' => ["Materiels" => "materiels"]
         ));
     }
 
