@@ -22,7 +22,7 @@
             </b>
         </td>
         <td class="text-right" style="width:20%"><b>{{ intervention.surface | showHa }}</b></td>
-        <td class="text-right" style="width:20%"><a href="/intervention/{{intervention.id}}/delete">Delete</td>
+        <td class="text-right" style="width:20%"><span class="oi oi-delete" style="color:red" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')"></span>
     </tr>
 
     {% for it in intervention.parcelles %}
@@ -51,6 +51,42 @@
     {% endif %}
     </table>
 </div>
+
 {% endfor %}
 
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Êtes-vous sûr de vouloir supprimer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div id="modalDeleteDescription"></div>
+          <p>Attention, cette action est irréversible!</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button id="modalDeleteButton" type="button" class="btn btn-danger" >Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function myFunction(description, url) {
+    $('#modalDeleteDescription').html("L'intervention du "+description);
+    $('#modalDelete').modal();
+    document.getElementById("modalDeleteButton").onclick = function(){ window.location.href=url;};
+}
+</script>
+
 {% endblock %}
+
+
+{% block script %}
+{% endblock script %}
