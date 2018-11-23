@@ -11,43 +11,61 @@
 </div>
 
 {% for intervention in interventions %}
-<div class="card">
-    <table class="table">
-    <tr bgcolor='{{ intervention.getColor() }}', style="filter:brightness(0.95)">
-        <td style="width:20%"><a href="{{ url("intervention", {'intervention_id': intervention.id}) }}">{{intervention.get_date()}}</td>
-        <td><b>{{intervention.type}}
-            {% if intervention.name %}
-                - {{ intervention.name }}
-            {% endif %}
+<div class="card" style="background-color: {{ intervention.getColor() }};">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-3">
+                <a href="{{ url("intervention", {'intervention_id': intervention.id}) }}"><b>{{intervention.get_date()}}</b></a>
+            </div>
+            <div class="col-sm-6">
+                <b>{{intervention.type}}
+                {% if intervention.name %}
+                    - {{ intervention.name }}
+                {% endif %}
             </b>
-        </td>
-        <td class="text-right" style="width:20%"><b>{{ intervention.surface | showHa }}</b></td>
-        <td class="text-right" style="width:20%"><button class="btn btn-danger btn-sm" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')"><span class="oi oi-delete"></span></button>
-    </tr>
+            </div>
+            <div class="col-sm-3">
+                <b>{{ intervention.surface | showHa }}</b>
+                <button class="btn btn-danger btn-sm float-right" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')"><span class="oi oi-delete"></span></button>
+            </div>
+        </div>
+    </div>
 
-    {% for it in intervention.parcelles %}
-    <tr  bgcolor='{{ it.parcelle.cultureColor}}'>
-        <td>{{it.parcelle.culture}}</td>
-        <td>{{it.parcelle.completeName}}</td>
-        <td class="text-right">{{ it.parcelle.surface | showHa }}</td>
-        <td></td>
-    </tr>
-    {% endfor %}
-    {% for it in intervention.produits %}
-    <tr bgcolor='{{ intervention.getColor() }}' style="filter:brightness(1.05)">
-        <td></td>
-        <td>{{it.name}}</td>
-        <td class="text-right">{{ it.qty | showUnity(it.produit.unity)}}</td>
-        <td class="text-right">{{ it.qtyha | showUnity(it.produit.unity)}}</td>
-    </tr>
-    {% endfor %}
+    <div class="card-body">
+        {% for it in intervention.parcelles %}
+            <div class="row" style="background-color: {{ it.parcelle.cultureColor}}">
+                <div class="col-sm-8">
+                    {{it.parcelle.completeName}}
+                </div>
+                <div class="col-sm-3 text-right">
+                    {{ it.parcelle.surface | showHa }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if (intervention.produits | length) > 0 %}
+    <div class="card-body">
+        {% for it in intervention.produits %}
+            <div class="row">
+                <div class="col-sm-5">
+                    <i>{{it.name}}</i>
+                </div>
+                <div class="col-sm-3 text-right">
+                    {{ it.qty | showUnity(it.produit.unity)}}
+                </div>
+                <div class="col-sm-3 text-right">
+                    {{ it.qtyha | showUnityHa(it.produit.unity)}}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     {% if intervention.comment %}
-    <tr bgcolor='{{ intervention.getColor() }}' style="filter:brightness(1.05)">
-
-        <td colspan="4">
+    <div class="card-body">
             {{ intervention.comment }}
-        </td>
-    </tr>
+    </div>
     {% endif %}
     </table>
 </div>
