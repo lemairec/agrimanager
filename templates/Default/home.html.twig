@@ -22,28 +22,49 @@
                 </div>
             </div>
             <div class="col-xl-8">
-                <div class="card">
+                <div class="card" id="meteo">
                     <div id="meteo_title" class="card-header">
-                        Météo
+                        Météo ${city}
                     </div>
-                    <table id="example" class="table">
-                        <thead>
-                            <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Temp</th>
-                            <th>Pluie</th>
-                            <th>Hum</th>
-                            <th>Vent</th>
-                            <th class="d-none d-lg-table-cell"></th>
-                            <th></th>
-                            <th class="d-none d-lg-table-cell">Atm</th>
-                            </tr>
-                        </thead>
+                    <div class="list-group">
+                        <a v-for="d in meteo" class="list-group-item">
+                            <h4 v-if="d.date">
+                                ${d.date}
+                            </h4>
 
-                        <tbody>
-                        </tbody>
-                    </table>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-9  float-left">
+                                            <div class="float-left">${d.h}h - ${d.description}</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="badge badge-pill float-right"  v-bind:style="{ backgroundColor: d.temp_color}">
+                                                ${d.temp} °C
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <small class="float-left">${d.rain}</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <small><span class="badge float-left" v-bind:style="{ backgroundColor: d.wind_color}">
+                                                Vent : ${d.wind_speed} km/h
+                                            </span></small>
+                                        </div>
+                                        <div class="col-4">
+                                            <small><span class="badge float-right" v-bind:style="{ backgroundColor: d.humidity_color}">Hum : ${d.humidity}</span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
                 </div>
             </div>
     </div>
@@ -51,161 +72,159 @@
 {% endblock body %}
 
 {% block javascripts %}
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>jQuery UI Autocomplete - Default functionality</title>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link href='/lib/select2/css/select2.min.css' rel='stylesheet' />
+<script src='/lib/select2/js/select2.min.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 $( function() {
-    t = $('#example').DataTable({
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
-        "searching":   false,
-        columns: [
-            {},
-            {},
-            {render: function (data, type, row) {
-                    return data + ' °C';
-                }},
-            {},
-            {},
-            { render: function (data, type, row) {
-                    return data + ' km/h';
-                }},
-            {},
-            {},
-            {}
-        ],
-        'rowCallback': function(row, data, index){
+            /*
 
 
-            if(data[2]> 25){
-                $(row).find('td:eq(2)').css('background', '#FF3333');
-            } else if(data[2]> 20){
-                $(row).find('td:eq(2)').css('background', '#FF6600');
-            } else if(data[2]> 15){
-                $(row).find('td:eq(2)').css('background', '#FF9900');
-            } else if(data[2]> 10){
-                $(row).find('td:eq(2)').css('background', '#FFFF09');
-            } else if(data[2]> 5){
-                $(row).find('td:eq(2)').css('background', '#FFFF84');
-            }
-
-            if(data[4]> "30 %"){
-                $(row).find('td:eq(4)').css('background', '#fff');
-            }
-            if(data[4]> "40 %"){
-                $(row).find('td:eq(4)').css('background', '#f8f8f8');
-            }
-            if(data[4]> "50 %"){
-                $(row).find('td:eq(4)').css('background', '#eee');
-            }
-            if(data[4]> "60 %"){
-                $(row).find('td:eq(4)').css('background', '#e8e8e8');
-            }
-            if(data[4]> "70 %"){
-                $(row).find('td:eq(4)').css('background', '#ddd');
-            }
-            if(data[4]> "80 %"){
-                $(row).find('td:eq(4)').css('background', '#d8d8d8');
-            }
-            if(data[4]> "90 %"){
-                $(row).find('td:eq(4)').css('background', '#c8c8c8');
-            }
 
             $(row).find('td:eq(5)').css('background', '#33CCFF');
             if(data[6]> 15){
                 $(row).find('td:eq(5)').css('background', '#0099FF');
             }
             $(row).find('td:eq(6)').addClass('d-none d-lg-table-cell');
-            $(row).find('td:eq(8)').addClass('d-none d-lg-table-cell');
-        }
-    });
-    t_euronext = $('#euronext').DataTable({
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
-        "searching":   false,
-        'rowCallback': function(row, data, index){
-
-
-            if(data[3][0] == '+'){
-                $(row).find('td:eq(3)').css('background', '#15873c');
-            } else{
-                $(row).find('td:eq(3)').css('background', '#e52c2c');
-            }
-        }
-    });
-    {% if(company.meteoCity) %}
-    var url = "https://api.openweathermap.org/data/2.5/forecast?q={{company.meteoCity}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
-    {% elseif(company.city) %}
-    var url = "https://api.openweathermap.org/data/2.5/forecast?q={{company.city}},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
-    {% else %}
-    var url = "https://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d";
-    {% endif %}
-    $.getJSON(url, function( data ) {
-        oldd = 0;
-        for(i in data.list){
-            o = data.list[i];
-            console.log(o);
-            rain = null;
             if(o.rain && o.rain['3h']){
                 rain = o.rain['3h'].toFixed(1) +" mm";
             }
-            var date = new Date(o.dt*1000);
-            d = date.getDate();
-            d2 = date.getDay();
-            h = date.getHours();
-            if(d2 == 0){
-                d = 'Di ' + d;
-            } else if (d2 == 1){
-                d = 'Lu ' + d
-            } else if (d2 == 2){
-                d = 'Ma ' + d
-            } else if (d2 == 3){
-                d = 'Me ' + d
-            } else if (d2 == 4){
-                d = 'Je ' + d
-            } else if (d2 == 5){
-                d = 'Ve ' + d
-            } else if (d2 == 6){
-                d = 'Sa ' + d
-            }
-            h = h + 'h'
             if(oldd == d){
                 d = "";
             } else {
                 oldd = d;
             }
-            row = t.row.add([d, h, o.main.temp, rain, o.main.humidity+" %", Math.round(o.wind.speed*3.6), Math.round(o.wind.deg), o.weather[0].description, Math.round(o.main.pressure)]).draw( false );
-        }
-        $('#meteo_title').text("Météo " + data.city.name);
+            $(row).find('td:eq(8)').addClass('d-none d-lg-table-cell');*/
+    var vue = new Vue({
+        el: '#meteo',
+        delimiters: ['${', '}'],
+        data: {
+            meteo : [],
+            city : ""
+        },
+        mounted () {
+            var find = false;
+            axios
+                .get('https://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d')
+                .then(response => {
+                    console.log(response.data);
+                    this.city = response.data.city.name;
+                    this.meteo = [];
+                    oldd = "";
+                    console.log("tata");
+                    for (i in response.data.list){
+                        console.log(i);
+                        o = response.data.list[i];
+                        console.log(o);
+                        rain = null;
+                        if(o.rain && o.rain['3h']){
+                            rain = o.rain['3h'].toFixed(1);
+                            if(rain > 0){
+                                rain = rain + " mm"
+                            } else {
+                                rain = null;
+                            }
+                        }
+                        var date = new Date(o.dt*1000);
+                        d = date.getDate();
+                        d2 = date.getDay();
+                        h = date.getHours();
+                        if(d2 == 0){
+                            d = 'Dimanche ' + d;
+                        } else if (d2 == 1){
+                            d = 'Lundi ' + d
+                        } else if (d2 == 2){
+                            d = 'Mardi ' + d
+                        } else if (d2 == 3){
+                            d = 'Mercredi ' + d
+                        } else if (d2 == 4){
+                            d = 'Jeudi ' + d
+                        } else if (d2 == 5){
+                            d = 'Vendredi ' + d
+                        } else if (d2 == 6){
+                            d = 'Samedi ' + d
+                        }
+
+                        temp = o.main.temp;
+                        if(temp > 25){
+                            temp_color = '#FF3333';
+                        } else if(temp > 20){
+                            temp_color = '#FF6600';
+                        } else if(temp > 15){
+                            temp_color = '#FF9900';
+                        } else if(temp > 10){
+                            temp_color = '#FFFF09';
+                        } else if(temp > 5){
+                            temp_color = '#FFFF84';
+                        } else if(temp > 0){
+                            temp_color = '#66FFFF';
+                        } else if(temp > -5){
+                            temp_color = '#03CCFF';
+                        } else {
+                            temp_color = '#0099FF';
+                        }
+
+                        humidity = o.main.humidity;
+                        humidity_color = "#fff";
+                        if(humidity> 40){
+                            humidity_color = '#f8f8f8';
+                        }
+                        if(humidity> 50){
+                            humidity_color = '#eee';
+                        }
+                        if(humidity> 60){
+                            humidity_color = '#e8e8e8';
+                        }
+                        if(humidity> 70){
+                            humidity_color = '#ddd';
+                        }
+                        if(humidity> 80){
+                            humidity_color = '#d8d8d8';
+                        }
+                        if(humidity> 90){
+                            humidity_color = '#c8c8c8';
+                        }
+
+                        wind_speed = Math.round(o.wind.speed*3.6);
+                        wind_color = '#33CCFF';
+                        if(wind_speed > 15){
+                            wind_color =  '#0099FF';
+                        }
+
+                        if(oldd == d){
+                            d = "";
+                        } else {
+                            oldd = d;
+                        }
+                        console.log(d);
+
+
+                        o = {
+                            date : d,
+                            h : h,
+                            temp : Math.round(o.main.temp),
+                            temp_color : temp_color,
+                            humidity : o.main.humidity+" %",
+                            humidity_color: humidity_color,
+                            rain: rain,
+                            wind_speed :  wind_speed,
+                            wind_color : wind_color,
+                            wind_deg : Math.round(o.wind.deg),
+                            description : o.weather[0].description,
+                            pressure: Math.round(o.main.pressure)
+                        };
+                        this.meteo.push(o);
+
+                    }
+                    //this.meteo = response.data;
+                    console.log("toto");
+                    console.log(this.meteo);
+                }
+            )
+        },
+
     });
-    $.getJSON("http://ade.agrinext.fr/pages/white/sitefr/quotesAjax.aspx?LANG=fr",function( data ) {
-        console.log(data);
-        var last_code = "";
-        for(i in data.data){
-            o = data.data[i];
-            if(o.code == 'EBM'){
-
-            } else if(o.code == 'EMA'){
-
-            } else if(o.code == 'ECO'){
-
-            } else {
-                continue;
-            }
-            if(last_code == o.code){
-                continue;
-            } else {
-                last_code = o.code;
-            }
-            console.log(o);
-            row = t_euronext.row.add([o.code, o.expiry, o.value, o.vari]).draw( false );
-        }
-    });
-} );
+});
 </script>
 {% endblock %}
