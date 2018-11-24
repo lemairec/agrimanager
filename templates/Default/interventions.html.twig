@@ -48,14 +48,18 @@
     <div class="card-body">
         {% for it in intervention.produits %}
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                     <i>{{it.name}}</i>
                 </div>
-                <div class="col-sm-3 text-right">
-                    {{ it.qty | showUnity(it.produit.unity)}}
-                </div>
-                <div class="col-sm-3 text-right">
-                    {{ it.qtyha | showUnityHa(it.produit.unity)}}
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            {{ it.qty | showUnity(it.produit.unity)}}
+                        </div>
+                        <div class="col-6 text-right">
+                            {{ it.qtyha | showUnityHa(it.produit.unity)}}
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
