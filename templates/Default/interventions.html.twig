@@ -14,19 +14,31 @@
 <div class="card" style="background-color: {{ intervention.getColor() }};">
     <div class="card-header">
         <div class="row">
-            <div class="col-sm-3">
-                <a href="{{ url("intervention", {'intervention_id': intervention.id}) }}"><b>{{intervention.get_date()}}</b></a>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-5">
+                        <a href="{{ url("intervention", {'intervention_id': intervention.id}) }}"><b>{{intervention.get_date()}}</b></a>
+                    </div>
+                    <div class="col-7">
+                        <b>{{intervention.type}}
+                            {% if intervention.name %}
+                                - {{ intervention.name }}
+                            {% endif %}
+                        </b>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-6">
-                <b>{{intervention.type}}
-                {% if intervention.name %}
-                    - {{ intervention.name }}
-                {% endif %}
-            </b>
-            </div>
-            <div class="col-sm-3">
-                <b>{{ intervention.surface | showHa }}</b>
-                <button class="btn btn-danger btn-sm float-right" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')"><span class="oi oi-delete"></span></button>
+                <div class="row">
+                    <div class="col-6">
+                        <b class="float-right">{{ intervention.surface | showHa }}</b>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-danger btn-sm float-right" onclick="myFunction('{{intervention.get_date()}}','{{ url("intervention_delete", {'intervention_id': intervention.id}) }}')">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
