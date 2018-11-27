@@ -6,11 +6,11 @@
 
 {% block form_row %}
 <div class="form-group row">
-    <div class="col-sm-6">
+    <div class="col-sm-2">
         {{ form_label(form) }}
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-10">
         {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
     </div>
     {{ form_errors(form) }}
@@ -18,14 +18,17 @@
 {% endblock form_row %}
 
 {% block fos_user_content %}
-    <div class="container bs-docs-container">
-        <div class="well">
-            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-                {{ form_widget(form) }}
-                <div>
-                    <input type="submit" value="{{ 'registration.submit'|trans }}" />
-                </div>
-            {{ form_end(form) }}
+<div class="card mt-5">
+    <div class="card-header">
+        Enregistrement
         </div>
+
+    <div class="card-body">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" class="btn btn-primary"  value="{{ 'registration.submit'|trans }}" />
+        {{ form_end(form) }}
     </div>
+</div>
 {% endblock fos_user_content %}

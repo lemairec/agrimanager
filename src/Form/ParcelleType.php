@@ -20,6 +20,7 @@ class ParcelleType extends AbstractType
         $builder->add('ilot', EntityType::class, array(
             'class'        => 'App:Ilot',
             'choices' => $options['ilots'],
+            'required' => false
         ));
         $builder->add('culture', EntityType::class, array(
             'class'        => 'App:Culture',
@@ -30,7 +31,7 @@ class ParcelleType extends AbstractType
         $builder->add('comment', TextareaType::class, array('required' => false));
 
 
-        
+
     }
 
     /**

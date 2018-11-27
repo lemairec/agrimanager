@@ -18,6 +18,9 @@
 
 }
 
+.select2-results__option[aria-selected]{
+    height: 2rem;
+}
 .navbar-expand-lg > .container{
     padding-right: 15px;
     padding-left: 15px;
@@ -72,6 +75,6 @@
 }
 
 body {
-  min-height: 75rem;
+  min-height: 40rem;
   padding-top: 4.5rem;
 }
