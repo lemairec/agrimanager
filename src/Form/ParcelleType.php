@@ -26,7 +26,6 @@ class ParcelleType extends AbstractType
             'class'        => 'App:Culture',
             'choices' => $options['cultures'],
         ));
-        $builder->add('rendement');
         $builder->add('active');
         $builder->add('comment', TextareaType::class, array('required' => false));
 

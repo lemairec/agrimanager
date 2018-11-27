@@ -2,82 +2,115 @@
 
 {% block body %}
 
-    <div class="card">
-        <div class="card-header">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("parcelle", {'parcelle_id': 0}) }}'">{{'Add' | trans }}</button>
+<div class="card">
+    <div class="card-header">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("parcelle", {'parcelle_id': 0}) }}'">{{'Add' | trans }}</button>
 
-            Parcelle
+        Parcelles
+    </div>
+    <div class="list-group">
+        {% for parcelle in parcelles %}
+        <div class="list-group-item flex-column align-items-start" style="background-color:{{ parcelle.cultureColor}};">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                    <a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}
+                    </a>
+                </h5>
+                <span class="badge">{{ parcelle.surface | showHa }}</span>
+            </div>
+
+            <div class="row">
+                {% if parcelle.name %}
+                <div class="col-md-3">
+                    Nom: {{parcelle.name}}
+                </div>
+                {% else %}
+                <div class="offset-md-3">
+                </div>
+                {% endif %}
+
+                {% if parcelle.getIlotName() %}
+                <div class="col-md-3">
+                    Ilot: {{parcelle.getIlotName()}}
+                </div>
+                {% else %}
+                <div class="offset-md-3">
+                </div>
+                {% endif %}
+                {% if parcelle.active %}
+
+                {% else %}
+                <div class="col-md-3">
+                    Déactivée
+                </div>
+                {% endif %}
+
+            </div>
+
         </div>
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>{{'Active' | trans }}</th>
-                <th>{{'Name' | trans }}</th>
-                <th>Ilot</th>
-                <th>Culture</th>
-                <th class="text-right">Surface</th>
-                <th class="text-right">Rendement</th>
-                <th></th>
-            </tr>
-            {% for parcelle in parcelles %}
-            <tr  bgcolor='{{ parcelle.cultureColor}}'>
-                <td><a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}</a></td>
-                <th>{{parcelle.active}}</th>
-                <td>{{parcelle.name}}</td>
-                <td>{{parcelle.getIlotName()}}</td>
-                <td>{{parcelle.getCultureName()}}</td>
-                <td class="text-right">{{ parcelle.surface | showHa }}</td>
-                <td class="text-right">{{ parcelle.rendement | showUnity('t')}}</td>
-                <td><a href="/parcelle/{{parcelle.id}}/delete">d</td>
-            </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
     </div>
+</div>
 
-    {% if ilots | length > 0 %}
-    <div class="card">
-        <div class="card-header">
-            Ilots Restant
+{% if ilots | length > 0 %}
+<div class="card">
+    <div class="card-header">
+        Ilots Restant
+    </div>
+    <div class="list-group">
+        {% for ilot in ilots %}
+        <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">
+                    {{ilot["name"]}}
+
+                </h6>
+                <a href="{{ url("parcelle", {'parcelle_id': 0}) }}?surface={{ (ilot["surface_restante"])}}&ilot_id={{ (ilot["id"])}}">Ajouter</a>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Surface Ilot: {{ ilot["surface_totale"] | showHa }}
+                </div>
+                <div class="col-md-4">
+                    Surface restante: {{ (ilot["surface_restante"]) | showHa }}
+                </div>
+            </div>
         </div>
-        <table class="table">
-            <tr>
-                <th>{{'Name' | trans }}</th>
-                <th class="text-right">Surface Ilot</th>
-                <th class="text-right">Surface restante</th>
-                <th class="text-right"></th>
-            </tr>
-            {% for ilot in ilots %}
-                <tr>
-                    <td>{{ilot["name"]}}</a></td>
-                    <td class="text-right">{{ ilot["surface_totale"] | showHa  }}</td>
-                    <td class="text-right">{{ (ilot["surface_restante"]) | showHa  }}</td>
-                    <td class="text-right"><a href="{{ url("parcelle", {'parcelle_id': 0}) }}?surface={{ (ilot["surface_restante"])}}&ilot_id={{ (ilot["id"])}}">Ajouter</td>
-                </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
     </div>
-    {% endif %}
+</div>
+{% endif %}
 
 
-    <div class="card">
-        <table class="table">
-            <tr>
-                <th>Culture</th>
-                <th class="text-right">Surface</th>
-            </tr>
-            {% for key, culture in cultures %}
-                <tr>
-                    <td>{{key}}</td>
-                    <td class="text-right">{{ culture | showHa }}</td>
-                    <td class="text-right">{{ (culture/total) | showPercent}}</td>
-                </tr>
-            {% endfor %}
-            <tr>
-                <th>TOTAL</th>
-                <th class="text-right">{{ total | showHa }}</th>
-                <th></th>
-            </tr>
-        </table>
+<div class="card">
+    <div class="card-header">
+        Cultures
+        <span class="badge float-right">{{ (total) | showHa }}</span>
     </div>
+    <div class="list-group">
+        {% for key, culture in cultures %}
+        <div class="list-group-item flex-column align-items-start">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="mb-1">
+                        {{key}}
+                    </h6>
+                </div>
+                <div class="col-md-4">
+                    <span class="badge float-right">{{ culture | showHa }}</span>
+                </div>
+                <div class="col-md-4">
+                    <span class="badge float-right">{{ (culture/total) | showPercent }}</span>
+                </div>
+            </div>
+
+            <div class="d-flex w-100 justify-content-between">
+
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}
