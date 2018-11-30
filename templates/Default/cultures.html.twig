@@ -7,16 +7,18 @@
         Cultures
         <button type="button" class="btn btn-primary" onclick="window.location.href='/culture/0'">{{'Add' | trans }}</button>
     </div>
-    <table class="table">
-        <tr>
-            <th>{{'Name' | trans }}</th>
-        </tr>
+    <div class="list-group">
         {% for culture in cultures %}
-        <tr bgcolor='{{ culture.color}}'>
-            <td><a href="/culture/{{culture.id}}">{{culture.name}}</a></td>
-        </tr>
+        <div class="list-group-item flex-column align-items-start" style="background-color:{{ culture.color}};">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                    <a href="{{ url("culture", {'culture_id': culture.id}) }}">{{culture.name}}
+                    </a>
+                </h5>
+            </div>
+        </div>
         {% endfor %}
-    </table>
+    </div>
 </div>
 
 {% endblock %}

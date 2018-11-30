@@ -15,8 +15,10 @@ class CultureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
-        $builder->add('color');
-        
+        $builder->add('color', null, array(
+            'attr' => array('class' => 'tinymce'),
+        ));
+
     }
 
     /**

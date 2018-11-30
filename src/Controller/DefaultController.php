@@ -199,11 +199,15 @@ class DefaultController extends CommonController
 
 
         if ($form->isSubmitted()) {
+            $pos = strpos($culture->color, "#");
+            if ($pos === false) {
+                $culture->color = "#".$culture->color;
+            }
             $em->persist($culture);
             $em->flush();
             return $this->redirectToRoute('cultures');
         }
-        return $this->render('base_form.html.twig', array(
+        return $this->render('Default/culture.html.twig', array(
             'form' => $form->createView(),
             'navs' => ["Cultures" => "cultures"]
         ));

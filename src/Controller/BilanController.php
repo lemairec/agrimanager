@@ -168,7 +168,6 @@ class BilanController extends CommonController
 
                 $cultures[$p->getCultureName()]['surface'] += $p->surface;
                 $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
-                $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
             }
 
             $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
@@ -264,7 +263,6 @@ class BilanController extends CommonController
 
             $cultures[$p->getCultureName()]['surface'] += $p->surface;
             $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
-            $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
             ksort($cultures[$p->getCultureName()]['details']);
         }
 

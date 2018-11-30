@@ -78,3 +78,10 @@ body {
   min-height: 40rem;
   padding-top: 4.5rem;
 }
+
+.card-header + .list-group .list-group-item:first-child {
+
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
