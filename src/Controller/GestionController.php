@@ -464,7 +464,7 @@ class GestionController extends CommonController
         $zip->open($zipName,  \ZipArchive::CREATE);
 
         foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
-            if($f->factureFile){
+            if($f->getFactureFile()){
                 $file = $f->factureFile;
                 $str = strtolower($f->name);
                 $str = str_replace(" - ", '_', $str);
