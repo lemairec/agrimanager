@@ -128,8 +128,8 @@
                             <a class="dropdown-item"  href="{{ url('fos_user_security_logout') }}">Deconnexion</a>
                             <a class="dropdown-item"  href="{{ url('fos_user_profile_edit') }}">{{ app.user.username }}</a>
                         {% else %}
-                            <a class="dropdown-item"  href="{{ url('fos_user_security_login') }}">{{ 'base.Login'|trans }} </a>
-                            <a class="dropdown-item"  href="{{ url('fos_user_registration_register') }}">{{ 'base.Register'|trans }} </a>
+                            <a class="dropdown-item"  href="{{ url('fos_user_security_login') }}">{{ 'Login'|trans }} </a>
+                            <a class="dropdown-item"  href="{{ url('fos_user_registration_register') }}">{{ 'Register'|trans }} </a>
                         {% endif %}
 
                     </div>

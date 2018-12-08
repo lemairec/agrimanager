@@ -1,0 +1,40 @@
+{% for parcelle in parcelles %}
+<div class="list-group-item flex-column align-items-start" style="background-color:{{ parcelle.cultureColor}};">
+    <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">
+            <a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}
+            </a>
+        </h5>
+        <span class="badge">{{ parcelle.surface | showHa }}</span>
+    </div>
+
+    <div class="row" style="min-height: 1.5rem;">
+        {% if parcelle.name %}
+        <div class="col-md-3">
+            Nom: {{parcelle.name}}
+        </div>
+        {% else %}
+        <div class="offset-md-3">
+        </div>
+        {% endif %}
+
+        {% if parcelle.getIlotName() %}
+        <div class="col-md-3">
+            Ilot: {{parcelle.getIlotName()}}
+        </div>
+        {% else %}
+        <div class="offset-md-3">
+        </div>
+        {% endif %}
+        {% if parcelle.active %}
+
+        {% else %}
+        <div class="col-md-3">
+            Déactivée
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endfor %}

@@ -1,0 +1,72 @@
+{% for intervention in interventions %}
+<div class="card" style="background-color: {{ intervention.getColor() }};">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-5">
+                        <a href="{{ url("intervention", {'intervention_id': intervention.id}) }}"><b>{{intervention.get_date()}}</b></a>
+                    </div>
+                    <div class="col-7">
+                        <b>{{intervention.type}}
+                            {% if intervention.name %}
+                                - {{ intervention.name }}
+                            {% endif %}
+                        </b>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-6">
+                        <b class="float-right">{{ intervention.surface | showHa }}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        {% for it in intervention.parcelles %}
+            <div class="row" style="background-color: {{ it.parcelle.cultureColor}}">
+                <div class="col-sm-8">
+                    {{it.parcelle.completeName}}
+                </div>
+                <div class="col-sm-3 text-right">
+                    {{ it.parcelle.surface | showHa }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if (intervention.produits | length) > 0 %}
+    <div class="card-body">
+        {% for it in intervention.produits %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <i>{{it.name}}</i>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            {{ it.qty | showUnity(it.produit.unity)}}
+                        </div>
+                        <div class="col-6 text-right">
+                            {{ it.qtyha | showUnityHa(it.produit.unity)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if intervention.comment %}
+    <div class="card-body">
+            {{ intervention.comment }}
+    </div>
+    {% endif %}
+    </table>
+</div>
+
+{% endfor %}

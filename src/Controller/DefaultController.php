@@ -56,9 +56,20 @@ class DefaultController extends CommonController
      */
     public function indexAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return  $this->render('home.html.twig');
+        }
         $this->check_user($request);
-        return $this->render('Default/home.html.twig', array(
-            'company' => $this->company
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        $interventions = $em->getRepository('App:Intervention')->getLast5ForCampagne($campagne);
+        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+
+        return $this->render('Default/home_connected.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'interventions' => $interventions,
+            'parcelles' => $parcelles
         ));
     }
 

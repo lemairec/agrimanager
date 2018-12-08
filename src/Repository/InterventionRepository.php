@@ -47,6 +47,17 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    function getLast5ForCampagne($campagne){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->setParameter('campagne', $campagne)
+            ->orderBy('p.date', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     function updateSurface($intervention_id){
         $intervention = $this->findOneById($intervention_id);
         $intervention->surface = 0;

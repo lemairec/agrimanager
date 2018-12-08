@@ -1,6 +1,32 @@
 {% extends 'base_agri.html.twig' %}
 
 {% block body %}
+<div class="row">
+
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <a href="{{url("interventions")}}">Interventions</a> (5 dernières)
+            </div>
+            <div class="card-body">
+            {% include 'Components/interventions.html.twig' %}
+            <br>...
+            <br><a href="{{url("interventions")}}">toutes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <a href="{{url("parcelles")}}">Parcelles</a>
+            </div>
+            <div class="card-body">
+            {% include 'Components/parcelles.html.twig' %}
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <div class="row">
 
@@ -78,24 +104,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 $( function() {
-            /*
-
-
-
-            $(row).find('td:eq(5)').css('background', '#33CCFF');
-            if(data[6]> 15){
-                $(row).find('td:eq(5)').css('background', '#0099FF');
-            }
-            $(row).find('td:eq(6)').addClass('d-none d-lg-table-cell');
-            if(o.rain && o.rain['3h']){
-                rain = o.rain['3h'].toFixed(1) +" mm";
-            }
-            if(oldd == d){
-                d = "";
-            } else {
-                oldd = d;
-            }
-            $(row).find('td:eq(8)').addClass('d-none d-lg-table-cell');*/
     var vue = new Vue({
         el: '#meteo',
         delimiters: ['${', '}'],
@@ -105,8 +113,9 @@ $( function() {
         },
         mounted () {
             var find = false;
+            url = 'https://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d';
             axios
-                .get('https://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d')
+                .get(url)
                 .then(response => {
                     console.log(response.data);
                     this.city = response.data.city.name;
