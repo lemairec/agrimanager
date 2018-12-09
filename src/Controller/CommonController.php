@@ -4,8 +4,48 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use App\Entity\Log;
+use DateTime;
+
 class CommonController extends Controller
 {
+    public function mylog($string){
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+        $this->company = $em->getRepository('App:Company')->findOrCreate($user);
+
+        $log = new Log();
+        $log->date = new DateTime();
+
+        $log->user = $user;
+        $log->company = $this->company;
+
+        $log->description = $string;
+
+        $em->persist($log);
+        $em->flush();
+    }
+
+    public function mylog2($string, $detail){
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+        $this->company = $em->getRepository('App:Company')->findOrCreate($user);
+
+        $log = new Log();
+        $log->date = new DateTime();
+
+        $log->user = $user;
+        $log->company = $this->company;
+
+        $log->description = $string;
+        $log->detail = json_encode($detail);
+
+        $em->persist($log);
+        $em->flush();
+    }
+
     public function check_user($request){
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw $this->createAccessDeniedException();

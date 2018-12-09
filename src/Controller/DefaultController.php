@@ -65,6 +65,8 @@ class DefaultController extends CommonController
         $interventions = $em->getRepository('App:Intervention')->getLast5ForCampagne($campagne);
         $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
 
+        $this->mylog("Accès au site");
+
         return $this->render('Default/home_connected.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
@@ -72,6 +74,21 @@ class DefaultController extends CommonController
             'parcelles' => $parcelles
         ));
     }
+
+    /**
+     * @Route("/profile/historique", name="profile_historique")
+     */
+    public function profile(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $logs = $em->getRepository('App:Log')->find10ByUser($this->getUser());
+        return $this->render('Default/Profil/historique.html.twig', array(
+            'logs' => $logs,
+            'navs' => ["historique" => "profile_historique"]
+        ));
+    }
+
 
     /**
      * @Route("/send_file")
@@ -122,6 +139,11 @@ class DefaultController extends CommonController
 
 
         if ($form->isSubmitted()) {
+            if($ilot_id == '0'){
+                $this->mylog("Création de l'ilot : ".$ilot);
+            } else {
+                $this->mylog("Modification de l'ilot : ".$ilot);
+            }
             $em->persist($ilot);
             $em->flush();
             return $this->redirectToRoute('ilots');
@@ -214,6 +236,12 @@ class DefaultController extends CommonController
             if ($pos === false) {
                 $culture->color = "#".$culture->color;
             }
+            if($culture_id == '0'){
+                $this->mylog("Création de la culture : ".$culture);
+            } else {
+                $this->mylog("Modification de la culture : ".$culture);
+            }
+
             $em->persist($culture);
             $em->flush();
             return $this->redirectToRoute('cultures');

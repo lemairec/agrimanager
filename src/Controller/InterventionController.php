@@ -152,8 +152,18 @@ class InterventionController extends CommonController
             $em->getRepository('App:InterventionProduit')->save($it, $campagne);
         }
 
+
+
         $em->persist($intervention);
         $em->flush();
+
+
+        if($data["id"] == '0'){
+            $this->mylog2("Création de l'intervention du ".$data["date"]." ".$intervention->name, $data);
+        } else {
+            $this->mylog2("Modification de l'intervention du ".$data["date"]." ".$intervention->name, $data);
+        }
+
         return new JsonResponse("OK");
 
     }
