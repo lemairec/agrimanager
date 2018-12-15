@@ -1,7 +1,10 @@
 fos_user:
-    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: App\Entity\User
     from_email:
-        address: "toto@toto.fr"
-        sender_name: "toto@toto.fr"
+        address: "noreply@maplaine.fr"
+        sender_name: "Ma Plaine"
+    registration:
+        confirmation:
+            enabled: true
