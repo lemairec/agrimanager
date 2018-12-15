@@ -92,7 +92,21 @@ main {
     padding-right: 1rem;
 }
 
+.home_page_element {
 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding-top: 6rem;
+    height: 18rem;
+    margin-bottom: 1rem !important;
+}
 
 header.masthead {
 
