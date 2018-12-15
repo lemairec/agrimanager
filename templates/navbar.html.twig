@@ -119,21 +119,23 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!--button(type='button', class='btn btn-default navbar-btn') Sign in-->
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Profile
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             <a class="dropdown-item"  href="{{ url('fos_user_security_logout') }}">Deconnexion</a>
-                            <a class="dropdown-item"  href="{{ url('fos_user_profile_edit') }}">{{ app.user.username }}</a>
-                        {% else %}
-                            <a class="dropdown-item"  href="{{ url('fos_user_security_login') }}">{{ 'Login'|trans }} </a>
-                            <a class="dropdown-item"  href="{{ url('fos_user_registration_register') }}">{{ 'Register'|trans }} </a>
-                        {% endif %}
+                            <a class="dropdown-item"  href="{{ url('fos_user_profile_edit') }}">Mon Profil</a>
+                            <a class="dropdown-item"  href="{{ url('profile_historique') }}">Historique</a>
+
 
                     </div>
                 </li>
+                {% else %}
+                <li><button type="button" class="btn btn-light navbar-btn ab-rounded m-1" onclick="location.href='{{ url('fos_user_security_login') }}'">Connexion</button></li>
+                <li><button type="button" class="btn btn-outline-light navbar-btn ab-rounded m-1" onclick="location.href='{{ url('fos_user_registration_register') }}'">Register</button></li>
+                {% endif %}
             </ul>
 
         </div>
