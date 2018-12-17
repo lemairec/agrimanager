@@ -10,13 +10,15 @@
             <th>Name</th>
             <th>Email</th>
             <th>LastLogin</th>
+            <th>Count</th>
         </tr>
         {% for user in users %}
         <tr>
             <td><a href="{{ url("admin_user", {'id': user.id}) }}">{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.getLastLogin | date}}</td>
+            <td>{{user.getLastLogin | showDateTime}}</td>
+            <td>{{user.logs }}</td>
         </tr>
         {% endfor %}
     </table>

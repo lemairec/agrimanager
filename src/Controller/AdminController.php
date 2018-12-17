@@ -21,6 +21,23 @@ class AdminController extends Controller
         {
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
+            $logs = $em->getRepository('App:Log')->countByUser();
+
+            $logs_dict = [];
+            foreach ($logs as $log) {
+                $logs_dict[$log['user_id']] = intval($log['count']);
+            }
+            dump($logs_dict);
+
+            foreach($users as $user){
+                if (isset($logs_dict[$user->id])){
+
+                    $user->logs = $logs_dict[$user->id];
+                    dump($user);
+                } else {
+                    $user->logs = 0;
+                }
+            }
 
             return $this->render('Admin/users.html.twig', array(
                 'users' => $users

@@ -31,6 +31,17 @@ class LogRepository extends ServiceEntityRepository
         ;
     }
 
+    public function countByUser(){
+
+        $em = $this->getEntityManager();
+        $statement = $em->getConnection()->prepare('SELECT `user_id`, count(*) as count FROM `log` group by `user_id`');
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+
+
 //    /**
 //     * @return Log[] Returns an array of Log objects
 //     */

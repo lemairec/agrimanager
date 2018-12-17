@@ -10,4 +10,13 @@ namespace App\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAll()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.lastLogin', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

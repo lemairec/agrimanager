@@ -128,7 +128,11 @@ class AppExtension extends \Twig_Extension
 
     public function showDateTimeFilter($date)
     {
-        return $date->format('d/m/Y H:i');
+        if($date){
+            return $date->format('d/m/Y H:i');
+        } else {
+            return "-";
+        }
     }
 
     public function my_path($label, $route, $parameters = array())
