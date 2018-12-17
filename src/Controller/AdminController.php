@@ -27,13 +27,11 @@ class AdminController extends Controller
             foreach ($logs as $log) {
                 $logs_dict[$log['user_id']] = intval($log['count']);
             }
-            dump($logs_dict);
 
             foreach($users as $user){
                 if (isset($logs_dict[$user->id])){
 
                     $user->logs = $logs_dict[$user->id];
-                    dump($user);
                 } else {
                     $user->logs = 0;
                 }
