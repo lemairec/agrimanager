@@ -382,6 +382,20 @@ class GestionController extends CommonController
     }
 
     /**
+     * @Route("/facture_fournisseurs_export", name="factures_fournisseurs2")
+     **/
+    public function factureFournisseurs2Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
+        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
+
+        return $this->render('Default/facture_fournisseurs_export.html.twig', array(
+            'facture_fournisseurs' => $facture_fournisseurs
+        ));
+    }
+
+    /**
      * @Route("/facture_fournisseur/{facture_id}/delete_pdf", name="facture_fournisseur_delete_pdf")
      **/
     public function factureFournisseurDeletePdfAction($facture_id, Request $request)
@@ -466,14 +480,7 @@ class GestionController extends CommonController
         foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
             $file = $f->getFactureFileName();
             if($file){
-                $str = strtolower($f->name);
-                $str = str_replace(" - ", '_', $str);
-                $str = str_replace(' ', '_', $str);
-                $str = str_replace('-', '', $str);
-                $str = str_replace('/', '_', $str);
-                $str = str_replace('&', '_', $str);
-
-                $fileName = $f->date->format('Ymd').'_'.$str.'.pdf';
+                $fileName = $f->getFactureMyFileName();
                 $src = "uploads/factures/".$file;
                 $zip->addFile($src, $fileName);
             }

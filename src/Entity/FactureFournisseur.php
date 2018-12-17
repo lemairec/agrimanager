@@ -134,6 +134,25 @@ class FactureFournisseur
         return $this->factureFileName;
     }
 
+    public function getFactureMyFileName(){
+        if($this->factureFileName){
+            $str = $this->name;
+            $str = str_replace(" - ", '_', $str);
+            $str = str_replace(' ', '_', $str);
+            $str = str_replace('-', '', $str);
+            $str = str_replace(',', '', $str);
+            $str = str_replace('/', '_', $str);
+            $str = str_replace('&', '_', $str);
+            $str = str_replace('é', 'e', $str);
+            $str = str_replace('è', 'e', $str);
+            $str = strtolower($str);
+
+            return $this->date->format('Ymd').'_'.$str.'.pdf';
+        } else {
+            return "";
+        }
+    }
+
 
     function getDateStr(){
         return $this->date->format('d/m/y');
