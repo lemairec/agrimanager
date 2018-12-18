@@ -49,13 +49,12 @@ class AdminController extends Controller
         public function adminUserAction($id, Request $request)
         {
             $em = $this->getDoctrine()->getManager();
-            if($id == '0'){
-                return;
-            } else {
-                $user = $em->getRepository('App:User')->findOneById($id);
-            }
+
+            $user = $em->getRepository('App:User')->findOneById($id);
             $form = $this->createForm(UserType::class, $user);
             $form->handleRequest($request);
+
+            $logs = $em->getRepository('App:Log')->findByUser($user);
 
 
             if ($form->isSubmitted()) {
@@ -63,8 +62,9 @@ class AdminController extends Controller
                 $em->flush();
                 return $this->redirectToRoute('admin_users');
             }
-            return $this->render('base_form.html.twig', array(
+            return $this->render('Admin/user.html.twig', array(
                 'form' => $form->createView(),
+                'logs' => $logs
             ));
         }
 

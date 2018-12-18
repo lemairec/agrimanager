@@ -31,6 +31,17 @@ class LogRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByUser($user)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('l.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function countByUser(){
 
         $em = $this->getEntityManager();
