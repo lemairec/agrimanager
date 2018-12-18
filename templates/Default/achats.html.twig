@@ -5,9 +5,9 @@
 
     <div class="card">
         <div class="card-header">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("achat", {'achat_id': 0}) }}'">ADD</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("achat", {'achat_id': 0}) }}'">Ajouter</button>
             {% if app.user.username == "lejard" %}
-            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("achats_data") }}'">ADD DATA</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("achats_data") }}'">Ajouter DATA</button>
             {% endif %}
             Achats
         </div>

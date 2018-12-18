@@ -7,7 +7,7 @@ Surface: Surface
 Add: Ajouter
 Name: Label
 Color: Couleur
-Comment: Commentaire
+Comment: Commentaires
 Active: Actif
 
 Price: Prix
@@ -27,3 +27,8 @@ Save: Sauvegarder
 
 Login: Connexion
 Register: S'inscrire
+
+
+Annee: Année
+Caracteristique: Caractéristiques
+Price total: Prix total
