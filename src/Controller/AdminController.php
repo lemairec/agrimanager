@@ -64,7 +64,8 @@ class AdminController extends Controller
             }
             return $this->render('Admin/user.html.twig', array(
                 'form' => $form->createView(),
-                'logs' => $logs
+                'logs' => $logs,
+                'user' => $user
             ));
         }
 

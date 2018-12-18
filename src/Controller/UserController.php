@@ -18,7 +18,7 @@ use App\Form\CompanyAdminType;
 class UserController extends Controller
 {
     /**
-     * @Route("/k8f96gtb")
+     * @Route("/k8f96gtb", name="connection_user")
      */
     public function testAction(Request $request)
     {
