@@ -71,13 +71,6 @@ class Achat
     /**
      * @var float
      *
-     * @ORM\Column(name="price", type="float")
-     */
-    public $price;
-
-    /**
-     * @var float
-     *
      * @ORM\Column(name="price_total", type="float")
      */
     public $price_total;
@@ -90,13 +83,6 @@ class Achat
     public $complement_total = 0;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="complement", type="float")
-     */
-    public $complement = 0;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="comment", type="string", length=255, nullable=true)
@@ -105,5 +91,21 @@ class Achat
 
     function getDateStr(){
         return $this->date->format(' d/m/y');
+    }
+
+    function getPrice(){
+        if($this->qty != 0){
+            return $this->price_total/$this->qty;
+        } else {
+            return null;
+        }
+    }
+
+    function getComplement(){
+        if($this->qty != 0){
+            return $this->complement_total/$this->qty;
+        } else {
+            return null;
+        }
     }
 }

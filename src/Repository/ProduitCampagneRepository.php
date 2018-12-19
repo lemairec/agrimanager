@@ -43,14 +43,14 @@ class ProduitCampagneRepository extends \Doctrine\ORM\EntityRepository
                 $qtyprice = 0;
                 $price_total = 0;
                 foreach($achats as $achat){
-                    if($achat->complement != 0){
+                    if($achat->complement_total != 0){
                         $complement += $achat->complement_total;
                     } else {
                         $qty += $achat->qty;
                     }
-                    if($achat->price != 0){
+                    if($achat->price_total != 0){
                         $qtyprice += $achat->qty;
-                        $price_total += $achat->qty * $achat->price;
+                        $price_total += $achat->price_total;
                     }
                 }
                 if($qty2==null){
