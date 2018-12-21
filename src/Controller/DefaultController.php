@@ -75,6 +75,23 @@ class DefaultController extends CommonController
         ));
     }
 
+    protected function sendMail($from, $to, $str, $mailer){
+        $message = (new \Swift_Message($str))->setFrom($from)->setTo($to)->setBody($str);
+        $res = $mailer->send($message);
+        $res = mail($to, $str, $str);
+        print($res." ".$from." ".$to." ".$str."\n");
+    }
+    /**
+     * @Route("test_mail", name="test_mail")
+     */
+    public function testMail(Request $request,  \Swift_Mailer $mailer)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->sendMail("noreply@maplaine.fr", 'lemairec02@gmail.com', "Test", $mailer);
+
+        return  $this->render('home.html.twig');
+    }
+
     /**
      * @Route("/profile/historique", name="profile_historique")
      */
@@ -85,6 +102,23 @@ class DefaultController extends CommonController
         $logs = $em->getRepository('App:Log')->find10ByUser($this->getUser());
         return $this->render('Default/Profil/historique.html.twig', array(
             'logs' => $logs,
+            'navs' => ["historique" => "profile_historique"]
+        ));
+    }
+
+    /**
+     * @Route("/alertes", name="alertes")
+     */
+    public function alertes(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        $alertes = $em->getRepository('App:Alerte')->findByCampagne($campagne);
+        return $this->render('Default/alertes.html.twig', array(
+            'alertes' => $alertes,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
             'navs' => ["historique" => "profile_historique"]
         ));
     }
