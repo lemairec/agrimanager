@@ -41,6 +41,13 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $em->getRepository('App:Produit')->update($produit);
     }
 
+    function parseCAJFloat($s){
+        $s = trim($s);
+        $s = str_replace(" ","",$s);
+        $s = str_replace(",",".",$s);
+        return floatval($s);
+    }
+
     function saveCAJData($data, $campagne){
         $lines = explode(PHP_EOL, $data);
         print ("tutu");
@@ -58,8 +65,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
             $achat->type = trim($rows[3]);
             $achat->qty = floatval(str_replace(",",".",trim($rows[4])));
             $achat->unity = trim($rows[5]);
-            $achat->price = floatval(str_replace(",",".",trim($rows[6])));
-            $achat->price_total = floatval(str_replace(",",".",trim($rows[7])));
+            $achat->price_total = $this->parseCAJFloat($rows[7]);
             $this->addCaj($achat, $campagne);
             //print_r($achat);
         }
