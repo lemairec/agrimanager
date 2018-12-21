@@ -49,20 +49,32 @@
                 <div class="card-header">
                     Parcelles
                 </div>
-                <table class="table">
-                    <tr v-for="parcelle in intervention.parcelles">
-                        <td>
-                            <input type="checkbox" name="gridRadios" id="gridRadios1" value="option1" v-on:change="signalChange" v-model="parcelle.checked">
-                        </td>
-                        <td>${ parcelle.name }</td>
-                        <td>${ parcelle.surface } ha</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><b>Total</b></td>
-                        <td><b>${ total | round } ha</b></td>
-                    </tr>
-                </table>
+                <div class="list-group">
+                    <div class="list-group-item flex-column align-items-start" v-for="parcelle in intervention.parcelles">
+                        <div class="row" style="min-height: 1.5rem;">
+                            <div class="col-2">
+                                <input type="checkbox" name="gridRadios" id="gridRadios1" value="option1" v-on:change="signalChange" v-model="parcelle.checked">
+                            </div>
+                            <div class="col-6">
+                                ${ parcelle.name }
+                            </div>
+                            <div class="col-4 text-right">
+                                ${ parcelle.surface | formatNumber} ha
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-group-item flex-column align-items-start">
+                        <div class="row" style="min-height: 1.5rem;">
+                            <div class="col-8">
+                                <b>Total</b>
+                            </div>
+                            <div class="col-4 text-right">
+                                <b>${ total | formatNumber } ha</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="card">
@@ -100,21 +112,32 @@
                       </div>
                     </div>
                 </div>
-                <table class="table">
-                    <tr>
-                        <th>Produits</th>
-                        <th>Qty/ha</th>
-                        <th>Qty</th>
-                        <th></th>
-                    </tr>
-                    <tr v-for="(produit, index) in intervention.produits" :key="index">
-                        <td>${ produit.name }</td>
-                        <td>${ produit.qty / total | round }</td>
-                        <td><input class="form-control" type="text" v-model:value="produit.qty"></td>
-                        <td><button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeRow(index)"><span class="oi oi-delete"></span></button></td>
-
-                    </tr>
-                </table>
+                <div class="list-group">
+                    <div class="list-group-item flex-column align-items-start"  v-for="(produit, index) in intervention.produits" :key="index">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-6">
+                                        ${ produit.name }
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-control" type="text" v-model:value="produit.qty">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-8  text-right">
+                                        soit ${ produit.qty / total | formatNumber } u/ha
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeRow(index)"><span class="oi oi-delete"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <hr>
@@ -190,6 +213,10 @@ $( function() {
                 .then(response => (this.info = response))
         },
         filters: {
+            formatNumber : function (value) {
+                return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            },
+
             round: function (value) {
                 return Math.round(value * 100) / 100;
             }
