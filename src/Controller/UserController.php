@@ -71,7 +71,7 @@ class UserController extends CommonController
     /**
      * @Route("/contact/{contact_id}", name="contact")
      **/
-    public function contactAction($contact_id, Request $request)
+    public function contactAction($contact_id, Request $request,  \Swift_Mailer $mailer)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -88,7 +88,7 @@ class UserController extends CommonController
         if ($form->isSubmitted()) {
             $em->persist($contact);
             $em->flush();
-            $this->sendMail("noreply@maplaine.fr", "lemairec02@gmail.com", "Contact", $contact->text);
+            $this->sendMail("noreply@maplaine.fr", "lemairec02@gmail.com", $contact->text, $mailer);
             return $this->redirectToRoute('contact_ok');
         }
         return $this->render('Profile/contact.html.twig', array(
