@@ -30,7 +30,7 @@ Back_up
 -------
 
 ````
-bin/console doctrine:database:drop --force && bin/console doctrine:database:create && mysql --host localhost --user root --password maplaine < ~/Downloads/maplainemkagri_2.sql
+bin/console doctrine:database:drop --force && bin/console doctrine:database:create && mysql --host localhost --user root --password maplaine < ~/Downloads/maplainemkagri.sql
 ````
 
 
