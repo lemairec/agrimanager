@@ -64,7 +64,6 @@ class AlerteRepository extends ServiceEntityRepository
                     if($produitT){
                         $this->createAlerte($intervention, "Melange2", "Melange2 entre ".$produitT->produit." et ".$p->produit, $p, null);
                     }
-                    dump($p->produit." is T");
                     $produitT = $p;
                 }
             }
