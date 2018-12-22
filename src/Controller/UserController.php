@@ -6,9 +6,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 use DateTime;
+
+use App\Controller\CommonController;
 
 use App\Entity\Group;
 use App\Entity\Contact;
@@ -17,7 +19,7 @@ use App\Form\UserType;
 use App\Form\CompanyAdminType;
 use App\Form\ContactType;
 
-class UserController extends Controller
+class UserController extends CommonController
 {
     /**
      * @Route("/k8f96gtb", name="connection_user")
