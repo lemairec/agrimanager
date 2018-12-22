@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Group;
+use App\Entity\MetaCulture;
 
 use App\Form\UserType;
 use App\Form\CompanyAdminType;
+use App\Form\MetaCultureType;
 
 class AdminController extends Controller
 {
@@ -102,6 +104,45 @@ class AdminController extends Controller
                 $em->persist($company);
                 $em->flush();
                 return $this->redirectToRoute('admin_companies');
+            }
+            return $this->render('base_form.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }
+
+        /**
+         * @Route("/admin/metacultures", name="admin_metacultures")
+         */
+        public function adminMetaCulturesAction(Request $request)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $metacultures = $em->getRepository('App:MetaCulture')->findAll();
+
+            return $this->render('Admin/metacultures.html.twig', array(
+                'metacultures' => $metacultures
+            ));
+
+        }
+
+        /**
+         * @Route("/admin/metaculture/{id}", name="admin_metaculture")
+         **/
+        public function adminMetaCultureAction($id, Request $request)
+        {
+            $em = $this->getDoctrine()->getManager();
+            if($id == '0'){
+                $metaculture = new MetaCulture();
+            } else {
+                $metaculture = $em->getRepository('App:MetaCulture')->findOneById($id);
+            }
+            $form = $this->createForm(MetaCultureType::class, $metaculture);
+            $form->handleRequest($request);
+
+
+            if ($form->isSubmitted()) {
+                $em->persist($metaculture);
+                $em->flush();
+                return $this->redirectToRoute('admin_metacultures');
             }
             return $this->render('base_form.html.twig', array(
                 'form' => $form->createView(),
