@@ -8,12 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-
+use DateTime;
 
 use App\Entity\Group;
+use App\Entity\Contact;
 
 use App\Form\UserType;
 use App\Form\CompanyAdminType;
+use App\Form\ContactType;
 
 class UserController extends Controller
 {
@@ -62,5 +64,41 @@ class UserController extends Controller
         return $this->render('Default/profil.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/contact/{contact_id}", name="contact")
+     **/
+    public function contactAction($contact_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if($contact_id == '0'){
+            $contact = new Contact();
+            $contact->datetime = new DateTime();
+        } else {
+            $contact = $em->getRepository('App:Contact')->findOneById($contact_id);
+        }
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($contact);
+            $em->flush();
+            $this->sendMail("noreply@maplaine.fr", "lemairec02@gmail.com", "Contact", $contact->text);
+            return $this->redirectToRoute('contact_ok');
+        }
+        return $this->render('Profile/contact.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/contact_ok", name="contact_ok")
+     **/
+    public function contactOkAction(Request $request)
+    {
+        return $this->render('Profile/contact_ok.html.twig');
     }
 }
