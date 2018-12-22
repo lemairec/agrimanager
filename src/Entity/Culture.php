@@ -30,6 +30,12 @@ class Culture
     public $name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MetaCulture")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $metaCulture;
+
+    /**
      * @var color
      *
      * @ORM\Column(name="color", type="string", length=25, nullable=true)
