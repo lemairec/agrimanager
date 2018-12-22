@@ -18,4 +18,15 @@ class EphyUsageRepository extends \Doctrine\ORM\EntityRepository
         }
         $em->flush();
     }
+    public function findByEphyProduit($ephyProduit)
+    {
+        $res = $this->createQueryBuilder('m')
+            ->andWhere('m.ephyProduit = :val')
+            ->setParameter('val', $ephyProduit)
+            ->orderBy('m.doseRetenu', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+        return $res;
+    }
 }
