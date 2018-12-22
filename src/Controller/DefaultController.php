@@ -106,23 +106,6 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/alertes", name="alertes")
-     */
-    public function alertes(Request $request)
-    {
-        $this->check_user($request);
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
-        $alertes = $em->getRepository('App:Alerte')->findByCampagne($campagne);
-        return $this->render('Default/alertes.html.twig', array(
-            'alertes' => $alertes,
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
-            'navs' => ["historique" => "profile_historique"]
-        ));
-    }
-
 
     /**
      * @Route("/send_file")
