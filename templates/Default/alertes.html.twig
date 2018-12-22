@@ -1,0 +1,54 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header">
+        Alertes campagne {{ campagne }}
+    </div>
+    <div class="list list-group">
+        {% for alerte in alertes %}
+        <div>
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-5">
+                                <a href="{{ url("intervention", {'intervention_id': alerte.intervention.id}) }}"><b>{{alerte.intervention.get_date()}}</b></a>
+                            </div>
+                            <div class="col-7">
+                                <b>{{alerte.intervention.type}}
+                                    {% if alerte.intervention.name %}
+                                        - {{ alerte.intervention.name }}
+                                    {% endif %}
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <b class="float-right">{{ alerte.intervention.surface | showHa }}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {% if alerte.type == "Usage not found" %}
+                        usage non trouve pour le produit <a href="{{ url("produit", {'produit_id': alerte.interventionProduit.produit.id})}}"> {{alerte.interventionProduit.produit}} </a> pour la culture {{alerte.interventionParcelle.parcelle.culture}}
+                    {% elseif alerte.type == "Quantite" %}
+                        quantité pour le produit <a href="{{ url("produit", {'produit_id': alerte.interventionProduit.produit.id})}}"> {{alerte.interventionProduit.produit}} </a>
+                        {{alerte.description}} pour la culture {{alerte.interventionParcelle.parcelle.culture}}
+                    {% else %}
+
+                    {{alerte.description |raw}}
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

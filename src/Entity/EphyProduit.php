@@ -90,6 +90,19 @@ class EphyProduit
     */
     public $usages;
 
+    public function isT(){
+        foreach($this->phraseRisques as $phraseRisque){
+            if($phraseRisque->id == "H300" || $phraseRisque->id == "H301" || $phraseRisque->id == "H310"
+                || $phraseRisque->id == "H311" || $phraseRisque->id == "H330" || $phraseRisque->id == "H331"
+                || $phraseRisque->id == "H340" || $phraseRisque->id == "H350" || $phraseRisque->id == "H350i"
+                || $phraseRisque->id == "H360" || $phraseRisque->id == "H370" || $phraseRisque->id == "H372"){
+                    return true;
+
+            }
+        }
+        return false;
+    }
+
 
     public function getUrlAnses ( ){
         $res = str_replace(" ", "-", $this->name);
