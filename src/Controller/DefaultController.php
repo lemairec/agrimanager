@@ -100,7 +100,7 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $logs = $em->getRepository('App:Log')->find10ByUser($this->getUser());
-        return $this->render('Default/Profil/historique.html.twig', array(
+        return $this->render('Profile/historique.html.twig', array(
             'logs' => $logs,
             'navs' => ["historique" => "profile_historique"]
         ));
