@@ -115,4 +115,10 @@ class CommonController extends Controller
         }
         //print(json_encode( $this->get('session')->get('last_url', [])));
     }
+
+    protected function sendMail($from, $to, $str, $mailer){
+        $message = (new \Swift_Message($str))->setFrom($from)->setTo($to)->setBody($str);
+        $res = $mailer->send($message);
+        $res = mail($to, $str, $str);
+    }
 }
