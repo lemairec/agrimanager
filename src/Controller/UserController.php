@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use DateTime;
 
 use App\Controller\CommonController;
@@ -46,24 +49,36 @@ class UserController extends CommonController
         return $this->redirectToRoute('home');
     }
 
+
     /**
-     * @Route("/profil")
+     * @Route("/profile/edit")
      */
-    public function profileAction(Request $request)
+    public function profileEditAction(Request $request)
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(CompanyType::class, $this->company);
+        $defaultData = array('adresse' => $this->company->adresse, 'codePostal' => $this->company->cityCode, 'ville' => $this->company->city);
+        $form = $this->createFormBuilder($defaultData)
+            ->add('adresse', TextType::class)
+            ->add('codePostal', TextType::class)
+            ->add('ville', TextType::class)
+            ->getForm();
+
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $this->company->adresse = $data["adresse"];
+            $this->company->cityCode = $data["codePostal"];
+            $this->company->city = $data["ville"];
+            $this->company->meteoCity = $data["ville"];
             $em->persist($this->company);
             $em->flush();
             return $this->redirectToRoute("home");
         }
-        return $this->render('Default/profil.html.twig', array(
+        return $this->render('Profile/profil.html.twig', array(
             'form' => $form->createView()
         ));
     }

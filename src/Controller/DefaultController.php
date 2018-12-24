@@ -65,22 +65,38 @@ class DefaultController extends CommonController
         $interventions = $em->getRepository('App:Intervention')->getLast5ForCampagne($campagne);
         $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
 
+        $cultures = [];
+        $total = 0;
+        foreach ($parcelles as $p) {
+            if($p->active && $p->culture){
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = ['color'=> $p->culture->color, 'surface'=> 0];
+                }
+                $cultures[$p->getCultureName()]['surface'] += $p->surface;
+                $total += $p->surface;
+            }
+        }
+
         $this->mylog("Accès au site");
+
+        $meteoCity = "Paris";
+        if($this->company->meteoCity){
+            $meteoCity = $this->company->meteoCity;
+        }
 
         return $this->render('Default/home_connected.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'interventions' => $interventions,
-            'parcelles' => $parcelles
+            'parcelles' => $parcelles,
+            'meteoCity' => $meteoCity,
+            'company' => $this->company,
+            'user' => $this->getUser(),
+            'surfaceTotale' => $total,
+            'cultures' => $cultures
         ));
     }
 
-    protected function sendMail($from, $to, $str, $mailer){
-        $message = (new \Swift_Message($str))->setFrom($from)->setTo($to)->setBody($str);
-        $res = $mailer->send($message);
-        $res = mail($to, $str, $str);
-        print($res." ".$from." ".$to." ".$str."\n");
-    }
     /**
      * @Route("test_mail", name="test_mail")
      */

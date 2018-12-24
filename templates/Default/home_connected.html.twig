@@ -33,6 +33,37 @@
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-header">
+                        Mon exploitation
+                    </div>
+                    <div class="card-body">
+                        Email : <br>{{ user.eMail}}
+                    </div>
+                    <div class="card-body">
+                        Adresse : <br>{{ company.adresse}} <br>{{ company.cityCode}} {{ company.city}}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Mon assolement <span class="badge badge-secondary float-right">{{surfaceTotale | showHa}}</span>
+                    </div>
+                    <div class="list-group">
+                        {% for id, key in cultures %}
+                        <div class="list-group-item" style="background-color:{{ key['color']}};">
+                            <div class="row">
+                                <div class="col-12">
+                                {{ id }}
+                                    <span class="badge badge-secondary float-right">{{ key['surface'] | showHa}}</span>
+                                    </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         Derniers Prix Euronext
                     </div>
                     <table id="euronext" class="table">
@@ -93,6 +124,7 @@
                     </div>
                 </div>
             </div>
+
     </div>
 
 {% endblock body %}
@@ -113,7 +145,7 @@ $( function() {
         },
         mounted () {
             var find = false;
-            url = 'https://api.openweathermap.org/data/2.5/forecast?q=Laon,fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d';
+            url = 'https://api.openweathermap.org/data/2.5/forecast?q={{ meteoCity }},fr&lang=fr&units=metric&appid=08733bae355af51820ad53268746027d';
             axios
                 .get(url)
                 .then(response => {
