@@ -99,9 +99,11 @@
                 <div class="col-md-4">
                     <span class="badge float-right">{{ culture | showHa }}</span>
                 </div>
+                {% if total != 0 %}
                 <div class="col-md-4">
                     <span class="badge float-right">{{ (culture/total) | showPercent }}</span>
                 </div>
+                {% endif %}
             </div>
 
             <div class="d-flex w-100 justify-content-between">
