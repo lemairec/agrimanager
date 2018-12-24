@@ -98,6 +98,14 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/my-error", name="my-error")
+     */
+    public function myErrorAction(Request $request)
+    {
+    }
+
+
+    /**
      * @Route("test_mail", name="test_mail")
      */
     public function testMail(Request $request,  \Swift_Mailer $mailer)
