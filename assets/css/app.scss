@@ -104,7 +104,7 @@ main {
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
     padding-top: 6rem;
-    height: 18rem;
+    min-height: 18rem;
     margin-bottom: 1rem !important;
 }
 
@@ -116,7 +116,7 @@ main {
     min-width: 0;
     word-wrap: break-word;
     padding-top: 6rem;
-    height: 18rem;
+    min-height: 18rem;
     margin-bottom: 1rem !important;
 }
 
