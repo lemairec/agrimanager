@@ -15,3 +15,7 @@ vich_uploader:
             uri_prefix: '/uploads/appartements'
             upload_destination: '%kernel.root_dir%/../public/uploads/appartements'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
+        document:
+            uri_prefix: '/uploads/documents'
+            upload_destination: '%kernel.root_dir%/../public/uploads/documents'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer

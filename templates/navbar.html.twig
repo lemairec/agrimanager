@@ -22,8 +22,12 @@ Ma Plaine</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('admin') }}">Easy Admin</a>
                             <div class="dropdown-divider"></div>
+                            {% if app.user.username == "lejard" %}
                             <a class="dropdown-item" href="{{ url('annonces') }}">Annonces</a>
                             <a class="dropdown-item" href="{{ url('annonces_immobilier') }}">Immobilier</a>
+                            <a class="dropdown-item" href="{{ url('documents') }}">Documents</a>
+                            {% endif %}
+
                         </div>
                     </li>
                     {% endif %}
