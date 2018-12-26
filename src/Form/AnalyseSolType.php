@@ -36,10 +36,7 @@ class AnalyseSolType extends AbstractType
         $builder->add('p');
         $builder->add('k');
         $builder->add('mg');
-        $builder->add('docFile', VichFileType::class, array(
-            'required' => false,
-            'allow_delete' => true,
-        ));
+        $builder->add('doc', Document2Type::class); 
 
 
     }

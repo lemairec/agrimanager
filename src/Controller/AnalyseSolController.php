@@ -54,8 +54,15 @@ class AnalyseSolController extends CommonController
         $form->handleRequest($request);
 
 
+        dump($analyse_sol);
         if ($form->isSubmitted()) {
             $analyse_sol->campagne = $campagne;
+
+            $str2 = $this->stringlify($analyse_sol->campagne);
+            $analyse_sol->doc->repository = "analyse_sol/$str2";
+            $str = $this->stringlify($analyse_sol->parcelle);
+            $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str;
+
             $em->persist($analyse_sol);
             $em->flush();
             return $this->redirectToRoute('analyse_sols');

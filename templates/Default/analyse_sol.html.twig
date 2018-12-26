@@ -6,15 +6,15 @@
     <div class="card-body">
         {{ form_start(form) }}
         {{ form_row(form.parcelle, {'attr': {'class': 'form-control'}}) }}
-        {% if (analyse_sol.docName != '') %}
+        {% if analyse_sol.doc and (analyse_sol.doc.docName != '') %}
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <embed src="{{ vich_uploader_asset(analyse_sol, 'docFile') }}" width="500" height="800" type='application/pdf'>
+                    <embed src="{{ vich_uploader_asset(analyse_sol.doc, 'docFile') }}" width="500" height="800" type='application/pdf'>
                 </div>
             </div>
         {% else %}
         {% endif %}
-        {{ form_row(form.docFile) }}
+        {{ form_row(form.doc.docFile) }}
         {{ form_widget(form) }}
         <input type="submit" class="btn btn-primary" value="Sauvegarder" />
         {{ form_end(form) }}

@@ -121,4 +121,18 @@ class CommonController extends Controller
         $res = $mailer->send($message);
         $res = mail($to, $str, $str);
     }
+
+
+    protected function stringlify($str){
+        $str = str_replace(" - ", '_', $str);
+        $str = str_replace(' ', '_', $str);
+        $str = str_replace('-', '', $str);
+        $str = str_replace(',', '', $str);
+        $str = str_replace('/', '_', $str);
+        $str = str_replace('&', '_', $str);
+        $str = str_replace('é', 'e', $str);
+        $str = str_replace('è', 'e', $str);
+        $str = strtolower($str);
+        return $str;
+    }
 }
