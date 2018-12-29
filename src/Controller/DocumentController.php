@@ -25,8 +25,21 @@ class DocumentController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $documents = $em->getRepository('App:Document')
+        $res = $em->getRepository('App:Document')
             ->findAll();
+
+        $documents = [];
+        foreach($res as $d){
+            if($d->repository == "analyse_sol"){
+                $analyse_sol = $em->getRepository('App:AnalyseSol')
+                    ->findOneByDoc($d);
+                $d->url = $this->generateUrl('analyse_sol', array('analyse_sol_id' => $analyse_sol->id));
+            } else {
+                $d->url = $this->generateUrl('document', array('document_id' => $d->id));
+            }
+            $documents[] = $d;
+        }
+
 
         return $this->render('Default/documents.html.twig', array(
             'documents' => $documents,

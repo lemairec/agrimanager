@@ -25,7 +25,6 @@ Ma Plaine</a>
                             {% if app.user.username == "lejard" %}
                             <a class="dropdown-item" href="{{ url('annonces') }}">Annonces</a>
                             <a class="dropdown-item" href="{{ url('annonces_immobilier') }}">Immobilier</a>
-                            <a class="dropdown-item" href="{{ url('documents') }}">Documents</a>
                             {% endif %}
 
                         </div>
@@ -45,6 +44,8 @@ Ma Plaine</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('materiels') }}">Materiel</a>
                             {% if app.user.username == "lejard" %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('documents') }}">Documents</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('gasoils') }}">Gasoil</a>
                             <a class="dropdown-item" href="{{ url('deplacements') }}">Deplacements</a>
