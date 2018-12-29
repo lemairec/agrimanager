@@ -53,15 +53,21 @@ class AnalyseSolController extends CommonController
         ));
         $form->handleRequest($request);
 
-
         dump($analyse_sol);
+
         if ($form->isSubmitted()) {
             $analyse_sol->campagne = $campagne;
+            dump($analyse_sol);
 
-            $str2 = $this->stringlify($analyse_sol->campagne);
-            $analyse_sol->doc->repository = "analyse_sol/$str2";
-            $str = $this->stringlify($analyse_sol->parcelle);
-            $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str;
+            if($analyse_sol->doc->getDocFile()){
+                $str2 = $this->stringlify($analyse_sol->campagne);
+                $analyse_sol->doc->repository = "analyse_sol";
+                $str = $this->stringlify($analyse_sol->parcelle);
+                $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str2."_".$str;
+            } else if($analyse_sol->doc){
+                $em->remove($analyse_sol->doc);
+                $analyse_sol->doc = null;
+            }
 
             $em->persist($analyse_sol);
             $em->flush();

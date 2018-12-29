@@ -9,6 +9,7 @@
         </div>
         <table class="table">
             <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Name</th>
                 <th>Ph</th>
@@ -20,6 +21,7 @@
             </tr>
             {% for analyse_sol in analyse_sols %}
             <tr>
+                <td>{% if(analyse_sol.doc) %}<span class="oi oi-paperclip"></span>{% endif %}</td>
                 <td><a href="{{ url("analyse_sol", {'analyse_sol_id': analyse_sol.id}) }}"> {{analyse_sol.get_date() }}</td>
                 <td>{{analyse_sol.parcelle.campagne}} - {{analyse_sol.parcelle }}</td>
                 <td> {{analyse_sol.ph }}</td>
