@@ -52,26 +52,22 @@ class AnalyseSolController extends CommonController
             'parcelles' => $parcelles
         ));
         $form->handleRequest($request);
-
-        //dump($analyse_sol);
-
         if ($form->isSubmitted()) {
             $analyse_sol->campagne = $campagne;
-            //dump($analyse_sol);
-
             if($analyse_sol->doc->getDocFile()){
-                $str2 = $this->stringlify($analyse_sol->campagne);
+                $analyse_sol->doc->updatedAt = new Datetime();
                 $analyse_sol->doc->repository = "analyse_sol";
                 $str = $this->stringlify($analyse_sol->parcelle);
-                $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str2."_".$str;
+                $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str;
+                $em->persist($analyse_sol->doc);
             } else if($analyse_sol->doc){
-                $em->remove($analyse_sol->doc);
-                $analyse_sol->doc = null;
+                if($analyse_sol->doc->getDocName() == null){
+                    $em->remove($analyse_sol->doc);
+                    $analyse_sol->doc = null;
+                }
             }
-
             $em->persist($analyse_sol);
             $em->flush();
-            return $this->redirectToRoute('analyse_sols');
         }
         return $this->render('Default/analyse_sol.html.twig', array(
             'form' => $form->createView(),

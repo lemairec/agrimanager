@@ -30,12 +30,13 @@ class DocumentController extends CommonController
 
         $documents = [];
         foreach($res as $d){
+            $d->url = $this->generateUrl('document', array('document_id' => $d->id));
             if($d->repository == "analyse_sol"){
                 $analyse_sol = $em->getRepository('App:AnalyseSol')
                     ->findOneByDoc($d);
-                $d->url = $this->generateUrl('analyse_sol', array('analyse_sol_id' => $analyse_sol->id));
-            } else {
-                $d->url = $this->generateUrl('document', array('document_id' => $d->id));
+                if($analyse_sol){
+                    $d->url = $this->generateUrl('analyse_sol', array('analyse_sol_id' => $analyse_sol->id));
+                }
             }
             $documents[] = $d;
         }
