@@ -14,6 +14,8 @@ use App\Controller\CommonController;
 use App\Entity\Document;
 use App\Form\DocumentType;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class DocumentController extends CommonController
 {
@@ -73,6 +75,60 @@ class DocumentController extends CommonController
             'form' => $form->createView(),
             'document' => $document,
         ));
+    }
+
+    /**
+    * @Route("/export_all", name="export_all")
+    **/
+    public function exportDump(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        if($this->getUser()->getUsername() != "lejard"){
+            return new Response("not authorize");
+        }
+
+        //remove old
+        $command = "rm dump/*.zip; rm dump/*.sql";
+        $process= new Process($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        //backup
+        $backupFile = 'dump/backup'.time().'.sql';
+        $host = getenv('DATABASE_HOST');
+        $db = getenv('DATABASE_NAME');
+        $user = getenv('DATABASE_USER');
+        $password = getenv('DATABASE_PASSWORD');
+        $command = "mysqldump -u $user --password=$password --opt $db > $backupFile";
+        $process= new Process($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $zip = new \ZipArchive();
+        $zipName = 'dump/'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+
+        foreach ($em->getRepository('App:Document')->findAll() as $f) {
+            $file = $f->getDocName();
+            if($file){
+                $src = "uploads/documents/".$file;
+                $zip->addFile($src, $file);
+            }
+        }
+        $zip->addFile($backupFile, "database.sql");
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        return $response;
     }
 
     /**
