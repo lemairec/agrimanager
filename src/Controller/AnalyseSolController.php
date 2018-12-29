@@ -53,11 +53,11 @@ class AnalyseSolController extends CommonController
         ));
         $form->handleRequest($request);
 
-        dump($analyse_sol);
+        //dump($analyse_sol);
 
         if ($form->isSubmitted()) {
             $analyse_sol->campagne = $campagne;
-            dump($analyse_sol);
+            //dump($analyse_sol);
 
             if($analyse_sol->doc->getDocFile()){
                 $str2 = $this->stringlify($analyse_sol->campagne);
