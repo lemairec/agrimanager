@@ -41,11 +41,8 @@ class AppartementOperationType extends AbstractType
                 2017 => 2017
             ]]);
         $builder->add('value');
-        $builder->add('factureFile', VichFileType::class, array(
-            'required' => false,
-            'allow_delete' => true,
-        ));
-        
+        $builder->add('doc', Document2Type::class); 
+
     }/**
      * {@inheritdoc}
      */

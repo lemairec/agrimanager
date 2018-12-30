@@ -56,6 +56,19 @@ class AppartementController extends CommonController
 
 
         if ($form->isSubmitted()) {
+            if($operation->doc){
+                if($operation->doc->getDocFile() || $operation->doc->getDocName()){
+                    $operation->doc->updatedAt = new Datetime();
+                    $operation->doc->repository = "appartement";
+                    $str = $this->stringlify($operation->type);
+                    $operation->doc->name = $operation->date->format('Ymd')."_".$str;
+                    $em->persist($operation->doc);
+                }
+                if($operation->doc->getDocName() == null){
+                    $em->remove($operation->doc);
+                    $operation->doc = null;
+                }
+            }
             $em->persist($operation);
             $em->flush();
             return $this->redirectToRoute('appartement_operations');
