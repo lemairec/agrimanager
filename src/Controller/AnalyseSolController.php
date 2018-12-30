@@ -18,7 +18,7 @@ use App\Form\AnalyseSolType;
 class AnalyseSolController extends CommonController
 {
     /**
-     * @Route("/analyse_sol", name="analyse_sols")
+     * @Route("/analyse_sols", name="analyse_sols")
      */
     public function produitsAction(Request $request)
     {
@@ -54,13 +54,14 @@ class AnalyseSolController extends CommonController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $analyse_sol->campagne = $campagne;
-            if($analyse_sol->doc->getDocFile()){
-                $analyse_sol->doc->updatedAt = new Datetime();
-                $analyse_sol->doc->repository = "analyse_sol";
-                $str = $this->stringlify($analyse_sol->parcelle);
-                $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str;
-                $em->persist($analyse_sol->doc);
-            } else if($analyse_sol->doc){
+            if($analyse_sol->doc){
+                if($analyse_sol->doc->getDocFile() || $analyse_sol->doc->getDocName()){
+                    $analyse_sol->doc->updatedAt = new Datetime();
+                    $analyse_sol->doc->repository = "analyse_sol";
+                    $str = $this->stringlify($analyse_sol->parcelle);
+                    $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str;
+                    $em->persist($analyse_sol->doc);
+                }
                 if($analyse_sol->doc->getDocName() == null){
                     $em->remove($analyse_sol->doc);
                     $analyse_sol->doc = null;
@@ -68,6 +69,7 @@ class AnalyseSolController extends CommonController
             }
             $em->persist($analyse_sol);
             $em->flush();
+            return $this->redirectToRoute('analyse_sols');
         }
         return $this->render('Default/analyse_sol.html.twig', array(
             'form' => $form->createView(),
