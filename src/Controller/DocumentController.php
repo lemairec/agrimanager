@@ -139,7 +139,7 @@ class DocumentController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        if($this->getUser()->getEmail() != "lemairec02@gmail.com"){
+        if($this->getUser()->getUsername() != "lejard"){
             return new Response("not authorize");
         }
 
@@ -152,7 +152,7 @@ class DocumentController extends CommonController
             $file = $f->getDocName();
             if($file){
                 $src = "uploads/documents/".$file;
-                $zip->addFile($src, $file);
+                $zip->addFile($src,  $f->repository."/".$f->name.".pdf");
             }
         }
         $zip->close();
