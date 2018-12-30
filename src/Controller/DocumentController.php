@@ -99,10 +99,11 @@ class DocumentController extends CommonController
         //backup
         $backupFile = 'dump/backup'.time().'.sql';
         $host = getenv('DATABASE_HOST');
+        $port = getenv('DATABASE_PORT');
         $db = getenv('DATABASE_NAME');
         $user = getenv('DATABASE_USER');
         $password = getenv('DATABASE_PASSWORD');
-        $command = "mysqldump -u $user --password=$password --opt $db > $backupFile";
+        $command = "mysqldump -u $user --password=$password --host=$host --port=$port --opt $db > $backupFile";
         $process= new Process($command);
         $process->run();
         if (!$process->isSuccessful()) {
@@ -132,7 +133,7 @@ class DocumentController extends CommonController
     }
 
     /**
-     * @Route("/documents/dump", name="document_dump")
+     * @Route("/documents/export", name="document_export")
      **/
     public function documentsDump(Request $request)
     {
@@ -144,7 +145,7 @@ class DocumentController extends CommonController
 
 
         $zip = new \ZipArchive();
-        $zipName = 'Dump_'.time().".zip";
+        $zipName = 'documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
 
         foreach ($em->getRepository('App:Document')->findAll() as $f) {
