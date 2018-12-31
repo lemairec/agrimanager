@@ -83,6 +83,7 @@
                     <div id="meteo_title" class="card-header">
                         Météo ${city}
                     </div>
+                    <div class="loader" v-if="!loaded"></div>
                     <div class="list-group">
                         <a v-for="d in meteo" class="list-group-item">
                             <h4 v-if="d.date">
@@ -122,8 +123,13 @@
 
                         </a>
                     </div>
+                    <div class="card-body">
+                        <footer class="blockquote-footer">Source : <cite title="Source Title">https://openweathermap.org</cite></footer>
+                    </div>
                 </div>
             </div>
+        </div>
+
 
     </div>
 
@@ -141,7 +147,8 @@ $( function() {
         delimiters: ['${', '}'],
         data: {
             meteo : [],
-            city : ""
+            city : "",
+            loaded : false,
         },
         mounted () {
             var find = false;
@@ -258,9 +265,10 @@ $( function() {
                         this.meteo.push(o);
 
                     }
+                    this.loaded=true;
                     //this.meteo = response.data;
-                    console.log("toto");
-                    console.log(this.meteo);
+                    //console.log("toto");
+                    //console.log(this.meteo);
                 }
             )
         },
