@@ -14,6 +14,7 @@ class MetaCultureType extends AbstractType
         $builder
             ->add('name')
             ->add('cultureUsage')
+            ->add('rendement_prev')
         ;
     }
 

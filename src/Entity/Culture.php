@@ -48,6 +48,13 @@ class Culture
      */
     public $company;
 
+    public function getRendementPrev(){
+        if($this->metaCulture){
+            return $this->metaCulture->rendement_prev;
+        }
+        return 0;
+    }
+
     public function __toString ( ){
         return $this->name;
     }

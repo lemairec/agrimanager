@@ -53,6 +53,80 @@ class CommercialisationController extends CommonController
     }
 
     /**
+     * @Route("/bilan_commercialisations", name="bilan_commercialisations")
+     */
+    public function bilanCommercialisationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $commercialisations = $em->getRepository('App:Commercialisation')->getAllForCampagne($campagne);
+        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
+
+        $cultures = [];
+        foreach($parcelles as $parcelle){
+            if($parcelle->active){
+                if (!array_key_exists(strval($parcelle->culture), $cultures)) {
+                    $cultures[strval($parcelle->culture)] = ['culture' => $parcelle->culture, 'qty_estime' => 0, 'qty_livraison' => 0, 'surface' => 0, 'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0];
+                }
+                $cultures[strval($parcelle->culture)]['qty_estime'] += $parcelle->surface*$parcelle->culture->getRendementPrev();
+                $cultures[strval($parcelle->culture)]['surface'] += $parcelle->surface;
+            }
+        }
+
+        foreach($commercialisations as $commercialisation){
+            if (!array_key_exists(strval($commercialisation->culture), $cultures)) {
+                $cultures[strval($commercialisation->culture)] = ['culture' => $commercialisation->culture, 'qty_estime' => 0, 'qty_livraison' => 0,'surface' => 0,'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0];
+            }
+            $cultures[strval($commercialisation->culture)]['price_total_commercialise'] += $commercialisation->price_total;
+            if($commercialisation->type != "complement"){
+                $cultures[strval($commercialisation->culture)]['qty_commercialise'] += $commercialisation->qty;
+
+            }
+        }
+
+
+
+        foreach($livraisons as $livraison){
+            $culture = $livraison->parcelle->culture;
+            if (!array_key_exists(strval($culture), $cultures)) {
+                $cultures[strval($culture)] = ['culture' => $culture,'qty_estime' => 0, 'qty_livraison' => 0, 'surface' => 0, 'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0];
+            }
+            $cultures[strval($livraison->parcelle->culture)]['qty_livraison'] += $livraison->poid_norme;
+        }
+
+        $cultures2 = [];
+        foreach($cultures as $key => $culture){
+
+            if($culture["qty_commercialise"] == 0){
+                $culture["price"] = null;
+            } else {
+                $culture["price"] = $culture["price_total_commercialise"] / $culture["qty_commercialise"];
+            }
+            $culture["name"] = $key;
+
+            $culture["qty_livraison_perc"] = 0;
+            if($culture["qty_estime"]){
+                $culture["qty_livraison_perc"] = $culture["qty_livraison"]/$culture["qty_estime"];
+            };
+
+            $culture["qty_commercialise_perc"] = 0;
+            if($culture["qty_estime"]){
+                $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_estime"];
+            };
+
+            $cultures2[] = $culture;
+        }
+        dump($cultures);
+        return $this->render('Default/commercialisations_bilan.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'cultures' => $cultures2,
+        ));
+    }
+
+    /**
      * @Route("/commercialisation/{commercialisation_id}", name="commercialisation")
      **/
     public function commercialisationEditAction($commercialisation_id, Request $request)

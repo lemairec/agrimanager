@@ -33,8 +33,9 @@ Back_up
 bin/console doctrine:database:drop --force && bin/console doctrine:database:create && mysql --host localhost --user root --password maplaine < ~/Downloads/maplainemkagri.sql
 ````
 
-
+````
 cd ~/workspace/agrimanager/ && yarn encore production && rsync -az ~/workspace/agrimanager/public/build/ maplainemk@ssh.cluster023.hosting.ovh.net:temp && ssh maplainemk@ssh.cluster023.hosting.ovh.net
+````
 
 DROP TABLE ephy_substance_produit;
 DROP TABLE ephy_substance;

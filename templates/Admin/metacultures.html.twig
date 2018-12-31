@@ -12,11 +12,14 @@
         {% for metaculture in metacultures %}
         <div class="list-group-item flex-column align-items-start">
             <div class="row" style="min-height: 1.5rem;">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <a href="{{ url("admin_metaculture", {'id': metaculture.id}) }}">{{metaculture.name}}
                     </a>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
+                    {{ metaculture.rendement_prev | showUnity("t") }}
+                </div>
+                <div class="col-md-5">
                     {{metaculture.cultureUsage}}
                 </div>
 
