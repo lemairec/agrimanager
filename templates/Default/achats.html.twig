@@ -15,6 +15,7 @@
             <tr>
                 <th>Date</th>
                 <th>Produit</th>
+                <th>Type</th>
                 <th>Qty</th>
                 <th class="text-right">Price</th>
                 <th class="text-right">Price Total</th>
@@ -26,7 +27,6 @@
                 <td><a href="/produit/{{achat.produit.id}}">{{achat.produit.completeName}}</a></td>
                 <td>{{achat.type}}</td>
                 <td>{{achat.qty}}</td>
-                <td>{{achat.complement_total}}</td>
                 <td  class="text-right">{{ achat.getPrice() | showEurUnity(achat.produit.unity) }}</td>
                 <td  class="text-right">{{ achat.price_total | showEur }}</td>
                 <td><a href="{{ url("achat_delete", {'achat_id': achat.id}) }}">d</a></td>

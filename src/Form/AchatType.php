@@ -37,7 +37,7 @@ class AchatType extends AbstractType
                     'autre' => 'autre',
                 ),
             ));
-            $builder->add('qty')->add('price_total')->add('complement_total')->add('externId')->add('comment');
+            $builder->add('qty')->add('price_total')->add('externId')->add('comment');
     }
 
     /**

@@ -76,13 +76,6 @@ class Achat
     public $price_total = 0;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="complement_total", type="float")
-     */
-    public $complement_total = 0;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="comment", type="string", length=255, nullable=true)
@@ -96,14 +89,6 @@ class Achat
     function getPrice(){
         if($this->qty != 0){
             return $this->price_total/$this->qty;
-        } else {
-            return null;
-        }
-    }
-
-    function getComplement(){
-        if($this->qty != 0){
-            return $this->complement_total/$this->qty;
         } else {
             return null;
         }
