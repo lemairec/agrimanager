@@ -28,30 +28,13 @@ class AchatController extends CommonController
     {
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
-        if ($request->getMethod() == 'POST') {
-            $file = $request->files->get('file');
-            $dir = $this->get('kernel')->getRootDir() . '/../web/uploads/images/';
-            $fileName = $file->move($dir, "temp.csv");
-            if (($handle = fopen($fileName, "r")) !== FALSE) {
-                $i = 0;
-                $em->createQuery('DELETE FROM App:Achat')->execute();
-                while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
-                    //if ($i == 0) { $i = 1;continue; }
-                    $i += 1;
-                    $rows = $data;
-                    $em->getRepository('App:Achat')->addRows($rows);
-                }
-                return $this->redirectToRoute('achats');
-            }
-        }
-        $em = $this->getDoctrine()->getManager();
 
         $achats = $em->getRepository('App:Achat')
-        ->createQueryBuilder('p')
-        ->where('p.campagne = :campagne')
-        ->add('orderBy','p.date DESC, p.type ASC')
-        ->setParameter('campagne', $campagne)
-        ->getQuery()->getResult();
+            ->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->add('orderBy','p.date DESC, p.type ASC')
+            ->setParameter('campagne', $campagne)
+            ->getQuery()->getResult();
 
         return $this->render('Default/achats.html.twig', array(
             'campagnes' => $this->campagnes,

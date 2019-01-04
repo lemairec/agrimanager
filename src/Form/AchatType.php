@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AchatType extends AbstractType
 {
@@ -27,6 +28,14 @@ class AchatType extends AbstractType
             $builder->add('produit', EntityType::class, array(
                 'class'        => 'App:Produit',
                 'choices' => $options['produits'],
+            ));
+            $builder->add('type', ChoiceType::class, array(
+                'choices'  => array(
+                    'achat' => 'achat',
+                    'stock' => 'stock',
+                    'complement' => 'complement',
+                    'autre' => 'autre',
+                ),
             ));
             $builder->add('qty')->add('price_total')->add('complement_total')->add('externId')->add('comment');
     }

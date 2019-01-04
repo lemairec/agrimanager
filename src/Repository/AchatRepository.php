@@ -55,17 +55,23 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
             $rows = preg_split('/[\t]/', $line);
             print_r($rows);
             $achat = new Achat();
-            $achat->externId = trim($rows[0]);
-            $achat->comment = $line;
+            $externId = trim($rows[0]);
             $date = trim($rows[1]);
-            $achat->date = date_create_from_format('d/m/Y',$date);
             $name = trim($rows[2]);
             $name = str_replace(" pdr","",$name);
+            $type = trim($rows[3]);
+            $qty = $this->parseCAJFloat($rows[4]);
+            $unity = trim($rows[5]);
+            $price_total = $this->parseCAJFloat($rows[7]);
+
+            $achat->externId = $externId;
+            $achat->comment = $line;
+            $achat->date = date_create_from_format('d/m/Y',$date);
             $achat->name = $name;
-            $achat->type = trim($rows[3]);
-            $achat->qty = floatval(str_replace(",",".",trim($rows[4])));
-            $achat->unity = trim($rows[5]);
-            $achat->price_total = $this->parseCAJFloat($rows[7]);
+            $achat->type = $type;
+            $achat->qty = $qty;
+            $achat->unity = $unity;
+            $achat->price_total = $price_total;
             $this->addCaj($achat, $campagne);
             //print_r($achat);
         }

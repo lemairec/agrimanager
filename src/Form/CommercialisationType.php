@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CommercialisationType extends AbstractType
 {
@@ -26,8 +27,15 @@ class CommercialisationType extends AbstractType
             'class'        => 'App:Culture',
             'choices' => $options['cultures'],
         ));
-        $builder->add('type')->add('qty')->add('price_total')->add('comment');
-        
+        $builder->add('type', ChoiceType::class, array(
+            'choices'  => array(
+                'vente' => 'vente',
+                'complement' => 'complement',
+                'prix_moyen' => 'prix_moyen',
+            ),
+        ));
+        $builder->add('qty')->add('price_total')->add('comment');
+
     }
 
     /**

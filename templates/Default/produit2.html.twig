@@ -145,19 +145,19 @@
     </div>
     <table class="table">
         <tr>
+            <th>Campagne</th>
             <th>Date</th>
-            <th>{{'Name' | trans}}</th>
+            <th>Type</th>
             <th>Qty</th>
             <th>Prix</th>
-            <th>Complement</th>
         </tr>
         {% for achat in     achats %}
         <tr>
+            <td>{{achat.campagne}}</td>
             <td>{{achat.getDateStr()}}</td>
-            <td>{{achat.name}}</td>
+            <td>{{achat.type}}</td>
             <td>{{ "%.2f  u"|format(achat.qty)}}</td>
             <td>{{ achat.price | showEurUnity('u', false) }}</td>
-            <td>{{ achat.complement | showEurUnity('u', false) }}</td>
         </tr>
         {% endfor %}
     </table>

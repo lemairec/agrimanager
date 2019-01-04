@@ -66,14 +66,14 @@ class Achat
      *
      * @ORM\Column(name="qty", type="float")
      */
-    public $qty;
+    public $qty = 0;
 
     /**
      * @var float
      *
      * @ORM\Column(name="price_total", type="float")
      */
-    public $price_total;
+    public $price_total = 0;
 
     /**
      * @var float
