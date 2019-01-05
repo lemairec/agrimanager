@@ -128,7 +128,7 @@
                             <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-8  text-right">
-                                        soit ${ produit.qty / total | formatNumber } u/ha
+                                        soit ${ produit.qty | formatNumber2(total) } u/ha
                                     </div>
                                     <div class="col-4 text-right">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeRow(index)"><span class="oi oi-delete"></span></button>
@@ -214,6 +214,15 @@ $( function() {
         },
         filters: {
             formatNumber : function (value) {
+                return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            },
+
+            formatNumber2 : function (value1, value2) {
+                if(typeof(value1)=="string"){
+                    value1 = value1.replace(",",".")
+                    value1 = parseFloat(value1);
+                }
+                value = value1/value2;
                 return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
             },
 
