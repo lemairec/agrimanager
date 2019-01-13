@@ -85,19 +85,21 @@ Ma Plaine</a>
                             Bilan
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('fiches_parcellaires') }}">Fiches Parcellaires</a>
+                            {% if app.user.username == "lejard" %}
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('bilan_charges') }}">Bilan charges</a>
                             <a class="dropdown-item" href="{{ url('bilan_detail') }}">Bilan Detaillé</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('bilan') }}">Bilan</a>
-                            {% if app.user.username == "lejard" %}
                             <a class="dropdown-item" href="{{ url('bilan_rendements') }}">Rendements</a>
                             <a class="dropdown-item" href="{{ url('bilan_produits') }}">Produits</a>
                             <a class="dropdown-item" href="{{ url('bilan_comptes') }}">Comptes</a>
                             <a class="dropdown-item" href="{{ url('bilan_gasoil') }}">Gasoil</a>
-                            {% endif %}
                             <a class="dropdown-item" href="{{ url('bilan_dates') }}">Dates</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('engrais') }}">Bilan engrais</a>
+                            {% endif %}
 
                         </div>
                     </li>

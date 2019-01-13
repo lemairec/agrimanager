@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+	<link rel="STYLESHEET" href="css/print_static.css" type="text/css">
+    <style type="text/css">
+
+</style>
+</head>
+<body>
+    <div id="header">
+        <table>
+        <tbody><tr>
+          <td>Fiche Parcellaires</td>
+          <td style="text-align: right;">www.maplaine.fr</td>
+        </tr>
+        </tbody></table>
+    </div>
+    <div id="footer">
+        <div class="page-number"></div>
+    </div>
+{% for parcelle in parcelles %}
+    <div class="page" style="page-break-inside: avoid">
+        <table class="header" style="width: 100%; background-color:{{ parcelle.cultureColor }};" >
+            <tbody>
+                <tr>
+                    <td><h1 style="text-align: left">{{ parcelle.completeName }}</h1></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="header" style="width: 100%; font-size: 8pt;">
+            <tbody>
+                <tr>
+                    <td style="width: 50%;">Culture : <strong>{{ parcelle.culture }}</strong></td>
+                    <td>Surface : <strong>{{ parcelle.surface | showHa }}</strong></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="header" style="width: 100%; font-size: 8pt;">
+            <tbody>
+                <tr>
+                    <td style="width: 50%;">N : <strong>{{ "%d"|format(parcelle.n)}}</strong></td>
+                    <td>
+                    P : <strong>{{ "%d"|format(parcelle.p)}}</strong> - K : <strong>{{ "%d"|format(parcelle.k)}}</strong> - S : <strong>{{ "%d"|format(parcelle.s)}}</strong> - Mg : <strong>{{ "%d"|format(parcelle.mg)}}</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="interventions" style="width:100%">
+            <tbody>
+            {% for intervention in parcelle.interventions %}
+
+                <tr class="odd_row">
+                    <th><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</a></th>
+                    <th colspan="2">{{intervention.type}}</th>
+                    <th></th>
+                </tr>
+                {% for it in intervention.produits %}
+                <tr>
+                    <td style="width: 30%;"></td>
+                    <td style="width: 5%;"></td>
+                    <td style="width: 30%;"><i>{{it.produit}}</i></td>
+                    <td style="width: 30%;">{{ it.qtyha | showUnityHa(it.produit.unity) }}</td>
+                </tr>
+                {% endfor %}
+                {% if intervention.comment %}
+                <tr>
+                    <td  colspan="4">
+                        <small> {{ intervention.comment }} </small>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+
+        </tbody>
+        </table>
+
+    </div>
+</div>
+{% endfor %}
+</body>
