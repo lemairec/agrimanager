@@ -1,0 +1,78 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+{% for parcelle in parcelles %}
+    <div class="card",  style="page-break-after: always">
+            <div class="card-header", style="background-color:{{ parcelle.cultureColor }};">
+                Parcelle : {{ parcelle.completeName }}
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Culture : {{ parcelle.culture }}
+                    </div>
+                    <div class="col-sm-6">
+                        Surface : {{ parcelle.surface | showHa }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        N : {{ "%d"|format(parcelle.n)}}
+                    </div>
+                    <div class="col-sm-6">
+                        P {{ "%d"|format(parcelle.p)}} - K {{ "%d"|format(parcelle.k)}} - S {{ "%d"|format(parcelle.s)}} - Mg : {{ "%d"|format(parcelle.mg)}}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for intervention in parcelle.interventions %}
+                    <div class="list-group-item flex-column align-items-start" style="page-break-inside: avoid;">
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</a>
+
+                            </div>
+                            <div class="col-8">
+                                {{intervention.type}}
+                            </div>
+                        </div>
+
+                        <ul style="margin-bottom: 0rem;">
+                            {% for it in intervention.produits %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <i>{{it.produit}}</i>
+                                    </div>
+                                    <div class="col-6">
+                                        <div>{{ it.qtyha | showUnityHa(it.produit.unity) }}</div>
+                                    </div>
+
+                                </div>
+                            </li>
+
+                            {% endfor %}
+                        </ul>
+
+                        {% if intervention.comment %}
+                        <div class="row">
+                            <div class="col-12">
+                                <small>{{ intervention.comment }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <br/>
+{% endfor %}
+
+{% endblock %}

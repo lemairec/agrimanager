@@ -12,6 +12,8 @@ use App\Entity\Livraison;
 
 use App\Controller\CommonController;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class BilanController extends CommonController
 {
@@ -59,6 +61,123 @@ class BilanController extends CommonController
             'parcelles' => $parcelles,
             'cultures' => $cultures,
         ));
+    }
+
+    /**
+     * @Route("/fiche_parcellaires", name="fiche_parcellaires")
+     */
+    public function ficheParcellairesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+
+        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        foreach ($parcelles as $p) {
+            if (!array_key_exists($p->getCultureName(), $cultures)) {
+                $cultures[$p->getCultureName()] = 0;
+            }
+            $cultures[$p->getCultureName()] += $p->surface;
+
+            $p->interventions = [];
+            if($p->id != '0'){
+                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+            }
+            $p->n = 0;
+            $p->p = 0;
+            $p->k = 0;
+            $p->mg = 0;
+            $p->s = 0;
+            $p->priceHa = 0;
+            foreach($p->interventions as $it){
+                $p->priceHa += $it->getPriceHa();
+                foreach($it->produits as $produit){
+                    $p->n += $produit->getQtyHa() * $produit->produit->n;
+                    $p->p += $produit->getQtyHa() * $produit->produit->p;
+                    $p->k += $produit->getQtyHa() * $produit->produit->k;
+                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                }
+            }
+        }
+        return $this->render('Bilan/fiche_parcellaires.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'parcelles' => $parcelles,
+            'cultures' => $cultures,
+        ));
+    }
+
+    /**
+     * @Route("/fiche_parcellaires_pdf", name="fiche_parcellaires_pdf")
+     */
+    public function ficheParcellairesPdfAction(Request $request)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('isHtml5ParserEnabled', true);
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+
+
+
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+
+        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        foreach ($parcelles as $p) {
+            if (!array_key_exists($p->getCultureName(), $cultures)) {
+                $cultures[$p->getCultureName()] = 0;
+            }
+            $cultures[$p->getCultureName()] += $p->surface;
+
+            $p->interventions = [];
+            if($p->id != '0'){
+                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+            }
+            $p->n = 0;
+            $p->p = 0;
+            $p->k = 0;
+            $p->mg = 0;
+            $p->s = 0;
+            $p->priceHa = 0;
+            foreach($p->interventions as $it){
+                $p->priceHa += $it->getPriceHa();
+                foreach($it->produits as $produit){
+                    $p->n += $produit->getQtyHa() * $produit->produit->n;
+                    $p->p += $produit->getQtyHa() * $produit->produit->p;
+                    $p->k += $produit->getQtyHa() * $produit->produit->k;
+                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                }
+            }
+        }
+        $html = $this->renderView('Bilan/fiche_parcellaires_pdf.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'parcelles' => $parcelles,
+            'cultures' => $cultures,
+        ));
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => false
+        ]);
     }
 
     /*public function bilanAction(Request $request)
