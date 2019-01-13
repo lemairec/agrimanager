@@ -117,7 +117,9 @@ class BilanController extends CommonController
 
         $parcelles = $this->getParcellesForFiches($campagne);
         $html = $this->renderView('Bilan/fiches_parcellaires_pdf.html.twig', array(
-            'parcelles' => $parcelles
+            'parcelles' => $parcelles,
+            'campagne' => $campagne,
+
         ));
 
         // Configure Dompdf according to your needs
