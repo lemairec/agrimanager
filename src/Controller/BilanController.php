@@ -132,6 +132,8 @@ class BilanController extends CommonController
         $dompdf->stream("fiches_parcellaires.pdf", [
             "Attachment" => false
         ]);
+
+        return new Response("ok");
     }
 
     /*public function bilanAction(Request $request)
