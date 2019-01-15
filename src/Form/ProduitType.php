@@ -16,7 +16,8 @@ class ProduitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name')->add('type', ChoiceType::class, array(
-            'choices'  => ["autre" => "autre"
+            'choices'  =>
+            ["autre" => "autre"
             , "agroequipements" => "agroequipements"
             , "engrais" => "engrais"
             , "oligos" => "oligos"
