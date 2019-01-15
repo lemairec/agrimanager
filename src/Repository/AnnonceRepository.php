@@ -68,7 +68,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    function saveOrUpdate($annonce, $controller){
+    function saveOrUpdate($annonce, $mailer){
         $annonce->log = "";
         $annonce->new = true;
 
@@ -87,7 +87,11 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
                 $str = $str."\nlink :   ".$annonce->url;
                 $str = $str."\ntitle :   ".$annonce->title;
                 $str = $str."\nprice :  ".$annonce->price;
-                $controller->sendMail("lemairec02@gmail.com", "mailto:victorleonard@hotmail.fr", "Une nouvelle maison! vite!", $str);
+                $from = "lemairec02@gmail.com";
+                $to = "victorleonard@hotmail.fr";
+                $message = (new \Swift_Message($str))->setSubject('Une nouvelle maison! vite')->setFrom($from)->setTo($to)->setBody($str);
+                $res = $mailer->send($message);
+                $res = mail($to, "$str", $str);
             }
 
             $em->persist($annonce);
