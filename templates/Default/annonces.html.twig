@@ -8,9 +8,12 @@
         <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
         <button type="submit" id="Ok">Ok</button>
     </form>
-    <a href="{{ url('bennes') }}">bennes</a>
-    <a href="{{ url('annonces_immobilier') }}">immobilier</a>
-    <a href="{{ url('annonces_immobilier_nantes') }}">immobilier Nantes</a>
+    <a href="{{ url('bennes') }}">Bennes</a>
+    <a href="{{ url('annonces', {'label': "vader"}) }}">Vader</a>
+    <a href="{{ url('annonces', {'label': "smarag"}) }}">Smarag</a>
+    <a href="{{ url('annonces', {'label': "lemken"}) }}">Lemken</a>
+    <a href="{{ url('annonces_immobilier') }}">Immobilier</a>
+    <a href="{{ url('annonces_immobilier_nantes') }}">Immobilier_nantes</a>
     <div class="list list-group">
         {% for annonce in annonces %}
         <div>

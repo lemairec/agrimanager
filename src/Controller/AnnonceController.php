@@ -21,12 +21,15 @@ class AnnonceController extends CommonController
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $params = $request->request->all();
+        $label = $request->request->get("label");
+        if(!$label){
+            $label = $request->query->get("label");
+        }
 
-        if(empty($params["label"])){
+        if($label){
             $annonces = $em->getRepository('App:Annonce')->getAllCategories("");
         } else {
-            $annonces = $em->getRepository('App:Annonce')->getAll2($params["label"]);
+            $annonces = $em->getRepository('App:Annonce')->getAll2($label);
         }
         return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
