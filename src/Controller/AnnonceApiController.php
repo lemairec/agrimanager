@@ -36,7 +36,7 @@ class AnnonceApiController extends Controller
             //print(json_encode($annonce));
             //print("\n");
             if($annonce->price > 10){
-                $em->getRepository('App:Annonce')->saveOrUpdate($annonce);
+                $em->getRepository('App:Annonce')->saveOrUpdate($annonce, $controller);
             }
         }
         return new Response("ok");

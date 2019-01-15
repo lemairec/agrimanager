@@ -68,7 +68,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    function saveOrUpdate($annonce){
+    function saveOrUpdate($annonce, $controller){
         $annonce->log = "";
         $annonce->new = true;
 
@@ -82,6 +82,14 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
             print("\nlink :   ".$annonce->url);
             print("\ntitle :  ".$annonce->title);
             print("\nprice :  ".$annonce->price);
+            if($annonce->category == "immobilier_nantes"){
+                $str = "";
+                $str = $str."\nlink :   ".$annonce->url;
+                $str = $str."\ntitle :   ".$annonce->title;
+                $str = $str."\nprice :  ".$annonce->price;
+                $controller->sendMail("lemairec02@gmail.com", "mailto:victorleonard@hotmail.fr", "Une nouvelle maison! vite!", $str)
+            }
+
             $em->persist($annonce);
             $em->flush();
             //print("\nimage :  ".$image);
