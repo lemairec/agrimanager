@@ -87,7 +87,7 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
                 $str = $str."\nlink :   ".$annonce->url;
                 $str = $str."\ntitle :   ".$annonce->title;
                 $str = $str."\nprice :  ".$annonce->price;
-                $controller->sendMail("lemairec02@gmail.com", "mailto:victorleonard@hotmail.fr", "Une nouvelle maison! vite!", $str)
+                $controller->sendMail("lemairec02@gmail.com", "mailto:victorleonard@hotmail.fr", "Une nouvelle maison! vite!", $str);
             }
 
             $em->persist($annonce);
