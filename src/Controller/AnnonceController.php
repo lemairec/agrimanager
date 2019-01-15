@@ -46,6 +46,21 @@ class AnnonceController extends Controller
         ));
     }
 
+    /**
+     * @Route("/annonces/immobilier_nantes", name="annonces_immobilier_nantes")
+     */
+    public function index3Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $params = $request->request->all();
+
+        $annonces = $em->getRepository('App:Annonce')->getAllCategories("immobilier_nantes");
+
+        return $this->render('Default/annonces.html.twig', array(
+            'annonces' => $annonces,
+        ));
+    }
+
 
     /**
      * @Route("/annonces/bennes", name="bennes")
