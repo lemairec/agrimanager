@@ -149,7 +149,7 @@ class InterventionController extends CommonController
             $it = new InterventionProduit();
             $it->intervention = $intervention;
             $it->name = ($produit["name"]);
-            $it->qty = ($produit["qty"]);
+            $it->qty = $this->parseFloat($produit["qty"]);
             $em->getRepository('App:InterventionProduit')->save($it, $campagne);
         }
 

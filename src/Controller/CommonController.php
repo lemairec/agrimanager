@@ -135,4 +135,8 @@ class CommonController extends Controller
         $str = strtolower($str);
         return $str;
     }
+
+    protected function parseFloat($str){
+        return str_replace(",",".",$str);
+    }
 }
