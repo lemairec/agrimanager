@@ -35,6 +35,39 @@ class ProduitController extends CommonController
     }
 
     /**
+     * @Route("/bilan_produits2", name="bilan_produits2")
+     */
+    public function bilan_produits2Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $produits = $em->getRepository('App:Produit')
+            ->getAllForCompany($this->company);
+        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+
+        $produits2 = [];
+        foreach($produits as $produit){
+            $produit->campagne = [];
+            foreach($campagnes2 as $campagne){
+                $produitCampagne = $em->getRepository('App:ProduitCampagne')->get($produit,$campagne);
+                if($produitCampagne){
+                    $produit->campagne[$campagne->name] = $produitCampagne->price;
+                } else {
+                    $produit->campagne[$campagne->name] = null;
+                }
+            }
+            $produits2[] = $produit;
+        }
+
+        return $this->render('Bilan/bilan_produits2.html.twig', array(
+            'produits' => $produits2,
+            'campagnes2' => $campagnes2,
+            'navs' => ["Produits" => "produits"]
+        ));
+    }
+
+    /**
      * @Route("/api/produit", name="produit_api")
      */
     public function produitApiAction(Request $request)
