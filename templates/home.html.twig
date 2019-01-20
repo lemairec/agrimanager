@@ -2,44 +2,50 @@
 
 {% block body %}
 
-
-<section class="masthead text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="home_page_element">
-                    <h1 class="mb-5">Un cahier parcellaire en ligne pour les agriculteurs</h1>
-
-                    Le site est actuellement en beta, il est possible que vous rencontriez des erreurs.
-                </div>
-            </div>
-        </div>
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 mx-auto">
+        <h1 class="mb-5">Un cahier parcellaire en ligne pour les agriculteurs</h1>
     </div>
-</section>
+  </div>
+</header>
 
-<section class="text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="bg-light home_page_element_card md">
-                    <h3>Simplicité</h3>
-                    <p class="lead mb-0">Créez un ilot, une parcelle, une intervention ...</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="bg-light home_page_element_card">
-                    <h3>Disponibilité</h3>
-                    <p class="lead mb-0">Mes données sont disponibles partout avec moi</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="bg-light home_page_element_card">
-                    <h3>Sécurité</h3>
-                    <p class="lead mb-0">La connection est sécurisée et les données sont sauvegardés toutes les nuits</p>
-                </div>
-            </div>
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="icon-screen-desktop m-auto text-primary"></i>
+          </div>
+          <h3>Disponible</h3>
+          <p class="lead mb-0">Mes données sont disponibles partout avec moi!</p>
         </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="icon-check m-auto text-primary"></i>
+          </div>
+          <h3>Sécurisé</h3>
+          <p class="lead mb-0">La connection est sécurisée et les données sont sauvegardés toutes les nuits</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="icon-note m-auto text-primary"></i>
+          </div>
+          <h3>Facile à utiliser</h3>
+          <p class="lead mb-0">Créez un ilot, une parcelle, une intervention ...</p>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <section class="features-icons text-center">
@@ -55,26 +61,33 @@
             <div class="col-lg-6">
                 <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                     <h3>Sans Engagement</h3>
-                    <p class="lead mb-0">Service disponible pour 5€/mois HT sans engagement</p>
+                    <p class="lead mb-0">Service disponible pour 5€/mois H sans engagement</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="masthead text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="home_page_element_card">
-                    <h3 class="mb-5">Un bug, une remarque, une suggestion : </h3>
-                    <div>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("contact", {'contact_id': 0}) }}'">Contactez nous</button>
-                </div>
-                    </div>
-            </div>
+<!-- Call to Action -->
+<section class="call-to-action text-white text-center">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 mx-auto">
+          <p>Le site est actuellement en beta, il est possible que vous rencontriez des erreurs.</p>
+
+        <h2 class="mb-4">Un bug, une remarque, une suggestion : </h3>
+
+      </div>
+      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <div>
+                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("contact", {'contact_id': 0}) }}'">Contactez nous</button>
+              </div>
         </div>
     </div>
+  </div>
 </section>
+
+<br>
 
 {% endblock %}
