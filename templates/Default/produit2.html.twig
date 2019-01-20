@@ -60,9 +60,9 @@
 
                 </div>
 
-                <div class="card" v-if="produit.type=='engrais'">
+                <div class="card" v-if="produit.type=='engrais' || produit.type=='compost/fumier'">
                     <div class="card-header">
-                        Engrais
+                        Teneur
                     </div>
                     <table class="table">
                         <tr>
@@ -247,6 +247,7 @@ $( function() {
                 'phytos',
                 'semences',
                 'engrais',
+                'compost/fumier',
                 'autre'],
             unities : [
                 'l',
