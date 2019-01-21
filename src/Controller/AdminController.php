@@ -24,18 +24,39 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
             $logs = $em->getRepository('App:Log')->countByUser();
+            $parcelles = $em->getRepository('App:Parcelle')->countByCompany();
+            $interventions = $em->getRepository('App:Intervention')->countByCompany();
 
             $logs_dict = [];
             foreach ($logs as $log) {
                 $logs_dict[$log['user_id']] = intval($log['count']);
             }
 
-            foreach($users as $user){
-                if (isset($logs_dict[$user->id])){
+            $parcelles_dict = [];
+            foreach ($parcelles as $parcelle) {
+                $parcelles_dict[$parcelle['company_id']] = intval($parcelle['count']);
+            }
 
+            $interventions_dict = [];
+            foreach ($interventions as $intervention) {
+                $interventions_dict[$intervention['company_id']] = intval($intervention['count']);
+            }
+
+            foreach($users as $user){
+                $companies = $em->getRepository('App:Company')->getAllForUser($user);
+                $user->logs = 0;
+                $user->parcelles = 0;
+                $user->interventions = 0;
+                if (isset($logs_dict[$user->id])){
                     $user->logs = $logs_dict[$user->id];
-                } else {
-                    $user->logs = 0;
+                }
+                foreach ($companies as $company) {
+                    if (isset($parcelles_dict[$company->id])){
+                        $user->parcelles = $parcelles_dict[$company->id];
+                    }
+                    if (isset($interventions_dict[$company->id])){
+                        $user->interventions = $interventions_dict[$company->id];
+                    }
                 }
             }
 

@@ -10,7 +10,9 @@
             <th>Name</th>
             <th>Email</th>
             <th>LastLogin</th>
-            <th>Count</th>
+            <th>Parcelles</th>
+            <th>Interventions</th>
+            <th>Log</th>
         </tr>
         {% for user in users %}
         <tr>
@@ -18,6 +20,8 @@
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <td>{{user.getLastLogin | showDateTime}}</td>
+            <td>{{user.parcelles }}</td>
+            <td>{{user.interventions }}</td>
             <td>{{user.logs }}</td>
         </tr>
         {% endfor %}

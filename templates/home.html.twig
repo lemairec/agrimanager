@@ -10,6 +10,11 @@
       <div class="col-xl-9 mx-auto">
         <h1 class="mb-5">Un cahier parcellaire en ligne pour les agriculteurs</h1>
     </div>
+    <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <div>
+            <button type="button" class="btn btn-success" onclick="window.location.href='{{ url("fos_user_registration_register", {'source': "home"}) }}'">Commencer</button>
+        </div>
+      </div>
   </div>
 </header>
 
@@ -81,8 +86,8 @@
       </div>
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <div>
-                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("contact", {'contact_id': 0}) }}'">Contactez nous</button>
-              </div>
+              <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("contact", {'contact_id': 0}) }}'">Contactez nous</button>
+          </div>
         </div>
     </div>
   </div>
