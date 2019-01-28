@@ -132,7 +132,7 @@ class CommercialisationController extends CommonController
             }
             $cultures2[] = $culture;
         }
-        dump($cultures);
+        #dump($cultures);
         return $this->render('Default/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
@@ -197,7 +197,7 @@ class CommercialisationController extends CommonController
 
         if ($form->isSubmitted()) {
             $cotations = $form->getData()["cotations"];
-            //dump($cotations);
+            #dump($cotations);
             $cotations = str_replace("\r", "\t", $cotations);
             $cotations = str_replace("\n", "\t", $cotations);
             $cotations = str_replace(" \t", "\t", $cotations);
@@ -210,7 +210,7 @@ class CommercialisationController extends CommonController
             $cotations = str_replace("é", "e", $cotations);
             $cotations = str_replace("ï", "i", $cotations);
             $cotations = str_replace(",", ".", $cotations);
-            #dump($cotations);
+            dump($cotations);
 
             $rows = explode("\t", $cotations);
 
@@ -243,7 +243,7 @@ class CommercialisationController extends CommonController
             if($name != ""){
                 $cotations[] = ["year"=> $year, "name"=> $name, "values"=> $values];
             }
-            #print(json_encode($cotations)."<br>");
+            dump($cotations);
             foreach ($cotations as $row) {
                 $cotation = new Cotation();
                 $cotation->date = new \DateTime();
@@ -261,7 +261,7 @@ class CommercialisationController extends CommonController
                 }
 
                 $commercialisation = $em->getRepository('App:Commercialisation\Cotation')->add($cotation);
-                return $this->redirectToRoute('cotations');
+                #eturn $this->redirectToRoute('cotations');
 
             }
         }
