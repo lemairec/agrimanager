@@ -5,23 +5,26 @@
 
 <div class="card">
     <div class="card-header">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='{{path('cotation_caj')}}'">Ajouter</button>
-        Cotation {{ cotations["date"] }}
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{path('cotation', {'id': 0})}}'">Ajouter</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{path('cotation_caj')}}'">Caj</button>
+        Cotation
     </div>
     <table class="table">
         <tr>
             <th>Source</th>
             <th>Campagne</th>
             <th>Produit</th>
+            <th>Date</th>
             <th>Price</th>
             <th>Price Stock</th>
             <th>Price Stock End</th>
         </tr>
-        {% for cotation in cotations["cotations"] %}
+        {% for cotation in cotations %}
             <tr>
                 <td>{{ cotation.source }}</td>
                 <td>{{ cotation.campagne }}</td>
                 <td>{{ cotation.produit }}</td>
+                <td>{{ cotation.date | showDate }}</td>
                 <td>{{ cotation.value | showUnity(" €/t") }}</td>
                 <td>{{ cotation.valueStockage | showUnity(" €/t") }}</td>
                 <td>{{ cotation.valueStockageEnd | showUnity(" €/t") }}</td>

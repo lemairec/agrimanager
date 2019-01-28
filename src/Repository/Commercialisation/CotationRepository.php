@@ -73,7 +73,7 @@ class CotationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        return ["date" => $date, "cotations"=>$res];
+        return $res;
 
 
     }

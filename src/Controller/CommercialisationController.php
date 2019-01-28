@@ -6,16 +6,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
 use DateTime;
 
 use App\Entity\Commercialisation;
 use App\Entity\Commercialisation\Cotation;
 
-
 use App\Form\CommercialisationType;
 use App\Form\CotationsCajType;
+use App\Form\Commercialisation\CotationType;
 
-use Symfony\Component\HttpFoundation\File\File;
 
 //COMPTE
 //ECRITURE
@@ -50,7 +50,7 @@ class CommercialisationController extends CommonController
             }
         }
 
-        return $this->render('Default/commercialisations.html.twig', array(
+        return $this->render('Commercialisation/commercialisations.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'commercialisations' => $commercialisations,
@@ -136,9 +136,8 @@ class CommercialisationController extends CommonController
             $cultures2[] = $culture;
 
         }
-        dump($total);
-        #dump($cultures);
-        return $this->render('Default/commercialisations_bilan.html.twig', array(
+
+        return $this->render('Commercialisation/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'cultures' => $cultures2,
@@ -188,12 +187,25 @@ class CommercialisationController extends CommonController
         $cotations = $em->getRepository('App:Commercialisation\Cotation')->getLasts();
 
         return $this->render('Commercialisation/cotations.html.twig', array(
-            'cotations' => $cotations,
+            'cotations' => $cotations
         ));
     }
 
     /**
-     * @Route("/cotations/caj", name="cotation_caj")
+     * @Route("/cotations_all", name="cotations_all")
+     **/
+    public function cotationAllAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cotations = $em->getRepository('App:Commercialisation\Cotation')->findAll();
+
+        return $this->render('Commercialisation/cotations.html.twig', array(
+            'cotations' => $cotations
+        ));
+    }
+
+    /**
+     * @Route("/cotations_caj", name="cotation_caj")
      **/
     public function cotationCajAction(Request $request)
     {
@@ -270,6 +282,33 @@ class CommercialisationController extends CommonController
                 //return $this->redirectToRoute('cotations');
 
             }
+        }
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/cotation/{id}", name="cotation")
+     **/
+    public function cotationEditAction($id, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        if($id == '0'){
+            $cotation = new Cotation();
+            $cotation->date = new \DateTime();
+        } else {
+            $cotation = $em->getRepository('App:Cotation')->find($id);
+        }
+        $form = $this->createForm(CotationType::class, $cotation);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($cotation);
+            $em->flush();
+            return $this->redirectToRoute('cotations_all');
         }
         return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),
