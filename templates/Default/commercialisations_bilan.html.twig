@@ -29,6 +29,16 @@
                     Prix : {{ table['price'] | showUnity(" €/t") }}
                 </div>
             </div>
+            <div class ="row">
+                <div class ="col-2">
+                </div>
+                <div class ="col-4">
+                    Cotation : {{ table['cotation'] | showUnity("€/t") }}
+                </div>
+                <div class ="col-4">
+                    Price today : {{ table['price_today'] | showUnity("€/t") }}
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>

@@ -30,6 +30,11 @@ class Campagne
     public $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $commercialisation;
+
+    /**
      * @var color
      *
      * @ORM\Column(name="color", type="string", length=25, nullable=true)

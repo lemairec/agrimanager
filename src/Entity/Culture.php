@@ -43,6 +43,11 @@ class Culture
     public $color;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $commercialisation;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company")
      * @ORM\JoinColumn(nullable=false)
      */

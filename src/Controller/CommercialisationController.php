@@ -7,8 +7,14 @@ use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
+
 use App\Entity\Commercialisation;
+use App\Entity\Commercialisation\Cotation;
+
+
 use App\Form\CommercialisationType;
+use App\Form\CotationsCajType;
+
 use Symfony\Component\HttpFoundation\File\File;
 
 //COMPTE
@@ -97,6 +103,7 @@ class CommercialisationController extends CommonController
         }
 
         $cultures2 = [];
+        $camp = $campagne->commercialisation;
         foreach($cultures as $key => $culture){
 
             if($culture["qty_commercialise"] == 0){
@@ -116,6 +123,13 @@ class CommercialisationController extends CommonController
                 $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_estime"];
             };
 
+            $cotation = $em->getRepository('App:Commercialisation\Cotation')->getLast('caj',$camp,$culture["culture"]->commercialisation);
+            $culture["cotation"] = null;
+            $culture["price_today"] = null;
+            if($cotation){
+                $culture["cotation"] = $cotation->value;
+                $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_estime"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_estime"];
+            }
             $cultures2[] = $culture;
         }
         dump($cultures);
@@ -153,6 +167,103 @@ class CommercialisationController extends CommonController
             $em->persist($commercialisation);
             $em->flush();
             return $this->redirectToRoute('commercialisations');
+        }
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/cotations", name="cotations")
+     **/
+    public function cotationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cotations = $em->getRepository('App:Commercialisation\Cotation')->getLasts();
+
+        return $this->render('Commercialisation/cotations.html.twig', array(
+            'cotations' => $cotations,
+        ));
+    }
+
+    /**
+     * @Route("/cotations/caj", name="cotation_caj")
+     **/
+    public function cotationCajAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(CotationsCajType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $cotations = $form->getData()["cotations"];
+            //dump($cotations);
+            $cotations = str_replace("\r", "\t", $cotations);
+            $cotations = str_replace("\n", "\t", $cotations);
+            $cotations = str_replace(" \t", "\t", $cotations);
+            $cotations = str_replace("\t ", "\t", $cotations);
+            $cotations = str_replace("\t\t\t", "\t", $cotations);
+            $cotations = str_replace("\t\t", "\t", $cotations);
+            $cotations = str_replace("\t\t", "\t", $cotations);
+            $cotations = str_replace("\t\t", "\t", $cotations);
+            $cotations = str_replace("\t\t", "\t", $cotations);
+            $cotations = str_replace("é", "e", $cotations);
+            $cotations = str_replace("ï", "i", $cotations);
+            $cotations = str_replace(",", ".", $cotations);
+            #dump($cotations);
+
+            $rows = explode("\t", $cotations);
+
+            $year = "";
+            $name = "";
+            $values = [];
+            $cotations = [];
+            foreach($rows as $row){
+                if($row == "2017" || $row == "2018"|| $row == "2019"|| $row == "2020"|| $row == "2021"){
+                    if(count($values) > 0){
+                        $cotations[] = ["year"=> $year, "name"=> $name, "values"=> $values];
+                    }
+                    $year = $row;
+                    $values = [];
+                    $name = "";
+                } else {
+                    $value = floatval($row);
+                    if($value != 0){
+                        $values[] = $value;
+                    } else {
+                        if(count($values) > 0){
+                            $cotations[] = ["year"=> $year, "name"=> $name, "values"=> $values];
+                        }
+                        $values = [];
+                        $name = $row;
+                    }
+
+                }
+            }
+            if($name != ""){
+                $cotations[] = ["year"=> $year, "name"=> $name, "values"=> $values];
+            }
+            #print(json_encode($cotations)."<br>");
+            foreach ($cotations as $row) {
+                $cotation = new Cotation();
+                $cotation->date = new \DateTime();
+                $cotation->campagne = $row["year"];
+                $cotation->produit = $row["name"];
+                $cotation->source = "caj";
+                $values = $row["values"];
+                if(count($values) == 2){
+                    $cotation->value = $values[0];
+                    $cotation->valueStockageEnd = $values[1];
+                } else if(count($values) == 3){
+                    $cotation->value = $values[0];
+                    $cotation->valueStockage = $values[1];
+                    $cotation->valueStockageEnd = $values[2];
+                }
+
+                $commercialisation = $em->getRepository('App:Commercialisation\Cotation')->add($cotation);
+                return $this->redirectToRoute('cotations');
+
+            }
         }
         return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),

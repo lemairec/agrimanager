@@ -226,6 +226,9 @@ class DefaultController extends CommonController
             $campagne = $em->getRepository('App:Campagne')->findOneById($campagne_id);
         }
         $form = $this->createForm(CampagneType::class, $campagne);
+        if($this->getUser()->getUsername() == "lejard"){
+            $form->add('commercialisation');
+        }
         $form->handleRequest($request);
 
 
@@ -269,6 +272,9 @@ class DefaultController extends CommonController
             $culture = $em->getRepository('App:Culture')->findOneById($culture_id);
         }
         $form = $this->createForm(CultureType::class, $culture);
+        if($this->getUser()->getUsername() == "lejard"){
+            $form->add('commercialisation');
+        }
         $form->handleRequest($request);
 
 
