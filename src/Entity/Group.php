@@ -25,4 +25,9 @@ class Group extends BaseGroup
     public function __toString ( ){
         return $this->name;
     }
+
+    public function __construct()
+    {
+        $this->roles = [];
+    }
 }
