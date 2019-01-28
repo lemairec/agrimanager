@@ -104,9 +104,10 @@ class CommercialisationController extends CommonController
 
         $cultures2 = [];
         $camp = $campagne->commercialisation;
-        $total = 0;
+        $total_today = 0;
+        $total_realise = 0;
         foreach($cultures as $key => $culture){
-
+            $total_realise += $culture["price_total_commercialise"];
             if($culture["qty_commercialise"] == 0){
                 $culture["price"] = null;
             } else {
@@ -131,9 +132,11 @@ class CommercialisationController extends CommonController
             if($cotation){
                 $culture["cotation"] = $cotation->value;
                 $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_estime"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_estime"];
-                $total += $culture["qty_estime"]*$culture["price_today"];
+                $total_today += $culture["qty_estime"]*$culture["price_today"];
             }
             $cultures2[] = $culture;
+
+
 
         }
 
@@ -141,7 +144,8 @@ class CommercialisationController extends CommonController
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'cultures' => $cultures2,
-            'total' => $total,
+            'total_today' => $total_today,
+            'total_realise' => $total_realise,
         ));
     }
 
@@ -225,6 +229,7 @@ class CommercialisationController extends CommonController
             $cotations = str_replace("\t\t", "\t", $cotations);
             $cotations = str_replace("\t\t", "\t", $cotations);
             $cotations = str_replace("\t\t", "\t", $cotations);
+            $cotations = str_replace("  ", " ", $cotations);
             $cotations = str_replace("é", "e", $cotations);
             $cotations = str_replace("ï", "i", $cotations);
             $cotations = str_replace(",", ".", $cotations);

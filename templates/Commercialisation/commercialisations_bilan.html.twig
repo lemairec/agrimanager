@@ -44,11 +44,14 @@
 
         <div class="list-group-item flex-column align-items-start">
             <div class ="row">
-                <h5 class ="col-6">
+                <h5 class ="col-3">
                     Total
                 </h5>
                 <div class ="col-4">
-                    Prix aujourd'hui : {{ total | showUnity("€") }}
+                    Prix realisé : {{ total_realise | showUnity("€") }}
+                </div>
+                <div class ="col-4">
+                    Prix aujourd'hui : {{ total_today | showUnity("€") }}
                 </div>
             </div>
         </div>
