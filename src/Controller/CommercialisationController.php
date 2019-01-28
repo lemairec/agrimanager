@@ -197,7 +197,7 @@ class CommercialisationController extends CommonController
 
         if ($form->isSubmitted()) {
             $cotations = $form->getData()["cotations"];
-            #dump($cotations);
+            //dump($cotations);
             $cotations = str_replace("\r", "\t", $cotations);
             $cotations = str_replace("\n", "\t", $cotations);
             $cotations = str_replace(" \t", "\t", $cotations);
@@ -261,7 +261,7 @@ class CommercialisationController extends CommonController
                 }
 
                 $commercialisation = $em->getRepository('App:Commercialisation\Cotation')->add($cotation);
-                #eturn $this->redirectToRoute('cotations');
+                //return $this->redirectToRoute('cotations');
 
             }
         }
