@@ -104,6 +104,7 @@ class CommercialisationController extends CommonController
 
         $cultures2 = [];
         $camp = $campagne->commercialisation;
+        $total = 0;
         foreach($cultures as $key => $culture){
 
             if($culture["qty_commercialise"] == 0){
@@ -121,6 +122,7 @@ class CommercialisationController extends CommonController
             $culture["qty_commercialise_perc"] = 0;
             if($culture["qty_estime"]){
                 $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_estime"];
+                $culture["rendement_prev"]=$culture["qty_estime"]/$culture["surface"];
             };
 
             $cotation = $em->getRepository('App:Commercialisation\Cotation')->getLast('caj',$camp,$culture["culture"]->commercialisation);
@@ -129,14 +131,18 @@ class CommercialisationController extends CommonController
             if($cotation){
                 $culture["cotation"] = $cotation->value;
                 $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_estime"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_estime"];
+                $total += $culture["qty_estime"]*$culture["price_today"];
             }
             $cultures2[] = $culture;
+
         }
+        dump($total);
         #dump($cultures);
         return $this->render('Default/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'cultures' => $cultures2,
+            'total' => $total,
         ));
     }
 

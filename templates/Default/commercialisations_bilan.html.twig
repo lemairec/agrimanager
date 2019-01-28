@@ -15,7 +15,7 @@
                     {{ table['surface'] | showUnity("ha") }}
                 </div>
                 <div class ="col-4">
-                    {{ table['qty_estime'] | showUnity("t estimée") }}
+                    {{ table['qty_estime'] | showUnity("t estimée") }} <span class="badge">  {{ table["rendement_prev"] | showUnity("t/ha")}} </span>
                 </div>
             </div>
             <div class ="row">
@@ -36,11 +36,22 @@
                     Cotation : {{ table['cotation'] | showUnity("€/t") }}
                 </div>
                 <div class ="col-4">
-                    Price today : {{ table['price_today'] | showUnity("€/t") }}
+                    Prix aujourd'hui : {{ table['price_today'] | showUnity("€/t") }}
                 </div>
             </div>
         </div>
         {% endfor %}
+
+        <div class="list-group-item flex-column align-items-start">
+            <div class ="row">
+                <h5 class ="col-6">
+                    Total
+                </h5>
+                <div class ="col-4">
+                    Prix aujourd'hui : {{ total | showUnity("€") }}
+                </div>
+            </div>
+        </div>
     </div>
     <!--table class="table">
         <tr>
