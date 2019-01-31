@@ -140,12 +140,27 @@ class CommercialisationController extends CommonController
 
         }
 
+
+        //chartjss
+        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $chartjss = [];
+        foreach ($cultures as $culture) {
+            $cotations = $em->getRepository('App:Commercialisation\Cotation')->getAll('caj',$campagne->commercialisation,$culture->commercialisation);
+            $data = [];
+            foreach ($cotations as $cotation) {
+                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+            }
+            $chartjss[] = ["annee"=>"$culture", "color"=> $culture->color, "data"=>$data];
+        }
+
+
         return $this->render('Commercialisation/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'cultures' => $cultures2,
             'total_today' => $total_today,
             'total_realise' => $total_realise,
+            'chartjss' => $chartjss
         ));
     }
 
@@ -188,10 +203,11 @@ class CommercialisationController extends CommonController
     public function cotationAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $cotations = $em->getRepository('App:Commercialisation\Cotation')->getLasts();
 
+        $cotations = $em->getRepository('App:Commercialisation\Cotation')->getLasts();
         return $this->render('Commercialisation/cotations.html.twig', array(
-            'cotations' => $cotations
+            'cotations' => $cotations,
+            'chartjss' => $chartjss
         ));
     }
 
