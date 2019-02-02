@@ -10,4 +10,11 @@ namespace App\Repository;
  */
 class AnalyseSolRepository extends \Doctrine\ORM\EntityRepository
 {
+    function getAll(){
+        $query = $this->createQueryBuilder('p')
+            ->addorderBy('p.date', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

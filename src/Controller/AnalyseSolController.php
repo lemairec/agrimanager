@@ -26,7 +26,7 @@ class AnalyseSolController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $analyseSols = $em->getRepository('App:AnalyseSol')
-            ->findAll();
+            ->getAll();
 
         return $this->render('Default/analyse_sols.html.twig', array(
             'analyse_sols' => $analyseSols,
