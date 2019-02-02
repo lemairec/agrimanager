@@ -45,7 +45,6 @@ class AnalyseSolController extends CommonController
             $analyse_sol = new AnalyseSol();
         } else {
             $analyse_sol = $em->getRepository('App:AnalyseSol')->findOneById($analyse_sol_id);
-            $campagne = $analyse_sol->parcelle->campagne;
         }
         $parcelles =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
         $form = $this->createForm(AnalyseSolType::class, $analyse_sol, array(
