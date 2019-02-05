@@ -133,7 +133,7 @@ class DocumentController extends CommonController
             $file = $f->getFactureFileName();
             if($file){
                 $src = "uploads/factures/".$file;
-                $zip->addFile($src, $file);
+                $zip->addFile($src, "factures/".$file);
             }
         }
         $zip->addFile($backupFile, "database.sql");
