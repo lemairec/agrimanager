@@ -98,6 +98,23 @@
                     fill: false,
                     backgroundColor: '{{chartjs['color']}}',
                     borderColor: '{{chartjs['color']}}',
+                    data: [
+                        {% for data in chartjs['data'] %}
+                            {
+                                x: "{{data['date']}}",
+                                y: {{data['value']}},
+                            },
+                        {% endfor %}
+                    ],
+                },
+                {% endfor %}
+
+                {% for chartjs in chartjss2 %}
+                {
+                    label: '{{chartjs['annee']}}',
+                    backgroundColor: '{{chartjs['color']}}',
+                    borderColor: '{{chartjs['color']}}',
+                    showLine: false, //<- set this
 
                     data: [
                         {% for data in chartjs['data'] %}

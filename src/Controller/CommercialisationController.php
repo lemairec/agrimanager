@@ -74,7 +74,7 @@ class CommercialisationController extends CommonController
         foreach($parcelles as $parcelle){
             if($parcelle->active){
                 if (!array_key_exists(strval($parcelle->culture), $cultures)) {
-                    $cultures[strval($parcelle->culture)] = ['culture' => $parcelle->culture, 'qty_estime' => 0, 'qty_livraison' => 0, 'surface' => 0, 'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0];
+                    $cultures[strval($parcelle->culture)] = ['culture' => $parcelle->culture, 'qty_estime' => 0, 'qty_livraison' => 0, 'surface' => 0, 'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0, "contrats"=>[]];
                 }
                 $cultures[strval($parcelle->culture)]['qty_estime'] += $parcelle->surface*$parcelle->culture->getRendementPrev();
                 $cultures[strval($parcelle->culture)]['surface'] += $parcelle->surface;
@@ -83,8 +83,9 @@ class CommercialisationController extends CommonController
 
         foreach($commercialisations as $commercialisation){
             if (!array_key_exists(strval($commercialisation->culture), $cultures)) {
-                $cultures[strval($commercialisation->culture)] = ['culture' => $commercialisation->culture, 'qty_estime' => 0, 'qty_livraison' => 0,'surface' => 0,'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0];
+                $cultures[strval($commercialisation->culture)] = ['culture' => $commercialisation->culture, 'qty_estime' => 0, 'qty_livraison' => 0,'surface' => 0,'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0, "contrats"=>[]];
             }
+            $cultures[strval($commercialisation->culture)]['contrats'][] = ["price_total"=>$commercialisation->price_total, "qty"=>$commercialisation->qty, "date"=>$commercialisation->date];
             $cultures[strval($commercialisation->culture)]['price_total_commercialise'] += $commercialisation->price_total;
             if($commercialisation->type != "complement"){
                 $cultures[strval($commercialisation->culture)]['qty_commercialise'] += $commercialisation->qty;
@@ -142,9 +143,9 @@ class CommercialisationController extends CommonController
 
 
         //chartjss
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures3 = $em->getRepository('App:Culture')->getAllforCompany($this->company);
         $chartjss = [];
-        foreach ($cultures as $culture) {
+        foreach ($cultures3 as $culture) {
             $cotations = $em->getRepository('App:Commercialisation\Cotation')->getAll('caj',$campagne->commercialisation,$culture->commercialisation);
             $data = [];
             foreach ($cotations as $cotation) {
@@ -153,6 +154,13 @@ class CommercialisationController extends CommonController
             $chartjss[] = ["annee"=>"$culture", "color"=> $culture->color, "data"=>$data];
         }
 
+        $chartjss2 = [];
+        dump($cultures2);foreach ($cultures2 as $culture) {
+            foreach($culture['contrats'] as $c){
+                $data[] = ["date"=>$c["date"]->format('d/m/y'), "value"=>($c["price_total"]/$c["qty"])];
+            }
+            $chartjss2[] = ["annee"=>$culture["culture"], "color"=> "#000000", "data"=>$data];
+        }
 
         return $this->render('Commercialisation/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
@@ -160,7 +168,8 @@ class CommercialisationController extends CommonController
             'cultures' => $cultures2,
             'total_today' => $total_today,
             'total_realise' => $total_realise,
-            'chartjss' => $chartjss
+            'chartjss' => $chartjss,
+            'chartjss2' => $chartjss2
         ));
     }
 
