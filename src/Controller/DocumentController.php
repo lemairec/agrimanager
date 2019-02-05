@@ -129,6 +129,7 @@ class DocumentController extends CommonController
             }
         }
 
+        $zip->addEmptyDir("factures");
         foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
             $file = $f->getFactureFileName();
             if($file){
