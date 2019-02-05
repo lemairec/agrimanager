@@ -40,6 +40,13 @@ class DocumentController extends CommonController
                     $d->url = $this->generateUrl('analyse_sol', array('analyse_sol_id' => $analyse_sol->id));
                 }
             }
+            if($d->repository == "appartement"){
+                $appartement = $em->getRepository('App:AppartementOperation')
+                    ->findOneByDoc($d);
+                if($appartement){
+                    $d->url = $this->generateUrl('appartement_operation', array('operation_id' => $appartement->id));
+                }
+            }
             $documents[] = $d;
         }
 
@@ -118,6 +125,14 @@ class DocumentController extends CommonController
             $file = $f->getDocName();
             if($file){
                 $src = "uploads/documents/".$file;
+                $zip->addFile($src, $file);
+            }
+        }
+
+        foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
+            $file = $f->getFactureFileName();
+            if($file){
+                $src = "uploads/factures/".$file;
                 $zip->addFile($src, $file);
             }
         }
