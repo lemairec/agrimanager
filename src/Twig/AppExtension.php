@@ -51,12 +51,21 @@ class AppExtension extends \Twig_Extension
 
     public function showUnityFilter($number, $unity, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
-        $value = number_format($number, $decimals, $decPoint, $thousandsSep);
-        if($this->getUser()->show_unity){
-            $value = $value." ".$unity;
+        if($number != 0){
+            $value = number_format($number, $decimals, $decPoint, $thousandsSep);
+            if($this->getUser()->show_unity){
+                $value = $value." ".$unity;
+            }
+
+            return $value;
+        } else {
+            if($this->getUser()->show_unity){
+                return "-";
+            } else {
+                return "";
+            }
         }
 
-        return $value;
     }
 
     public function showUnityHaFilter($number, $unity, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
