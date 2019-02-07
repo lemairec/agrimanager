@@ -402,8 +402,6 @@ class BilanController extends CommonController
 
         }
 
-        //dump($cultures);
-
         return $this->render('Bilan/bilan_dates.html.twig', array(
             'campagnes2' => $campagnes2,
             'cultures' => $cultures,
