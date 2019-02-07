@@ -21,9 +21,12 @@ read input
 agrimanager=~/workspace/agrimanager;
 
 rm -f $agrimanager/public/uploads/documents/*
-cd $agrimanager/public/uploads/documents/
+rm -f $agrimanager/public/uploads/factures/*
 
+cd $agrimanager/public/uploads/documents/
 unzip $dump
+
+mv $agrimanager/public/uploads/documents/factures/* $agrimanager/public/uploads/factures/
 
 
 #cp $dump/*.pdf $agrimanager/public/uploads/documents/;
