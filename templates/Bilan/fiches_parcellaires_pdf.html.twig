@@ -19,49 +19,48 @@
     </div>
 {% for parcelle in parcelles %}
     <div class="page" style="page-break-inside: avoid">
-        <table class="header" style="width: 100%; background-color:{{ parcelle.cultureColor }};" >
+        <table class="interventions" style="width:100%">
             <tbody>
-                <tr>
-                    <td><h1 style="text-align: left">{{ parcelle.completeName }}</h1></td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="header" style="width: 100%; font-size: 8pt;">
-            <tbody>
-                <tr>
-                    <td style="width: 50%;">Culture : <strong>{{ parcelle.culture }}</strong></td>
-                    <td>Surface : <strong>{{ parcelle.surface | showHa }}</strong></td>
+				<tr class="odd_row" style="width: 100%; background-color:{{ parcelle.cultureColor }};">
+					<th colspan="5"><h1 style="text-align: left">{{ parcelle.completeName }}</h1></th>
+				</tr>
+
+				<tr>
+                    <td colspan="2">Culture : <strong>{{ parcelle.culture }}</strong></td>
+                    <td colspan="3">Surface : <strong>{{ parcelle.surface | showHa }}</strong></td>
                 </tr>
                 <tr>
-                    <td style="width: 50%;">N : <strong>{{ "%d"|format(parcelle.n)}}</strong></td>
-                    <td>
+                    <td colspan="2">N : <strong>{{ "%d"|format(parcelle.n)}}</strong></td>
+                    <td colspan="3">
                     P : <strong>{{ "%d"|format(parcelle.p)}}</strong> - K : <strong>{{ "%d"|format(parcelle.k)}}</strong> - S : <strong>{{ "%d"|format(parcelle.s)}}</strong> - Mg : <strong>{{ "%d"|format(parcelle.mg)}}</strong>
                     </td>
                 </tr>
-            </tbody>
-        </table>
 
-        <table class="interventions" style="width:100%">
-            <tbody>
+				<tr class="odd_row" style="width: 100%; background-color:{{ parcelle.cultureColor }};">
+					<th colspan="4">interventions</th>
+					<th style="text-align: right"><div style="{{visibility}}">{{parcelle.priceHa | showUnity("€/ha")}}</div></th>
+				</tr>
+
             {% for intervention in parcelle.interventions %}
-
-                <tr class="odd_row">
+				<tr class="odd_row">
                     <th><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</a></th>
                     <th colspan="2">{{intervention.type}}</th>
                     <th></th>
+					<th style="text-align: right;"><div style="{{visibility}}">{{intervention.getPriceHa() | showUnity("€/ha")}}</div></th>
                 </tr>
                 {% for it in intervention.produits %}
                 <tr>
                     <td style="width: 30%;"></td>
                     <td style="width: 5%;"></td>
-                    <td style="width: 30%;"><i>{{it.produit}}</i></td>
-                    <td style="width: 30%;">{{ it.qtyha | showUnityHa(it.produit.unity) }}</td>
+                    <td style="width: 20%;"><i>{{it.produit}}</i></td>
+                    <td style="width: 20%; text-align: right">{{ it.qtyha | showUnityHa(it.produit.unity) }}</td>
+					<td style="width: 20%; text-align: right"><div style="{{visibility}}">{{ it.getPriceHa() | showUnity("€/ha") }}</div></td>
                 </tr>
                 {% endfor %}
                 {% if intervention.comment %}
                 <tr>
-                    <td  colspan="4">
-                        <small> {{ intervention.comment }} </small>
+                    <td  colspan="5">
+                        <small> {{ intervention.comment | raw}} </small>
                     </td>
                 </tr>
                 {% endif %}

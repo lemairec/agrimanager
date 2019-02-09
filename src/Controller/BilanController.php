@@ -17,55 +17,9 @@ use Dompdf\Options;
 
 class BilanController extends CommonController
 {
-    /**
-     * @Route("/bilan_detail", name="bilan_detail")
-     */
-    public function bilanDetailAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
-
-        $cultures = [];
-
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
-        foreach ($parcelles as $p) {
-            if (!array_key_exists($p->getCultureName(), $cultures)) {
-                $cultures[$p->getCultureName()] = 0;
-            }
-            $cultures[$p->getCultureName()] += $p->surface;
-
-            $p->interventions = [];
-            if($p->id != '0'){
-                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
-            }
-            $p->n = 0;
-            $p->p = 0;
-            $p->k = 0;
-            $p->mg = 0;
-            $p->s = 0;
-            $p->priceHa = 0;
-            foreach($p->interventions as $it){
-                $p->priceHa += $it->getPriceHa();
-                foreach($it->produits as $produit){
-                    $p->n += $produit->getQtyHa() * $produit->produit->n;
-                    $p->p += $produit->getQtyHa() * $produit->produit->p;
-                    $p->k += $produit->getQtyHa() * $produit->produit->k;
-                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                    $p->s += $produit->getQtyHa() * $produit->produit->s;
-                }
-            }
-        }
-        return $this->render('Bilan/bilan_detail.html.twig', array(
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
-            'parcelles' => $parcelles,
-            'cultures' => $cultures,
-        ));
-    }
-
     public function getParcellesForFiches($campagne){
         $em = $this->getDoctrine()->getManager();
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
         foreach ($parcelles as $p) {
             $p->interventions = [];
             if($p->id != '0'){
@@ -97,13 +51,17 @@ class BilanController extends CommonController
     public function ficheParcellairesAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
-
         $parcelles = $this->getParcellesForFiches($campagne);
 
+        $visibility = "visibility: hidden;";
+        if($this->getUser()->getUsername() =="lejard"){
+            $visibility = "";
+        }
         return $this->render('Bilan/fiches_parcellaires.html.twig', array(
             'parcelles' => $parcelles,
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
+            'visibility'=> $visibility
 
         ));
     }
@@ -114,13 +72,19 @@ class BilanController extends CommonController
     public function ficheParcellairesPdfAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
-
         $parcelles = $this->getParcellesForFiches($campagne);
+
+        $visibility = "visibility: hidden;";
+        if($this->getUser()->getUsername() =="lejard"){
+            $visibility = "";
+        }
         $html = $this->renderView('Bilan/fiches_parcellaires_pdf.html.twig', array(
             'parcelles' => $parcelles,
             'campagne' => $campagne,
+            'visibility'=> $visibility
 
         ));
+        //return $this->render('Bilan/fiches_parcellaires_pdf.html.twig', ['parcelles' => $parcelles, 'campagne' => $campagne]);
 
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();

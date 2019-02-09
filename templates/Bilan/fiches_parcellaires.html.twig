@@ -33,6 +33,12 @@
                         P: <strong>{{ "%d"|format(parcelle.p)}}</strong> - K: <strong>{{ "%d"|format(parcelle.k)}}</strong> - S: <strong>{{ "%d"|format(parcelle.s)}}</strong> - Mg: <strong>{{ "%d"|format(parcelle.mg)}}</strong>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <div style="text-align: right; {{visibility}}"><b>{{ parcelle.priceHa | showUnity("€/ha") }}</b></div>
+                    </div>
+
+                </div>
             </div>
             <div class="card-body">
                 <div class="list-group">
@@ -43,8 +49,11 @@
                                 <a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</a>
 
                             </div>
-                            <div class="col-8">
+                            <div class="col-4">
                                 {{intervention.type}}
+                            </div>
+                            <div class="col-2">
+                                <div style="text-align: right; {{visibility}}"><b>{{ intervention.getPriceHa() | showUnity("€/ha") }}</b></div>
                             </div>
                         </div>
 
@@ -52,12 +61,16 @@
                             {% for it in intervention.produits %}
                             <li>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <i>{{it.produit}}</i>
                                     </div>
-                                    <div class="col-6">
-                                        <div>{{ it.qtyha | showUnityHa(it.produit.unity) }}</div>
+                                    <div class="col-4">
+                                        <div style="text-align: right;">{{ it.qtyha | showUnityHa(it.produit.unity) }}</div>
                                     </div>
+                                    <div class="col-3">
+                                        <div style="text-align: right; {{visibility}}">{{ it.getPriceHa() | showUnity("€/ha") }}</div>
+                                    </div>
+
 
                                 </div>
                             </li>

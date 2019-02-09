@@ -506,6 +506,7 @@ tr.row_form td {
   border-bottom: 0.9px solid #ddd; /* 0.9 so table borders take precedence */
 }
 
+
 .even_row td {
 /*  background-color: #F8EEE4;
   border-top: 3px solid #FFFFff;*/
@@ -694,12 +695,17 @@ table.interventions>tbody {
 table.interventions>tbody>tr>th {
   border-top: 1px solid black;
    padding: 0.25em;
+   padding-right: 0.5em;
+   padding-left: 0.5em;
+
    padding-top: 0.5em;
 
 }
 
 table.interventions>tbody>tr>td {
   padding: 0.25em;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
 }
 
 td.interventions_col {
