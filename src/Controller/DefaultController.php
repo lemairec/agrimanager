@@ -274,6 +274,8 @@ class DefaultController extends CommonController
         $form = $this->createForm(CultureType::class, $culture);
         if($this->getUser()->getUsername() == "lejard"){
             $form->add('commercialisation');
+            $form->add('rendementObj');
+            $form->add('prixObj');
         }
         $form->handleRequest($request);
 

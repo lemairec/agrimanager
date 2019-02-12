@@ -107,6 +107,7 @@ class CommercialisationController extends CommonController
         $camp = $campagne->commercialisation;
         $total_today = 0;
         $total_realise = 0;
+        $total_obj = 0;
         foreach($cultures as $key => $culture){
             $total_realise += $culture["price_total_commercialise"];
             if($culture["qty_commercialise"] == 0){
@@ -122,6 +123,7 @@ class CommercialisationController extends CommonController
             };
 
             $culture["qty_commercialise_perc"] = 0;
+            $culture["rendement_prev"]=0;
             if($culture["qty_estime"]){
                 $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_estime"];
                 $culture["rendement_prev"]=$culture["qty_estime"]/$culture["surface"];
@@ -130,11 +132,21 @@ class CommercialisationController extends CommonController
             $cotation = $em->getRepository('App:Commercialisation\Cotation')->getLast('caj',$camp,$culture["culture"]->commercialisation);
             $culture["cotation"] = null;
             $culture["price_today"] = null;
+            $culture["price_today_perc"] = null;
             if($cotation){
                 $culture["cotation"] = $cotation->value;
-                $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_estime"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_estime"];
+                if($culture["qty_estime"]!=0){
+                    $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_estime"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_estime"];
+                }
                 $total_today += $culture["qty_estime"]*$culture["price_today"];
+                if($culture["culture"]->prixObj){
+                    $culture["price_today_perc"] = $culture["cotation"]/$culture["culture"]->prixObj-1.0;
+                }
             }
+            if($culture["culture"]->prixObj && $culture["culture"]->rendementObj){
+                $total_obj += $culture["culture"]->prixObj * $culture["culture"]->rendementObj * $culture["surface"];
+            }
+
             $cultures2[] = $culture;
 
 
@@ -167,6 +179,7 @@ class CommercialisationController extends CommonController
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'cultures' => $cultures2,
+            'total_obj' => $total_obj,
             'total_today' => $total_today,
             'total_realise' => $total_realise,
             'chartjss' => $chartjss,

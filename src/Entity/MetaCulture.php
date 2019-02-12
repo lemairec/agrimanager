@@ -34,13 +34,6 @@ class MetaCulture
     public $cultureUsage;
 
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="float", nullable = true)
-     */
-    public $rendement_prev;
-
     public function __toString ( ){
         return $this->name;
     }

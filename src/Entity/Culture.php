@@ -53,9 +53,19 @@ class Culture
      */
     public $company;
 
+    /**
+     * @ORM\Column(type="float", nullable = true)
+     */
+    public $rendementObj;
+
+    /**
+     * @ORM\Column(type="float", nullable = true)
+     */
+    public $prixObj;
+
     public function getRendementPrev(){
         if($this->metaCulture){
-            return $this->metaCulture->rendement_prev;
+            return $this->rendementObj;
         }
         return 0;
     }
