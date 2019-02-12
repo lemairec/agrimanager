@@ -55,7 +55,7 @@
                     objectif : {{ total_obj | showUnity("€") }}
                 </div>
                 <div class ="col-3">
-                    Prix realisé : {{ total_realise | showUnity("€") }}
+                    Prix realisé : {{ total_realise | showUnity("€") }} <span class="badge"> {{ (total_realise/total_obj) | showPercent }}</span>
                 </div>
                 <div class ="col-3">
                     Prix aujourd'hui : {{ total_today | showUnity("€") }} <span class="badge"> {{ (total_today/total_obj) | showPercent }}</span>
