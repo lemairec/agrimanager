@@ -27,6 +27,7 @@ class AppExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('showDecimal', array($this, 'showDecimal')),
+            new \Twig_SimpleFilter('showInt', array($this, 'showInt')),
             new \Twig_SimpleFilter('showUnity', array($this, 'showUnityFilter')),
             new \Twig_SimpleFilter('showUnityHa', array($this, 'showUnityHaFilter')),
             new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
@@ -71,6 +72,12 @@ class AppExtension extends \Twig_Extension
     public function showUnityHaFilter($number, $unity, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
     {
         return $this->showUnityFilter($number, $unity."/ha", $decimals, $decPoint, $thousandsSep);
+    }
+
+    public function showInt($number, $decPoint = '.', $thousandsSep = ' ')
+    {
+        $value = number_format($number, 0, $decPoint, $thousandsSep);
+        return $value;
     }
 
     public function showDecimal($number, $decimals = 2, $decPoint = '.', $thousandsSep = ' ')
