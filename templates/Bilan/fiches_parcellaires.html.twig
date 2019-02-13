@@ -64,7 +64,12 @@
                                     <div class="col-4">
                                         <i>{{it.produit}}</i>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-2">
+                                        {% if it.produit.type == "engrais" %}
+                                        <small>{{ (it.produit.n * it.qtyha) | showInt}} - {{ (it.produit.p * it.qtyha) | showInt }} - {{ (it.produit.k * it.qtyha) | showInt}} - {{ (it.produit.mg * it.qtyha) | showInt}} - ( S {{ (it.produit.s * it.qtyha) | showInt}} )</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-3">
                                         <div style="text-align: right;">{{ it.qtyha | showUnityHa(it.produit.unity) }}</div>
                                     </div>
                                     <div class="col-3">
@@ -81,7 +86,7 @@
                         {% if intervention.comment %}
                         <div class="row">
                             <div class="col-12">
-                                <small>{{ intervention.comment }}</small>
+                                <small>{{ intervention.comment | raw }}</small>
                             </div>
                         </div>
                         {% endif %}
