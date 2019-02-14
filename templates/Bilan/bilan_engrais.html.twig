@@ -1,0 +1,52 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+    {% for culture in cultures %}
+        <div class="card">
+            <div class="list-group">
+            {% for campagne in culture['campagne'] %}
+                <div class="list-group-item", style="background-color:{{culture['color']}};">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>{{culture['culture']}}</h5>
+                        </div>
+                        <div class="col-6">
+                            <h5>{{campagne['name']}}</h5>
+                        </div>
+                    </div>
+                </div >
+                {% for parcelle in campagne['parcelles'] %}
+                <div class="list-group-item", style="background-color:{{culture['color']}};">
+                            <div class="row">
+                                <div class="col-4">
+                                    {{parcelle['name']}}
+                                </div>
+                                <div class="col-4">
+                                    N {{ parcelle['n'] | showInt }}  - S {{ parcelle['s'] | showInt }}
+                                </div>
+                                <div class="col-4">
+                                    P {{ parcelle['p'] | showInt }} - K {{ parcelle['k'] | showInt }} - Mg {{ parcelle['mg'] | showInt }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1">
+                                </div>
+                                <div class="col-11">
+                                    <div class="row">
+                            {% for intervention in parcelle['interventions'] %}
+                                        <div class="col-3">
+                                            <small>{{intervention['date'] | showDate}} => {{intervention['n']| showInt}}-{{intervention['s']| showInt}}</small>
+                                        </div>
+                            {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div >
+                {% endfor %}
+            {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

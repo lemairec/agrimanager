@@ -80,7 +80,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    function getAllForParcelle($parcelle){
+    function getAllForParcelle($parcelle, $order = "DESC"){
         $em = $this->getEntityManager();
         $sql = 'SELECT intervention_id FROM intervention_parcelle where parcelle_id = ?';
 
@@ -100,7 +100,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
             ->setParameter('ids', $ids)
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.date', $order)
             ->getQuery();
 
             return $query->getResult();

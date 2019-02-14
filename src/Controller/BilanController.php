@@ -247,6 +247,70 @@ class BilanController extends CommonController
         ));
     }
 
+
+    /**
+     * @Route("/bilan_engrais", name="bilan_engrais")
+     */
+    public function bilanEngraisAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+
+        foreach($this->campagnes as $campagne){
+            $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+
+            foreach ($parcelles as $p) {
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = ['color'=> $p->getCultureColor(),'culture'=>$p->getCultureName(), 'culture'=>$p->getCultureName()
+                        ,'campagne' => []];
+                }
+
+                if (!array_key_exists($campagne->name, $cultures[$p->getCultureName()]['campagne'])) {
+                    $cultures[$p->getCultureName()]['campagne'][$campagne->name] = ['name' => $campagne->name, 'parcelles' => []];
+                }
+
+                if($p->id != '0'){
+                    $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p, 'ASC');
+                }
+                $p->n = 0;
+                $p->p = 0;
+                $p->k = 0;
+                $p->mg = 0;
+                $p->s = 0;
+                $p->priceHa = 0;
+                $interventions = [];
+                foreach($p->interventions as $it){
+                    $n = 0;
+                    $s = 0;
+                    foreach($it->produits as $produit){
+                        $n += $produit->getQtyHa() * $produit->produit->n;
+                        $s += $produit->getQtyHa() * $produit->produit->s;
+                        $p->n += $produit->getQtyHa() * $produit->produit->n;
+                        $p->p += $produit->getQtyHa() * $produit->produit->p;
+                        $p->k += $produit->getQtyHa() * $produit->produit->k;
+                        $p->mg += $produit->getQtyHa() * $produit->produit->mg;
+                        $p->s += $produit->getQtyHa() * $produit->produit->s;
+
+                    }
+                    if($n>5){
+                        $interventions[] = ['date' => $it->date, 'n'=>$n, 's'=>$s];
+                    }
+                }
+                $parcelle = ['interventions' => $interventions, 'name' => $p->completeName, 'n' => $p->n, 'p' => $p->p, 'k' => $p->k, 'mg' => $p->mg, 's' => $p->s];
+
+                $cultures[$p->getCultureName()]['campagne'][$campagne->name]['parcelles'][] = $parcelle;
+            }
+
+        }
+
+        return $this->render('Bilan/bilan_engrais.html.twig', array(
+            'cultures' => $cultures
+        ));
+    }
+
     /**
      * @Route("/bilan_charges", name="bilan_charges")
      */

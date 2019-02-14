@@ -90,6 +90,7 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('bilan_charges') }}">Bilan charges</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('bilan') }}">Bilan</a>
+                            <a class="dropdown-item" href="{{ url('bilan_engrais') }}">Bilan engrais</a>
                             <a class="dropdown-item" href="{{ url('bilan_rendements') }}">Rendements</a>
                             {% if app.user.username == "lejard" %}
                             <a class="dropdown-item" href="{{ url('bilan_produits') }}">Produits</a>
@@ -97,7 +98,7 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('bilan_gasoil') }}">Gasoil</a>
                             <a class="dropdown-item" href="{{ url('bilan_dates') }}">Dates</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('engrais') }}">Bilan engrais</a>
+                            <a class="dropdown-item" href="{{ url('engrais') }}">Bilan coût engrais</a>
                             {% endif %}
                             {% endif %}
 
