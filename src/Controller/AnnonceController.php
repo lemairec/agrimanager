@@ -25,12 +25,9 @@ class AnnonceController extends CommonController
         if(!$label){
             $label = $request->query->get("label");
         }
+        $order = $request->query->get("order");
 
-        if($label){
-            $annonces = $em->getRepository('App:Annonce')->getAll2($label);
-        } else {
-            $annonces = $em->getRepository('App:Annonce')->getAllCategories("");
-        }
+        $annonces = $em->getRepository('App:Annonce')->getAll2($label, $order);
         return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
         ));

@@ -30,16 +30,24 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    function getAll2($label){
-        $query = $this->createQueryBuilder('p')
-            ->where('p.title LIKE :label')
-            ->OrWhere('p.description LIKE :label')
-            ->addorderBy('p.firstView', 'DESC')
-            ->setMaxResults(400)
-            ->setParameter('label', '%'.$label.'%')
-            ->getQuery();
+    function getAll2($label, $order){
+        $query = $this->createQueryBuilder('p');
+        if($label){
+            $query->where('p.title LIKE :label')
+                ->OrWhere('p.description LIKE :label')
+                ->setParameter('label', '%'.$label.'%');
+        }
+        if($order=="price"){
+            $query->addorderBy('p.price', 'DESC');
+        } else {
+            $query->addorderBy('p.firstView', 'DESC');
 
-        return $query->getResult();
+        }
+        $res = $query->setMaxResults(400)
+            ->getQuery()
+            ->getResult();
+
+        return $res;
     }
 
     function getBennes(){
