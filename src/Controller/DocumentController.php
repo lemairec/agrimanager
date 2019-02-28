@@ -28,7 +28,7 @@ class DocumentController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $res = $em->getRepository('App:Document')
-            ->findAll();
+            ->getAll();
 
         $documents = [];
         foreach($res as $d){

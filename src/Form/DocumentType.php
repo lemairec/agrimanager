@@ -22,6 +22,7 @@ class DocumentType extends AbstractType
             'choices'  => array(
                 'autres' => 'autres',
                 'banque' => 'banque',
+                'banque_caj' => 'banque_caj',
                 'factures' => 'factures',
                 'analyse_sol' => 'analyse_sol',
             ),
