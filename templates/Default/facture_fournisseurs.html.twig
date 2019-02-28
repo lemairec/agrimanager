@@ -28,13 +28,15 @@
                 <tr  bgcolor='#ffff99'>
             {% elseif facture.name == "free" %}
                 <tr  bgcolor='#ff99ff'>
+            {% elseif facture.name == "free mobile" %}
+                <tr  bgcolor='#9999ff'>
             {% elseif facture.name == "bip&go" %}
                 <tr  bgcolor='#99ffff'>
             {% else %}
             <tr>
             {% endif %}
                 <td>{% if(facture.factureFileName) %}<span class="oi oi-paperclip"></span>{% endif %}</td>
-                <td><a href="{{ url("facture_fournisseur", {'facture_id': facture.id}) }}">{{ facture.date | showIsoDate }}</a></td>
+                <td>{{ facture.date | showIsoDate | my_path('facture_fournisseur', {'facture_id': facture.id}) | raw }}</td>
                 <td>{{ facture.getCampagneStr() }}</td>
                 <td>{{ facture.name }}</td>
                 <td>{{ facture.banque }}</td>
