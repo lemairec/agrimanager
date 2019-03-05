@@ -17,7 +17,7 @@
         </tr>
         {% for deplacement in deplacements %}
             <tr>
-                <td><a href="/deplacement/{{deplacement.id}}">{{deplacement.date | showDate }}</a></td>
+                <td>{{ deplacement.date | showDate | my_path('deplacement', {'deplacement_id': deplacement.id}) | raw }}</td>
                 <td>{{deplacement.name}}</td>
                 <td>{{deplacement.vehicule}}</td>
                 <td>{{deplacement.comment}}</td>
