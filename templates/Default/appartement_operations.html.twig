@@ -20,7 +20,8 @@
         {% for operation in operations %}
             <tr>
                 <td>{% if(operation.doc) %}<span class="oi oi-paperclip"></span>{% endif %}</td>
-                <td><a href="{{ url('appartement_operation', {'operation_id': operation.id})}}">{{operation.getDateStr}}</a></td>
+
+                <td>{{ operation.getDateStr | my_path('appartement_operation', {'operation_id': operation.id}) | raw }}</td>
                 <td>{{operation.annee}}</td>
                 <td>{{operation.type}}</td>
                 <td>{{operation.value | showEur}}</td>

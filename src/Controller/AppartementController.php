@@ -24,6 +24,7 @@ class AppartementController extends CommonController
     public function operationsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
         $operations = $em->getRepository("App:AppartementOperation")->getAll();
 
         $sum = 0;
