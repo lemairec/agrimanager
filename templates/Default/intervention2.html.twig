@@ -261,7 +261,7 @@ $( function() {
                 this.intervention.produits.splice(index, 1);
             },
             save: function(){
-                axios.post("{{ url("intervention_api")}}", {
+                axios.post("", {
                     intervention: this.intervention
                 })
                 .then(function (response) {

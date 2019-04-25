@@ -212,6 +212,17 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
                     $dose_retenue = $usage->{'dose-retenue'};
                     $etat_usage = $usage->{'etat-usage'};
                     $dar = null;
+                    $etatusage = "KO";
+                    if(isset($usage->{'etat-usage'})){
+                        $etatusage = $usage->{'etat-usage'};
+                    }
+                    print($etatusage);
+                    if($etatusage != "Autorisé"){
+                        print("ignore");
+                        continue;
+                    }
+                    print("ok");
+
                     if(isset($usage->{'delai-avant-recolte-jour'})){
                         $dar = $usage->{'delai-avant-recolte-jour'};
                     }
@@ -355,6 +366,10 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
 
         return $res;
+    }
+
+    function findByEphyProduit($ephyProduit){
+        
     }
 
     function getAllWithCommercialesNames(){

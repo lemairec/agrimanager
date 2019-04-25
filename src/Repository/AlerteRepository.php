@@ -57,16 +57,42 @@ class AlerteRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
 
         $produitT = null;
+        $nbephy = 0;
+        $nbcat1 = 0;
+        $nbcat2 = 0;
+        $nbcat3 = 0;
+        $nbcat4 = 0;
         foreach ($intervention->produits as $p) {
 
             if($p->produit->ephyProduit){
-                if($p->produit->ephyProduit->isT()){
-                    if($produitT){
-                        $this->createAlerte($intervention, "Melange2", "Melange2 entre ".$produitT->produit." et ".$p->produit, $p, null);
-                    }
-                    $produitT = $p;
+                $nbephy = $nbephy+1;
+                if($p->produit->ephyProduit->isCategory1()){
+                    $nbcat1 = $nbcat1+1;
+                } else if($p->produit->ephyProduit->isCategory2()){
+                    $nbcat2 = $nbcat2+1;
+                } else if($p->produit->ephyProduit->isCategory3()){
+                    $nbcat3 = $nbcat3+1;
+                } else if($p->produit->ephyProduit->isCategory4()){
+                    $nbcat4 = $nbcat4+1;
                 }
             }
+        }
+
+        //$this->createAlerte($intervention, "Melange2", "Melange $nbephy $nbcat1 $nbcat2 $nbcat3 $nbcat4", null, null);
+        if($nbcat1 > 0 && $nbephy > 1){
+            $this->createAlerte($intervention, "Melange2", "Melange interdit", null, null);
+        }
+
+        if($nbcat2 > 1){
+            $this->createAlerte($intervention, "Melange2", "Melange interdit", null, null);
+        }
+
+        if($nbcat3 > 1){
+            $this->createAlerte($intervention, "Melange2", "Melange interdit", null, null);
+        }
+
+        if($nbcat4 > 1){
+            $this->createAlerte($intervention, "Melange2", "Melange interdit", null, null);
         }
     }
 

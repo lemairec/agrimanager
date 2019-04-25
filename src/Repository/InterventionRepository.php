@@ -81,29 +81,15 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
 
     function getAllForParcelle($parcelle, $order = "DESC"){
-        $em = $this->getEntityManager();
-        $sql = 'SELECT intervention_id FROM intervention_parcelle where parcelle_id = ?';
 
-        $em = $this->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare($sql);
-        $statement->bindValue(1, $parcelle->id);
-        $statement->execute();
-        $parcelles = $statement->fetchAll();
-        $ids = [];
-        foreach($parcelles as $p){
-            $ids[] = $p["intervention_id"];
-
-        }
-
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $query = $this->createQueryBuilder('p')
-            ->where('p.id IN (:ids)')
-            ->setParameter('ids', $ids)
-            ->orderBy('p.date', $order)
+        $query = $this->createQueryBuilder('i')
+            ->innerJoin('i.parcelles', 'p')
+            ->where('p.parcelle = :parcelle')
+            ->setParameter('parcelle', $parcelle)
+            ->orderBy('i.date', $order)
             ->getQuery();
 
-            return $query->getResult();
+        return $query->getResult();
     }
 
     function getAllForProduit($produit){

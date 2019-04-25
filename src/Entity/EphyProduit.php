@@ -90,6 +90,47 @@ class EphyProduit
     */
     public $usages;
 
+    public function isCategory1(){
+        $cat = ["H300","H301", "H310", "H311", "H340", "H350", "H350i", "H360", "H370", "H372"];
+        foreach($this->phraseRisques as $phraseRisque){
+            if(in_array($phraseRisque->id, $cat)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isCategory2(){
+        $cat = ["H341", "H351", "H370"];
+        foreach($this->phraseRisques as $phraseRisque){
+            if(in_array($phraseRisque->id, $cat)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isCategory3(){
+        $cat = ["H373"];
+        foreach($this->phraseRisques as $phraseRisque){
+            if(in_array($phraseRisque->id, $cat)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isCategory4(){
+        $cat = ["H361", "H362"];
+        foreach($this->phraseRisques as $phraseRisque){
+            if(in_array($phraseRisque->id, $cat)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public function isT(){
         foreach($this->phraseRisques as $phraseRisque){
             if($phraseRisque->id == "H300" || $phraseRisque->id == "H301" || $phraseRisque->id == "H310"
