@@ -18,7 +18,6 @@
 /vendor/
 /web/bundles/
 /public/bundles/*
-/public/uploads/*
 
 ###> symfony/webpack-encore-pack ###
 /node_modules/
