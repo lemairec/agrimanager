@@ -50,6 +50,6 @@ class Ruche
     public $essaim;
 
     public function __toString(){
-        return $this->name." ".$this->color." ".$this->nbrCadres;
+        return $this->name." ".$this->rucher." ".$this->color." ".$this->nbrCadres;
     }
 }

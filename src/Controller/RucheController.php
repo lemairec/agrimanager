@@ -18,7 +18,7 @@ use App\Entity\Ruche\Action;
 use App\Form\Ruche\RucherType;
 use App\Form\Ruche\RucheType;
 use App\Form\Ruche\EssaimType;
-
+use App\Form\Ruche\ActionType;
 
 class RucheController extends CommonController
 {
@@ -33,10 +33,13 @@ class RucheController extends CommonController
             ->findAll();
         $ruches = $em->getRepository('App:Ruche\Ruche')
                 ->findByRucher(null);
+        $actions = $em->getRepository('App:Ruche\Action')
+                ->getAll();
 
         return $this->render('Ruche/apiculture.html.twig', array(
             'ruchers' => $ruchers,
-            'ruches' => $ruches
+            'ruches' => $ruches,
+            'actions' => $actions
         ));
     }
 
@@ -148,6 +151,7 @@ class RucheController extends CommonController
         } else {
             $essaim = $em->getRepository('App:Ruche\Essaim')->findOneById($id);
         }
+        $actions =  $em->getRepository('App:Ruche\Action')->getAllForEssaim($essaim);
         $form = $this->createForm(EssaimType::class, $essaim);
         $form->handleRequest($request);
 
@@ -155,6 +159,59 @@ class RucheController extends CommonController
             $em->persist($essaim);
             $em->flush();
             return $this->redirectToRoute('essaims');
+        }
+        return $this->render('Ruche/essaim.html.twig', array(
+            'form' => $form->createView(),
+            'actions' => $actions
+        ));
+    }
+
+    /**
+     * @Route("/action/{id}", name="action")
+     **/
+    public function actionEditAction($id, Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+        if($id == '0'){
+            $action = new Action();
+            $action->date = new \DateTime();
+        } else {
+            $action = $em->getRepository('App:Ruche\Action')->find($id);
+        }
+
+        $essaims = $em->getRepository('App:Ruche\Essaim')->findAll($id);
+        $essaims[] = null;
+        $ruches = $em->getRepository('App:Ruche\Ruche')->findAll($id);
+        $ruches[] = null;
+        $ruchers = $em->getRepository('App:Ruche\Rucher')->findAll($id);
+        $ruchers[] = null;
+        $form = $this->createForm(ActionType::class, $action, array(
+            'essaims' => $essaims,
+            'ruches' => $ruches,
+            'ruchers' => $ruchers
+        ));
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted()) {
+            if($action->type == "Enruchage"){
+                $ruches = $em->getRepository('App:Ruche\Ruche')->findByEssaim($action->essaim);
+                foreach($ruches as $ruche){
+                    $ruche->essaim = null;
+                    $ruche->rucher = null;
+                    $em->persist($ruche);
+                    $em->flush();
+                }
+                $action->ruche->essaim = $action->essaim;
+                $action->ruche->rucher = $action->rucher;
+                $em->persist($action->ruche);
+                $em->flush();
+            }
+            $em->persist($action);
+            $em->flush();
+            return $this->redirectToRoute('apiculture');
         }
         return $this->render('base_form.html.twig', array(
             'form' => $form->createView(),

@@ -17,15 +17,29 @@ class Action
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    public $date;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    public $type;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     public $description;
+
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ruche\Essaim")
+     * @ORM\JoinColumn(nullable=false)
      */
     public $essaim;
 

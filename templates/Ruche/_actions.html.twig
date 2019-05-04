@@ -1,0 +1,42 @@
+
+
+    <div class="card">
+        <div class="card-header">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("action", {'id': 0}) }}'">{{'Add' | trans }}</button>
+
+            Action
+        </div>
+        <div class="list-group">
+            {% for action in actions %}
+            <div class="list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        <a href="{{ url("action", {'id': action.id}) }}">{{action.date | showDate}}
+                        </a> -
+                        {{action.type}}
+                    </h5>
+                </div>
+
+                <div class="row" style="min-height: 1.5rem;">
+                    <div class="col-md-3">
+                        {{action.rucher}}
+                    </div>
+                    <div class="col-md-3">
+                        {{action.ruche}}
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url("essaim", {'id': action.essaim.id}) }}">{{action.essaim.name}}
+                        </a>
+                    </div>
+                </div>
+                {% if action.description %}
+                <div class="row" style="min-height: 1.5rem;">
+                    <div class="col-md-11">
+                        {{action.description}}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>

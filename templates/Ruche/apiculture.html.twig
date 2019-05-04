@@ -32,6 +32,8 @@
         </div>
     </div>
 
+    {% include 'Ruche/_actions.html.twig' %}
+
     <div class="card">
         <div class="card-header">
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("ruche", {'id': 0}) }}'">{{'Add' | trans }}</button>

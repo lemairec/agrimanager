@@ -22,19 +22,37 @@ class ActionRepository extends ServiceEntityRepository
 //    /**
 //     * @return Action[] Returns an array of Action objects
 //     */
-    /*
-    public function findByExampleField($value)
+
+    public function getAll()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('a.date', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    public function getAllForRuche($ruche)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.ruche = :ruche')
+            ->setParameter('ruche', $ruche)
+            ->orderBy('a.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getAllForEssaim($essaim)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.essaim = :essaim')
+            ->setParameter('essaim', $essaim)
+            ->orderBy('a.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Action
