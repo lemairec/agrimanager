@@ -34,9 +34,9 @@ class InterventionController extends CommonController
     }
 
     /**
-     * @Route("/intervention/{intervention_id}", name="intervention")
+     * @Route("/intervention/{intervention_id}", name="intervention", methods={"GET"}))
      **/
-    public function intervention2EditAction($intervention_id, Request $request)
+    public function interventionGetAction($intervention_id, Request $request)
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
@@ -82,7 +82,7 @@ class InterventionController extends CommonController
 
         $produits = $em->getRepository('App:Produit')->getAllName($campagne);
 
-        return $this->render('Default/intervention2.html.twig', array(
+        return $this->render('Default/intervention.html.twig', array(
             'id' => $intervention_id,
             'date' => $date->format('d/m/Y'),
             'type' => $type,
@@ -167,51 +167,6 @@ class InterventionController extends CommonController
 
         return new JsonResponse("OK");
 
-    }
-
-
-    /**
-     * @Route("/intervention2/{intervention_id}", name="intervention2")
-     **/
-    public function interventionEditAction($intervention_id, Request $request)
-    {
-        $this->check_user($request);
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
-        if($intervention_id == '0'){
-            $intervention = new Intervention();
-            $intervention->date = new \Datetime();
-            $intervention->type = "phyto";
-            $intervention->comment = "";
-            $intervention->surface = 0;
-            $intervention->company = $this->company;
-            $intervention->campagne = $campagne;
-            $em->persist($intervention);
-            $em->flush();
-            return $this->redirectToRoute('intervention', array('intervention_id' => $intervention->id));
-        } else {
-            $intervention = $em->getRepository('App:Intervention')->findOneById($intervention_id);
-        }
-        $form = $this->createForm(InterventionType::class, $intervention);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted()) {
-            foreach($intervention->parcelles as $p){
-                $p->intervention = $intervention;
-            }
-            $em->persist($intervention);
-            $em->flush();
-            return $this->redirectToRoute('interventions');
-            //$response = new Response();
-            //$response->setStatusCode(Response::HTTP_OK);
-            //return $response;
-        }
-        return $this->render('Default/intervention.html.twig', array(
-            'form' => $form->createView(),
-            'intervention' => $intervention,
-            'parcelles' => $intervention->parcelles
-        ));
     }
 
     /**

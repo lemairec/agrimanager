@@ -1,114 +1,292 @@
 {% extends 'base_agri.html.twig' %}
 
 
-
-{% form_theme form _self %}
-
-{% block form_row %}
-<div class="form-group row">
-    <div class="col-sm-2">
-        {{ form_label(form) }}
-    </div>
-
-    <div class="col-sm-10">
-        {{ form_widget(form) }}
-    </div>
-    {{ form_errors(form) }}
-</div>
-{% endblock form_row %}
-
-
 {% block body %}
+<div class="card mb-3">
+    <div class="card-body">
 
-<div class="container bs-docs-container">
-<div class="well">
-    {{ form_start(form) }}
-    {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
-    {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.comment, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.save) }}
-    <input type="submit" class="btn btn-primary" value="Sauvegarder" />
-    {{ form_end(form) }}
-</div>
 
-<div class="card">
-    <div class="card-header">
-        Parcelles
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/parcelle/0'">{{'Add' | trans}}</button>
+        <div id='example-3'>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_gasoil_date" class="required">Date</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="intervention.date" type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_type" class="required">Type</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <select v-model="intervention.type" class="form-control">
+                      <option v-for="type in types" v-bind:value="type">
+                        ${ type }
+                      </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_name">Label</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_intervention_name" name="App_intervention[name]" maxlength="2048" class="form-control" type="text" v-model="intervention.name">
+                </div>
+
+            </div>
+
+
+
+            <hr>
+
+
+            <div class="card">
+                <div class="card-header">
+                    Parcelles
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item flex-column align-items-start" v-for="parcelle in intervention.parcelles">
+                        <div class="row" style="min-height: 1.5rem;">
+                            <div class="col-2">
+                                <input type="checkbox" name="gridRadios" id="gridRadios1" value="option1" v-on:change="signalChange" v-model="parcelle.checked">
+                            </div>
+                            <div class="col-6">
+                                ${ parcelle.name }
+                            </div>
+                            <div class="col-4 text-right">
+                                ${ parcelle.surface | formatNumber} ha
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-group-item flex-column align-items-start">
+                        <div class="row" style="min-height: 1.5rem;">
+                            <div class="col-8">
+                                <b>Total</b>
+                            </div>
+                            <div class="col-4 text-right">
+                                <b>${ total | formatNumber } ha</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Produits
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter">{{'Add' | trans }}</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Ajouter un produit</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="col-sm-11">
+                              Selectionner un produit existant
+                          </div>
+                          <div class="col-sm-11">
+
+                              <select id="select-produit" v-model="produits" class="form-control js-select" style="width: 100%;">
+                                <option v-for="produit in produits">
+                                  ${ produit }
+                                </option>
+                              </select>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="onCancel">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="addProduit">Ajouter</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item flex-column align-items-start"  v-for="(produit, index) in intervention.produits" :key="index">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-6">
+                                        ${ produit.name }
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-control" type="text" v-model:value="produit.qty">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-8  text-right">
+                                        soit ${ produit.qty | formatNumber2(total) } u/ha
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeRow(index)"><span class="oi oi-delete"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_comment">Commentaires</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_intervention_comment" name="App_intervention[comment]" maxlength="2048" class="form-control" type="text" v-model="intervention.comment">
+                </div>
+
+            </div>
+            <button class="btn btn-primary" v-on:click="save">Sauvegarder</button>
+
+        </div>
+
     </div>
-    <table class="table">
-        <tr>
-            <th>Id</th>
-            <th>{{'Name' | trans}}</th>
-            <th>Surface</th>
-        </tr>
-        {% for it in intervention.parcelles %}
-        <tr>
-            <td><a href="/intervention/{{intervention.id}}/parcelle/{{it.id}}">{{it.id}}</a></td>
-            <td>{{it.parcelle.completeName}}</td>
-            <td>{{it.parcelle.surface}}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td>TOTAL</td>
-            <td></td>
-            <td>{{intervention.surface}}</td>
-        </tr>
-    </table>
-</div>
-<div class="card">
-    <div class="card-header">
-        Produits
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/produit/0'">{{'Add' | trans}}</button>
-    </div>
-    <table class="table">
-        <tr>
-            <th>Amm</th>
-            <th>{{'Name' | trans}}</th>
-            <th>Qty</th>
-            <th></th>
-        </tr>
-        {% for it in intervention.produits %}
-        <tr>
-            <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}">{{it.id}}</a></td>
-            <td>{{it.name}}</td>
-            <td>{{it.qty}}</td>
-            <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}/delete">d</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-<div class="card">
-    <div class="card-header">
-        Materiel
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/intervention/{{intervention.id}}/materiel/0'">{{'Add' | trans}}</button>
-    </div>
-    <table class="table">
-        <tr>
-            <th>{{'Name' | trans}}</th>
-        </tr>
-        {% for it in intervention.materiels %}
-        <tr>
-            <td><a href="/intervention/{{intervention.id}}/produit/{{it.id}}">{{it.materiel.name}}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+</div>`
+
+
 {% endblock %}
 
-
 {% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<link href='/lib/select2/css/select2.min.css' rel='stylesheet' />
+<script src='/lib/select2/js/select2.min.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 $( function() {
-    $('#App_intervention_type').on('change',function(e){
-        $.post('/intervention/{{intervention.id}}', $('form[name=App_intervention]').serialize())
+    console.log("toto");
+    var vue = new Vue({
+        el: '#example-3',
+        delimiters: ['${', '}'],
+        data: {
+            total: 0,
+            newQty :0,
+            newProduit : "",
+            types : [
+                'dechaumage', 'preparation sol',
+                'semis', 'semis CIPAN',
+                'engrais', 'engrais - fond', 'engrais - azote',
+                'phyto', 'phyto - desherbage', 'phyto - fongicide', 'phyto - insecticide',
+                'observation',
+                'autre'],
+            intervention : {
+                id: "{{ id }}",
+                date: "{{ date }}",
+                type: "{{ type }}",
+                name: "{{ name }}",
+                comment: "{{ comment }}",
+                parcelles: {{ parcelles | json_encode | raw}},
+                produits: {{ produitsIntervention | json_encode | raw}},
+            },
+            produits : [
+                {% for produit in produits %}
+                    "{{produit | escape('js') | raw }}",
+                {% endfor %} ]
+        },
+        mounted () {
+            var find = false;
+            for(var type in this.types){
+                if(this.intervention.type == this.types[type]){
+                    find = true;
+                }
+            }
+            if(!find){
+                this.types.push(this.intervention.type);
+            }
+            this.signalChange()
+            axios
+                .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+                .then(response => (this.info = response))
+        },
+        filters: {
+            formatNumber : function (value) {
+                return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            },
+
+            formatNumber2 : function (value1, value2) {
+                if(typeof(value1)=="string"){
+                    value1 = value1.replace(",",".")
+                    value1 = parseFloat(value1);
+                }
+                value = value1/value2;
+                return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            },
+
+            round: function (value) {
+                return Math.round(value * 100) / 100;
+            }
+        },
+        methods: {
+            signalChange: function () {
+                this.total = 0;
+                for(var parcelle in this.intervention.parcelles){
+                    if(this.intervention.parcelles[parcelle].checked){
+                        this.total += this.intervention.parcelles[parcelle].surface;
+                    }
+                }
+            },
+            onCancel: function (message) {
+                this.newProduit = ''
+                $('.js-select').val('').trigger('change');
+            },
+            addProduit: function (message) {
+                var produit = this.newProduit && this.newProduit.trim()
+                if (!produit) {
+                    return
+                }
+                this.intervention.produits.push({
+                    name: produit,
+                    qty: 0
+                })
+                this.newProduit = '';
+                this.newQty = 0;
+                $('.js-select').val('').trigger('change');
+            },
+            removeRow: function(index) {
+                console.log("Removing", index);
+                this.intervention.produits.splice(index, 1);
+            },
+            save: function(){
+                axios.post("/api/intervention", {
+                    intervention: this.intervention
+                })
+                .then(function (response) {
+                    console.log(response);
+                    //window.location.href = "{{ url("interventions")}}"
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+        }
+
+    })
+
+    $('.js-select').select2();
+    $('.js-select').on('select2:select', function (e) {
+        vue.newProduit = e.params.data.element.label;
     });
-    $('#App_intervention_comment').on('change',function(e){
-        $.post('/intervention/{{intervention.id}}', $('form[name=App_intervention]').serialize())
+    $('#App_gasoil_date').datepicker({
+        dateFormat: 'dd/mm/yy',
+        language: 'fr'
+    }).on('changeDate', function(e) {
+        vue.intervention.date = e.format(0,"dd/mm/yyyy");
     });
-    $('#App_intervention_date').on('change',function(e){
-        $.post('/intervention/{{intervention.id}}', $('form[name=App_intervention]').serialize())
-    });
-} );
+});
 </script>
 {% endblock %}
