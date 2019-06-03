@@ -146,12 +146,13 @@ class RucheController extends CommonController
     {
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
+        $actions = [];
         if($id == '0'){
             $essaim = new Essaim();
         } else {
             $essaim = $em->getRepository('App:Ruche\Essaim')->findOneById($id);
+            $actions =  $em->getRepository('App:Ruche\Action')->getAllForEssaim($essaim);
         }
-        $actions =  $em->getRepository('App:Ruche\Action')->getAllForEssaim($essaim);
         $form = $this->createForm(EssaimType::class, $essaim);
         $form->handleRequest($request);
 
