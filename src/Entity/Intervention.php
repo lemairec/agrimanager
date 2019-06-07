@@ -1,86 +1,93 @@
 <?php
 
 namespace App\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * Intervention
  *
- * @ORM\Table(name="intervention")
- * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
+ * @Table(name="intervention")
+ * @Entity(repositoryClass="App\Repository\InterventionRepository")
  */
 class Intervention
 {
     /**
      * @var guid
      *
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @Column(name="id", type="guid")
+     * @Id
+     * @GeneratedValue(strategy="UUID")
      */
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=false)
+     * @ManyToOne(targetEntity="App\Entity\Campagne")
+     * @JoinColumn(nullable=false)
      */
     public $campagne;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
+     * @ManyToOne(targetEntity="App\Entity\Company")
+     * @JoinColumn(nullable=false)
      */
     public $company;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @Column(name="date", type="date")
      */
     public $date;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @Column(name="type", type="string", length=255)
      */
     public $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Column(name="name", type="string", length=255, nullable=true)
      */
     public $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="text", nullable=true)
+     * @Column(name="comment", type="text", nullable=true)
      */
     public $comment;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\InterventionParcelle", mappedBy="intervention",cascade={"persist"})
+    * @OneToMany(targetEntity="App\Entity\InterventionParcelle", mappedBy="intervention",cascade={"persist"})
     */
     public $parcelles;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\InterventionProduit", mappedBy="intervention",cascade={"persist"})
+    * @OneToMany(targetEntity="App\Entity\InterventionProduit", mappedBy="intervention",cascade={"persist"})
     */
     public $produits;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
+    * @OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
     */
     public $materiels;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="surface", type="float")
+     * @Column(name="surface", type="float")
      */
     public $surface;
 
