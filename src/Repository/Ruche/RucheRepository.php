@@ -19,6 +19,15 @@ class RucheRepository extends ServiceEntityRepository
         parent::__construct($registry, Ruche::class);
     }
 
+    public function findAll()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Ruche[] Returns an array of Ruche objects
 //     */
