@@ -26,6 +26,7 @@ class ActionType extends AbstractType
             'choices' => array(
                 'Observation' => 'Observation',
                 'Enruchage' => 'Enruchage',
+                'Mort' => 'Mort',
             )
 
         ));

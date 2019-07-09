@@ -209,6 +209,15 @@ class RucheController extends CommonController
                 $action->ruche->rucher = $action->rucher;
                 $em->persist($action->ruche);
                 $em->flush();
+            } else if($action->type == "Mort"){
+                $action->ruche->essaim->visible = false;
+                $action->essaim = $action->ruche->essaim;
+                $action->rucher= $action->ruche->rucher;;
+                $em->persist($action->ruche->essaim);
+                $action->ruche->essaim = null;
+                $action->ruche->rucher = null;
+                $em->persist($action->ruche);
+                $em->flush();
             } else {
                 $action->essaim = $action->ruche->essaim;
                 $action->rucher= $action->ruche->rucher;;
