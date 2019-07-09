@@ -25,6 +25,9 @@ class ActionType extends AbstractType
         $builder->add('type', ChoiceType::class, array(
             'choices' => array(
                 'Observation' => 'Observation',
+                'PoseHausse' => 'PoseHausse',
+                'Recolte' => 'Recolte',
+                'EnleverHausse' => 'EnleverHausse',
                 'Enruchage' => 'Enruchage',
                 'Mort' => 'Mort',
             )
