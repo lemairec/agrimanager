@@ -21,7 +21,7 @@
                 {% for ruche in rucher.ruches %}
                 <div class="row" style="min-height: 1.5rem;">
                     <div class="col-md-11">
-                        <a href="{{ url("ruche", {'id': ruche.id}) }}">{{ruche}}
+                        <a href="{{ url("essaim", {'id': ruche.essaim.id}) }}">{{ruche}}
                         </a>
                     </div>
                 </div>
