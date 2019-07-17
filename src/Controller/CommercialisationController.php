@@ -122,11 +122,18 @@ class CommercialisationController extends CommonController
                 $culture["qty_livraison_perc"] = $culture["qty_livraison"]/$culture["qty_estime"];
             };
 
+            if($culture["qty_livraison"]>0){
+                $culture["qty_bilan"] = $culture["qty_livraison"];
+                $culture["rendement"]=$culture["qty_livraison"]/$culture["surface"];
+            } else  {
+                $culture["qty_bilan"] = $culture["qty_estime"];
+                $culture["rendement_prev"]=$culture["qty_estime"]/$culture["surface"];
+            }
+
             $culture["qty_commercialise_perc"] = 0;
             $culture["rendement_prev"]=0;
-            if($culture["qty_estime"]){
-                $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_estime"];
-                $culture["rendement_prev"]=$culture["qty_estime"]/$culture["surface"];
+            if($culture["qty_bilan"]){
+                $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_bilan"];
             };
 
             $cotation = $em->getRepository('App:Commercialisation\Cotation')->getLast('caj',$camp,$culture["culture"]->commercialisation);
@@ -135,10 +142,10 @@ class CommercialisationController extends CommonController
             $culture["price_today_perc"] = null;
             if($cotation){
                 $culture["cotation"] = $cotation->value;
-                if($culture["qty_estime"]!=0){
-                    $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_estime"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_estime"];
+                if($culture["qty_bilan"]!=0){
+                    $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_bilan"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_bilan"];
                 }
-                $total_today += $culture["qty_estime"]*$culture["price_today"];
+                $total_today += $culture["price_total_commercialise"] +($culture["qty_bilan"]-$culture["qty_commercialise"])*$culture["cotation"];
                 if($culture["culture"]->prixObj){
                     $culture["price_today_perc"] = $culture["cotation"]/$culture["culture"]->prixObj-1.0;
                 }

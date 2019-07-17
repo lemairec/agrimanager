@@ -18,9 +18,15 @@
                 <div class ="col-4">
                     {{ table['surface'] | showUnity("ha") }}
                 </div>
-                <div class ="col-4">
-                    {{ table['qty_estime'] | showUnity("t estimée") }} <span class="badge">  {{ table["rendement_prev"] | showUnity("t/ha")}} </span>
-                </div>
+                {% if table['qty_livraison'] > 0 %}
+                    <div class ="col-4">
+                        {{ table['qty_livraison'] | showUnity("t livré") }} <span class="badge">  {{ table["rendement"] | showUnity("t/ha")}} </span>
+                    </div>
+                {% else %}
+                    <div class ="col-4">
+                        {{ table['qty_estime'] | showUnity("t estimée") }} <span class="badge">  {{ table["rendement_prev"] | showUnity("t/ha")}} </span>
+                    </div>
+                {% endif %}
             </div>
             <div class ="row">
                 <div class ="col-4">
