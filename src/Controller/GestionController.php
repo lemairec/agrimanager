@@ -107,6 +107,47 @@ class GestionController extends CommonController
     }
 
     /**
+     * @Route("/comptes_by_year", name="comptes_by_year")
+     */
+    public function comptesByYearAction(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $operations = $em->getRepository('App:Operation')->findAll();
+        $comptes = $em->getRepository('App:Compte')->getAll();
+        $years = ['2016', '2017', '2018', '2019', '2020'];
+
+
+        //dump($comptes);
+
+        $res2 = [];
+        foreach($comptes as $c){
+            $compte = strval($c);
+            $res2[$compte] = [];
+            foreach($years as $y){
+                $res2[$compte][$y] = 0;
+            }
+        }
+
+
+        foreach ($operations as $o) {
+            $year = $o->date->format('Y');
+            foreach($o->ecritures as $e){
+                $compte = strval($e->compte);
+                $res2[$compte][$year] += $e->value;
+            }
+        }
+
+        dump($res2);
+        return $this->render('Default/comptes_by_year.html.twig', array(
+            'res' => $res2,
+            'years' => $years,
+            'comptes' => $comptes
+        ));
+    }
+
+    /**
      * @Route("/banque", name="banque")
      **/
     public function banqueEditAction(Request $request)
