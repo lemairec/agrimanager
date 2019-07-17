@@ -45,6 +45,37 @@ class BilanController extends CommonController
         return $parcelles;
     }
 
+
+    /**
+     * @Route("/bilan_intervention_prix", name="bilan_intervention_prix")
+     */
+    public function ficheInterventionPrixAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
+
+        $res = [];
+        $sum = 0;
+        foreach (array_reverse($interventions) as $it) {
+            $price = $it->getPriceHa()*$it->surface;
+            $sum += $price;
+            $res[] = ["intervention" => $it, "prix" => $price, "sum" => $sum ];
+        }
+        $res = array_reverse($res);
+        dump($res);
+        $visibility = "visibility: hidden;";
+        if($this->getUser()->getUsername() =="lejard"){
+            $visibility = "";
+        }
+        return $this->render('Bilan/bilan_intervention_prix.html.twig', array(
+            'res' => $res,
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id
+        ));
+    }
+
+
     /**
      * @Route("/fiches_parcellaires", name="fiches_parcellaires")
      */

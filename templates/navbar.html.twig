@@ -89,6 +89,7 @@ Ma Plaine</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ url('fiches_parcellaires') }}">Fiches Parcellaires</a>
                             {% if is_granted('ROLE_NEW_FEATURE') %}
+                            <a class="dropdown-item" href="{{ url('bilan_intervention_prix') }}">Bilan intervention</a>
                             <a class="dropdown-item" href="{{ url('bilan_charges') }}">Bilan charges</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('bilan') }}">Bilan</a>
