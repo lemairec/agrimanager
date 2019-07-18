@@ -43,7 +43,6 @@
                 <td>{{ facture.compte }}</td>
                 <td class="text-right">{{ facture.montantHT|showEur }}</td>
                 <td class="text-right">{{ facture.montantTTC|showEur }}</td>
-                <td class="text-right">{{ ((facture.montantTTC-facture.montantHT)/facture.montantHT)|showPercent }}</td>
             </tr>
         {% endfor %}
         </tbody>

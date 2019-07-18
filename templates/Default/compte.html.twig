@@ -30,9 +30,11 @@
                     <td class="text-right"></td>
                 {% endif %}
                 <td class="text-right">{{ ecriture['sum_value'] | showEur }}</td>
+                <td></td>
             </tr>
         {% endfor %}
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -53,6 +55,11 @@
                     <td class="text-right"></td>
                 {% endif %}
                 <td class="text-right">{{ ecriture['sum_value'] | showEur }}</td>
+                {% if ecriture['facture'] %}
+                    <td><small>{{ecriture['facture'].getAchatsTotal() | showEur}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
             </tr>
         {% endfor %}
 

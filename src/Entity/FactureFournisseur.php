@@ -68,6 +68,11 @@ class FactureFournisseur
     public $type;
 
     /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Achat", mappedBy="facture")
+    */
+    public $achats;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compte")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -102,6 +107,10 @@ class FactureFournisseur
     */
     public $updatedAt;
 
+    public function __toString ( ){
+        $res = $this->date->format("Y-m-d")."_".$this->name;
+        return $res;
+    }
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -153,6 +162,13 @@ class FactureFournisseur
         }
     }
 
+    function getAchatsTotal(){
+        $achats_total = 0;
+        foreach ($this->achats as $a) {
+            $achats_total+=$a->price_total;
+        }
+        return $achats_total;
+    }
 
     function getDateStr(){
         return $this->date->format('d/m/y');

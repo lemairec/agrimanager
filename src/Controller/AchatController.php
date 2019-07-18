@@ -52,6 +52,8 @@ class AchatController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
         $produits = $em->getRepository('App:Produit')->findByCompany($campagne->company);
+        $factures = $em->getRepository('App:FactureFournisseur')->getAllForCampagne($campagne);
+        $factures[] = null;
         if($achat_id == '0'){
             $achat = new Achat();
             $achat->date = new \DateTime();
@@ -59,8 +61,10 @@ class AchatController extends CommonController
             $achat = $em->getRepository('App:Achat')->findOneById($achat_id);
             $achat->name = $achat->produit->__toString();
         }
+
         $form = $this->createForm(AchatType::class, $achat, array(
-            'produits' => $produits
+            'produits' => $produits,
+            'factures' => $factures
         ));
         $form->handleRequest($request);
 

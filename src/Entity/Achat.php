@@ -82,6 +82,12 @@ class Achat
      */
     public $comment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\FactureFournisseur")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $facture;
+
     function getDateStr(){
         return $this->date->format(' d/m/y');
     }

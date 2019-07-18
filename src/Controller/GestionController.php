@@ -271,6 +271,7 @@ class GestionController extends CommonController
                     if($e->compte == $compte){
                         $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value];
                         $ecriture['campagne'] = "";
+                        $ecriture['facture'] = $operation->facture;
                         if($e->campagne){
                             $ecriture['campagne'] = $e->campagne->name;
                         }
@@ -472,6 +473,7 @@ class GestionController extends CommonController
         } else {
             $facture->type = "Achat";
         }
+
         $campagnes = $em->getRepository('App:Campagne')->getAllAndNullforCompany($this->company);
         $banques = $em->getRepository('App:Compte')->getAllBanques($this->company);
         $comptes = $em->getRepository('App:Compte')->getNoBanques($this->company);

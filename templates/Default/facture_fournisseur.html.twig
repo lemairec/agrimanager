@@ -35,6 +35,35 @@
 
 <div class="card">
     <div class="card-header">
+        Achats
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th></th>
+            <th>Prix</th>
+        </tr>
+        {% for achat in facture.achats %}
+            <tr>
+                <td><a href="{{ url("achat", {'achat_id': achat.id}) }}">{{achat.produit}}</a></td>
+                <td>{{achat.qty | showUnity("u")}}</td>
+                <td>{{achat.price_total | showEur }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <th>{{ facture.getAchatsTotal() | showEur }}</th>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="card">
+    <div class="card-header">
         Operations
     </div>
     <table class="table">
