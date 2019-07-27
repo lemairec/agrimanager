@@ -23,7 +23,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->company = $campagne->company;
         $produit->name = $completeName;
         $produit->completeName = $completeName;
-        $ephy = $em->getRepository('App:EphyProduit')->findOneByCompleteName($completeName);
+        $ephy = $em->getRepository('App:EphyProduit')->findOneByName($completeName);
         if($ephy){
             $produit->type = "ppp";
             $produit->unity = $ephy->unity;
