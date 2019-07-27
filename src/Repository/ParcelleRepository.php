@@ -20,12 +20,14 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         if($parcelle->name){
             $parcelle->completeName = $parcelle->completeName." - ".$parcelle->name;
         }
+
+
+        $em->persist($parcelle);
+        $em->flush();
         $interventions =  $em->getRepository('App:Intervention')->getAllForParcelle($parcelle);
         foreach($interventions as $intervention){
             $em->getRepository('App:Intervention')->updateSurface($intervention->id);
         }
-        $em->persist($parcelle);
-        $em->flush();
         return $parcelle;
 
     }

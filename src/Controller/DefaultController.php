@@ -386,7 +386,7 @@ class DefaultController extends CommonController
             return $this->redirectToRoute('parcelles');
         }
         $interventions = [];
-        if($parcelle->id != '0'){
+        if($parcelle->id && $parcelle->id != '0'){
             $interventions = $em->getRepository('App:Intervention')->getAllForParcelle($parcelle);
         }
         $priceHa = 0;
