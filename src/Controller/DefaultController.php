@@ -173,7 +173,7 @@ class DefaultController extends CommonController
             $ilot->company = $this->company;
         } else {
             $ilot = $em->getRepository('App:Ilot')->findOneById($ilot_id);
-            $parcelles = $em->getRepository('App:Parcelle')->findByIlot($ilot);
+            $parcelles = $em->getRepository('App:Parcelle')->getAllForIlot($ilot);
         }
         $form = $this->createForm(IlotType::class, $ilot);
         $form->handleRequest($request);

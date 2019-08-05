@@ -43,6 +43,17 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    function getAllForIlot($ilot){
+        $query = $this->createQueryBuilder('p')
+            ->join('p.campagne','c')
+            ->where('p.ilot = :ilot')
+            ->setParameter('ilot', $ilot)
+            ->addorderBy('c.name', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     function getAllForCampagneWithoutActive($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')

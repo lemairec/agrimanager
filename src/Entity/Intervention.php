@@ -55,18 +55,13 @@ class Intervention
      */
     public $type;
 
-    /**
-     * @var string
-     *
-     * @Column(name="name", type="string", length=255, nullable=true)
-     */
+    /** @Column(type="float") **/
+    public $surface;
+
+    /** @Column(type="string", length=255, nullable=true) **/
     public $name;
 
-    /**
-     * @var string
-     *
-     * @Column(name="comment", type="text", nullable=true)
-     */
+    /** @Column(type="text", nullable=true) **/
     public $comment;
 
     /**
@@ -83,13 +78,6 @@ class Intervention
     * @OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
     */
     public $materiels;
-
-    /**
-     * @var float
-     *
-     * @Column(name="surface", type="float")
-     */
-    public $surface;
 
     public function __construct() {
         $this->parcelles = new ArrayCollection();
