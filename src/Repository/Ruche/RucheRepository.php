@@ -22,7 +22,7 @@ class RucheRepository extends ServiceEntityRepository
     public function findAll()
     {
         return $this->createQueryBuilder('r')
-            ->orderBy('r.name', 'ASC')
+            ->orderBy('r.rucher', 'ASC')
             ->getQuery()
             ->getResult()
         ;

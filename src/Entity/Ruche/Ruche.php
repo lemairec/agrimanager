@@ -50,9 +50,9 @@ class Ruche
     public $essaim;
 
     public function __toString(){
-        $s = $this->name." ".$this->color." ".$this->nbrCadres." ".$this->rucher;
+        $s = $this->rucher." - ".$this->name." ".$this->color." ".$this->nbrCadres." ";
         if($this->essaim){
-            $s = "- ".$s." - ".$this->essaim;
+            $s = $s." - ".$this->essaim;
         }
         return $s;
     }
