@@ -139,7 +139,6 @@ class GestionController extends CommonController
             }
         }
 
-        dump($res2);
         return $this->render('Default/comptes_by_year.html.twig', array(
             'res' => $res2,
             'years' => $years,
