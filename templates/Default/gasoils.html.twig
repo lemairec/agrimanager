@@ -21,6 +21,8 @@
                 <td>{{gasoil.comment}}</td>
                 <td class="text-right">{{ gasoil.litre| showLitre }}</td>
                 <td>{{gasoil.litrePompe| showLitre }}</td>
+                <td class="text-right"  {% if (gasoil.litrePompe and (gasoil.litrePompe != gasoil.litrePompeCalc)) %} style="color: #e70b0b;" {% endif %}>{{gasoil.litrePompeCalc| showLitre }}</td>
+
             </tr>
         {% endfor %}
     </table>

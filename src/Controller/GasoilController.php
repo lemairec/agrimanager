@@ -27,7 +27,7 @@ class GasoilController extends CommonController
         $gasoilsType = $em->getRepository('App:Gasoil')->getAllforCompanyGroupByType($this->company);
 
         $gasoilsAll = $em->getRepository('App:Gasoil')->getAllForCompany($this->company);
-
+        $gasoils2 = [];
 
         $campagnes_g = [];
 
@@ -41,10 +41,26 @@ class GasoilController extends CommonController
             }
         }
 
+        $total = 0;
+        foreach ($gasoils as $g) {
+            if($g->litre < 0){
+                $total = $total - $g->litre;
+
+            }
+            $g->litrePompeCalc = $total;
+            $gasoils2[] = $g;
+            if($g->litrePompe){
+                $total = $g->litrePompe;
+            }
+
+
+        }
+
+
         return $this->render('Default/gasoils.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
-            'gasoils' => $gasoils,
+            'gasoils' => array_reverse($gasoils2),
             'gasoilsType' => $gasoilsType,
             'campagnes_g' => $campagnes_g
         ));
