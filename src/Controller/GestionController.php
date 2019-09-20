@@ -254,14 +254,14 @@ class GestionController extends CommonController
         $session = $request->getSession();
 
         $operations = [];
+        $ecritures = [];
+        $ecritures_futures = [];
         if($compte_id == '0'){
             $compte = new Compte();
             $compte->company = $this->company;
         } else {
             $compte = $em->getRepository('App:Compte')->findOneById($compte_id);
             $operations = $em->getRepository('App:Operation')->getAllForCompte($compte);
-            $ecritures = [];
-            $ecritures_futures = [];
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){

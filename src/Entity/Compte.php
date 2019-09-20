@@ -43,6 +43,13 @@ class Compte
     /**
      * @var string
      *
+     * @ORM\Column(name="short_name", type="string", length=255)
+     */
+    public $shortName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     public $type;

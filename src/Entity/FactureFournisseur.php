@@ -182,4 +182,13 @@ class FactureFournisseur
         }
     }
 
+    function getPercentTVA(){
+        if($this->montantHT != 0){
+            return (($this->montantTTC-$this->montantHT)/$this->montantHT);
+        } else {
+            return 0;
+        }
+
+    }
+
 }

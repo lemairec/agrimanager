@@ -38,12 +38,12 @@
                 <td>{% if(facture.factureFileName) %}<span class="oi oi-paperclip"></span>{% endif %}</td>
                 <td>{{ facture.date | showIsoDate | my_path('facture_fournisseur', {'facture_id': facture.id}) | raw }}</td>
                 <td>{{ facture.getCampagneStr() }}</td>
-                <td>{{ facture.name }}</td>
+                <td>{{ facture.shortName }}</td>
                 <td>{{ facture.banque }}</td>
                 <td>{{ facture.compte }}</td>
                 <td class="text-right">{{ facture.montantHT|showEur }}</td>
                 <td class="text-right">{{ facture.montantTTC|showEur }}</td>
-                <td class="text-right">{{ ((facture.montantTTC-facture.montantHT)/facture.montantHT)|showPercent }}</td>
+                <td class="text-right">{{ facture.getPercentTVA()|showPercent }}</td>
             </tr>
         {% endfor %}
         </tbody>

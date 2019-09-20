@@ -14,8 +14,8 @@ class CompteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('type')->add('previsionnel');
-        
+        $builder->add('name')->add('shortName')->add('type')->add('previsionnel');
+
     }
 
     /**
