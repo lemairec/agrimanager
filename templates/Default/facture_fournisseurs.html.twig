@@ -38,9 +38,9 @@
                 <td>{% if(facture.factureFileName) %}<span class="oi oi-paperclip"></span>{% endif %}</td>
                 <td>{{ facture.date | showIsoDate | my_path('facture_fournisseur', {'facture_id': facture.id}) | raw }}</td>
                 <td>{{ facture.getCampagneStr() }}</td>
-                <td>{{ facture.shortName }}</td>
+                <td>{{ facture.name }}</td>
                 <td>{{ facture.banque }}</td>
-                <td>{{ facture.compte }}</td>
+                <td>{{ facture.compte.shortName }}</td>
                 <td class="text-right">{{ facture.montantHT|showEur }}</td>
                 <td class="text-right">{{ facture.montantTTC|showEur }}</td>
                 <td class="text-right">{{ facture.getPercentTVA()|showPercent }}</td>
