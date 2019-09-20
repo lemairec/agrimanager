@@ -39,7 +39,7 @@
                 <td>{{ facture.date | showIsoDate | my_path('facture_fournisseur', {'facture_id': facture.id}) | raw }}</td>
                 <td>{{ facture.getCampagneStr() }}</td>
                 <td>{{ facture.name }}</td>
-                <td>{{ facture.banque }}</td>
+                <td>{{ facture.banque.shortName }}</td>
                 <td>{{ facture.compte.shortName }}</td>
                 <td class="text-right">{{ facture.montantHT|showEur }}</td>
                 <td class="text-right">{{ facture.montantTTC|showEur }}</td>
