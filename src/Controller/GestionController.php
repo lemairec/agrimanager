@@ -98,7 +98,36 @@ class GestionController extends CommonController
             $comptes_campagnes[$campagne->name] = $res;
         }
 
-        return $this->render('Default/comptes.html.twig', array(
+        return $this->render('Gestion/comptes.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'comptes' => $comptes,
+            'comptes_campagnes' => $comptes_campagnes
+        ));
+    }
+
+     /**
+     * @Route("/comptes2", name="comptes2")
+     */
+    public function bilan_allAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $comptes = $em->getRepository('App:Compte')->getAllForCampagne($campagne);
+
+        $comptes_campagnes = [];
+        foreach ($this->campagnes as $campagne) {
+            $res = 0;
+            foreach ($comptes as $compte) {
+                if ($compte->type == 'campagne' || $compte->getPriceCampagne($campagne) != 0){
+                    $res = $res + $compte->getPriceCampagne($campagne);
+                }
+            }
+            $comptes_campagnes[$campagne->name] = $res;
+        }
+
+        return $this->render('Gestion/comptes2.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'comptes' => $comptes,
@@ -139,7 +168,7 @@ class GestionController extends CommonController
             }
         }
 
-        return $this->render('Default/comptes_by_year.html.twig', array(
+        return $this->render('Gestion/comptes_by_year.html.twig', array(
             'res' => $res2,
             'years' => $years,
             'comptes' => $comptes
@@ -236,7 +265,7 @@ class GestionController extends CommonController
 
         //print(json_encode($value_month));
         $ecritures = array_reverse($ecritures);
-        return $this->render('Default/banques.html.twig', array(
+        return $this->render('Gestion/banques.html.twig', array(
             'compte' => $compte,
             'ecritures' => $ecritures,
             'chartjss' => $chartjss
@@ -306,7 +335,7 @@ class GestionController extends CommonController
             return $this->redirectToRoute('comptes');
         }
         $session->set("redirect_url_facture", $this->generateUrl('compte', array('compte_id' => $compte_id)));
-        return $this->render('Default/compte.html.twig', array(
+        return $this->render('Gestion/compte.html.twig', array(
             'form' => $form->createView(),
             'compte' => $compte,
             'ecritures' => $ecritures,
@@ -324,7 +353,7 @@ class GestionController extends CommonController
 
         $operations = $em->getRepository('App:Operation')->getAll();
 
-        return $this->render('Default/operations.html.twig', array(
+        return $this->render('Gestion/operations.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'operations' => $operations,
@@ -360,7 +389,7 @@ class GestionController extends CommonController
             $em->flush();
             return $this->redirectToRoute('operations');
         }
-        return $this->render('Default/operation.html.twig', array(
+        return $this->render('Gestion/operation.html.twig', array(
             'form' => $form->createView(),
             'operation' => $operation,
             'parcelles' => []
@@ -417,7 +446,7 @@ class GestionController extends CommonController
         $this->check_user($request);
         $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
 
-        return $this->render('Default/facture_fournisseurs.html.twig', array(
+        return $this->render('Gestion/facture_fournisseurs.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
         ));
     }
@@ -431,7 +460,7 @@ class GestionController extends CommonController
         $this->check_user($request);
         $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
 
-        return $this->render('Default/facture_fournisseurs_export.html.twig', array(
+        return $this->render('Gestion/facture_fournisseurs_export.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
         ));
     }
@@ -500,7 +529,7 @@ class GestionController extends CommonController
             }
             return $this->redirectToRoute('factures_fournisseurs');
         }
-        return $this->render('Default/facture_fournisseur.html.twig', array(
+        return $this->render('Gestion/facture_fournisseur.html.twig', array(
             'form' => $form->createView(),
             'facture' => $facture,
             'operations' => $operations

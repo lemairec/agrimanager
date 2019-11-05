@@ -22,7 +22,8 @@
                         Facture -
                     {% endif %}
                     {{operation.name}}
-                    </td>
+                </td>
+                <td>0</td>
                 <td><a href="/operation/{{operation.id}}/delete">d</td>
             </tr>
             {% for ecriture in operation.ecritures %}
@@ -30,6 +31,7 @@
                     <td></td>
                     <td>{{ecriture.compte.name}}</a></td>
                     <td>{{ ecriture.value | showEur }}</td>
+                    <td></td>
                 </tr>
             {% endfor %}
         {% endfor %}
