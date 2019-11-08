@@ -25,7 +25,7 @@
         </tr>
         {% for ecriture in ecritures_futures %}
             <tr>
-                <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']}}</a></td>
+                <td><a href="/operation/{{ecriture['operation_id']}}">{{ecriture['date']  | showDate }}</a></td>
                 <td>{{ecriture['name']}}</a></td>
                 <td>{{ecriture['campagne']}}</td>
                 {% if ecriture['value'] > 0 %}
