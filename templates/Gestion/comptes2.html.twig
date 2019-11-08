@@ -25,14 +25,11 @@
             <tr>
                 <td>{{ compte.name | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
                 
+                    <td>{{compte.getPrice() | showEur}}</td>
                     {% if compte.type == 'campagne' %}
-                        <td>{{compte.getPrice() | showEur}}</td>
                         <td>{{compte.previsionnel   | showEur}}</td>
-                        
                     {% else %}
-                        <td>{{compte.getPrice() | showEur}}</td>
                         <td></td>
-                        
                     {% endif %}
                 
                 {% for campagne in campagnes %}

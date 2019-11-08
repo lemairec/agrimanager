@@ -35,6 +35,31 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
+    function getAllForBanque(){
+        $em = $this->getEntityManager();
+        $sql = 'SELECT operation_id FROM ecriture e join compte c on e.compte_id=c.id where c.type = "banque"';
+
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($sql);
+        $statement->execute();
+        $res = $statement->fetchAll();
+        $ids = [];
+        foreach($res as $p){
+            $ids[] = $p["operation_id"];
+        }
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $this->createQueryBuilder('p')
+            ->where('p.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->orderBy('p.date', 'ASC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
+
+
     function getAll(){
         $query = $this->createQueryBuilder('p')
             ->orderBy('p.date', 'DESC')

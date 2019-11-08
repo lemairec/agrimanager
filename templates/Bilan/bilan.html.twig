@@ -7,9 +7,9 @@
             <tr>
                 <th>Parcelle</th>
                 <th>Culture</th>
-                <th class="text-right">Charge</th>
                 <th class="text-right">Rendement</th>
                 <th class="text-right">Prix</th>
+                <th class="text-right">Charge</th>
                 <th class="text-right">Marge</th>
             </tr>
             {% for campagne in campagnes2 %}
@@ -25,13 +25,14 @@
                 <tr  bgcolor='{{ culture['color']}}'>
                     <td>{{culture['culture']}}</td>
                     <td class="text-right">{{ culture['surface'] | showHa }}</td>
-                    <td class="text-right">{{ culture['chargesHa'] | showUnity('€/ha')}}</td>
                     <td class="text-right">{{ culture['rendementHa'] | showUnity('t/ha')}}</td>
                     {% if culture['price'] != 0 %}
                         <td class="text-right">{{ culture['price'] | showUnity('€/t')}}</td>
-                        <td class="text-right">{{ culture['margesHa'] | showUnity('€/t')}}</td>
+                        <td class="text-right">{{ (-culture['chargesHa']) | showUnity('€/ha')}}</td>
+                        <td class="text-right">{{ culture['margesHa'] | showUnity('€/ha')}}</td>
                     {% else %}
                         <td></td>
+                        <td class="text-right">{{ (-culture['chargesHa']) | showUnity('€/ha')}}</td>
                         <td></td>
                     {% endif %}
 

@@ -24,6 +24,10 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class GestionController extends CommonController
 {
+    public function dateColor(){
+        return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> ""];
+    }
+
     /**
      * @Route("/cours", name="cours")
      */
@@ -145,7 +149,7 @@ class GestionController extends CommonController
 
         $operations = $em->getRepository('App:Operation')->findAll();
         $comptes = $em->getRepository('App:Compte')->getAll();
-        $years = ['2016', '2017', '2018', '2019', '2020'];
+        $years = ['2020', '2019', '2018','2017', '2016'];
 
 
         //dump($comptes);
@@ -182,91 +186,66 @@ class GestionController extends CommonController
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
-        $banque = $em->getRepository('App:Compte')->getFirstBanque();
-        $compte = $banque;
-        $operations = $em->getRepository('App:Operation')->getAllForCompte($compte);
+        $session = $request->getSession();
+
+        $operations = [];
         $ecritures = [];
-        $value = 0;
-        $l = count($operations);
-        $year = "";
-        $month = "";
-        $value_month = [];
-        for($i = 0; $i < $l; ++$i){
-            $operation = $operations[$i];
-            $ignore = false;
-            foreach($operation->ecritures as $e){
-                if($e->compte->name=="400. Installation"
-                || $e->compte->name=="800. reprise"
-                || $e->compte->name=="300. Cours Terme"
-                || $e->compte->name=="002. hsbc"){
-                    $ignore = true;
+        $ecritures_futures = [];
+        {
+            $operations = $em->getRepository('App:Operation')->getAllForBanque();
+            $value = 0;
+            $l = count($operations);
+            for($i = 0; $i < $l; ++$i){
+                $operation = $operations[$i];
+                foreach($operation->ecritures as $e){
+                    if($e->compte->type == "banque"){
+                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>-$e->value];
+                        $ecriture['campagne'] = "";
+                        $ecriture['facture'] = $operation->facture;
+                        if($e->campagne){
+                            $ecriture['campagne'] = $e->campagne->name;
+                        }
 
-                }
-                if($e->compte->name=="910. emprunt lt" && $e->value > 0){
-                    $ignore = true;
-                }
-            }
-
-            foreach($operation->ecritures as $e){
-
-                if($e->compte == $compte){
-                    $new_year = $operation->date->format('Y');
-                    $new_month = $operation->date->format('Y-m');
-                    if($new_month != $month){
-                        $m = $operation->date->format('m');
-                        $value_month[] = ['year'=>$year, 'month'=>$m, 'value'=>$value];
-                        $month = $new_month;
-                    }
-                    if($new_year != $year){
-                        $ecriture = ['operation_id'=>'annee', 'campagne'=>$year, 'date'=>$year, 'name'=>$year, 'value'=>0, 'ignore'=>false, 'sum_value'=>$value];
-                        $ecritures[] = $ecriture;
-                        $year = $new_year;
-                        $value = 0;
-                    }
-
-                    //print($new_year);
-                    $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value, 'ignore'=>$ignore];
-                    $ecriture['campagne'] = "";
-                    if($e->campagne){
-                        $ecriture['campagne'] = $e->campagne->name;
-                    }
-                    if($compte->type == 'banque'){
-                        $ecriture['value'] = -$ecriture['value'];
-                    }
-
-                    if($ignore){
-
-                    } else {
                         $value += $ecriture['value'];
+                        $ecriture['sum_value'] = $value;
+
+                        if($operation->date > new DateTime()){
+                            $ecritures_futures[] = $ecriture;
+                        } else {
+                            $ecritures[] = $ecriture;
+                        }
 
                     }
-                    $ecriture['sum_value'] = $value;
 
-                    $ecritures[] = $ecriture;
                 }
+
             }
         }
-
-        $colors = ["" => "", "2016" => "#99ccff", "2017" => "#ff9966"];
-
         $chartjss = [];
         $chartjs = NULL;
+        $year = 0;
+        $value = 0;
+        
         foreach($ecritures as $ecriture){
-            if($ecriture['operation_id'] == 'annee'){
+            $new_year = $ecriture['date']->format('Y');
+            if($year != $new_year){
+                $year = $new_year;
+                $value = 0;
                 if($chartjs){
                     $chartjss[] = $chartjs;
                 }
-                $chartjs = ['annee'=> $ecriture['campagne'], 'data' => [], 'color' => $colors[$ecriture['campagne']]];
+                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->dateColor()[$year]];
                 continue;
             }
-            $chartjs['data'][] = ['date' => substr($ecriture['date'], 1, 6)."2017", 'value' => $ecriture['sum_value']];
+            $value += $ecriture['value'];
+        
+            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'] ];
         }
-        $chartjss[] = $chartjs;
-
-        //print(json_encode($value_month));
         $ecritures = array_reverse($ecritures);
+        $ecritures_futures = array_reverse($ecritures_futures);
+    
+        $chartjss[] = $chartjs;
         return $this->render('Gestion/banques.html.twig', array(
-            'compte' => $compte,
             'ecritures' => $ecritures,
             'chartjss' => $chartjss
         ));
@@ -297,7 +276,7 @@ class GestionController extends CommonController
                 $operation = $operations[$i];
                 foreach($operation->ecritures as $e){
                     if($e->compte == $compte){
-                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$e->value];
+                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>$e->value];
                         $ecriture['campagne'] = "";
                         $ecriture['facture'] = $operation->facture;
                         if($e->campagne){
@@ -318,16 +297,39 @@ class GestionController extends CommonController
 
                     }
 
-
                 }
 
             }
-            $ecritures = array_reverse($ecritures);
-            $ecritures_futures = array_reverse($ecritures_futures);
         }
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
 
+        $chartjss = [];
+        $chartjs = NULL;
+        $year = 0;
+        $value = 0;
+        foreach($ecritures as $ecriture){
+            $new_year = $ecriture['date']->format('Y');
+            if($year != $new_year){
+                $year = $new_year;
+                if($compte->type == "campagne"){
+                    $value = 0;
+                }
+                if($chartjs){
+                    $chartjss[] = $chartjs;
+                }
+                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->dateColor()[$year]];
+                continue;
+            }
+            $value += $ecriture['value'];
+        
+            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $value];
+        }
+
+        $ecritures = array_reverse($ecritures);
+        $ecritures_futures = array_reverse($ecritures_futures);
+    
+        $chartjss[] = $chartjs;
 
         if ($form->isSubmitted()) {
             $em->persist($compte);
@@ -339,7 +341,8 @@ class GestionController extends CommonController
             'form' => $form->createView(),
             'compte' => $compte,
             'ecritures' => $ecritures,
-            'ecritures_futures' => $ecritures_futures
+            'ecritures_futures' => $ecritures_futures,
+            'chartjss' => $chartjss
         ));
     }
 
