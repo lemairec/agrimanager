@@ -2,62 +2,79 @@
 
 {% block body %}
 
-
 <div class="card">
     <div class="card-header">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/compte/0'">Ajouter</button>
         Comptes
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/compte/0'">Ajouter</button>
+        {% if app.user.show_unity %}
+        {% else %}
+            <button type="button" class="btn btn-primary" id="copy" type="button">Copy in clipboard</button>
+        {% endif %}                        
+        
     </div>
-    <table class="table">
+    <table class="table" id="table">
         <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th class="text-right">Previsionnel</th>
-            <th class="text-right"></th>
-            <th class="text-right">Montant</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            {% for campagne in campagnes %}
+            <th>{{campagne.name}}</th>
+            {% endfor %}
         </tr>
         {% for compte in comptes %}
-            {% if compte.type != 'campagne' or compte.getPriceNull() != 0 %}
             <tr>
                 <td>{{ compte.name | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
-                <td>{{ compte.type }}</td>
-
-                {% if compte.previsionnel != 0 %}
-                    <td class="text-right">{{ compte.previsionnel | showEur }}</td>
-                    <td class="text-right">{{ (compte.getPriceNull()/compte.previsionnel) | showPercent}}</td>
-                {% else %}
-                    <td class="text-right">-</td>
-                    <td class="text-right">-</td>
-                {% endif %}
-                <td class="text-right">{{ (-compte.getPrice()) | showEur }}</td>
-            </tr>
-            {% endif %}
-        {% endfor %}
-        {% for campagne in campagnes %}
-            <tr>
-                <th colspan = "4"  class="text-center">
-                    {{campagne.name}}
-                </th>
-                <th class="text-right">{{ comptes_campagnes[campagne.name] | showEur}}</th>
-            </tr>
-            {% for compte in comptes %}
-                {% if compte.type == 'campagne' or compte.getPriceCampagne(campagne) != 0 %}
-                <tr>
-                    <td>{{ compte.name | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
-                    <td>{{ compte.type }} - {{campagne}}</td>
-                    {% if compte.previsionnel != 0 %}
-                        <td class="text-right">{{ compte.previsionnel | showEur }}</td>
-                        <td class="text-right">{{ (compte.getPriceCampagne(campagne)/compte.previsionnel) | showPercent}}</td>
+                
+                    <td>{{compte.getPrice() | showEur}}</td>
+                    {% if compte.type == 'campagne' %}
+                        <td>{{compte.previsionnel   | showEur}}</td>
                     {% else %}
-                        <td class="text-right">-</td>
-                        <td class="text-right">-</td>
+                        <td></td>
                     {% endif %}
-                    <td class="text-right">{{ compte.getPriceCampagne(campagne) | showEur }}</td>
-                </tr>
-                {% endif %}
-            {% endfor %}
+                
+                {% for campagne in campagnes %}
+                    <td> 
+                    {{compte.getPriceCampagne(campagne)  | showEur}}
+                    </td>
+                {% endfor %}
+            </tr>
         {% endfor %}
+
     </table>
 </div>
 
+
+<script>
+var toCopy  = document.getElementById( 'table' ),
+    btnCopy = document.getElementById( 'copy' );
+
+function selectElementContents(el) {
+    var body = document.body, range, sel;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+        document.execCommand("copy");
+
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+        range.execCommand("Copy");
+    }
+}
+
+btnCopy.addEventListener( 'click', function(){
+	selectElementContents(toCopy);
+	document.execCommand( 'copy' );
+	return false;
+} )
+</script>
 {% endblock %}

@@ -59,6 +59,14 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
+    function getAllAsc(){
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'ASC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
+
 
     function getAll(){
         $query = $this->createQueryBuilder('p')
