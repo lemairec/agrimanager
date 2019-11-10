@@ -54,7 +54,7 @@ class GestionController extends CommonController
         }
         $courss = $em->getRepository('App:Cours')->getAllForCampagne($campagne);
 
-        return $this->render('Default/cours.html.twig', array(
+        return $this->render('Gestion/cours.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'courss' => $courss,
@@ -79,7 +79,7 @@ class GestionController extends CommonController
             return $this->redirectToRoute('cours');
         }
         $date = new DateTime();
-        return $this->render('Default/cours_new.html.twig', array(
+        return $this->render('Gestion/cours_new.html.twig', array(
             'date' => $date->format("d/m/Y"),
             'courss' => $courss,
         ));
