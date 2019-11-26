@@ -28,8 +28,8 @@ class GestionController extends CommonController
         return ["#99ccff", "#ff9966", "#B6E17B", ""];
     }
 
-    public function dateColor(){
-        return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> ""];
+    public function getDateColor(){
+        return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> ""];
     }
 
     /**
@@ -388,7 +388,7 @@ class GestionController extends CommonController
                 if($chartjs){
                     $chartjss[] = $chartjs;
                 }
-                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->dateColor()[$year]];
+                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
             }
             $value += $ecriture['value'];
 
