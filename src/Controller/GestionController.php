@@ -395,7 +395,6 @@ class GestionController extends CommonController
 
             }
         }
-        dump($ecritures_by_campagne);
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
 
@@ -404,11 +403,8 @@ class GestionController extends CommonController
         $year = 0;
         $value = 0;
         if(array_key_exists("", $ecritures_by_campagne)){
-            print("ici");
             $chartjss = $this->getDataWithDates($ecritures_by_campagne[""]["ecritures"]);
-            dump($ecritures_by_campagne[""]["ecritures"]);       
         } else {
-            print("la");
             foreach($ecritures_by_campagne as $k => $value){
                 $chartjss[] = $this->getDataCampagne($k, $value["ecritures"]);
             }
