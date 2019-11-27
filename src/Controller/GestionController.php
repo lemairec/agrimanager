@@ -32,6 +32,49 @@ class GestionController extends CommonController
         return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> ""];
     }
 
+    public function getDataCampagne($campagne, $ecritures){
+        $data = [];
+
+        $value = 0;
+        foreach($ecritures as $ecriture){
+            $year = intVal($ecriture['date']->format("Y"))-intVal($campagne)+2017;
+            $value += $ecriture['value'];
+            $data[] = ['date' => $ecriture['date']->format("d-m")."-".$year, 'value' => $value];
+        }
+        return ['annee'=> $campagne, 'data' => $data, 'color' => $this->getDateColor()[$campagne]];
+    }
+
+    public function getDataWithDates($ecritures){
+        $chartjss = [];
+        $chartjs = NULL;
+        $year = 0;
+        
+        foreach($ecritures as $ecriture){
+            $new_year = $ecriture['date']->format('Y');
+            if($year != $new_year){
+                $year = $new_year;
+                if($chartjs){
+                    $chartjss[] = $chartjs;
+                }
+                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
+            }
+            
+            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'] ];
+        }
+        $chartjss[] = $chartjs;
+        return $chartjss;
+    }
+
+    public function getDataSerieChartJs($ecritures, $name, $i){
+        $chartjs = ['annee'=> $name, 'data' => [], 'color' => $this->getColor()[$i]];
+        $value=0;
+        foreach($ecritures as $ecriture){
+            $value += $ecriture['value'];
+            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m-Y"), 'value' => $ecriture['sum_value'] ];
+        }
+        return $chartjs;
+    }
+
     /**
      * @Route("/cours", name="cours")
      */
@@ -183,16 +226,6 @@ class GestionController extends CommonController
         ));
     }
 
-    public function getDataSerieChartJs($ecritures, $name, $i){
-        $chartjs = ['annee'=> $name, 'data' => [], 'color' => $this->getColor()[$i]];
-        $value=0;
-        foreach($ecritures as $ecriture){
-            $value += $ecriture['value'];
-            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m-Y"), 'value' => $ecriture['sum_value'] ];
-        }
-        return $chartjs;
-    }
-
     /**
      * @Route("/banque", name="banque")
      **/
@@ -230,25 +263,10 @@ class GestionController extends CommonController
 
             }
         }
-        $chartjss = [];
-        $chartjs = NULL;
-        $year = 0;
         
-        foreach($ecritures as $ecriture){
-            $new_year = $ecriture['date']->format('Y');
-            if($year != $new_year){
-                $year = $new_year;
-                if($chartjs){
-                    $chartjss[] = $chartjs;
-                }
-                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
-            }
-            
-            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'] ];
-        }
+        $chartjss = $this->getDataWithDates($ecritures);
         $ecritures = array_reverse($ecritures);
         
-        $chartjss[] = $chartjs;
         return $this->render('Gestion/banques.html.twig', array(
             'ecritures' => $ecritures,
             'chartjss' => $chartjss
@@ -336,6 +354,7 @@ class GestionController extends CommonController
         $session = $request->getSession();
 
         $operations = [];
+        $ecritures_by_campagne = [];
         $ecritures = [];
         $ecritures_futures = [];
         if($compte_id == '0'){
@@ -350,12 +369,13 @@ class GestionController extends CommonController
                 $operation = $operations[$i];
                 foreach($operation->ecritures as $e){
                     if($e->compte == $compte){
-                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>$e->value];
-                        $ecriture['campagne'] = "";
-                        $ecriture['facture'] = $operation->facture;
+                        $campagne = "";
                         if($e->campagne){
-                            $ecriture['campagne'] = $e->campagne->name;
+                            $campagne = $e->campagne->name;
                         }
+                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>$e->value, 'campagne'=>$campagne];
+                        $ecriture['facture'] = $operation->facture;
+                        
                         if($compte->type == 'banque'){
                             $ecriture['value'] = -$ecriture['value'];
                         }
@@ -364,13 +384,18 @@ class GestionController extends CommonController
                         $ecriture['sum_value'] = $value;
 
                         $ecritures[] = $ecriture;
-
+                        if(!array_key_exists($campagne, $ecritures_by_campagne)){
+                            $ecritures_by_campagne[$campagne] = ["value" => 0, "ecritures" => []]; 
+                        }
+                        $ecritures_by_campagne[$campagne]["ecritures"][] = $ecriture;
+                        $ecritures_by_campagne[$campagne]["value"] += $ecriture['value'];
                     }
 
                 }
 
             }
         }
+        dump($ecritures_by_campagne);
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
 
@@ -378,28 +403,20 @@ class GestionController extends CommonController
         $chartjs = NULL;
         $year = 0;
         $value = 0;
-        foreach($ecritures as $ecriture){
-            $new_year = $ecriture['date']->format('Y');
-            if($year != $new_year){
-                $year = $new_year;
-                if($compte->type == "campagne"){
-                    $value = 0;
-                }
-                if($chartjs){
-                    $chartjss[] = $chartjs;
-                }
-                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
+        if(array_key_exists("", $ecritures_by_campagne)){
+            print("ici");
+            $chartjss = $this->getDataWithDates($ecritures_by_campagne[""]["ecritures"]);
+            dump($ecritures_by_campagne[""]["ecritures"]);       
+        } else {
+            print("la");
+            foreach($ecritures_by_campagne as $k => $value){
+                $chartjss[] = $this->getDataCampagne($k, $value["ecritures"]);
             }
-            $value += $ecriture['value'];
-
-            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $value];
         }
 
         $ecritures = array_reverse($ecritures);
         $ecritures_futures = array_reverse($ecritures_futures);
     
-        $chartjss[] = $chartjs;
-
         if ($form->isSubmitted()) {
             $em->persist($compte);
             $em->flush();
