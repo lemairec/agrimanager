@@ -241,7 +241,7 @@ class GestionController extends CommonController
                 if($chartjs){
                     $chartjss[] = $chartjs;
                 }
-                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->dateColor()[$year]];
+                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
             }
             
             $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'] ];
