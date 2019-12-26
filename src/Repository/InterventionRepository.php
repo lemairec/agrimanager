@@ -58,6 +58,28 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
     }
 
+    /*public function save($intervention)
+    {
+        $em = $this->getEntityManager();
+
+        $this->my_clear($intervention);
+        $em->persist($intervention);
+        $em->flush();
+		foreach ($intervention->produits as $p) {
+            $stock = new ProduitStock();
+			$stock->date = $intervention->datetime;
+			$stock->idSociete = $intervention->idSociete;
+			$stock->produit = $p->produit;
+			$stock->coutAchat = $p->cout;
+			$stock->quantity = -$p->quantity;
+			$stock->intervention = $intervention;
+
+			$em->persist($stock);
+			$em->flush();
+			$em->getRepository('Produit')->updateProduit($p->produit);
+		}
+    }*/
+
     public function delete($intervention_id)
     {
         $em = $this->getEntityManager();
