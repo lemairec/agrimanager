@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <div class="row">
                             <div class="col-5">
-                                <a href="{{ url("intervention", {'intervention_id': alerte.intervention.id}) }}"><b>{{alerte.intervention.get_date()}}</b></a>
+                                <a href="{{ url("intervention", {'intervention_id': alerte.intervention.id}) }}"><b>{{alerte.intervention.getDatetimeStr()}}</b></a>
                             </div>
                             <div class="col-7">
                                 <b>{{alerte.intervention.type}}

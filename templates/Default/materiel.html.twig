@@ -39,7 +39,7 @@
         </tr>
         {% for intervention in interventions %}
             <tr>
-                <td>{{intervention.get_date()}}</td>
+                <td>{{intervention.getDatetimeStr()}}</td>
                 <td>{{intervention.campagne.name}}</td>
                 <td>{{intervention.type}}</td>
                 <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>

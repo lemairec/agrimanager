@@ -178,7 +178,7 @@
         {% for intervention in interventions %}
         <tr>
             <td><a href="/intervention/{{intervention.id}}">{{intervention.id}}</td>
-            <td><b>{{intervention.get_date()}}</b></td>
+            <td><b>{{intervention.getDatetimeStr()}}</b></td>
             <td><b>{{intervention.type}}</b></td>
             <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
             <td></td>

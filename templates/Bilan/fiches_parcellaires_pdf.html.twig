@@ -43,7 +43,7 @@
 
             {% for intervention in parcelle.interventions %}
 				<tr class="odd_row">
-                    <th colspan="2"><a href="/intervention/{{intervention.id}}">{{intervention.get_date()}}</a></th>
+                    <th colspan="2"><a href="/intervention/{{intervention.id}}">{{intervention.getDatetimeStr()}}</a></th>
                     <th colspan="2">{{intervention.type}}</th>
                     <th></th>
 					<th style="text-align: right;"><div style="{{visibility}}">{{intervention.getPriceHa() | showUnity("€/ha")}}</div></th>
