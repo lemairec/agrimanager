@@ -45,12 +45,16 @@ class Produit
     /** @ORM\Column(name="price", type="float") **/
     public $price = 0;
 
+    /** Phyto **/
+    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit")
      * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="amm")
      */
     public $ephyProduit;
 
+    /** ENGRAIS **/
+    
     /** @ORM\Column(name="n", type="float") **/
     public $n = 0;
 

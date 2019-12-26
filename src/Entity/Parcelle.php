@@ -22,6 +22,15 @@ class Parcelle
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ilot")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $ilot;
+    
+    /** @ORM\Column(name="active", type="boolean") **/
+    public $active = true;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -37,11 +46,7 @@ class Parcelle
     public $surface = 0;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Ilot")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public $ilot;
+    
 
     /** @ORM\Column(name="name", type="string", nullable=true) **/
     public $name;
@@ -52,9 +57,7 @@ class Parcelle
     /** @ORM\Column(name="comment", type="string", length=2048, nullable=true) **/
     public $comment;
 
-    /** @ORM\Column(name="active", type="boolean") **/
-    public $active = true;
-
+    
     public function getIlotName(){
         if($this->ilot){
             return $this->ilot->name;
@@ -84,3 +87,6 @@ class Parcelle
     }
 
 }
+
+
+?>

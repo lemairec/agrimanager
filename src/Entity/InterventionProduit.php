@@ -37,7 +37,7 @@ class InterventionProduit
     public $name;
 
 
-    /** @ORM\Column(name="qty", type="float") **/
+    /** @ORM\Column(type="float") **/
     public $qty;
 
     function getPriceHa(){
