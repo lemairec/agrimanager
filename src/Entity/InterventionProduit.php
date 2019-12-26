@@ -33,19 +33,11 @@ class InterventionProduit
      */
     public $produit;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
+    /** @ORM\Column(name="name", type="string", length=255) **/
     public $name;
 
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="qty", type="float")
-     */
+    /** @ORM\Column(name="qty", type="float") **/
     public $qty;
 
     function getPriceHa(){

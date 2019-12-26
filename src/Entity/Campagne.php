@@ -22,23 +22,13 @@ class Campagne
     public $id;
 
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
+    /** @ORM\Column(name="name", type="string", length=255) **/
     public $name;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    /** @ORM\Column(type="string", length=255, nullable=true) **/
     public $commercialisation;
 
-    /**
-     * @var color
-     *
-     * @ORM\Column(name="color", type="string", length=25, nullable=true)
-     */
+    /** @ORM\Column(name="color", type="string", length=25, nullable=true) **/
     public $color;
 
     /**

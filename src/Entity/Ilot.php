@@ -27,34 +27,17 @@ class Ilot
      */
     public $company;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="number", type="integer", nullable=true)
-     */
+    /** @ORM\Column(name="number", type="integer", nullable=true) **/
     public $number;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="surface", type="float")
-     */
+    /** @ORM\Column(name="surface", type="float") **/
     public $surface;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string")
-     */
+    /** @ORM\Column(name="name", type="string") **/
     public $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="comment", type="string", length=255, nullable=true)
-     */
+    /** @ORM\Column(name="comment", type="string", length=255, nullable=true) **/
     public $comment;
-
 
     public function __toString ( ){
         return $this->name." - ".number_format($this->surface,2)." ha";

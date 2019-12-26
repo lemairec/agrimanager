@@ -33,11 +33,7 @@ class Parcelle
      */
     public $culture;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="surface", type="float")
-     */
+    /** @ORM\Column(name="surface", type="float") **/
     public $surface = 0;
 
 
@@ -47,32 +43,16 @@ class Parcelle
      */
     public $ilot;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", nullable=true)
-     */
+    /** @ORM\Column(name="name", type="string", nullable=true) **/
     public $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="complete_name", type="string")
-     */
+    /** @ORM\Column(name="complete_name", type="string") **/
     public $completeName;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="comment", type="string", length=2048, nullable=true)
-     */
+    /** @ORM\Column(name="comment", type="string", length=2048, nullable=true) **/
     public $comment;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="active", type="boolean")
-     */
+    /** @ORM\Column(name="active", type="boolean") **/
     public $active = true;
 
     public function getIlotName(){

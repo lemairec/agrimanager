@@ -33,18 +33,10 @@ class Intervention
      */
     public $company;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date")
-     */
+    /** @ORM\Column(name="date", type="date") **/
     public $date;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
+    /** @ORM\Column(name="type", type="string", length=255) **/
     public $type;
 
     /** @ORM\Column(type="float") **/

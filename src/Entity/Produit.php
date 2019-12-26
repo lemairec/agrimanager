@@ -27,46 +27,22 @@ class Produit
      */
     public $company;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="complete_name", type="string", length=255)
-     */
+    /** @ORM\Column(name="complete_name", type="string", length=255) **/
     public $completeName;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
+    /** @ORM\Column(name="name", type="string", length=255) **/
     public $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
+    /** @ORM\Column(name="type", type="string", length=255) **/
     public $type;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="unity", type="string", length=255)
-     */
+    /** @ORM\Column(name="unity", type="string", length=255) **/
     public $unity = "unité";
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="qty", type="float")
-     */
+    /** @ORM\Column(name="qty", type="float") **/
     public $qty = 0;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="price", type="float")
-     */
+    /** @ORM\Column(name="price", type="float") **/
     public $price = 0;
 
     /**
@@ -75,36 +51,19 @@ class Produit
      */
     public $ephyProduit;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="n", type="float")
-     */
+    /** @ORM\Column(name="n", type="float") **/
     public $n = 0;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="p", type="float")
-     */
+    /** @ORM\Column(name="p", type="float") **/
     public $p = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="k", type="float")
-     */
+
+    /** @ORM\Column(name="k", type="float") **/
     public $k = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="mg", type="float")
-     */
+    
+    /** @ORM\Column(name="mg", type="float") **/
     public $mg = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="s", type="float")
-     */
+
+    /** @ORM\Column(name="s", type="float") **/
     public $s = 0;
 
     public function __toString ( ){
