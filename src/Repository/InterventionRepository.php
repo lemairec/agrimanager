@@ -14,19 +14,57 @@ use \DateTime;
  */
 class InterventionRepository extends \Doctrine\ORM\EntityRepository
 {
-    function delete($intervention_id){
+    public function my_clear($intervention)
+    {
         $em = $this->getEntityManager();
-        $intervention = $em->getRepository('App:Intervention')->findOneById($intervention_id);
-        $intervention_parcelles = $em->getRepository('App:InterventionParcelle')
-                                   ->findBy(array('intervention'=>$intervention));
-        $intervention_produits = $em->getRepository('App:InterventionProduit')
-                                   ->findBy(array('intervention'=>$intervention));
-        foreach ($intervention_produits as $it) {
-            $em->getRepository('App:InterventionProduit')->delete($it->id);
+
+        $parcelles = $em->getRepository('InterventionParcelle')->findByIntervention($intervention);
+        foreach ($parcelles as $p) {
+            $em->remove($p);
         }
-        foreach ($intervention_parcelles as $it) {
-            $em->remove($it);
+
+		$worker = $em->getRepository('InterventionWorker')->findByIntervention($intervention);
+		foreach ($worker as $s) {
+            $em->remove($s);
         }
+
+		$materiel = $em->getRepository('InterventionMateriel')->findByIntervention($intervention);
+		foreach ($materiel as $s) {
+            $em->remove($s);
+
+        }
+
+        $produits = $em->getRepository('InterventionProduit')->findByIntervention($intervention);
+        foreach ($produits as $p) {
+            $em->remove($p);
+        }
+
+		/*$entrepreneur = $em->getRepository('InterventionEntrepreneur')->findByIntervention($intervention);
+        foreach ($entrepreneur as $p) {
+            $em->remove($p);
+        }
+		
+		$recolte = $em->getRepository('InterventionRecolte')->findByIntervention($intervention);
+        foreach ($recolte as $p) {
+            $em->remove($p);
+        }
+
+        $stocks = $em->getRepository('ProduitStock')->findByIntervention($intervention);
+        foreach ($stocks as $s) {
+            $em->remove($s);
+            $em->flush();
+            $em->getRepository('Produit')->updateProduit($s->produit);
+        }*/
+        $em->flush();
+    }
+
+    public function delete($intervention_id)
+    {
+        $em = $this->getEntityManager();
+
+        $intervention = $this->find($intervention_id);
+
+        $this->my_clear($intervention);
         $em->remove($intervention);
         $em->flush();
     }
