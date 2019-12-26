@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Entity;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +47,12 @@ class Intervention
     /** @ORM\Column(type="text", nullable=true) **/
     public $comment;
 
+    /** @ORM\Column(type="text", nullable=true) **/
+    public $meteoJson;
+
+    /** @ORM\Column(type="string", length=255, nullable=true) **/
+    public $migration;
+
     /**
     * @ORM\OneToMany(targetEntity="App\Entity\InterventionParcelle", mappedBy="intervention",cascade={"persist"})
     */
@@ -62,11 +67,6 @@ class Intervention
     * @ORM\OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
     */
     public $materiels;
-
-    public function __construct() {
-        $this->parcelles = new ArrayCollection();
-        $this->produits = new ArrayCollection();
-    }
 
     function getPriceHa(){
         $res = 0;
@@ -105,8 +105,8 @@ class Intervention
         return str_replace('&', '+', $this->type);
     }
 
-    function get_date(){
-        return $this->date->format(' d/m/y');
+    function getDatetimeStr(){
+        return $this->date->format('d/m/y');
     }
 
     function getIsoDate(){
