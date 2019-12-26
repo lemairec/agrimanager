@@ -25,20 +25,20 @@ class BilanController extends CommonController
             if($p->id != '0'){
                 $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
             }
-            $p->n = 0;
-            $p->p = 0;
-            $p->k = 0;
-            $p->mg = 0;
-            $p->s = 0;
+            $p->engrais_n = 0;
+            $p->engrais_p = 0;
+            $p->engrais_k = 0;
+            $p->engrais_mg = 0;
+            $p->engrais_so3 = 0;
             $p->priceHa = 0;
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
-                    $p->n += $produit->getQuantityHa() * $produit->produit->n;
-                    $p->p += $produit->getQuantityHa() * $produit->produit->p;
-                    $p->k += $produit->getQuantityHa() * $produit->produit->k;
-                    $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
-                    $p->s += $produit->getQuantityHa() * $produit->produit->s;
+                    $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
+                    $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
+                    $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
+                    $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
+                    $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                 }
             }
         }
@@ -216,20 +216,20 @@ class BilanController extends CommonController
                 if($p->id != '0'){
                     $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
                 }
-                $p->n = 0;
-                $p->p = 0;
-                $p->k = 0;
-                $p->mg = 0;
-                $p->s = 0;
+                $p->engrais_sn = 0;
+                $p->engrais_sp = 0;
+                $p->engrais_sk = 0;
+                $p->engrais_smg = 0;
+                $p->engrais_so3 = 0;
                 $p->priceHa = 0;
                 foreach($p->interventions as $it){
                     $p->priceHa += $it->getPriceHa();
                     foreach($it->produits as $produit){
-                        $p->n += $produit->getQuantityHa() * $produit->produit->n;
-                        $p->p += $produit->getQuantityHa() * $produit->produit->p;
-                        $p->k += $produit->getQuantityHa() * $produit->produit->k;
-                        $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
-                        $p->s += $produit->getQuantityHa() * $produit->produit->s;
+                        $p->engrais_sn += $produit->getQuantityHa() * $produit->produit->engrais_sn;
+                        $p->engrais_sp += $produit->getQuantityHa() * $produit->produit->engrais_sp;
+                        $p->engrais_sk += $produit->getQuantityHa() * $produit->produit->engrais_sk;
+                        $p->engrais_smg += $produit->getQuantityHa() * $produit->produit->engrais_smg;
+                        $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                     }
                 }
                 $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
@@ -304,31 +304,29 @@ class BilanController extends CommonController
                 if($p->id != '0'){
                     $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p, 'ASC');
                 }
-                $p->n = 0;
-                $p->p = 0;
-                $p->k = 0;
-                $p->mg = 0;
-                $p->s = 0;
+                $p->engrais_n = 0;
+                $p->engrais_p = 0;
+                $p->engrais_k = 0;
+                $p->engrais_mg = 0;
+                $p->engrais_so3 = 0;
                 $p->priceHa = 0;
                 $interventions = [];
                 foreach($p->interventions as $it){
                     $n = 0;
                     $s = 0;
                     foreach($it->produits as $produit){
-                        $n += $produit->getQuantityHa() * $produit->produit->n;
-                        $s += $produit->getQuantityHa() * $produit->produit->s;
-                        $p->n += $produit->getQuantityHa() * $produit->produit->n;
-                        $p->p += $produit->getQuantityHa() * $produit->produit->p;
-                        $p->k += $produit->getQuantityHa() * $produit->produit->k;
-                        $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
-                        $p->s += $produit->getQuantityHa() * $produit->produit->s;
+                        $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
+                        $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
+                        $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
+                        $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
+                        $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
 
                     }
                     if($n>5){
                         $interventions[] = ['date' => $it->datetime, 'n'=>$n, 's'=>$s];
                     }
                 }
-                $parcelle = ['interventions' => $interventions, 'name' => $p->completeName, 'n' => $p->n, 'p' => $p->p, 'k' => $p->k, 'mg' => $p->mg, 's' => $p->s];
+                $parcelle = ['interventions' => $interventions, 'name' => $p->completeName, 'n' => $p->engrais_n, 'p' => $p->engrais_p, 'k' => $p->engrais_k, 'mg' => $p->engrais_mg, 's' => $p->engrais_so3];
 
                 $cultures[$p->getCultureName()]['campagne'][$campagne->name]['parcelles'][] = $parcelle;
             }
@@ -364,21 +362,21 @@ class BilanController extends CommonController
             if($p->id != '0'){
                 $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
             }
-            $p->n = 0;
-            $p->p = 0;
-            $p->k = 0;
-            $p->mg = 0;
-            $p->s = 0;
+            $p->engrais_n = 0;
+            $p->engrais_p = 0;
+            $p->engrais_k = 0;
+            $p->engrais_mg = 0;
+            $p->engrais_so3 = 0;
             $p->priceHa = 0;
             $p->details = [];
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
-                    $p->n += $produit->getQuantityHa() * $produit->produit->n;
-                    $p->p += $produit->getQuantityHa() * $produit->produit->p;
-                    $p->k += $produit->getQuantityHa() * $produit->produit->k;
-                    $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
-                    $p->s += $produit->getQuantityHa() * $produit->produit->s;
+                    $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
+                    $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
+                    $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
+                    $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
+                    $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                     if (!array_key_exists($produit->produit->type, $p->details)) {
                         $p->details[$produit->produit->type] = 0;
                     }
@@ -493,21 +491,21 @@ class BilanController extends CommonController
                 if($p->id != '0'){
                     $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
                 }
-                $p->n = 0;
-                $p->p = 0;
-                $p->k = 0;
-                $p->mg = 0;
-                $p->s = 0;
+                $p->engrais_n = 0;
+                $p->engrais_p = 0;
+                $p->engrais_k = 0;
+                $p->engrais_mg = 0;
+                $p->engrais_so3 = 0;
                 $p->priceHa = 0;
                 $p->details = [];
                 foreach($p->interventions as $it){
                     $p->priceHa += $it->getPriceHa();
                     foreach($it->produits as $produit){
-                        $p->n += $produit->getQuantityHa() * $produit->produit->n;
-                        $p->p += $produit->getQuantityHa() * $produit->produit->p;
-                        $p->k += $produit->getQuantityHa() * $produit->produit->k;
-                        $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
-                        $p->s += $produit->getQuantityHa() * $produit->produit->s;
+                        $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
+                        $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
+                        $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
+                        $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
+                        $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                         $produit_name = $produit->produit->type. " - ".$produit->produit->name;
                         if (!array_key_exists($produit_name, $culture["produits"])) {
                             $cultures[$p->getCultureName()]["produits"][$produit_name] = [];

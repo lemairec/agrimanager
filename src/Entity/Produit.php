@@ -56,19 +56,19 @@ class Produit
     /** ENGRAIS **/
     
     /** @ORM\Column(name="n", type="float") **/
-    public $n = 0;
+    public $engrais_n = 0;
 
     /** @ORM\Column(name="p", type="float") **/
-    public $p = 0;
+    public $engrais_p = 0;
 
     /** @ORM\Column(name="k", type="float") **/
-    public $k = 0;
+    public $engrais_k = 0;
     
     /** @ORM\Column(name="mg", type="float") **/
-    public $mg = 0;
+    public $engrais_mg = 0;
 
     /** @ORM\Column(name="s", type="float") **/
-    public $s = 0;
+    public $engrais_so3 = 0;
 
     public function __toString ( ){
         $res = $this->name;

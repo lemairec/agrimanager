@@ -88,11 +88,11 @@ class ProduitController extends CommonController
         $produit->name = $data["name"];
         $produit->unity = $data["unity"];
         $produit->type = $data["type"];
-        $produit->n = $this->parseFloat($data["n"]);
-        $produit->p = $this->parseFloat($data["p"]);
-        $produit->k = $this->parseFloat($data["k"]);
-        $produit->mg = $this->parseFloat($data["mg"]);
-        $produit->s = $this->parseFloat($data["s"]);
+        $produit->engrais_n = $this->parseFloat($data["n"]);
+        $produit->engrais_p = $this->parseFloat($data["p"]);
+        $produit->engrais_k = $this->parseFloat($data["k"]);
+        $produit->engrais_mg = $this->parseFloat($data["mg"]);
+        $produit->engrais_so3 = $this->parseFloat($data["s"]);
         $produit->name = $data["name"];
         $produit->ephyProduit = $em->getRepository('App:EphyProduit')->find($data["produit_ephy"]);
         //$intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
