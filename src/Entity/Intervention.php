@@ -32,8 +32,8 @@ class Intervention
      */
     public $company;
 
-    /** @ORM\Column(type="datetime") **/
-    public $date;
+    /** @ORM\Column(type="datetime", name="date") **/ //todo
+    public $datetime;
 
     /** @ORM\Column(name="type", type="string", length=255) **/
     public $type;
@@ -106,10 +106,10 @@ class Intervention
     }
 
     function getDatetimeStr(){
-        return $this->date->format('d/m/y');
+        return $this->datetime->format('d/m/y');
     }
 
     function getIsoDate(){
-        return $this->date->format(' Y-m-d');
+        return $this->datetime->format(' Y-m-d');
     }
 }

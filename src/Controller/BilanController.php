@@ -325,7 +325,7 @@ class BilanController extends CommonController
 
                     }
                     if($n>5){
-                        $interventions[] = ['date' => $it->date, 'n'=>$n, 's'=>$s];
+                        $interventions[] = ['date' => $it->datetime, 'n'=>$n, 's'=>$s];
                     }
                 }
                 $parcelle = ['interventions' => $interventions, 'name' => $p->completeName, 'n' => $p->n, 'p' => $p->p, 'k' => $p->k, 'mg' => $p->mg, 's' => $p->s];
@@ -449,7 +449,7 @@ class BilanController extends CommonController
                             }
                         }
                         $cultures[$p->getCultureName()]["interventions"][$intervention->type][$campagne->name]["dates"][]
-                            = ['date' => $intervention->date, 'id' => $intervention->id, 'name' => $intervention->name];
+                            = ['date' => $intervention->datetime, 'id' => $intervention->id, 'name' => $intervention->name];
 
                         $intervention_culture = $culture;
 
@@ -679,7 +679,7 @@ class BilanController extends CommonController
             }
 
             foreach($interventions as $intervention){
-                $lines[] = ['date' => $intervention->date, 'type' => $intervention->type, 'litre' => 0, 'ha' => $intervention->surface, 'object'=> json_encode($intervention), 'sumHa' => 0, 'sumL' => 0, 'conso' => 0];
+                $lines[] = ['date' => $intervention->datetime, 'type' => $intervention->type, 'litre' => 0, 'ha' => $intervention->surface, 'object'=> json_encode($intervention), 'sumHa' => 0, 'sumL' => 0, 'conso' => 0];
             }
 
         }

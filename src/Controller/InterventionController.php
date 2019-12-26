@@ -57,7 +57,7 @@ class InterventionController extends CommonController
                 $campagne = $intervention->campagne;
                 $parcelles2 =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
             }
-            $date = $intervention->date;
+            $date = $intervention->datetime;
             $type = $intervention->type;
             $name = $intervention->name;
             $comment = $intervention->comment;
@@ -130,7 +130,7 @@ class InterventionController extends CommonController
         $intervention->type = $data["type"];
         $intervention->comment = $data["comment"];
         $intervention->name = $data["name"];
-        $intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
+        $intervention->datetime = DateTime::createFromFormat('d/m/Y', $data["date"]);
         $em->persist($intervention);
         $em->flush();
 

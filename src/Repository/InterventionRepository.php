@@ -41,7 +41,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('produit_it.produit', 'produit2')
             ->addSelect('produit2')
             ->setParameter('campagne', $campagne)
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.datetime', 'DESC')
             ->getQuery();
 
         return $query->getResult();
@@ -51,7 +51,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->setParameter('campagne', $campagne)
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.datetime', 'DESC')
             ->setMaxResults(5)
             ->getQuery();
 
@@ -73,7 +73,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.company = :company')
             ->setParameter('company', $company)
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.datetime', 'DESC')
             ->getQuery();
 
         return $query->getResult();
@@ -86,7 +86,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
             ->innerJoin('i.parcelles', 'p')
             ->where('p.parcelle = :parcelle')
             ->setParameter('parcelle', $parcelle)
-            ->orderBy('i.date', $order)
+            ->orderBy('i.datetime', $order)
             ->getQuery();
 
         return $query->getResult();
@@ -112,7 +112,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
              ->setParameter('ids', $ids)
-             ->orderBy('p.date', 'DESC')
+             ->orderBy('p.datetime', 'DESC')
              ->getQuery();
 
              return $query->getResult();
@@ -137,7 +137,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
              ->setParameter('ids', $ids)
-             ->orderBy('p.date', 'DESC')
+             ->orderBy('p.datetime', 'DESC')
              ->getQuery();
 
              return $query->getResult();

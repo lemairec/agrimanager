@@ -14,7 +14,7 @@
             </tr>
             {% for r in res %}
             <tr>
-                <th>{{ r.intervention.date | showDate}}</th>
+                <th>{{ r.intervention.datetime | showDate}}</th>
                 <th>{{ r.intervention.surface }}</th>
                 <th>{{ r.prix | showEur}}</th>
                 <th>{{ r.sum | showEur}}</th>
