@@ -8,8 +8,8 @@ use App\Entity\MaterielEntretien;
 /**
  * MaterielEntretien
  *
- * @ORM\Table(name="materiel_entretien")
  * @ORM\Entity(repositoryClass="App\Repository\MaterielEntretienRepository")
+ * @ORM\Table(name="materiel_entretien")
  */
 class MaterielEntretien
 {

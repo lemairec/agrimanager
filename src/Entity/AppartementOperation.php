@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * AppartementOperation
  *
- * @ORM\Table(name="appartement_operation")
  * @ORM\Entity(repositoryClass="App\Repository\AppartementOperationRepository")
+ * @ORM\Table(name="appartement_operation")
  * @Vich\Uploadable
  */
 class AppartementOperation

@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * InterventionParcelle
  *
- * @ORM\Table(name="intervention_parcelle")
  * @ORM\Entity(repositoryClass="App\Repository\InterventionParcelleRepository")
+ * @ORM\Table(name="intervention_parcelle")
  */
 class InterventionParcelle
 {

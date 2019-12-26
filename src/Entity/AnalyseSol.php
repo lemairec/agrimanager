@@ -10,8 +10,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * AnalyseSol
  *
- * @ORM\Table(name="analyse_sol")
  * @ORM\Entity(repositoryClass="App\Repository\AnalyseSolRepository")
+ * @ORM\Table(name="analyse_sol")
  * @Vich\Uploadable
  */
 class AnalyseSol

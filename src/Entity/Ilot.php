@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Ilot
  *
- * @ORM\Table(name="ilot")
  * @ORM\Entity(repositoryClass="App\Repository\IlotRepository")
+ * @ORM\Table(name="ilot")
  */
 class Ilot
 {

@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EphySubstanceProduit
  *
- * @ORM\Table(name="ephy_substance_produit")
  * @ORM\Entity(repositoryClass="App\Repository\EphySubstanceProduitRepository")
+ * @ORM\Table(name="ephy_substance_produit")
  */
 class EphySubstanceProduit
 {

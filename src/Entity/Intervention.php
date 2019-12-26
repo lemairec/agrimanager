@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Intervention
  *
- * @ORM\Table(name="intervention")
  * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
+ * @ORM\Table(name="intervention")
  */
 class Intervention
 {
@@ -33,14 +34,14 @@ class Intervention
     public $company;
 
     /**
-     * @ORM\var \DateTime
+     * @var \DateTime
      *
      * @ORM\Column(name="date", type="date")
      */
     public $date;
 
     /**
-     * @ORM\var string
+     * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */

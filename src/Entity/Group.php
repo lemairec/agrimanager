@@ -7,9 +7,8 @@ use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="_fos_group")
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ORM\Table(name="_fos_group")
  */
 class Group extends BaseGroup
 {
