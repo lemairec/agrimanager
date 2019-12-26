@@ -49,10 +49,10 @@
                 <div class="col-md-5">
                     <div class="row">
                         <div class="col-6 text-right">
-                            {{ it.qty | showUnity(it.produit.unity)}}
+                            {{ it.quantity | showUnity(it.produit.unity)}}
                         </div>
                         <div class="col-6 text-right">
-                            {{ it.qtyha | showUnityHa(it.produit.unity)}}
+                            {{ it.getQuantityHa | showUnityHa(it.produit.unity)}}
                         </div>
                     </div>
                 </div>

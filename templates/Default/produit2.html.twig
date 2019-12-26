@@ -199,7 +199,7 @@
             <td></td>
             <td>{{it.name}}</td>
             <td>{{ "%.2f  u"|format(it.qty)}}</td>
-            <td>{{ "%.2f  u/ha"|format(it.qtyha)}}</td>
+            <td>{{ "%.2f  u/ha"|format(it.getQuantityHa())}}</td>
 
         </tr>
         {% endfor %}

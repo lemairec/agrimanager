@@ -105,7 +105,7 @@ class AlerteRepository extends ServiceEntityRepository
         foreach ($intervention->produits as $p) {
             if($p->produit->ephyProduit){
                 $usages = $em->getRepository('App:EphyUsage')->findByEphyProduit($p->produit->ephyProduit);
-                $qty_ha = $p->getQtyHa();
+                $qty_ha = $p->getQuantityHa();
                 foreach ($intervention->parcelles as $parcelle) {
                     if($parcelle->parcelle->culture->metaCulture){
                         $cultures2 =  explode(",", $parcelle->parcelle->culture->metaCulture->cultureUsage);

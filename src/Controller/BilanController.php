@@ -34,11 +34,11 @@ class BilanController extends CommonController
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
-                    $p->n += $produit->getQtyHa() * $produit->produit->n;
-                    $p->p += $produit->getQtyHa() * $produit->produit->p;
-                    $p->k += $produit->getQtyHa() * $produit->produit->k;
-                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                    $p->n += $produit->getQuantityHa() * $produit->produit->n;
+                    $p->p += $produit->getQuantityHa() * $produit->produit->p;
+                    $p->k += $produit->getQuantityHa() * $produit->produit->k;
+                    $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
+                    $p->s += $produit->getQuantityHa() * $produit->produit->s;
                 }
             }
         }
@@ -159,11 +159,11 @@ class BilanController extends CommonController
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
-                    $p->n += $produit->getQtyHa() * $produit->produit->n;
-                    $p->p += $produit->getQtyHa() * $produit->produit->p;
-                    $p->k += $produit->getQtyHa() * $produit->produit->k;
-                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                    $p->n += $produit->getQuantityHa() * $produit->produit->n;
+                    $p->p += $produit->getQuantityHa() * $produit->produit->p;
+                    $p->k += $produit->getQuantityHa() * $produit->produit->k;
+                    $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
+                    $p->s += $produit->getQuantityHa() * $produit->produit->s;
                 }
             }
             $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
@@ -225,11 +225,11 @@ class BilanController extends CommonController
                 foreach($p->interventions as $it){
                     $p->priceHa += $it->getPriceHa();
                     foreach($it->produits as $produit){
-                        $p->n += $produit->getQtyHa() * $produit->produit->n;
-                        $p->p += $produit->getQtyHa() * $produit->produit->p;
-                        $p->k += $produit->getQtyHa() * $produit->produit->k;
-                        $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                        $p->s += $produit->getQtyHa() * $produit->produit->s;
+                        $p->n += $produit->getQuantityHa() * $produit->produit->n;
+                        $p->p += $produit->getQuantityHa() * $produit->produit->p;
+                        $p->k += $produit->getQuantityHa() * $produit->produit->k;
+                        $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
+                        $p->s += $produit->getQuantityHa() * $produit->produit->s;
                     }
                 }
                 $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
@@ -315,13 +315,13 @@ class BilanController extends CommonController
                     $n = 0;
                     $s = 0;
                     foreach($it->produits as $produit){
-                        $n += $produit->getQtyHa() * $produit->produit->n;
-                        $s += $produit->getQtyHa() * $produit->produit->s;
-                        $p->n += $produit->getQtyHa() * $produit->produit->n;
-                        $p->p += $produit->getQtyHa() * $produit->produit->p;
-                        $p->k += $produit->getQtyHa() * $produit->produit->k;
-                        $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                        $p->s += $produit->getQtyHa() * $produit->produit->s;
+                        $n += $produit->getQuantityHa() * $produit->produit->n;
+                        $s += $produit->getQuantityHa() * $produit->produit->s;
+                        $p->n += $produit->getQuantityHa() * $produit->produit->n;
+                        $p->p += $produit->getQuantityHa() * $produit->produit->p;
+                        $p->k += $produit->getQuantityHa() * $produit->produit->k;
+                        $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
+                        $p->s += $produit->getQuantityHa() * $produit->produit->s;
 
                     }
                     if($n>5){
@@ -374,19 +374,19 @@ class BilanController extends CommonController
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
-                    $p->n += $produit->getQtyHa() * $produit->produit->n;
-                    $p->p += $produit->getQtyHa() * $produit->produit->p;
-                    $p->k += $produit->getQtyHa() * $produit->produit->k;
-                    $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                    $p->s += $produit->getQtyHa() * $produit->produit->s;
+                    $p->n += $produit->getQuantityHa() * $produit->produit->n;
+                    $p->p += $produit->getQuantityHa() * $produit->produit->p;
+                    $p->k += $produit->getQuantityHa() * $produit->produit->k;
+                    $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
+                    $p->s += $produit->getQuantityHa() * $produit->produit->s;
                     if (!array_key_exists($produit->produit->type, $p->details)) {
                         $p->details[$produit->produit->type] = 0;
                     }
-                    $p->details[$produit->produit->type]  += $produit->getQtyHa() * $produit->produit->price;
+                    $p->details[$produit->produit->type]  += $produit->getQuantityHa() * $produit->produit->price;
                     if (!array_key_exists($produit->produit->type, $cultures[$p->getCultureName()]['details'])) {
                         $cultures[$p->getCultureName()]['details'][$produit->produit->type] = 0;
                     }
-                    $cultures[$p->getCultureName()]['details'][$produit->produit->type] += $produit->getQtyHa() * $p->surface * $produit->produit->price;
+                    $cultures[$p->getCultureName()]['details'][$produit->produit->type] += $produit->getQuantityHa() * $p->surface * $produit->produit->price;
                 }
                 ksort($p->details);
 
@@ -503,11 +503,11 @@ class BilanController extends CommonController
                 foreach($p->interventions as $it){
                     $p->priceHa += $it->getPriceHa();
                     foreach($it->produits as $produit){
-                        $p->n += $produit->getQtyHa() * $produit->produit->n;
-                        $p->p += $produit->getQtyHa() * $produit->produit->p;
-                        $p->k += $produit->getQtyHa() * $produit->produit->k;
-                        $p->mg += $produit->getQtyHa() * $produit->produit->mg;
-                        $p->s += $produit->getQtyHa() * $produit->produit->s;
+                        $p->n += $produit->getQuantityHa() * $produit->produit->n;
+                        $p->p += $produit->getQuantityHa() * $produit->produit->p;
+                        $p->k += $produit->getQuantityHa() * $produit->produit->k;
+                        $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
+                        $p->s += $produit->getQuantityHa() * $produit->produit->s;
                         $produit_name = $produit->produit->type. " - ".$produit->produit->name;
                         if (!array_key_exists($produit_name, $culture["produits"])) {
                             $cultures[$p->getCultureName()]["produits"][$produit_name] = [];
@@ -515,7 +515,7 @@ class BilanController extends CommonController
                                 $cultures[$p->getCultureName()]["produits"][$produit_name][$c->name] = 0;
                             }
                         }
-                        $cultures[$p->getCultureName()]["produits"][$produit_name][$campagne->name] += $produit->getQtyHa() * $p->surface * $produit->produit->price;
+                        $cultures[$p->getCultureName()]["produits"][$produit_name][$campagne->name] += $produit->getQuantityHa() * $p->surface * $produit->produit->price;
                     }
                 }
                 $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);

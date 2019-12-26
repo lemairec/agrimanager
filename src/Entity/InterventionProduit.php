@@ -41,10 +41,10 @@ class InterventionProduit
 
     function getPriceHa(){
         $price = $this->produit->price;
-        return  $this->getqtyha()*$price;
+        return  $this->getQuantityHa()*$price;
     }
 
-    function getQtyHa(){
+    function getQuantityHa(){
         $surface = $this->intervention->surface;
         if($surface == 0){
             return 0;

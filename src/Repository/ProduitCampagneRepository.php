@@ -30,7 +30,7 @@ class ProduitCampagneRepository extends \Doctrine\ORM\EntityRepository
                 ->getQuery()->getResult();
             $qty2 = $em->getRepository('App:InterventionProduit')->createQueryBuilder('a')
                 ->innerJoin('a.intervention', 'i')
-                ->select('SUM(a.qty)')
+                ->select('SUM(a.quantity)')
                 ->where('i.campagne = :campagne')
                 ->andWhere('a.produit = :produit')
                 ->setParameter('campagne', $campagne)

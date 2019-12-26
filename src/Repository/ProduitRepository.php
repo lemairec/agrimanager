@@ -83,7 +83,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
                 $nb += 1;
             }
         }
-        $produit->qty = $stock;
+        $produit->quantity = $stock;
         if($nb > 0){
             $produit->price = $price/$nb;
         }

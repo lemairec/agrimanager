@@ -62,7 +62,7 @@ class InterventionController extends CommonController
             $name = $intervention->name;
             $comment = $intervention->comment;
             foreach($intervention->produits as $produit){
-                $produitsIntervention[] = ["name" => $produit->name, "qty" => $produit->qty];
+                $produitsIntervention[] = ["name" => $produit->name, "qty" => $produit->quantity];
             }
             foreach($parcelles2 as $parcelle){
                 $checked = false;
@@ -149,7 +149,7 @@ class InterventionController extends CommonController
             $it = new InterventionProduit();
             $it->intervention = $intervention;
             $it->name = ($produit["name"]);
-            $it->qty = $this->parseFloat($produit["qty"]);
+            $it->quantity = $this->parseFloat($produit["qty"]);
             $em->getRepository('App:InterventionProduit')->save($it, $campagne);
         }
 
