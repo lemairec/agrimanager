@@ -22,7 +22,7 @@ class Campagne
     public $id;
 
 
-    /** @ORM\Column(name="name", type="string", length=255) **/
+    /** @ORM\Column(type="string", length=255) **/
     public $name;
 
     /** @ORM\Column(type="string", length=255, nullable=true) **/

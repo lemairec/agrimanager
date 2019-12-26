@@ -68,6 +68,14 @@ class Intervention
     */
     public $materiels;
 
+    public function getDatetimeStr(){
+        return $this->datetime->format("d/m/y");
+    }
+
+    public function getDatetimeStr2(){
+        return $this->datetime->format("d/m/Y");
+    }
+
     function getPriceHa(){
         $res = 0;
         foreach($this->produits as $p){
@@ -105,11 +113,7 @@ class Intervention
         return str_replace('&', '+', $this->type);
     }
 
-    function getDatetimeStr(){
-        return $this->datetime->format('d/m/y');
-    }
-
-    function getIsoDate(){
+    public function getIsoDate(){
         return $this->datetime->format(' Y-m-d');
     }
 }
