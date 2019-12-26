@@ -36,9 +36,8 @@ class InterventionProduit
     /** @ORM\Column(name="name", type="string", length=255) **/
     public $name;
 
-
-    /** @ORM\Column(type="float") **/
-    public $qty;
+    /** @ORM\Column(name="qty", type="float") **/ //todo
+    public $quantity;
 
     function getPriceHa(){
         $price = $this->produit->price;
@@ -50,7 +49,7 @@ class InterventionProduit
         if($surface == 0){
             return 0;
         } else {
-            return  $this->qty/$surface;
+            return  $this->quantity/$surface;
         }
     }
 }
