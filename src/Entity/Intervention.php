@@ -32,7 +32,7 @@ class Intervention
      */
     public $company;
 
-    /** @ORM\Column(type="datetime", name="date") **/ //todo
+    /** @ORM\Column(type="datetime") **/
     public $datetime;
 
     /** @ORM\Column(name="type", type="string", length=255) **/
