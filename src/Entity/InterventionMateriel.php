@@ -5,8 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * InterventionMateriel
- *
  * @ORM\Entity(repositoryClass="App\Repository\InterventionMaterielRepository")
  * @ORM\Table(name="intervention_materiel")
  */
@@ -23,7 +21,7 @@ class InterventionMateriel
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="materiels")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="intervention_id", referencedColumnName="id", nullable=false)
      */
     public $intervention;
 
@@ -32,4 +30,8 @@ class InterventionMateriel
      * @ORM\JoinColumn(name="materiel_id",nullable=false)
      */
     public $materiel;
+    /** @ORM\Column(type="float") **/
+    public $cout;
+
 }
+?>

@@ -5,8 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Parcelle
- *
  * @ORM\Entity(repositoryClass="App\Repository\ParcelleRepository")
  * @ORM\Table(name="parcelle")
  */
@@ -27,14 +25,16 @@ class Parcelle
      */
     public $ilot;
     
-    /** @ORM\Column(name="active", type="boolean") **/
-    public $active = true;
+    /** @ORM\Column(type="integer") **/
+    public $active;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
      * @ORM\JoinColumn(nullable=false)
      */
     public $campagne;
+    /** @ORM\Column(type="string", length=45, nullable = true) **/
+    public $pacage;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Culture")
@@ -42,8 +42,11 @@ class Parcelle
      */
     public $culture;
 
-    /** @ORM\Column(name="surface", type="float") **/
-    public $surface = 0;
+    /** @ORM\Column(type="string", length=45, nullable = true) **/
+    public $commune;
+
+    /** @ORM\Column(type="float", nullable = true) **/
+    public $surface;
 
 
     

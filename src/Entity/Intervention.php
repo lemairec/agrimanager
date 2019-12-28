@@ -35,19 +35,22 @@ class Intervention
     /** @ORM\Column(type="datetime") **/
     public $datetime;
 
+	/** @ORM\Column(type="time", nullable=true) **/
+    public $duration;
+
     /** @ORM\Column(name="type", type="string", length=255) **/
     public $type;
 
     /** @ORM\Column(type="float") **/
     public $surface;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) **/
+    /** @ORM\Column(type="string", length=255) **/
     public $name;
 
-    /** @ORM\Column(type="text", nullable=true) **/
+    /** @ORM\Column(type="text") **/
     public $comment;
 
-    /** @ORM\Column(type="text", nullable=true) **/
+    /** @ORM\Column(type="text", nullable=true, name="meteoJson") **/
     public $meteoJson;
 
     /** @ORM\Column(type="string", length=255, nullable=true) **/

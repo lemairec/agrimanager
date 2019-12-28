@@ -5,8 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Produit
- *
  * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
  * @ORM\Table(name="produit")
  */
@@ -91,6 +89,8 @@ class Produit
             return "";
         }
     }
+    /** @ORM\Column(type="string") **/
+    public $migration = "";
 
     public function getAmm(){
         if($this->ephyProduit){

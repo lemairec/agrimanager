@@ -34,6 +34,8 @@ class Campagne
     /** @ORM\Column(name="color", type="string", length=25, nullable=true) **/
     public $color;
 
+    /** @ORM\Column(type="integer", nullable = true, name="anneeStart") **/
+    public $anneeStart;
     
     public function __toString ( ){
         return $this->name;

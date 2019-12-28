@@ -25,6 +25,9 @@ class Culture
     /** @ORM\Column(name="name", type="string", length=255) **/
     public $name;
 
+    /** @ORM\Column(type="string", length=45, nullable=true) **/
+    public $codetelepac;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MetaCulture")
      * @ORM\JoinColumn(nullable=true)
