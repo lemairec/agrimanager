@@ -38,7 +38,7 @@ class Produit
     public $unity = "unité";
 
     /** @ORM\Column(name="qty", type="float") **/
-    public $qty = 0;
+    public $quantity = 0;
 
     /** @ORM\Column(name="price", type="float") **/
     public $price = 0;

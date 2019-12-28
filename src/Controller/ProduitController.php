@@ -165,7 +165,7 @@ class ProduitController extends CommonController
         $produits = $em->getRepository('App:Produit')->getAllForCompanyStock($this->company);
         $sum = 0;
         foreach ($produits as $p) {
-            $sum += $p->qty * $p->price;
+            $sum += $p->quantity * $p->price;
         }
 
         return $this->render('Default/produits.html.twig', array(
