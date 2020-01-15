@@ -57,8 +57,10 @@ class AnalyseSolController extends CommonController
                 if($analyse_sol->doc->getDocFile() || $analyse_sol->doc->getDocName()){
                     $analyse_sol->doc->updatedAt = new Datetime();
                     $analyse_sol->doc->repository = "analyse_sol";
+                    $analyse_sol->doc->date = $analyse_sol->date;
                     $str = $this->stringlify($analyse_sol->parcelle);
-                    $analyse_sol->doc->name = $analyse_sol->date->format('Ymd')."_".$str;
+                    //$analyse_sol->date->format('Ym')."_"
+                    $analyse_sol->doc->name = $str;
                     $em->persist($analyse_sol->doc);
                 }
                 if($analyse_sol->doc->getDocName() == null){

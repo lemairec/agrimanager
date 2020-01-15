@@ -28,7 +28,7 @@ class Produit
     /** @ORM\Column(name="complete_name", type="string", length=255) **/
     public $completeName;
 
-    /** @ORM\Column(name="name", type="string", length=255) **/
+    /** @ORM\Column(type="string") **/
     public $name;
 
     /** @ORM\Column(name="type", type="string", length=255) **/

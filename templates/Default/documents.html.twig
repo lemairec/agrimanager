@@ -7,14 +7,31 @@
         <div class="card-header">
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("document", {'document_id': 0}) }}'">Ajouter</button>
         </div>
+
+        <div class="list-group">
         {% for document in documents %}
         <div class="list-group-item flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
-                    <a href="{{ document.url }}">{{document.repository}}/{{document.name}}
+            <div class="row" style="min-height: 1.5rem;">
+                <div class="col-md-3">
+                    <a href="{{ document.url }}">
+                        {{document.repository}}
                     </a>
-                </h5>
+                </div>
+
+                <div class="col-md-5">
+                    <a href="{{ document.url }}">
+                        {{ document.name }}
+                    </a>
+                </div>
+
+                <div class="col-md-4 text-right">
+                    {% if document.date %}
+                        {{document.date | showDate }}
+                    {% endif %}
+                </div>
+
             </div>
+
         </div>
         {% endfor %}
     </div>

@@ -23,6 +23,7 @@ class DocumentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('d')
             ->addOrderBy('d.repository', 'ASC')
+            ->addOrderBy('d.date', 'ASC')
             ->addOrderBy('d.name', 'ASC')
             ->getQuery()
             ->getResult()

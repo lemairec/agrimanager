@@ -537,20 +537,6 @@ class GestionController extends CommonController
     }
 
     /**
-     * @Route("/facture_fournisseurs_export", name="factures_fournisseurs2")
-     **/
-    public function factureFournisseurs2Action(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $this->check_user($request);
-        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
-
-        return $this->render('Gestion/facture_fournisseurs_export.html.twig', array(
-            'facture_fournisseurs' => $facture_fournisseurs
-        ));
-    }
-
-    /**
      * @Route("/facture_fournisseur/{facture_id}/delete_pdf", name="facture_fournisseur_delete_pdf")
      **/
     public function factureFournisseurDeletePdfAction($facture_id, Request $request)
@@ -619,39 +605,6 @@ class GestionController extends CommonController
             'facture' => $facture,
             'operations' => $operations
         ));
-    }
-
-    /**
-     * @Route("export", name="export")
-     **/
-    public function factureFournisseurExportAction(Request $request)
-    {
-        $files = array();
-        $em = $this->getDoctrine()->getManager();
-
-        $zip = new \ZipArchive();
-        $zipName = 'Documents_'.time().".zip";
-        $zip->open($zipName,  \ZipArchive::CREATE);
-
-        foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
-            $file = $f->getFactureFileName();
-            if($file){
-                $fileName = $f->getFactureMyFileName();
-                $src = "uploads/factures/".$file;
-                $zip->addFile($src, $fileName);
-            }
-        }
-        foreach ($files as $f) {
-            $zip->addFromString(basename($f),  file_get_contents($f));
-        }
-        $zip->close();
-
-        $response = new Response(file_get_contents($zipName));
-        $response->headers->set('Content-Type', 'application/zip');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
-        $response->headers->set('Content-length', filesize($zipName));
-
-        return $response;
     }
 
     /**

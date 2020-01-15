@@ -76,7 +76,7 @@ class AnalyseSol
     */
     public $doc;
 
-    function get_date(){
+    function getDatetimeStr(){
         return $this->date->format(' d/m/y');
     }
 }

@@ -61,8 +61,9 @@ class AppartementController extends CommonController
                 if($operation->doc->getDocFile() || $operation->doc->getDocName()){
                     $operation->doc->updatedAt = new Datetime();
                     $operation->doc->repository = "appartement";
+                    $operation->doc->date = $operation->date;
                     $str = $this->stringlify($operation->type);
-                    $operation->doc->name = $operation->date->format('Ymd')."_".$str;
+                    $operation->doc->name = $str;
                     $em->persist($operation->doc);
                 }
                 if($operation->doc->getDocName() == null){

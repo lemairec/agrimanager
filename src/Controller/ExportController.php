@@ -1,0 +1,167 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+use Datetime;
+
+
+use App\Controller\CommonController;
+
+use App\Entity\Document;
+use App\Form\DocumentType;
+
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
+class ExportController extends CommonController
+{
+    /**
+     * @Route("/documents/export", name="document_export")
+     **/
+    public function documentsDump(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        if($this->getUser()->getUsername() != "lejard"){
+            return new Response("not authorize");
+        }
+
+
+        $zip = new \ZipArchive();
+        $zipName = 'documents_'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+
+        foreach ($em->getRepository('App:Document')->findAll() as $f) {
+            $file = $f->getDocName();
+            if($file){
+                $src = "uploads/documents/".$file;
+                $zip->addFile($src,  $f->repository."/".$f->name.".pdf");
+            }
+        }
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        return $response;
+    }
+
+
+    /**
+     * @Route("export", name="export")
+     **/
+    public function factureFournisseurExportAction(Request $request)
+    {
+        $files = array();
+        $em = $this->getDoctrine()->getManager();
+
+        $zip = new \ZipArchive();
+        $zipName = 'Documents_'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+
+        foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
+            $file = $f->getFactureFileName();
+            if($file){
+                $fileName = $f->getFactureMyFileName();
+                $src = "uploads/factures/".$file;
+                $zip->addFile($src, $fileName);
+            }
+        }
+        foreach ($files as $f) {
+            $zip->addFromString(basename($f),  file_get_contents($f));
+        }
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        return $response;
+    }
+
+    /**
+     * @Route("/facture_fournisseurs_export", name="factures_fournisseurs2")
+     **/
+    public function factureFournisseurs2Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
+        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
+
+        return $this->render('Gestion/facture_fournisseurs_export.html.twig', array(
+            'facture_fournisseurs' => $facture_fournisseurs
+        ));
+    }
+
+
+    /**
+    * @Route("/export_all", name="export_all")
+    **/
+    public function exportDump(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        if($this->getUser()->getUsername() != "lejard"){
+            return new Response("not authorize");
+        }
+
+        //remove old
+        $command = "rm dump/*.zip; rm dump/*.sql";
+        $process= new Process($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        //backup
+        $backupFile = 'dump/backup'.time().'.sql';
+        $host = getenv('DATABASE_HOST');
+        $port = getenv('DATABASE_PORT');
+        $db = getenv('DATABASE_NAME');
+        $user = getenv('DATABASE_USER');
+        $password = getenv('DATABASE_PASSWORD');
+        $command = "mysqldump -u $user --password=$password --host=$host --port=$port --opt $db > $backupFile";
+        $process= new Process($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $zip = new \ZipArchive();
+        $zipName = 'dump/'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+
+        foreach ($em->getRepository('App:Document')->findAll() as $f) {
+            $file = $f->getDocName();
+            if($file){
+                $src = "uploads/documents/".$file;
+                $zip->addFile($src, $file);
+            }
+        }
+
+        $zip->addEmptyDir("factures");
+        foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
+            $file = $f->getFactureFileName();
+            if($file){
+                $src = "uploads/factures/".$file;
+                $zip->addFile($src, "factures/".$file);
+            }
+        }
+        $zip->addFile($backupFile, "database.sql");
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        return $response;
+    }
+}

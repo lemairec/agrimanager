@@ -10,6 +10,7 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 // ...
 
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
 class DocumentType extends AbstractType
@@ -18,6 +19,13 @@ class DocumentType extends AbstractType
     {
         $builder
             ->add('name');
+        $builder
+            ->add('date', DateType::class, array(
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
+            ));
         $builder->add('repository', ChoiceType::class, array(
             'choices'  => array(
                 'autres' => 'autres',

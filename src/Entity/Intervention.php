@@ -44,10 +44,10 @@ class Intervention
     /** @ORM\Column(type="float") **/
     public $surface;
 
-    /** @ORM\Column(type="string", length=255) **/
+    /** @ORM\Column(type="text", length=255, nullable=true) **/
     public $name;
 
-    /** @ORM\Column(type="text") **/
+    /** @ORM\Column(type="text", nullable=true) **/
     public $comment;
 
     /** @ORM\Column(type="text", nullable=true, name="meteoJson") **/

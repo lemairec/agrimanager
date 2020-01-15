@@ -36,6 +36,13 @@ class Document
     public $repository;
 
     /**
+    * @var \DateTime
+    *
+    * @ORM\Column(type="date", nullable=true)
+    */
+    public $date;
+
+    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="document", fileNameProperty="docName")
