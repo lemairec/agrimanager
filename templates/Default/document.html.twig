@@ -5,7 +5,7 @@
 <div class="card mb-3">
     <div class="card-body">
         {{ form_start(form) }}
-        {{ form_row(form.repository, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.directory, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.date, {'attr': {'class': 'form-control'}}) }}
         {% if (document.docName != '') %}
@@ -17,6 +17,7 @@
         {% else %}
         {% endif %}
         {{ form_row(form.docFile) }}
+        {{ form_row(form.repository, {'attr': {'class': 'form-control'}}) }}
         {{ form_widget(form) }}
         <input type="submit" class="btn btn-primary" value="Sauvegarder" />
         {{ form_end(form) }}

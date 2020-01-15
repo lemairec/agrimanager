@@ -22,7 +22,7 @@ class DocumentRepository extends ServiceEntityRepository
     public function getAll()
     {
         return $this->createQueryBuilder('d')
-            ->addOrderBy('d.repository', 'ASC')
+            ->addOrderBy('d.directory', 'ASC')
             ->addOrderBy('d.date', 'ASC')
             ->addOrderBy('d.name', 'ASC')
             ->getQuery()

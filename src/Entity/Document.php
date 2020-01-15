@@ -36,6 +36,12 @@ class Document
     public $repository;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DocumentDirectory")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $directory;
+
+    /**
     * @var \DateTime
     *
     * @ORM\Column(type="date", nullable=true)

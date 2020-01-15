@@ -4,5 +4,6 @@ easy_admin:
         - App\Entity\Contact
         - App\Entity\Document
         - App\Entity\Group
+        - App\Entity\DocumentDirectory
 #        - App\Entity\Category
 #        - App\Entity\User

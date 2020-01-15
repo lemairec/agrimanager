@@ -12,13 +12,18 @@
         {% for document in documents %}
         <div class="list-group-item flex-column align-items-start">
             <div class="row" style="min-height: 1.5rem;">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <a href="{{ document.url }}">
                         {{document.repository}}
                     </a>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-2">
+                    <a href="{{ document.url }}">
+                        {{ document.directory }}
+                    </a>
+                </div>
+                <div class="col-md-4">
                     <a href="{{ document.url }}">
                         {{ document.name }}
                     </a>

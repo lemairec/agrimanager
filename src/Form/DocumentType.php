@@ -26,6 +26,8 @@ class DocumentType extends AbstractType
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker'],
             ));
+        $builder
+            ->add('directory');
         $builder->add('repository', ChoiceType::class, array(
             'choices'  => array(
                 'autres' => 'autres',
