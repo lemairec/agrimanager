@@ -105,7 +105,7 @@
             </div>
 
             <div class="col-sm-10">
-                {{ produit.qty | showUnity(produit.unity)}}
+                {{ produit.quantity | showUnity(produit.unity)}}
             </div>
         </div>
 
@@ -198,7 +198,7 @@
             <td></td>
             <td></td>
             <td>{{it.name}}</td>
-            <td>{{ "%.2f  u"|format(it.qty)}}</td>
+            <td>{{ "%.2f  u"|format(it.quantity)}}</td>
             <td>{{ "%.2f  u/ha"|format(it.getQuantityHa())}}</td>
 
         </tr>
@@ -240,7 +240,7 @@ $( function() {
                 name : "{{ produit.name }}",
                 type: "{{ produit.type }}",
                 unity: "{{ produit.unity }}",
-                n: {{ produit.n }}, p: {{ produit.p }}, k: {{ produit.k }}, s: {{ produit.s }}, mg: {{ produit.mg }},
+                n: {{ produit.engrais_n }}, p: {{ produit.engrais_p }}, k: {{ produit.engrais_k }}, s: {{ produit.engrais_so3 }}, mg: {{ produit.engrais_mg }},
                 produit_ephy: "{{ produit.amm }}",
             },
             types : [

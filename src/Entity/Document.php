@@ -29,13 +29,6 @@ class Document
     public $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    public $repository;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DocumentDirectory")
      * @ORM\JoinColumn(nullable=true)
      */

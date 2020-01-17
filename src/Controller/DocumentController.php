@@ -33,14 +33,14 @@ class DocumentController extends CommonController
         $documents = [];
         foreach($res as $d){
             $d->url = $this->generateUrl('document', array('document_id' => $d->id));
-            if($d->repository == "analyse_sol"){
+            if($d->directory->name == "analyse_sol"){
                 $analyse_sol = $em->getRepository('App:AnalyseSol')
                     ->findOneByDoc($d);
                 if($analyse_sol){
                     $d->url = $this->generateUrl('analyse_sol', array('analyse_sol_id' => $analyse_sol->id));
                 }
             }
-            if($d->repository == "appartement"){
+            if($d->directory->name == "appartement"){
                 $appartement = $em->getRepository('App:AppartementOperation')
                     ->findOneByDoc($d);
                 if($appartement){

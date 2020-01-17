@@ -41,9 +41,9 @@
                 <td>{{ p.ephyProduit }}</td>
                 <td>{{p.type}}</td>
                 <td>{{p.unity}}</td>
-                <td class="text-right">{{ p.qty | showUnity('u') }}</td>
+                <td class="text-right">{{ p.quantity | showUnity('u') }}</td>
                 <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
-                <td class="text-right">{{ (p.price*p.qty) | showEur }}</td>
+                <td class="text-right">{{ (p.price*p.quantity) | showEur }}</td>
                 <td><a href="/produit/{{p.id}}/delete">d</a></td>
 
             </tr>

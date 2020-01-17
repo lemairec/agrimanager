@@ -28,15 +28,6 @@ class DocumentType extends AbstractType
             ));
         $builder
             ->add('directory');
-        $builder->add('repository', ChoiceType::class, array(
-            'choices'  => array(
-                'autres' => 'autres',
-                'banque' => 'banque',
-                'banque_caj' => 'banque_caj',
-                'factures' => 'factures',
-                'analyse_sol' => 'analyse_sol',
-            ),
-        ));
         $builder->add('docFile', VichFileType::class, array(
             'required' => false,
             'allow_delete' => true,
