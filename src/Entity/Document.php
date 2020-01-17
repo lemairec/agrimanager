@@ -92,4 +92,19 @@ class Document
     {
         return $this->docName;
     }
+    
+    public function getDocMyFileName(){
+        $str = $this->name;
+        $str = str_replace(" - ", '_', $str);
+        $str = str_replace(' ', '_', $str);
+        $str = str_replace('-', '', $str);
+        $str = str_replace(',', '', $str);
+        $str = str_replace('/', '_', $str);
+        $str = str_replace('&', '_', $str);
+        $str = str_replace('é', 'e', $str);
+        $str = str_replace('è', 'e', $str);
+        $str = strtolower($str);
+
+        return $this->date->format('Ymd').'_'.$str.'.pdf';
+    }
 }

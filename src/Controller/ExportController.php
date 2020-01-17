@@ -58,23 +58,34 @@ class ExportController extends CommonController
      **/
     public function factureFournisseurExportAction(Request $request)
     {
-        $files = array();
         $em = $this->getDoctrine()->getManager();
 
         $zip = new \ZipArchive();
         $zipName = 'Documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
 
+        $begin = new DateTime("20181201");
+        $end = new DateTime("20200201");
+        
         foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
-            $file = $f->getFactureFileName();
-            if($file){
-                $fileName = $f->getFactureMyFileName();
-                $src = "uploads/factures/".$file;
-                $zip->addFile($src, $fileName);
+            if($f->date > $begin && $f->date < $end){
+                $file = $f->getFactureFileName();
+                if($file){
+                    $fileName = $f->getFactureMyFileName();
+                    $src = "uploads/factures/".$file;
+                    $zip->addFile($src, "facture/".$fileName);
+                }
             }
         }
-        foreach ($files as $f) {
-            $zip->addFromString(basename($f),  file_get_contents($f));
+        foreach ($em->getRepository('App:Document')->findAll() as $f) {
+            if($f->date > $begin && $f->date < $end){
+                $file = $f->getDocName();
+                if($file){
+                    $fileName = $f->getDocMyFileName();
+                    $src = "uploads/documents/".$file;
+                    $zip->addFile($src,  $f->directory->name."/".$fileName);
+                }
+            }
         }
         $zip->close();
 
