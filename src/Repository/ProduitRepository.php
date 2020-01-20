@@ -146,7 +146,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
     public function getAllForCompanyStock($company){
         return $this->createQueryBuilder('p')
         ->where('p.company = :company')
-        ->andWhere('ABS(p.qty) > 0.001')
+        ->andWhere('ABS(p.quantity) > 0.001')
         ->addorderBy('p.type', 'ASC')
         ->addorderBy('p.name', 'ASC')
         ->setParameter('company', $company)

@@ -54,7 +54,7 @@
                     <td style="width: 20%;"><i>{{it.produit}}</i></td>
 					<td style="width: 15%;"></td>
                     <td style="width: 20%;">{% if it.produit.type == "engrais" %}
-					<small>{{ (it.produit.n * it.getQuantityHa()) | showInt}} - {{ (it.produit.p * it.getQuantityHa()) | showInt }} - {{ (it.produit.k * it.getQuantityHa()) | showInt}} - {{ (it.produit.mg * it.getQuantityHa()) | showInt}} - ( S {{ (it.produit.s * it.getQuantityHa()) | showInt}} )</small>
+					<small>{{ (it.produit.engrais_n * it.getQuantityHa()) | showInt}} - {{ (it.produit.engrais_p * it.getQuantityHa()) | showInt }} - {{ (it.produit.engrais_k * it.getQuantityHa()) | showInt}} - {{ (it.produit.engrais_mg * it.getQuantityHa()) | showInt}} - ( S {{ (it.produit.engrais_so3 * it.getQuantityHa()) | showInt}} )</small>
 					{% endif %}</td>
                     <td style="width: 20%; text-align: right">{{ it.getQuantityHa() | showUnityHa(it.produit.unity) }}</td>
 					<td style="width: 20%; text-align: right"><div style="{{visibility}}">{{ it.getPriceHa() | showUnity("€/ha") }}</div></td>
