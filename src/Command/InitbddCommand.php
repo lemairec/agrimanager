@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +15,7 @@ use App\Entity\Company;
 use App\Entity\Campagne;
 use App\Entity\Produit;
 
-class InitbddCommand extends ContainerAwareCommand
+class InitbddCommand extends Command
 {
     protected function configure()
     {

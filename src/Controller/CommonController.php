@@ -1,13 +1,13 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use App\Entity\Log;
 use DateTime;
 
-class CommonController extends Controller
+class CommonController extends AbstractController
 {
     public function mylog($string){
         $em = $this->getDoctrine()->getManager();
