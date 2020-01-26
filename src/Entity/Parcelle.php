@@ -24,7 +24,7 @@ class Parcelle
      * @ORM\JoinColumn(nullable=true)
      */
     public $ilot;
-    
+
     /** @ORM\Column(type="integer") **/
     public $active;
 
@@ -33,6 +33,7 @@ class Parcelle
      * @ORM\JoinColumn(nullable=false)
      */
     public $campagne;
+
     /** @ORM\Column(type="string", length=45, nullable = true) **/
     public $pacage;
 
@@ -42,14 +43,14 @@ class Parcelle
      */
     public $culture;
 
+    /** @ORM\Column(type="integer", nullable = true) **/
+    public $ordre;
+
     /** @ORM\Column(type="string", length=45, nullable = true) **/
     public $commune;
 
     /** @ORM\Column(type="float", nullable = true) **/
     public $surface;
-
-
-    
 
     /** @ORM\Column(name="name", type="string", nullable=true) **/
     public $name;
@@ -89,6 +90,8 @@ class Parcelle
         return $this->completeName;
     }
 
+    /** @ORM\Column(type="text", name="geoJson") **/
+    public $geoJson;
 }
 
 

@@ -34,6 +34,9 @@ class Intervention
 
     /** @ORM\Column(type="datetime") **/
     public $datetime;
+	
+	/** @ORM\Column(type="datetime", nullable=true) **/
+    public $datetimeEnd;
 
 	/** @ORM\Column(type="time", nullable=true) **/
     public $duration;
@@ -70,6 +73,13 @@ class Intervention
     * @ORM\OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
     */
     public $materiels;
+
+     /**
+    * @ORM\OneToMany(targetEntity=App\Entity\InterventionRecolte::class, mappedBy="intervention",cascade={"persist"})
+    * @ORM\OrderBy({"datetime" = "ASC"})
+ 
+    */
+    public $recoltes;
 
     public function getDatetimeStr(){
         return $this->datetime->format("d/m/y");
