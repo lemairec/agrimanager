@@ -18,23 +18,23 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
 
-        $parcelles = $em->getRepository('InterventionParcelle')->findByIntervention($intervention);
+        $parcelles = $em->getRepository('App:InterventionParcelle')->findByIntervention($intervention);
         foreach ($parcelles as $p) {
             $em->remove($p);
         }
 
-		$worker = $em->getRepository('InterventionWorker')->findByIntervention($intervention);
+		/*$worker = $em->getRepository('App:InterventionWorker')->findByIntervention($intervention);
 		foreach ($worker as $s) {
             $em->remove($s);
-        }
+        }*/
 
-		$materiel = $em->getRepository('InterventionMateriel')->findByIntervention($intervention);
+		$materiel = $em->getRepository('App:InterventionMateriel')->findByIntervention($intervention);
 		foreach ($materiel as $s) {
             $em->remove($s);
 
         }
 
-        $produits = $em->getRepository('InterventionProduit')->findByIntervention($intervention);
+        $produits = $em->getRepository('App:InterventionProduit')->findByIntervention($intervention);
         foreach ($produits as $p) {
             $em->remove($p);
         }
@@ -42,14 +42,14 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 		/*$entrepreneur = $em->getRepository('InterventionEntrepreneur')->findByIntervention($intervention);
         foreach ($entrepreneur as $p) {
             $em->remove($p);
-        }
+        }*/
 		
-		$recolte = $em->getRepository('InterventionRecolte')->findByIntervention($intervention);
+		$recolte = $em->getRepository('App:InterventionRecolte')->findByIntervention($intervention);
         foreach ($recolte as $p) {
             $em->remove($p);
         }
 
-        $stocks = $em->getRepository('ProduitStock')->findByIntervention($intervention);
+        /*$stocks = $em->getRepository('ProduitStock')->findByIntervention($intervention);
         foreach ($stocks as $s) {
             $em->remove($s);
             $em->flush();

@@ -5,53 +5,146 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RecolteRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="intervention_recolte")
  */
 class InterventionRecolte
 {
     /**
-     * @ORM\Column(type="integer", name="recolteId")
+     * @var guid
+     *
+     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    public $recolteId;
+    public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="recoltes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="produits")
      * @ORM\JoinColumn(name="intervention_id", referencedColumnName="id", nullable=false)
      */
     public $intervention;
 
-     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProduitRecolte")
-     * @ORM\JoinColumn(name="idProduit", referencedColumnName="idProduitRecolte", nullable=true)
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255,nullable=true)
      */
-    public $produit;
+    public $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Unite")
-     * @ORM\JoinColumn(name="Unite", referencedColumnName="idUnite", nullable=true)
+     * @var string
+     *
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    public $Unite;
+    public $datetime;
 
-    /** @ORM\Column(type="integer", name="destinationType") **/
-    public $destinationType;
-    
-    /** @ORM\Column(type="datetime", name="date") **/
-    public $date;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="vehicule", type="string", length=255,nullable=true)
+     */
+    public $vehicule;
 
-    /** @ORM\Column(type="float") **/
-    public $volume;
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    public $espece;
 
-    /** @ORM\Column(type="string", length=255) **/
-    public $stockage;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float",nullable=true)
+     */
+    public $poid_total;
 
-    /** @ORM\Column(type="string", length=255) **/
-    public $bl;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float",nullable=true)
+     */
+    public $tare;
 
-    /** @ORM\Column(type="integer", nullable = true) **/
-    public $partenaire;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $humidite;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $impurete;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $ps;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $proteine;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public $calibrage;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float")
+     */
+    public $poid_norme;
+
+    static function getStaticCarateristiques($humidite, $ps, $proteine, $calibrage, $impurete){
+        $res = "";
+        if($humidite){
+            $res = $res."HUM ".number_format($humidite, 2);
+        }
+        if($ps){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."PS ".number_format($ps, 2);
+        }
+        if($proteine){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."PROT ".number_format($proteine, 2);
+        }
+        if($calibrage){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."CAL ".number_format($calibrage, 2);
+        }
+        if($impurete){
+            if(strlen($res)>0){
+                $res = $res.", ";
+            }
+            $res = $res."IMP ".number_format($impurete, 2);
+        }
+        return $res;
+    }
+
+    public function getCarateristiques(){
+        return $this->getStaticCarateristiques($this->humidite, $this->ps, $this->proteine, $this->calibrage, $this->impurete);
+    }
+
 }
 
 ?>

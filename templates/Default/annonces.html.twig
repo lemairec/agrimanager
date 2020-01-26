@@ -32,7 +32,7 @@
                         <h4 class="name">{{ annonce.title }}</h4>
                         <h5>{{ annonce.price | showEur }}</h5>
                         <div>{{ annonce.type }} {{ annonce.description }}</div>
-                        <h5 class="date">{{annonce.firstView | showDateTime }} ---- {{annonce.lastView | showDateTime }}</h5>
+                        <h5 class="date">{{annonce.firstView | showDatetime }} ---- {{annonce.lastView | showDatetime }}</h5>
                         <a href="{{annonce.url}}">{{annonce.id}}</a>
                     </div>
                 </div>

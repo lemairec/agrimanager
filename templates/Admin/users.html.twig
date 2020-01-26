@@ -19,7 +19,7 @@
             <td><a href="{{ url("admin_user", {'id': user.id}) }}">{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.getLastLogin | showDateTime}}</td>
+            <td>{{user.getLastLogin | showDatetime}}</td>
             <td>{{user.parcelles }}</td>
             <td>{{user.interventions }}</td>
             <td>{{user.logs }}</td>

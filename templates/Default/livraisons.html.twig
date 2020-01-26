@@ -19,7 +19,7 @@
         {% for livraison in livraisons %}
             <tr>
                 <td><a href="/livraison/{{livraison.id}}">{{livraison.espece}} - {{livraison.name}}</a></td>
-                <td>{{livraison.date | showDateTime}}</td>
+                <td>{{livraison.date | showDatetime}}</td>
                 <td>{{livraison.parcelle}}</td>
                 <td class="text-right">{{ livraison.poid_norme | showUnity('t')}}</td>
                 <td class="text-right">{{ livraison.getCarateristiques()}}</td>
