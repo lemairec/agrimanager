@@ -79,11 +79,17 @@ class UpdateBddCommand extends Command
             $it_rec->espece = $l->espece;
             $it_rec->poid_total = $l->poid_total;
             $it_rec->tare = $l->tare;
-            $it_rec->humidite = $l->humidite;
-            $it_rec->impurete = $l->impurete;
-            $it_rec->ps = $l->ps;
-            $it_rec->proteine = $l->proteine;
-            $it_rec->calibrage = $l->calibrage;
+            $caracteristiques["HUM"] = $l->humidite;
+            $caracteristiques["IMP"] = $l->impurete;
+            $caracteristiques["PS"] = $l->ps;
+            $caracteristiques["PROT"] = $l->proteine;
+            $caracteristiques["CAL"] = $l->calibrage;
+            foreach($caracteristiques as $key => $value){
+                if($value){
+                    $it_rec->caracteristiques[$key] = $value;
+                }
+            }
+
             $it_rec->poid_norme = $l->poid_norme;
 
             $this->em->persist($it_rec);

@@ -22,7 +22,6 @@ use App\Entity\Intervention;
 use App\Entity\InterventionParcelle;
 use App\Entity\InterventionMateriel;
 use App\Entity\InterventionProduit;
-use App\Entity\Livraison;
 use App\Entity\Materiel;
 use App\Entity\MaterielEntretien;
 use App\Entity\Parcelle;
@@ -398,94 +397,6 @@ class DefaultController extends CommonController
             'interventions' => $interventions,
             'priceHa' => $priceHa,
             'navs' => ["Parcelles" => "parcelles"]
-        ));
-    }
-
-    /**
-     * @Route("livraisons", name="livraisons")
-     */
-    public function livraisonsAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
-
-        $cultures = [];
-        $total = 0;
-
-        $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
-
-        $cultures = [];
-        foreach ($livraisons as $livraison) {
-            if (!array_key_exists($livraison->espece, $cultures)) {
-                $cultures[$livraison->espece] = 0;
-            }
-            $cultures[$livraison->espece] += $livraison->poid_norme;
-        }
-
-        $parcelles = [];
-        foreach ($livraisons as $livraison) {
-            if($livraison->parcelle){
-                if (!array_key_exists($livraison->parcelle->id, $parcelles)) {
-                    $parcelles[$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->espece, 'surface'=>$livraison->parcelle->surface
-                    , 'poid' => 0, 'humidite' => 0, 'ps' => 0, 'proteine' => 0, 'calibrage' => 0, 'impurete' => 0];
-                }
-                $parcelles[$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
-                $parcelles[$livraison->parcelle->id]['humidite'] += $livraison->humidite*$livraison->poid_norme;
-                $parcelles[$livraison->parcelle->id]['ps'] += $livraison->ps*$livraison->poid_norme;
-                $parcelles[$livraison->parcelle->id]['proteine'] += $livraison->proteine*$livraison->poid_norme;
-                $parcelles[$livraison->parcelle->id]['calibrage'] += $livraison->calibrage*$livraison->poid_norme;
-                $parcelles[$livraison->parcelle->id]['impurete'] += $livraison->impurete*$livraison->poid_norme;
-            }
-        }
-        foreach ($parcelles as $key => $value) {
-            $parcelles[$key]['humidite'] = $parcelles[$key]['humidite']/$parcelles[$key]['poid'];
-            $parcelles[$key]['ps'] = $parcelles[$key]['ps']/$parcelles[$key]['poid'];
-            $parcelles[$key]['proteine'] = $parcelles[$key]['proteine']/$parcelles[$key]['poid'];
-            $parcelles[$key]['calibrage'] = $parcelles[$key]['calibrage']/$parcelles[$key]['poid'];
-            $parcelles[$key]['impurete'] = $parcelles[$key]['impurete']/$parcelles[$key]['poid'];
-            $parcelles[$key]['caracteristiques'] = Livraison::getStaticCarateristiques($parcelles[$key]['humidite']
-                , $parcelles[$key]['ps'], $parcelles[$key]['proteine'], $parcelles[$key]['calibrage'], $parcelles[$key]['impurete']);
-        }
-
-        //$ecriture = ['operation_id'=>$operation->id,'date'=>$operation->getDateStr(), 'name'=>$operation->name, 'value'=>$operation->getSumEcriture($compte->name)];
-
-        return $this->render('Default/livraisons.html.twig', array(
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
-            'livraisons' => $livraisons,
-            'cultures' => $cultures,
-            'parcelles' => $parcelles
-        ));
-    }
-
-    /**
-     * @Route("/livraison/{livraison_id}", name="livraison")
-     **/
-    public function livraisonEditAction($livraison_id, Request $request)
-    {
-        $this->check_user($request);
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
-        if($livraison_id == '0'){
-            $livraison = new Livraison();
-            $livraison->date = new \Datetime();
-            $livraison->campagne = $campagne;
-        } else {
-            $livraison = $em->getRepository('App:Livraison')->findOneById($livraison_id);
-        }
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
-        $parcelles[] = null;
-        $form = $this->createForm(LivraisonType::class, $livraison, array(
-            'parcelles' => $parcelles));
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $em->persist($livraison);
-            $em->flush();
-            return $this->redirectToRoute('livraisons');
-        }
-        return $this->render('Default/livraison.html.twig', array(
-            'form' => $form->createView(),
         ));
     }
 

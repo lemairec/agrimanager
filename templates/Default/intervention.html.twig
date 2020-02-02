@@ -139,6 +139,126 @@
                     </div>
                 </div>
             </div>
+            
+
+            <div class="card">
+                <div class="card-header">
+                    Recoltes
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter2">{{'Add' | trans }}</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une recolte</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                          <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label for="App_gasoil_date" class="required">Date</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="recolte.datetime" type="text">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label for="App_gasoil_date" class="required">Poid norme</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="recolte.poid_norme" type="text">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label for="App_gasoil_date" class="required">Poid total</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="recolte.poid_total" type="text">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label for="App_gasoil_date" class="required">Tare</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="recolte.tare" type="text">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label for="App_gasoil_date" class="required">Caracteristiques</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="recolte.caracteristiques" type="text">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label for="App_gasoil_date" class="required">Espece</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input id="App_gasoil_date" name="App_gasoil[date]" required="required" class="form-control" v-model="recolte.espece" type="text">
+                                </div>
+                            </div>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="onCancel">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="addRecolte">Ajouter</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item flex-column align-items-start"  v-for="(recolte, index) in intervention.recoltes" :key="index">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-6">
+                                        ${ recolte.datetime  | formatDatetime }
+                                    </div>
+                                    <div class="col-6  text-right">
+                                        ${ recolte.espece }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                   <div class="col-8">
+                                        ${ recolte.poid_total | formatNumber } t (${ recolte.tare | formatNumber } t )
+                                    </div>
+                                    <div class="col-4  text-right">
+                                        ${ recolte.poid_norme | formatNumber } t
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="row">
+                                    <div class="col-9  text-right">
+                                        ${ recolte.caracteristiques }   
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeRecolte(index)"><span class="oi oi-delete"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <hr>
             <div class="form-group row">
@@ -168,6 +288,8 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 $( function() {
+    Vue.config.devtools = 'development'
+    
     console.log("toto");
     var vue = new Vue({
         el: '#example-3',
@@ -176,6 +298,14 @@ $( function() {
             total: 0,
             newQty :0,
             newProduit : "",
+            recolte : {
+                datetime: "01/01/2020 12:00",
+                poid_norme: 0,
+                poid_total: 0,
+                tare: 0,
+                espece: "",
+                caracteristiques: "HUM 10;",
+            },
             types : [
                 'dechaumage', 'preparation sol',
                 'semis', 'semis CIPAN',
@@ -191,6 +321,7 @@ $( function() {
                 comment: "{{ comment }}",
                 parcelles: {{ parcelles | json_encode | raw}},
                 produits: {{ produitsIntervention | json_encode | raw}},
+                recoltes: {{ recoltesIntervention | json_encode | raw}},
             },
             produits : [
                 {% for produit in produits %}
@@ -214,7 +345,10 @@ $( function() {
         },
         filters: {
             formatNumber : function (value) {
-                return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                if(value){
+                    return value.toLocaleString('fr',  {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                }
+                return "";
             },
 
             formatNumber2 : function (value1, value2) {
@@ -255,6 +389,18 @@ $( function() {
                 this.newProduit = '';
                 this.newQty = 0;
                 $('.js-select').val('').trigger('change');
+            },
+            addRecolte: function (message) {
+                this.intervention.recoltes.push(
+                    this.recolte
+                )
+                this.newProduit = '';
+                this.newQty = 0;
+                $('.js-select').val('').trigger('change');
+            },
+            removeRecolte: function(index) {
+                console.log("Removing", index);
+                this.intervention.recoltes.splice(index, 1);
             },
             removeRow: function(index) {
                 console.log("Removing", index);

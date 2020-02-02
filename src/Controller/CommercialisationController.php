@@ -67,8 +67,7 @@ class CommercialisationController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
 
         $commercialisations = $em->getRepository('App:Commercialisation')->getAllForCampagne($campagne);
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
-        $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
+        $parcelles = $this->getParcellesForFiches($campagne);
 
         $cultures = [];
         foreach($parcelles as $parcelle){
@@ -78,6 +77,8 @@ class CommercialisationController extends CommonController
                 }
                 $cultures[strval($parcelle->culture)]['qty_estime'] += $parcelle->surface*$parcelle->culture->getRendementPrev();
                 $cultures[strval($parcelle->culture)]['surface'] += $parcelle->surface;
+                $cultures[strval($parcelle->culture)]['qty_livraison'] += $parcelle->poid_norme;
+        
             }
         }
 
@@ -91,16 +92,6 @@ class CommercialisationController extends CommonController
                 $cultures[strval($commercialisation->culture)]['qty_commercialise'] += $commercialisation->qty;
 
             }
-        }
-
-
-
-        foreach($livraisons as $livraison){
-            $culture = $livraison->parcelle->culture;
-            if (!array_key_exists(strval($culture), $cultures)) {
-                $cultures[strval($culture)] = ['culture' => $culture,'qty_estime' => 0, 'qty_livraison' => 0, 'surface' => 0, 'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0];
-            }
-            $cultures[strval($livraison->parcelle->culture)]['qty_livraison'] += $livraison->poid_norme;
         }
 
         $cultures2 = [];

@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use App\Entity\Log;
+use App\Entity\InterventionRecolte;
 use DateTime;
 
 class CommonController extends AbstractController
@@ -137,6 +138,60 @@ class CommonController extends AbstractController
     }
 
     protected function parseFloat($str){
-        return str_replace(",",".",$str);
+        return floatval(str_replace(",",".",$str));
     }
+
+    public function getParcellesForFiches($campagne){
+        $em = $this->getDoctrine()->getManager();
+        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+        foreach ($parcelles as $p) {
+            $p->interventions = [];
+            if($p->id != '0'){
+                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+            }
+            $p->engrais_n = 0;
+            $p->engrais_p = 0;
+            $p->engrais_k = 0;
+            $p->engrais_mg = 0;
+            $p->engrais_so3 = 0;
+
+            $p->poid_norme = 0;
+            $p->priceHa = 0;
+
+            $caracteristiques2 = [];
+
+            foreach($p->interventions as $it){
+                $p->priceHa += $it->getPriceHa();
+                foreach($it->produits as $produit){
+                    $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
+                    $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
+                    $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
+                    $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
+                    $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
+                }
+                foreach($it->recoltes as $recolte){
+                    if($recolte->caracteristiques){
+                        foreach($recolte->caracteristiques as $key => $value){
+                            if (!array_key_exists($key, $caracteristiques2)) {
+                                $caracteristiques2[$key] = ["value"=>0, "poid"=>0];
+                            }
+                            $caracteristiques2[$key]["value"] += $value*$recolte->poid_norme;
+                            $caracteristiques2[$key]["poid"] += $recolte->poid_norme;
+                        }
+                    }
+                    $p->poid_norme += $recolte->poid_norme;
+                }
+            }
+
+            $p->rendement = $p->poid_norme/$p->surface;
+
+            $caracteristiques = [];
+            foreach($caracteristiques2 as $key => $value){
+                $caracteristiques[$key] = $caracteristiques2[$key]["value"]/$caracteristiques2[$key]["poid"];
+            }
+            $p->caracteristiques = InterventionRecolte::getStaticCarateristiques($caracteristiques);
+        }
+        return $parcelles;
+    }
+
 }

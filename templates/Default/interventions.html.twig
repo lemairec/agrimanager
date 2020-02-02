@@ -85,6 +85,30 @@
     </div>
     {% endif %}
 
+    {% if (intervention.recoltes | length) > 0 %}
+    <div class="card-body">
+        {% for it in intervention.recoltes %}
+            <div class="row">
+                <div class="col-sm-2">
+                    <i>{{it.datetime | showDatetime}}</i>
+                </div>
+                <div class="col-sm-2">
+                    <i>{{it.espece}}</i>
+                </div>
+                <div class="col-md-5">
+                    {{ it.getCarateristiques()}}
+                </div>
+                <div class="col-2 text-right">
+                    {{ it.poid_norme | showUnity("t")}}
+                 </div>
+
+                
+            </div>
+
+        {% endfor %}
+    </div>
+    {% endif %}
+
     {% if intervention.comment %}
     <div class="card-body">
             {{ intervention.comment }}

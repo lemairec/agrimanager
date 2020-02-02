@@ -144,6 +144,11 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
         $query = $this->createQueryBuilder('i')
             ->innerJoin('i.parcelles', 'p')
+            ->select('i, it_pdt, pdt, r')
+            ->leftJoin('i.produits', 'it_pdt')
+            ->leftJoin('it_pdt.produit', 'pdt')
+            ->leftJoin('i.recoltes', 'r')
+                
             ->where('p.parcelle = :parcelle')
             ->setParameter('parcelle', $parcelle)
             ->orderBy('i.datetime', $order)

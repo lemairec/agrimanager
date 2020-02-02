@@ -14,6 +14,7 @@ use App\Controller\CommonController;
 use App\Entity\Intervention;
 use App\Entity\InterventionParcelle;
 use App\Entity\InterventionProduit;
+use App\Entity\InterventionRecolte;
 
 class InterventionController extends CommonController
 {
@@ -46,6 +47,7 @@ class InterventionController extends CommonController
 
         $parcelles = [];
         $produitsIntervention = [];
+        $recoltesIntervention = [];
         $date = new \Datetime();
         $type = "";
         $name = "";
@@ -63,6 +65,14 @@ class InterventionController extends CommonController
             $comment = $intervention->comment;
             foreach($intervention->produits as $produit){
                 $produitsIntervention[] = ["name" => $produit->name, "qty" => $produit->quantity];
+            }
+            foreach($intervention->recoltes as $recolte){
+                $recoltesIntervention[] = ["datetime" => $recolte->datetime->format('d/m/Y H:i')
+                    , "poid_norme" => $recolte->poid_norme
+                    , "poid_total" => $recolte->poid_total
+                    , "tare" => $recolte->tare
+                    , "espece" => $recolte->espece
+                    , "caracteristiques" => $recolte->getCarateristiques()];
             }
             foreach($parcelles2 as $parcelle){
                 $checked = false;
@@ -90,6 +100,7 @@ class InterventionController extends CommonController
             'comment' => $comment,
             'produits' => $produits,
             'produitsIntervention' => $produitsIntervention,
+            'recoltesIntervention' => $recoltesIntervention,
             'parcelles' => $parcelles,
             'navs' => ["Interventions" => "interventions"]
         ));
@@ -110,17 +121,7 @@ class InterventionController extends CommonController
 
         $intervention = $em->getRepository('App:Intervention')->find($data["id"]);
         if($intervention){
-            $intervention_parcelles = $em->getRepository('App:InterventionParcelle')
-                                       ->findBy(array('intervention'=>$intervention));
-            $intervention_produits = $em->getRepository('App:InterventionProduit')
-                                       ->findBy(array('intervention'=>$intervention));
-            foreach ($intervention_produits as $it) {
-                $em->getRepository('App:InterventionProduit')->delete($it->id);
-            }
-            foreach ($intervention_parcelles as $it) {
-                $em->remove($it);
-            }
-
+            $em->getRepository('App:Intervention')->my_clear($intervention);
         } else {
             $intervention = new Intervention();
             $intervention->campagne = $campagne;
@@ -151,6 +152,27 @@ class InterventionController extends CommonController
             $it->name = ($produit["name"]);
             $it->quantity = $this->parseFloat($produit["qty"]);
             $em->getRepository('App:InterventionProduit')->save($it, $campagne);
+        }
+
+        foreach($data["recoltes"] as $recolte){
+            $it = new InterventionRecolte();
+            $it->intervention = $intervention;
+            $it->datetime = DateTime::createFromFormat('d/m/Y H:i', $recolte["datetime"]);
+            $it->poid_norme = $this->parseFloat($recolte["poid_norme"]);
+            $it->poid_total = $this->parseFloat($recolte["poid_total"]);
+            $it->tare = $this->parseFloat($recolte["tare"]);
+            $it->espece = $recolte["espece"];
+            $it->caracteristiques = [];
+            $res = explode(";", $recolte["caracteristiques"]);
+            foreach($res as $r){
+                $l = explode(" ", $r);
+                if(count($l)>1){
+                    $it->caracteristiques[$l[0]] = $l[1];
+                }
+            }
+            $em->persist($it);
+            $em->flush();
+            
         }
 
 

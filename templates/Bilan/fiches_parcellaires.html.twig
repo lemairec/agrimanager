@@ -34,7 +34,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-11">
+                    <div class="col-sm-3">
+                        <div style="text-align: right; {{visibility}}"><b>{{ parcelle.rendement | showUnity("t") }}</b></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div style="{{visibility}}"><b>{{ parcelle.caracteristiques }}</b></div>
+                    </div>
+                    <div class="col-sm-3">
                         <div style="text-align: right; {{visibility}}"><b>{{ parcelle.priceHa | showUnity("€/ha") }}</b></div>
                     </div>
 
@@ -74,6 +80,27 @@
                                     </div>
                                     <div class="col-3">
                                         <div style="text-align: right; {{visibility}}">{{ it.getPriceHa() | showUnity("€/ha") }}</div>
+                                    </div>
+
+
+                                </div>
+                            </li>
+
+                            {% endfor %}
+                            {% for it in intervention.recoltes %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-2">
+                                        {{ it.datetime | showDatetime}}
+                                    </div>
+                                    <div class="col-2">
+                                        {{ it.espece}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ it.getCarateristiques()}}
+                                    </div>
+                                    <div class="col-2">
+                                        <div style="text-align: right; {{visibility}}">{{ it.poid_norme | showUnity("t") }}</div>
                                     </div>
 
 

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use Datetime;
-use App\Entity\Livraison;
+use App\Entity\InterventionRecolte;
 
 use App\Controller\CommonController;
 
@@ -17,35 +17,6 @@ use Dompdf\Options;
 
 class BilanController extends CommonController
 {
-    public function getParcellesForFiches($campagne){
-        $em = $this->getDoctrine()->getManager();
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
-        foreach ($parcelles as $p) {
-            $p->interventions = [];
-            if($p->id != '0'){
-                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
-            }
-            $p->engrais_n = 0;
-            $p->engrais_p = 0;
-            $p->engrais_k = 0;
-            $p->engrais_mg = 0;
-            $p->engrais_so3 = 0;
-            $p->priceHa = 0;
-            foreach($p->interventions as $it){
-                $p->priceHa += $it->getPriceHa();
-                foreach($it->produits as $produit){
-                    $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
-                    $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
-                    $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
-                    $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
-                    $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
-                }
-            }
-        }
-        return $parcelles;
-    }
-
-
     /**
      * @Route("/fiches_parcellaires", name="fiches_parcellaires")
      */
@@ -131,65 +102,6 @@ class BilanController extends CommonController
         ));
     }
 
-    /*public function bilanAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
-
-        $cultures = [];
-
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
-
-        foreach ($parcelles as $p) {
-            if (!array_key_exists($p->getCultureName(), $cultures)) {
-                $cultures[$p->getCultureName()] = ['color'=> $p->getCultureColor(),'culture'=>$p->getCultureName(), 'culture'=>$p->getCultureName(),'surface'=>0, 'priceHa'=>0, 'rendement'=>0, 'poid_norme'=>0];
-            }
-
-
-            $p->interventions = [];
-            if($p->id != '0'){
-                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
-            }
-            $p->n = 0;
-            $p->p = 0;
-            $p->k = 0;
-            $p->mg = 0;
-            $p->s = 0;
-            $p->priceHa = 0;
-            foreach($p->interventions as $it){
-                $p->priceHa += $it->getPriceHa();
-                foreach($it->produits as $produit){
-                    $p->n += $produit->getQuantityHa() * $produit->produit->n;
-                    $p->p += $produit->getQuantityHa() * $produit->produit->p;
-                    $p->k += $produit->getQuantityHa() * $produit->produit->k;
-                    $p->mg += $produit->getQuantityHa() * $produit->produit->mg;
-                    $p->s += $produit->getQuantityHa() * $produit->produit->s;
-                }
-            }
-            $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
-
-            $cultures[$p->getCultureName()]['surface'] += $p->surface;
-            $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
-            $cultures[$p->getCultureName()]['rendement'] += $p->surface*$p->rendement;
-
-        }
-
-        $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
-        foreach ($livraisons as $l) {
-            if (array_key_exists($l->parcelle->getCultureName(), $cultures)) {
-                $cultures[$l->parcelle->getCultureName()]['poid_norme'] += $l->poid_norme;
-            }
-        }
-
-
-        return $this->render('Bilan/bilan.html.twig', array(
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
-            'parcelles' => $parcelles,
-            'cultures' => $cultures,
-        ));
-    }*/
-
     /**
      * @Route("/bilan", name="bilan")
      */
@@ -201,7 +113,7 @@ class BilanController extends CommonController
         $campagnes2 = [];
 
         foreach($this->campagnes as $campagne){
-            $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+            $parcelles = $this->getParcellesForFiches($campagne);
 
             $cultures = [];
             foreach ($parcelles as $p) {
@@ -211,38 +123,9 @@ class BilanController extends CommonController
                         ,'price_total' => 0];
                 }
 
-
-                $p->interventions = [];
-                if($p->id != '0'){
-                    $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
-                }
-                $p->engrais_sn = 0;
-                $p->engrais_sp = 0;
-                $p->engrais_sk = 0;
-                $p->engrais_smg = 0;
-                $p->engrais_so3 = 0;
-                $p->priceHa = 0;
-                foreach($p->interventions as $it){
-                    $p->priceHa += $it->getPriceHa();
-                    foreach($it->produits as $produit){
-                        $p->engrais_sn += $produit->getQuantityHa() * $produit->produit->engrais_sn;
-                        $p->engrais_sp += $produit->getQuantityHa() * $produit->produit->engrais_sp;
-                        $p->engrais_sk += $produit->getQuantityHa() * $produit->produit->engrais_sk;
-                        $p->engrais_smg += $produit->getQuantityHa() * $produit->produit->engrais_smg;
-                        $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
-                    }
-                }
-                $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
-
-
-
                 $cultures[$p->getCultureName()]['surface'] += $p->surface;
                 $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
-            }
-
-            $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
-            foreach ($livraisons as $l) {
-                $cultures[$l->parcelle->getCultureName()]['poid_norme'] += $l->poid_norme;
+                $cultures[$p->getCultureName()]['poid_norme'] += $p->poid_norme;
             }
 
             $commercialisations = $em->getRepository('App:Commercialisation')->getAllForCampagne($campagne);
@@ -348,7 +231,8 @@ class BilanController extends CommonController
 
         $cultures = [];
 
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+        $parcelles = $this->getParcellesForFiches($campagne);
+
 
         foreach ($parcelles as $p) {
             if (!array_key_exists($p->getCultureName(), $cultures)) {
@@ -362,21 +246,9 @@ class BilanController extends CommonController
             if($p->id != '0'){
                 $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
             }
-            $p->engrais_n = 0;
-            $p->engrais_p = 0;
-            $p->engrais_k = 0;
-            $p->engrais_mg = 0;
-            $p->engrais_so3 = 0;
-            $p->priceHa = 0;
             $p->details = [];
             foreach($p->interventions as $it){
-                $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
-                    $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
-                    $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
-                    $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
-                    $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
-                    $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                     if (!array_key_exists($produit->produit->type, $p->details)) {
                         $p->details[$produit->produit->type] = 0;
                     }
@@ -387,22 +259,15 @@ class BilanController extends CommonController
                     $cultures[$p->getCultureName()]['details'][$produit->produit->type] += $produit->getQuantityHa() * $p->surface * $produit->produit->price;
                 }
                 ksort($p->details);
-
             }
-            $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
 
 
 
             $cultures[$p->getCultureName()]['surface'] += $p->surface;
             $cultures[$p->getCultureName()]['priceHa'] += $p->surface*$p->priceHa;
             ksort($cultures[$p->getCultureName()]['details']);
-        }
 
-        $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
-        foreach ($livraisons as $l) {
-            if (array_key_exists($l->parcelle->getCultureName(), $cultures)) {
-                $cultures[$l->parcelle->getCultureName()]['poid_norme'] += $l->poid_norme;
-            }
+            $cultures[$p->getCultureName()]['poid_norme'] += $p->poid_norme;
         }
 
 
@@ -474,7 +339,7 @@ class BilanController extends CommonController
         $cultures = [];
 
         foreach($campagnes2 as $campagne){
-            $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+            $parcelles = $this->getParcellesForFiches($campagne);
 
             foreach ($parcelles as $p) {
                 if (!array_key_exists($p->getCultureName(), $cultures)) {
@@ -491,21 +356,9 @@ class BilanController extends CommonController
                 if($p->id != '0'){
                     $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
                 }
-                $p->engrais_n = 0;
-                $p->engrais_p = 0;
-                $p->engrais_k = 0;
-                $p->engrais_mg = 0;
-                $p->engrais_so3 = 0;
-                $p->priceHa = 0;
                 $p->details = [];
                 foreach($p->interventions as $it){
-                    $p->priceHa += $it->getPriceHa();
                     foreach($it->produits as $produit){
-                        $p->engrais_n += $produit->getQuantityHa() * $produit->produit->engrais_n;
-                        $p->engrais_p += $produit->getQuantityHa() * $produit->produit->engrais_p;
-                        $p->engrais_k += $produit->getQuantityHa() * $produit->produit->engrais_k;
-                        $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
-                        $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                         $produit_name = $produit->produit->type. " - ".$produit->produit->name;
                         if (!array_key_exists($produit_name, $culture["produits"])) {
                             $cultures[$p->getCultureName()]["produits"][$produit_name] = [];
@@ -516,9 +369,6 @@ class BilanController extends CommonController
                         $cultures[$p->getCultureName()]["produits"][$produit_name][$campagne->name] += $produit->getQuantityHa() * $p->surface * $produit->produit->price;
                     }
                 }
-                $p->poid_norme = $em->getRepository('App:Livraison')->getSumForParcelle($p);
-
-
 
                 ksort($cultures[$p->getCultureName()]['produits']);
             }
@@ -542,41 +392,25 @@ class BilanController extends CommonController
         $cultures = [];
 
         foreach($campagnes2 as $campagne){
-            $livraisons = $em->getRepository('App:Livraison')->getAllForCampagne($campagne);
-            $rendements[$campagne->name] = ['parcelles'=>[], 'name'=>$campagne->name];
-            foreach ($livraisons as $livraison) {
-                if($livraison->parcelle){
-                    if (!array_key_exists($livraison->parcelle->id, $rendements[$campagne->name]['parcelles'])) {
-                        $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id] = ['name'=>$livraison->parcelle->completeName, 'espece' => $livraison->parcelle->culture, 'color' => $livraison->parcelle->culture->color, 'surface'=>$livraison->parcelle->surface
-                        , 'poid' => 0, 'humidite' => 0, 'ps' => 0, 'proteine' => 0, 'calibrage' => 0, 'impurete' => 0];
-                    }
-                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['poid'] += $livraison->poid_norme;
-                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['humidite'] += $livraison->humidite*$livraison->poid_norme;
-                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['ps'] += $livraison->ps*$livraison->poid_norme;
-                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['proteine'] += $livraison->proteine*$livraison->poid_norme;
-                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['calibrage'] += $livraison->calibrage*$livraison->poid_norme;
-                    $rendements[$campagne->name]['parcelles'][$livraison->parcelle->id]['impurete'] += $livraison->impurete*$livraison->poid_norme;
-                }
-            }
-            foreach ($rendements[$campagne->name]['parcelles'] as $key => $value) {
-                $rendements[$campagne->name]['parcelles'][$key]['rendement'] = $rendements[$campagne->name]['parcelles'][$key]['poid']/$rendements[$campagne->name]['parcelles'][$key]['surface'];
-                $rendements[$campagne->name]['parcelles'][$key]['humidite'] = $rendements[$campagne->name]['parcelles'][$key]['humidite']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
-                $rendements[$campagne->name]['parcelles'][$key]['ps'] = $rendements[$campagne->name]['parcelles'][$key]['ps']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
-                $rendements[$campagne->name]['parcelles'][$key]['proteine'] = $rendements[$campagne->name]['parcelles'][$key]['proteine']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
-                $rendements[$campagne->name]['parcelles'][$key]['calibrage'] = $rendements[$campagne->name]['parcelles'][$key]['calibrage']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
-                $rendements[$campagne->name]['parcelles'][$key]['impurete'] = $rendements[$campagne->name]['parcelles'][$key]['impurete']/$rendements[$campagne->name]['parcelles'][$key]['poid'];
-                $rendements[$campagne->name]['parcelles'][$key]['caracteristiques'] = Livraison::getStaticCarateristiques($rendements[$campagne->name]['parcelles'][$key]['humidite']
-                    , $rendements[$campagne->name]['parcelles'][$key]['ps'], $rendements[$campagne->name]['parcelles'][$key]['proteine'], $rendements[$campagne->name]['parcelles'][$key]['calibrage'], $rendements[$campagne->name]['parcelles'][$key]['impurete']);
+            $parcelles = $this->getParcellesForFiches($campagne);
 
-                $culture = $rendements[$campagne->name]['parcelles'][$key]['espece']->__toString();
+            $rendements[$campagne->name] = ['parcelles'=>[], 'name'=>$campagne->name];
+            foreach($parcelles as $p){
+                $rendements[$campagne->name]['parcelles'][$p->id] = ['name'=>$p->completeName
+                    , 'espece' => $p->culture, 'color' => $p->culture->color, 'surface'=>$p->surface
+                    , 'poid' => $p->poid_norme, 'rendement' => $p->poid_norme/$p->surface, 'caracteristiques' => $p->caracteristiques];
+
+                $culture = $p->culture->__toString();
                 if (!array_key_exists($culture, $cultures)) {
                     $cultures[$culture] = [];
                 }
                 if (!array_key_exists($campagne->name, $cultures[$culture])) {
                     $cultures[$culture][$campagne->name] = ['poid' => 0, 'surface' => 0];
                 }
-                $cultures[$culture][$campagne->name]['poid'] += $value['poid'];
-                $cultures[$culture][$campagne->name]['surface'] += $value['surface'];
+                $cultures[$culture][$campagne->name]['poid'] += $p->poid_norme;
+                $cultures[$culture][$campagne->name]['surface'] += $p->surface;
+
+                
 
             }
 

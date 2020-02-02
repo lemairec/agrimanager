@@ -49,58 +49,28 @@ class InterventionRecolte
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255,nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     public $espece;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float",nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     public $poid_total;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float",nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     public $tare;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    public $humidite;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
-     */
-    public $impurete;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
-     */
-    public $ps;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
-     */
-    public $proteine;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
-     */
-    public $calibrage;
+    public $caracteristiques;
 
     /**
      * @var float
@@ -109,40 +79,21 @@ class InterventionRecolte
      */
     public $poid_norme;
 
-    static function getStaticCarateristiques($humidite, $ps, $proteine, $calibrage, $impurete){
+    static function getStaticCarateristiques($caracteristiques){
         $res = "";
-        if($humidite){
-            $res = $res."HUM ".number_format($humidite, 2);
-        }
-        if($ps){
-            if(strlen($res)>0){
-                $res = $res.", ";
+        if($caracteristiques){
+            foreach($caracteristiques as $key => $value){
+                if($res != ""){
+                    $res = $res."; ";
+                }
+                $res = $res.$key." ".round($value, 2);
             }
-            $res = $res."PS ".number_format($ps, 2);
-        }
-        if($proteine){
-            if(strlen($res)>0){
-                $res = $res.", ";
-            }
-            $res = $res."PROT ".number_format($proteine, 2);
-        }
-        if($calibrage){
-            if(strlen($res)>0){
-                $res = $res.", ";
-            }
-            $res = $res."CAL ".number_format($calibrage, 2);
-        }
-        if($impurete){
-            if(strlen($res)>0){
-                $res = $res.", ";
-            }
-            $res = $res."IMP ".number_format($impurete, 2);
         }
         return $res;
     }
 
     public function getCarateristiques(){
-        return $this->getStaticCarateristiques($this->humidite, $this->ps, $this->proteine, $this->calibrage, $this->impurete);
+        return $this->getStaticCarateristiques($this->caracteristiques);
     }
 
 }
