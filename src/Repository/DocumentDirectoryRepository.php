@@ -21,7 +21,7 @@ class DocumentDirectoryRepository extends ServiceEntityRepository
 
     public function findAll(){
         return $this->createQueryBuilder('d')
-            ->orderBy('d.order', 'ASC')
+            ->orderBy('d.ordre', 'ASC')
             ->getQuery()
             ->getResult()
         ;
