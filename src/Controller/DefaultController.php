@@ -370,6 +370,7 @@ class DefaultController extends CommonController
             $parcelle->campagne = $campagne;
             $parcelle->surface = $request->query->get("surface", 0);
             $parcelle->ilot = $em->getRepository('App:Ilot')->find($request->query->get("ilot_id", ""));
+            $parcelle->geoJson = "";
         } else {
             $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
         }
