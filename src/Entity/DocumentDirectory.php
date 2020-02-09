@@ -21,6 +21,14 @@ class DocumentDirectory
      */
     public $name;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer", nullable=true)
+     */
+    public $order;
+
+
 
     public function __toString ( ){
         return $this->name;

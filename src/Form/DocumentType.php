@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 // ...
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 class DocumentType extends AbstractType
@@ -26,8 +27,10 @@ class DocumentType extends AbstractType
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker'],
             ));
-        $builder
-            ->add('directory');
+        $builder->add('directory', EntityType::class, array(
+            'class'        => 'App:DocumentDirectory',
+            'choices' => $options['directories'],
+        ));
         $builder->add('docFile', VichFileType::class, array(
             'required' => false,
             'allow_delete' => true,
@@ -36,8 +39,14 @@ class DocumentType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Document::class,
-        ]);
+        $resolver->setDefaults(array(
+            'data_class' => 'App\Entity\Document',
+            'directories' => null
+        ));
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'App_document';
     }
 }

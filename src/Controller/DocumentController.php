@@ -69,7 +69,10 @@ class DocumentController extends CommonController
         } else {
             $document = $em->getRepository('App:Document')->findOneById($document_id);
         }
-        $form = $this->createForm(DocumentType::class, $document);
+        $directories = $em->getRepository('App:DocumentDirectory')->findAll();
+        $form = $this->createForm(DocumentType::class, $document, array(
+            'directories' => $directories
+        ));
         $form->handleRequest($request);
 
 
