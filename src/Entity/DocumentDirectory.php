@@ -24,7 +24,7 @@ class DocumentDirectory
     /**
      * @var int
      *
-     * @ORM\Column(name="price", type="integer", nullable=true)
+     * @ORM\Column(name="order", type="integer", nullable=true)
      */
     public $order;
 
