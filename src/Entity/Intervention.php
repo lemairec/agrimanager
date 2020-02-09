@@ -97,6 +97,14 @@ class Intervention
         return $res;
     }
 
+    function getTypeName(){
+        $s = $this->type;
+        if($this->name){
+            $s = $s." (".$this->name.")";
+        }
+        return $s;
+    }
+
     function getMainCulture(){
         $culture = NULL;
         $oneCulture = true;

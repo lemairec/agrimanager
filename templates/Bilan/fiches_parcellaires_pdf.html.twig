@@ -30,9 +30,9 @@
                     <td colspan="3">Surface : <strong>{{ parcelle.surface | showHa }}</strong></td>
                 </tr>
                 <tr>
-                    <td colspan="3">N : <strong>{{ "%d"|format(parcelle.n)}}</strong></td>
+                    <td colspan="3">N : <strong>{{ "%d"|format(parcelle.engrais_n)}}</strong></td>
                     <td colspan="3">
-                    P : <strong>{{ "%d"|format(parcelle.p)}}</strong> - K : <strong>{{ "%d"|format(parcelle.k)}}</strong> - S : <strong>{{ "%d"|format(parcelle.s)}}</strong> - Mg : <strong>{{ "%d"|format(parcelle.mg)}}</strong>
+                    P : <strong>{{ "%d"|format(parcelle.engrais_p)}}</strong> - K : <strong>{{ "%d"|format(parcelle.engrais_k)}}</strong> - S : <strong>{{ "%d"|format(parcelle.engrais_so3)}}</strong> - Mg : <strong>{{ "%d"|format(parcelle.engrais_mg)}}</strong>
                     </td>
                 </tr>
 
@@ -44,7 +44,7 @@
             {% for intervention in parcelle.interventions %}
 				<tr class="odd_row">
                     <th colspan="2"><a href="/intervention/{{intervention.id}}">{{intervention.getDatetimeStr()}}</a></th>
-                    <th colspan="2">{{intervention.type}}</th>
+                    <th colspan="2">{{intervention.getTypeName()}}</th>
                     <th></th>
 					<th style="text-align: right;"><div style="{{visibility}}">{{intervention.getPriceHa() | showUnity("€/ha")}}</div></th>
                 </tr>
@@ -52,8 +52,8 @@
                 <tr>
                     <td style="width: 5%;"></td>
                     <td style="width: 20%;"><i>{{it.produit}}</i></td>
-					<td style="width: 15%;"></td>
-                    <td style="width: 20%;">{% if it.produit.type == "engrais" %}
+					<td style="width: 10%;"></td>
+                    <td style="width: 25%;">{% if it.produit.type == "engrais" %}
 					<small>{{ (it.produit.engrais_n * it.getQuantityHa()) | showInt}} - {{ (it.produit.engrais_p * it.getQuantityHa()) | showInt }} - {{ (it.produit.engrais_k * it.getQuantityHa()) | showInt}} - {{ (it.produit.engrais_mg * it.getQuantityHa()) | showInt}} - ( S {{ (it.produit.engrais_so3 * it.getQuantityHa()) | showInt}} )</small>
 					{% endif %}</td>
                     <td style="width: 20%; text-align: right">{{ it.getQuantityHa() | showUnityHa(it.produit.unity) }}</td>

@@ -56,7 +56,7 @@
 
                             </div>
                             <div class="col-4">
-                                {{intervention.type}}
+                                {{intervention.getTypeName()}}
                             </div>
                             <div class="col-2">
                                 <div style="text-align: right; {{visibility}}"><b>{{ intervention.getPriceHa() | showUnity("€/ha") }}</b></div>
