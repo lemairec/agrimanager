@@ -27,6 +27,16 @@ class Essaim
      */
     public $description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public $actif;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    public $dateBegin;
+
     public function __toString(){
         return $this->name;
     }

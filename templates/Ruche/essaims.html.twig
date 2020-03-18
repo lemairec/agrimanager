@@ -11,7 +11,7 @@
         </div>
         <div class="list-group">
             {% for essaim in essaims %}
-            <div class="list-group-item flex-column align-items-start">
+            <div class="list-group-item flex-column align-items-start" {% if not essaim.actif %} style="background:#999999"{% endif %}>
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
                         <a href="{{ url("essaim", {'id': essaim.id}) }}">{{essaim.name}}
