@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Group;
@@ -13,7 +13,7 @@ use App\Form\UserType;
 use App\Form\CompanyAdminType;
 use App\Form\MetaCultureType;
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
 
         /**
