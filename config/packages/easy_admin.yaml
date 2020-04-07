@@ -1,9 +1,8 @@
 easy_admin:
     entities:
-        # List the entity class name you want to manage
         - App\Entity\Contact
         - App\Entity\Document
         - App\Entity\Group
         - App\Entity\DocumentDirectory
-#        - App\Entity\Category
-#        - App\Entity\User
+        - App\Entity\Company
+        - App\Entity\User

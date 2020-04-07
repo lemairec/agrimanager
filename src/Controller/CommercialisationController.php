@@ -131,16 +131,21 @@ class CommercialisationController extends CommonController
             $culture["cotation"] = null;
             $culture["price_today"] = null;
             $culture["price_today_perc"] = null;
+            
+            $culture["price_today"] = $culture["price"];
             if($cotation){
                 $culture["cotation"] = $cotation->value;
-                if($culture["qty_bilan"]!=0){
-                    $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_bilan"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_bilan"];
-                }
-                $total_today += $culture["price_total_commercialise"] +($culture["qty_bilan"]-$culture["qty_commercialise"])*$culture["cotation"];
-                if($culture["culture"]->prixObj){
-                    $culture["price_today_perc"] = $culture["cotation"]/$culture["culture"]->prixObj-1.0;
-                }
+            } else {
+                $culture["cotation"] = $culture["price"];
             }
+            if($culture["qty_bilan"]!=0){
+                $culture["price_today"] = ($culture["price_total_commercialise"] + ($culture["qty_bilan"]-$culture["qty_commercialise"])*$culture["cotation"])/$culture["qty_bilan"];
+            }
+            $total_today += $culture["price_total_commercialise"] +($culture["qty_bilan"]-$culture["qty_commercialise"])*$culture["cotation"];
+            if($culture["culture"]->prixObj){
+                $culture["price_today_perc"] = $culture["cotation"]/$culture["culture"]->prixObj-1.0;
+            }
+            
             if($culture["culture"]->prixObj && $culture["culture"]->rendementObj){
                 $total_obj += $culture["culture"]->prixObj * $culture["culture"]->rendementObj * $culture["surface"];
             }

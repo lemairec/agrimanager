@@ -67,6 +67,21 @@
                         {% endif %}
                     </div>
                     {% if app.user.username == "lejard" %}
+                        <div class="float-right" style="margin-left:15px">
+                          <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Companies
+                                {%for company in app.session.get('companies') %}
+                                    {%if company.id == app.session.get('company_id') %}{{company.name}}{%endif%}
+                                {%endfor%}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {%for company in app.session.get('companies') %}
+                                    <a class="dropdown-item" href="?company_id={{company.id}}">{{company.name}}</a>
+                                {%endfor%}
+                            </div>
+                          </div>
+                        </div>
                         <div class="float-right">
                             {% if app.user.show_unity %}
                                 <button type="button" class="btn btn-light" onclick="window.location.href='?show_unity=false'">{{'NotShowUnity' | trans }}</button>

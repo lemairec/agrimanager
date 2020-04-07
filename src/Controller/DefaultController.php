@@ -82,10 +82,14 @@ class DefaultController extends CommonController
         if($this->company->meteoCity){
             $meteoCity = $this->company->meteoCity;
         }
-
+        
+         
         return $this->render('Default/home_connected.html.twig', array(
+            'companies' => $this->companies,
+            'company_id' => $this->company->id,
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
+            'companies' => $this->companies,
             'interventions' => $interventions,
             'parcelles' => $parcelles,
             'meteoCity' => $meteoCity,

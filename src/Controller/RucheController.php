@@ -181,54 +181,29 @@ class RucheController extends CommonController
             $action = $em->getRepository('App:Ruche\Action')->find($id);
         }
 
-        $essaims = $em->getRepository('App:Ruche\Essaim')->findAll($id);
-        $essaims[] = null;
-        $ruches = $em->getRepository('App:Ruche\Ruche')->findAll($id);
-        $ruches[] = null;
-        $ruchers = $em->getRepository('App:Ruche\Rucher')->findAll($id);
-        $ruchers[] = null;
-        $form = $this->createForm(ActionType::class, $action, array(
+        $ess = $em->getRepository('App:Ruche\Essaim')->findAll($id);
+        $essaims = [];
+        foreach($ess as $e){
+            $essaims[] = ["id"=>$e->id, "name"=>$e->__toString()];
+        }
+
+        $ruchs = $em->getRepository('App:Ruche\Rucher')->findAll($id);
+        $ruchers = [];
+        foreach($ruchs as $e){
+            $ruchers[] = ["id"=>$e->id, "name"=>$e->__toString()];
+        }
+
+        $ruchs = $em->getRepository('App:Ruche\Ruche')->findAll($id);
+        $ruches = [];
+        foreach($ruchs as $e){
+            $ruches[] = ["id"=>$e->id, "name"=>$e->__toString()];
+        }
+        
+        return $this->render('Ruche/action.html.twig', array(
+            'action' => $action,
             'essaims' => $essaims,
             'ruches' => $ruches,
-            'ruchers' => $ruchers
-        ));
-        $form->handleRequest($request);
-
-
-
-        if ($form->isSubmitted()) {
-            if($action->type == "Enruchage"){
-                $ruches = $em->getRepository('App:Ruche\Ruche')->findByEssaim($action->essaim);
-                foreach($ruches as $ruche){
-                    $ruche->essaim = null;
-                    $ruche->rucher = null;
-                    $em->persist($ruche);
-                    $em->flush();
-                }
-                $action->ruche->essaim = $action->essaim;
-                $action->ruche->rucher = $action->rucher;
-                $em->persist($action->ruche);
-                $em->flush();
-            } else if($action->type == "Mort"){
-                $action->ruche->essaim->visible = false;
-                $action->essaim = $action->ruche->essaim;
-                $action->rucher= $action->ruche->rucher;;
-                $em->persist($action->ruche->essaim);
-                $action->ruche->essaim = null;
-                $action->ruche->rucher = null;
-                $em->persist($action->ruche);
-                $em->flush();
-            } else {
-                $action->essaim = $action->ruche->essaim;
-                $action->rucher= $action->ruche->rucher;;
-
-            }
-            $em->persist($action);
-            $em->flush();
-            return $this->redirectToRoute('apiculture');
-        }
-        return $this->render('base_form.html.twig', array(
-            'form' => $form->createView(),
+            'ruchers' => $ruchers,
         ));
     }
 }

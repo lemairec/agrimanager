@@ -1,0 +1,171 @@
+{% extends 'base_agri.html.twig' %}
+
+
+{% block body %}
+<div class="card mb-3">
+    <div class="card-body">
+
+
+        <div id='example-3'>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="required">Date</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input required="required" class="form-control" v-model="action.date" type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_type" class="required">Type</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <select v-model="action.type" class="form-control">
+                      <option v-for="type in types" v-bind:value="type">
+                        ${ type }
+                      </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="required">Essaims</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <select v-model="action.essaim" class="form-control">
+                      <option v-for="essaim in essaims" v-bind:value="essaim">
+                        ${ essaim.name }
+                      </option>
+                    </select>
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group row" v-show="action.type === 'Enruchage'">
+                <div class="col-sm-2">
+                    <label class="required">Ruchers</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <select v-model="action.rucher" class="form-control">
+                      <option v-for="rucher in ruchers" v-bind:value="rucher">
+                        ${ rucher.name }
+                      </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row" v-show="action.type === 'Enruchage'">
+                <div class="col-sm-2">
+                    <label class="required">Ruches</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <select v-model="action.ruche" class="form-control">
+                      <option v-for="ruche in ruches" v-bind:value="ruche">
+                        ${ ruche.name }
+                      </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row" v-show="action.type === 'Recolte'">
+                <div class="col-sm-2">
+                    <label class="required">Recolte</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input required="required" class="form-control" v-model="action.recolte" type="text">
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label for="App_intervention_comment">Commentaires</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input id="App_intervention_comment" name="App_intervention[comment]" maxlength="2048" class="form-control" type="text" v-model="action.comment">
+                </div>
+
+            </div>
+            
+            <button class="btn btn-primary" v-on:click="save">Sauvegarder</button>
+
+        </div>
+
+    </div>
+</div>`
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<link href='/lib/select2/css/select2.min.css' rel='stylesheet' />
+<script src='/lib/select2/js/select2.min.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+$( function() {
+    Vue.config.devtools = 'development'
+    
+    console.log("toto");
+    var vue = new Vue({
+        el: '#example-3',
+        delimiters: ['${', '}'],
+        data: {
+            types : [
+                'Observation', 'PoseHausse', 'Recolte', 'EnleverHausse', 'Enruchage', 'Mort'],
+            action : {
+                id: "{{ action.id }}",
+                date: "{{ action.date | showDate }}",
+                comment: "{{ action.description }}",
+                type: "{{ action.type }}",
+                recolte: 0
+            },
+            essaims : {{ essaims | json_encode | raw}},
+            ruchers : {{ ruchers | json_encode | raw}},
+            ruches : {{ ruches | json_encode | raw}},
+        },
+        mounted () {
+
+        },
+        filters: {
+            
+        },
+        methods: {
+            save: function(){
+                axios.post("/api/intervention", {
+                    intervention: this.intervention
+                })
+                .then(function (response) {
+                    console.log(response);
+                    window.location.href = "{{ url("interventions")}}"
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+        }
+
+    })
+
+    $('.js-select').select2();
+    $('.js-select').on('select2:select', function (e) {
+        vue.newProduit = e.params.data.element.label;
+    });
+    $('#App_gasoil_date').datepicker({
+        dateFormat: 'dd/mm/yy',
+        language: 'fr'
+    }).on('changeDate', function(e) {
+        vue.intervention.date = e.format(0,"dd/mm/yyyy");
+    });
+});
+</script>
+{% endblock %}
