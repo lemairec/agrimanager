@@ -14,7 +14,7 @@ class CommonController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();
-        $this->company = $em->getRepository('App:Company')->findOrCreate($user);
+        //$this->company = $em->getRepository('App:Company')->findOrCreate($user);
 
         $log = new Log();
         $log->date = new DateTime();
@@ -32,7 +32,7 @@ class CommonController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();
-        $this->company = $em->getRepository('App:Company')->findOrCreate($user);
+        //$this->company = $em->getRepository('App:Company')->findOrCreate($user);
 
         $log = new Log();
         $log->date = new DateTime();
@@ -55,8 +55,18 @@ class CommonController extends AbstractController
         $this->getUser()->show_unity=true;
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $this->company = $em->getRepository('App:Company')->findOrCreate($user);
-
+        
+        $this->companies = $em->getRepository('App:Company')->getAllForUser($user);
+        $company_id = $this->getCurrentCompanyId($request);  
+        $this->company = $em->getRepository('App:Company')->findOneById($company_id);
+        if($this->company == null){
+            $this->company = $em->getRepository('App:Company')->findOrCreate($user);
+        }
+        $session = $this->get('session');
+        $session->set('companies', $this->companies);
+        $session->set('company_id', $this->company->id);
+    
+        
         $this->getUser()->show_unity=true;
 
         $show_unity = $request->query->get('show_unity');
@@ -67,6 +77,22 @@ class CommonController extends AbstractController
         $this->saveLastUrl($request);
     }
 
+    public function getCurrentCompanyId($request){
+        $session = $request->getSession();
+
+        $company_id = $session->get('company_id', '');
+        if($company_id == ''){
+            $em = $this->getDoctrine()->getManager();
+            $company = $em->getRepository('App:Company')->findAll()[0]->id;
+        }
+        $new_company_id = $request->query->get('company_id');
+        if($new_company_id != ''){
+            $session->set('company_id', $new_company_id);
+            return $new_company_id;
+        }
+
+        return $company_id;
+    }
 
     public function getCurrentCampagneId($request){
         $session = $request->getSession();
@@ -94,6 +120,10 @@ class CommonController extends AbstractController
 
         $campagne = $em->getRepository('App:Campagne')->findOneById($campagne_id);
         if(!property_exists($this, 'campagnes')){
+            $this->campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
+        }
+        if(count($this->campagnes)<1){
+            $em->getRepository("App:Campagne")->createCurrentCampagne($this->company);
             $this->campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
         }
 
