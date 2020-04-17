@@ -367,6 +367,7 @@ class DefaultController extends CommonController
         $cultures[] = null;
         if($parcelle_id == '0'){
             $parcelle = new Parcelle();
+            $parcelle->active = 1;
             $parcelle->campagne = $campagne;
             $parcelle->surface = $request->query->get("surface", 0);
             $parcelle->ilot = $em->getRepository('App:Ilot')->find($request->query->get("ilot_id", ""));
