@@ -16,6 +16,7 @@ class CompanyRepository extends \Doctrine\ORM\EntityRepository
         $companies = $this->createQueryBuilder('c')
             ->innerJoin('c.users', 'u')
             ->where('u.id = :user_id')
+            ->orderBy('c.name')
             ->setParameter('user_id', $user->id)
             ->getQuery()->getResult();
         return $companies;
