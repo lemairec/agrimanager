@@ -2,6 +2,37 @@
 
 {% block body_form %}
 
+{% if parcelle.id != '0' %}
+<div class="card mb-3">
+    <div class="card-header">
+        Varietes
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("variete", {'parcelle_id': parcelle.id, 'variete_id':0}) }}'">{{'Add' | trans }}</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Ordre</th>
+            <th>Precedent</th>
+            <th></th>
+            <th>Surface</th>
+            <th></th>
+            
+        </tr>
+        {% for variete in parcelle.varietes %}
+        <tr>
+            <td><a href='{{ url("variete", {'parcelle_id': parcelle.id, 'variete_id':variete.id}) }}'>{{variete.name}}</td>
+            <td>{{ variete.ordre }}</td>
+            <td>{{ variete.precedent }}</td>
+            <td>{{ variete.comment }}</td>
+            <td>{{ variete.surface | showHa }}</td>
+            <td><a href='{{ url("variete_delete", {'parcelle_id': parcelle.id, 'variete_id':variete.id}) }}'>d</td>
+            
+        </tr>
+        
+        {% endfor %}
+    </table>
+</div>
+
 <div class="card mb-3">
     <div class="card-header">
         Interventions
@@ -37,4 +68,6 @@
         {% endfor %}
     </table>
 </div>
+
+{% endif %}
 {% endblock %}

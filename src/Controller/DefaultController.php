@@ -26,6 +26,7 @@ use App\Entity\Materiel;
 use App\Entity\MaterielEntretien;
 use App\Entity\Parcelle;
 use App\Entity\Produit;
+use App\Entity\Variete;
 
 
 use App\Form\AchatType;
@@ -45,6 +46,7 @@ use App\Form\MaterielEntretienType;
 use App\Form\MaterielType;
 use App\Form\ParcelleType;
 use App\Form\ProduitType;
+use App\Form\VarieteType;
 
 
 class DefaultController extends CommonController
@@ -389,17 +391,77 @@ class DefaultController extends CommonController
         $interventions = [];
         if($parcelle->id && $parcelle->id != '0'){
             $interventions = $em->getRepository('App:Intervention')->getAllForParcelle($parcelle);
-        }
+         }
         $priceHa = 0;
         foreach($interventions as $it){
             $priceHa += $it->getPriceHa();
         }
         return $this->render('Default/parcelle.html.twig', array(
             'form' => $form->createView(),
+            'parcelle' => $parcelle,
             'interventions' => $interventions,
             'priceHa' => $priceHa,
             'navs' => ["Parcelles" => "parcelles"]
         ));
+    }
+
+    /**
+     * @Route("/parcelle/{parcelle_id}/variete/{variete_id}", name="variete")
+     **/
+    public function varieteEditAction($parcelle_id, $variete_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
+        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        if($variete_id == '0'){
+            $variete = new Variete();
+            $variete->parcelle = $parcelle;
+            $variete->ordre = 0;
+
+            $sum = 0;
+            foreach($parcelle->varietes as $v){
+                $sum += $v->surface;
+            }
+            $variete->surface = $parcelle->surface-$sum;
+        } else {
+            $variete = $em->getRepository('App:Variete')->findOneById($variete_id);
+        }
+
+        $form = $this->createForm(VarieteType::class, $variete, array(
+            'cultures' => $cultures
+        ));
+
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($variete);
+            $em->flush();
+            return $this->redirectToRoute('parcelle',['parcelle_id'=> $parcelle_id]);
+        }
+
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView(),
+            'navs' => ["Campagnes" => "campagnes"]
+        ));
+
+    }
+
+    /**
+     * @Route("/parcelle/{parcelle_id}/variete/{variete_id}/delete", name="variete_delete")
+     **/
+    public function varieteDeleteAction($parcelle_id, $variete_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
+        $variete = $em->getRepository('App:Variete')->findOneById($variete_id);
+        
+        $em->remove($variete);
+        $em->flush();
+        return $this->redirectToRoute('parcelle',['parcelle_id'=> $parcelle_id]);
+
     }
 
     /**

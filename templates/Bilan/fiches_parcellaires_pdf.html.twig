@@ -29,6 +29,28 @@
                     <td colspan="3">Culture : <strong>{{ parcelle.culture }}</strong></td>
                     <td colspan="3">Surface : <strong>{{ parcelle.surface | showHa }}</strong></td>
                 </tr>
+
+                {% for variete in parcelle.varietes %}
+                <tr>
+                    <div class="row">
+                        <td>
+                        </td>
+                        <td  colspan="2">
+                            <i>{{variete.name}}</i>
+                        </td>
+
+                        <td  colspan="2">
+                            <i>{{variete.precedent}}</i>
+                        </td>
+
+                        <td>
+                            <i>{{variete.surface | showHa }}</i>
+                        </td>
+                        
+
+                    </div>
+                </tr>
+                {% endfor %}
                 <tr>
                     <td colspan="3">N : <strong>{{ "%d"|format(parcelle.engrais_n)}}</strong></td>
                     <td colspan="3">

@@ -20,7 +20,7 @@ class InterventionRecolte
     public $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="recoltes")
      * @ORM\JoinColumn(name="intervention_id", referencedColumnName="id", nullable=false)
      */
     public $intervention;

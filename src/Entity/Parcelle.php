@@ -61,6 +61,13 @@ class Parcelle
     /** @ORM\Column(name="comment", type="string", length=2048, nullable=true) **/
     public $comment;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Variete", mappedBy="parcelle",cascade={"persist"})
+    * @ORM\OrderBy({"ordre" = "ASC"})
+    */
+    public $varietes;
+
+
     
     public function getIlotName(){
         if($this->ilot){
