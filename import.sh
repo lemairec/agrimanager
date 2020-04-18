@@ -33,4 +33,4 @@ mv $agrimanager/public/uploads/documents/factures/* $agrimanager/public/uploads/
 
 $agrimanager/bin/console doctrine:database:drop --force;
 $agrimanager/bin/console doctrine:database:create;
-mysql --host localhost --user root --password maplaine < database.sql
+mysql --host localhost --user root --password=root maplaine < database.sql
