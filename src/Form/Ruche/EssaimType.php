@@ -16,7 +16,8 @@ class EssaimType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('actif');
+            ->add('actif')
+            ->add('parent');
         $builder->add('dateBegin', DateType::class, array(
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',

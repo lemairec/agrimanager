@@ -19,10 +19,15 @@
                     </h5>
                 </div>
 
-                {% if essaim.description %}
+                {% if essaim.description or essaim.parent %}
                 <div class="row" style="min-height: 1.5rem;">
-                    <div class="col-md-11">
+                    <div class="col-md-6">
                         {{essaim.description}}
+                    </div>
+                    <div class="col-md-6">
+                        {% if essaim.parent %}
+                        parent : {{essaim.parent}}
+                        {% endif %}
                     </div>
                 </div>
                 {% endif %}

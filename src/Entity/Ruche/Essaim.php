@@ -37,6 +37,12 @@ class Essaim
      */
     public $dateBegin;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ruche\Essaim")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $parent;
+
     public function __toString(){
         return $this->name;
     }
