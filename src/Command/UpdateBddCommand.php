@@ -10,9 +10,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use App\Entity\Intervention;
 use App\Entity\InterventionParcelle;
 use App\Entity\InterventionRecolte;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UpdateBddCommand extends Command
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        parent::__construct();
+        $this->em = $em;
+    }
+
     protected function configure()
     {
         $this
@@ -26,13 +35,7 @@ class UpdateBddCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getApplication()->getKernel()->getContainer();
-        $doctrine = $container->get('doctrine');
-        $this->em = $doctrine->getRepository('App:FactureFournisseur')->getEntityManager();
-
-
-
-
+        
         if ($input->getOption('option')) {
             // ...
         }
