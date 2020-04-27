@@ -38,61 +38,21 @@ class UpdateBddCommand extends Command
             // ...
         }
 
-        $its = $this->em->getRepository('App:Intervention')->findByType("recolte");
-        foreach ($its as $it2) {
-            print("\n".$it2->type);
-            $this->em->getRepository('App:Intervention')->delete($it2);
+        $facture = $this->em->getRepository('App:FactureFournisseur')->findAll();
+        $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
+        foreach ($facture as $f) {
+            $f->company = $company;
+
+            $this->em->persist($f);
+            $this->em->flush();
         }
-        
 
-        $livraison = $this->em->getRepository('App:Livraison')->findAll();
-        foreach ($livraison as $l) {
-            $name = "recolte ".$l->date->format("Y-m-d")." ".$l->parcelle->id;
-            $it = $this->em->getRepository('App:Intervention')->findOneByName($name);
-            print("\n".$name);
-            
-            if($it==null){
-                print("\n   ".$name);
-                $it = new Intervention();
-                $it->type = "recolte";
-                $it->name = $name;
-                $it->datetime = $l->date;
-                $it->campagne = $l->campagne;
-                $it->company = $l->campagne->company;
-                $it->surface = 0;
-                $this->em->persist($it);
-                $this->em->flush();
-                $it_par = new InterventionParcelle();
-                $it_par->parcelle = $l->parcelle;
-                $it_par->intervention = $it;
-                $this->em->persist($it_par);
-                $this->em->flush();
-                
-            }
-            $it_rec = new InterventionRecolte();
-            $it_rec->intervention = $it;
+        $facture = $this->em->getRepository('App:Operation')->findAll();
+        $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
+        foreach ($facture as $f) {
+            $f->company = $company;
 
-            $it_rec->name = $l->name;
-            $it_rec->datetime = $l->date;
-
-            $it_rec->vehicule = $l->vehicule;
-            $it_rec->espece = $l->espece;
-            $it_rec->poid_total = $l->poid_total;
-            $it_rec->tare = $l->tare;
-            $caracteristiques["HUM"] = $l->humidite;
-            $caracteristiques["IMP"] = $l->impurete;
-            $caracteristiques["PS"] = $l->ps;
-            $caracteristiques["PROT"] = $l->proteine;
-            $caracteristiques["CAL"] = $l->calibrage;
-            foreach($caracteristiques as $key => $value){
-                if($value){
-                    $it_rec->caracteristiques[$key] = $value;
-                }
-            }
-
-            $it_rec->poid_norme = $l->poid_norme;
-
-            $this->em->persist($it_rec);
+            $this->em->persist($f);
             $this->em->flush();
         }
 

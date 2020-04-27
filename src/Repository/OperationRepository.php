@@ -68,12 +68,14 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    function getAll(){
+    function getAllForCompany($company){
         $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->setParameter('company', $company)
             ->orderBy('p.date', 'DESC')
             ->getQuery();
 
-            return $query->getResult();
+        return $query->getResult();
     }
 
     function deleteForFacture($facture){

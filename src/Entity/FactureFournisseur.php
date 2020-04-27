@@ -27,6 +27,12 @@ class FactureFournisseur
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $company;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
      * @ORM\JoinColumn(nullable=true)
      */

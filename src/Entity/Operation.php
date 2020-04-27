@@ -22,6 +22,12 @@ class Operation
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $company;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)

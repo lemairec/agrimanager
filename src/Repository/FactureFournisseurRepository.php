@@ -21,6 +21,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
 
         $operation = new Operation();
+        $operation->company = $facture->company;
         $operation->name = $facture->name;
         $operation->date = $facture->date;
         $operation->facture = $facture;
@@ -60,8 +61,10 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
     }
 
-    function getAll(){
+    function getAllForCompany($company){
         $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->setParameter('company', $company)
             ->orderBy('p.date', 'DESC')
             ->getQuery();
 

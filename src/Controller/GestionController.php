@@ -436,7 +436,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $operations = $em->getRepository('App:Operation')->getAll();
+        $operations = $em->getRepository('App:Operation')->getAllForCompany($this->company);
 
         return $this->render('Gestion/operations.html.twig', array(
             'campagnes' => $this->campagnes,
@@ -456,6 +456,7 @@ class GestionController extends CommonController
             $operation = new Operation();
             $operation->name = "new";
             $operation->date = new Datetime();
+            $operation->company = $this->company;
             $operation->ecritures = [];
             $em->persist($operation);
             $em->flush();
@@ -529,7 +530,7 @@ class GestionController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $this->check_user($request);
-        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
+        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAllForCompany($this->company);
 
         return $this->render('Gestion/facture_fournisseurs.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
@@ -560,6 +561,7 @@ class GestionController extends CommonController
         $operations = [];
         if($facture_id == '0'){
             $facture = new FactureFournisseur();
+            $facture->company = $this->company;
             $facture->date = new Datetime();
         } else {
             $facture = $em->getRepository('App:FactureFournisseur')->findOneById($facture_id);
