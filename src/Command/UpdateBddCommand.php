@@ -28,9 +28,7 @@ class UpdateBddCommand extends Command
     {
         $container = $this->getApplication()->getKernel()->getContainer();
         $doctrine = $container->get('doctrine');
-        $this->em = $doctrine->getEntityManager();
-
-
+        $this->em = $doctrine;
 
 
 
