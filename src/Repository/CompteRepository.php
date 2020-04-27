@@ -18,6 +18,14 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
+    function getAllForCompany($company){
+        return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->orderBy('p.name')
+            ->setParameter('company', $company)
+            ->getQuery()->getResult();
+    }
+
     function getAll(){
         return $this->createQueryBuilder('p')
             ->orderBy('p.name')

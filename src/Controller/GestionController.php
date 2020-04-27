@@ -507,7 +507,7 @@ class GestionController extends CommonController
         }
         $campagnes = $em->getRepository('App:Campagne')->getAllAndNullforCompany($this->company);
         $form = $this->createForm(EcritureType::class, $ecriture, array(
-            'comptes' => $em->getRepository('App:Compte')->getAll(),
+            'comptes' => $em->getRepository('App:Compte')->getAllForCompany($this->company),
             'campagnes' => $campagnes
         ));
         $form->handleRequest($request);
