@@ -40,7 +40,8 @@ class UpdateBddCommand extends Command
         $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
         foreach ($facture as $f) {
             if($f->company){
-            break;
+                print("ignore");
+                continue;
             }
             $f->company = $company;
 
@@ -52,7 +53,8 @@ class UpdateBddCommand extends Command
         $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
         foreach ($facture as $f) {
             if($f->company){
-            break;
+                print("ignore");
+                continue;
             }
             $f->company = $company;
 
