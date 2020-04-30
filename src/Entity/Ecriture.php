@@ -29,7 +29,7 @@ class Ecriture
     public $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="ecritures")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Compte", inversedBy="ecritures")
      * @ORM\JoinColumn(nullable=false)
      */
     public $compte;

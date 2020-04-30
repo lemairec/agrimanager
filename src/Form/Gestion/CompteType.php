@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Gestion;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +24,7 @@ class CompteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Compte'
+            'data_class' => 'App\Entity\Gestion\Compte'
         ));
     }
 

@@ -459,7 +459,7 @@ class BilanController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $comptes = $em->getRepository('App:Compte')->getAllForCampagne($campagne);
+        $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCampagne($campagne);
 
         $comptes_campagnes = [];
         foreach ($this->campagnes as $campagne) {

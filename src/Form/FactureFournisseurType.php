@@ -39,12 +39,12 @@ class FactureFournisseurType extends AbstractType
         ));
         $builder->add('montantHT')->add('montantTTC')->add('compte');
         $builder->add('banque', EntityType::class, array(
-            'class'        => 'App:Compte',
+            'class'        => 'App:Gestion\Compte',
             'choice_label' => 'name',
             'choices' => $options['banques'],
         ));
         $builder->add('compte', EntityType::class, array(
-            'class'        => 'App:Compte',
+            'class'        => 'App:Gestion\Compte',
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));

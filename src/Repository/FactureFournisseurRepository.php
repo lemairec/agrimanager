@@ -44,7 +44,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
 
         if($facture->montantTTC!=$facture->montantHT){
             $ecriture = new Ecriture();
-            $ecriture->compte = $em->getRepository('App:Compte')->getCompteTVA();
+            $ecriture->compte = $em->getRepository('App:Gestion\Compte')->getCompteTVA();
             $ecriture->operation = $operation;
             $ecriture->value = -($facture->montantTTC-$facture->montantHT);
             $em->persist($ecriture);

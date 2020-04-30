@@ -79,13 +79,13 @@ class FactureFournisseur
     public $achats;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Compte")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Compte")
      * @ORM\JoinColumn(nullable=false)
      */
     public $compte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Compte")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Compte")
      * @ORM\JoinColumn(nullable=false)
      */
     public $banque;

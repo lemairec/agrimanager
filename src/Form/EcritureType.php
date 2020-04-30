@@ -16,7 +16,7 @@ class EcritureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('compte', EntityType::class, array(
-            'class'        => 'App:Compte',
+            'class'        => 'App:Gestion\Compte',
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));

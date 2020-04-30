@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Gestion;
 
 /**
  * CompteRepository
@@ -10,14 +10,6 @@ namespace App\Repository;
  */
 class CompteRepository extends \Doctrine\ORM\EntityRepository
 {
-    function getAllForCampagne($campagne){
-        return $this->createQueryBuilder('p')
-            ->where('p.company = :company')
-            ->orderBy('p.name')
-            ->setParameter('company', $campagne->company)
-            ->getQuery()->getResult();
-    }
-
     function getAllForCompany($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
@@ -26,37 +18,38 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
-    function getAll(){
+    function getAllBanques($company){
         return $this->createQueryBuilder('p')
+            ->where("p.company = :company")
+            ->andWhere("p.type = 'banque'")
+            ->setParameter('company', $company)
             ->orderBy('p.name')
             ->getQuery()->getResult();
     }
 
-    function getAllBanques(){
+    function getFirstBanque($company){
         return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
             ->where("p.type = 'banque'")
-            ->orderBy('p.name')
-            ->getQuery()->getResult();
-    }
-
-    function getFirstBanque(){
-        return $this->createQueryBuilder('p')
-            ->where("p.type = 'banque'")
+            ->setParameter('company', $company)
             ->orderBy('p.name')
             ->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }
 
-    function getNoBanques(){
+    function getNoBanques($company){
         return $this->createQueryBuilder('p')
-            ->where("p.type is null")
-            ->orWhere("p.type != 'banque'")
+            ->where("p.type != 'banque'")
+            ->andWhere('p.company = :company')
+            ->setParameter('company', $company)
             ->orderBy('p.name')
             ->getQuery()->getResult();
     }
 
-    function getCompteTVA(){
+    function getCompteTVA($company){
         return $this->createQueryBuilder('p')
             ->where("p.type = 'tva'")
+            ->where('p.company = :company')
+            ->setParameter('company', $company)
             ->orderBy('p.name')
             ->getQuery()->getResult()[0];
     }

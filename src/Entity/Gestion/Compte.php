@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Compte
  *
- * @ORM\Entity(repositoryClass="App\Repository\CompteRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Gestion\CompteRepository")
  * @ORM\Table(name="compte")
  */
 class Compte
