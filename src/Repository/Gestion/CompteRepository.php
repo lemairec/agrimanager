@@ -48,7 +48,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
     function getCompteTVA($company){
         return $this->createQueryBuilder('p')
             ->where("p.type = 'tva'")
-            ->where('p.company = :company')
+            ->andWhere('p.company = :company')
             ->setParameter('company', $company)
             ->orderBy('p.name')
             ->getQuery()->getResult()[0];
