@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Gestion;
 
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\CommonController;
@@ -134,9 +134,9 @@ class GestionController extends CommonController
     public function comptes2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
+        $c = $this->getCurrentCampagne($request);
 
-        $comptes = $em->getRepository('App:Compte')->getAllForCampagne($campagne);
+        $comptes = $em->getRepository('App:Compte')->getAllForCompany($this->company);
 
         $comptes_campagnes = [];
         foreach ($this->campagnes as $campagne) {
@@ -157,15 +157,15 @@ class GestionController extends CommonController
         ));
     }
 
-     /**
+    /**
      * @Route("/comptes", name="comptes")
      */
     public function comptesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $campagne = $this->getCurrentCampagne($request);
+        $c = $this->getCurrentCampagne($request);
 
-        $comptes = $em->getRepository('App:Compte')->getAllForCampagne($campagne);
+        $comptes = $em->getRepository('App:Compte')->getAllForCompany($this->company);
 
         $comptes_campagnes = [];
         foreach ($this->campagnes as $campagne) {
