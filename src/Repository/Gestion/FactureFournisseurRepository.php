@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Gestion;
 
-use App\Entity\Ecriture;
-use App\Entity\Operation;
+use App\Entity\Gestion\Ecriture;
+use App\Entity\Gestion\Operation;
+
 /**
  * FactureFournisseurRepository
  *
@@ -15,7 +16,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
     function save($facture){
         $em = $this->getEntityManager();
 
-        $em->getRepository('App:Operation')->deleteForFacture($facture);
+        $em->getRepository('App:Gestion\Operation')->deleteForFacture($facture);
 
         $em->persist($facture);
         $em->flush();
@@ -56,7 +57,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
     function delete($facture){
         $em = $this->getEntityManager();
 
-        $em->getRepository('App:Operation')->deleteForFacture($facture);
+        $em->getRepository('App:Gestion\Operation')->deleteForFacture($facture);
         $em->remove($facture);
         $em->flush();
     }

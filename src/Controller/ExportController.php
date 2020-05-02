@@ -67,7 +67,7 @@ class ExportController extends CommonController
         $begin = new DateTime("20181201");
         $end = new DateTime("20200201");
         
-        foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
+        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->findAll() as $f) {
             if($f->date > $begin && $f->date < $end){
                 $file = $f->getFactureFileName();
                 if($file){
@@ -104,7 +104,7 @@ class ExportController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $this->check_user($request);
-        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAll();
+        $facture_fournisseurs = $em->getRepository('App:Gestion\FactureFournisseur')->getAll();
 
         return $this->render('Gestion/facture_fournisseurs_export.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
@@ -158,7 +158,7 @@ class ExportController extends CommonController
         }
 
         $zip->addEmptyDir("factures");
-        foreach ($em->getRepository('App:FactureFournisseur')->findAll() as $f) {
+        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->findAll() as $f) {
             $file = $f->getFactureFileName();
             if($file){
                 $src = "uploads/factures/".$file;

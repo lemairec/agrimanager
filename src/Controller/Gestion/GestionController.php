@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
 use App\Entity\Gestion\Compte;
-use App\Entity\Ecriture;
-use App\Entity\Operation;
-use App\Entity\FactureFournisseur;
+use App\Entity\Gestion\Ecriture;
+use App\Entity\Gestion\Operation;
+use App\Entity\Gestion\FactureFournisseur;
 use App\Form\Gestion\CompteType;
-use App\Form\EcritureType;
-use App\Form\OperationType;
-use App\Form\FactureFournisseurType;
+use App\Form\Gestion\EcritureType;
+use App\Form\Gestion\OperationType;
+use App\Form\Gestion\FactureFournisseurType;
 use Symfony\Component\HttpFoundation\File\File;
 
 //COMPTE
@@ -194,7 +194,7 @@ class GestionController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $operations = $em->getRepository('App:Operation')->findAll();
+        $operations = $em->getRepository('App:Gestion\Operation')->findAll();
         $comptes = $em->getRepository('App:Gestion\Compte')->getAll();
         $years = ['2020', '2019', '2018','2017', '2016'];
 
@@ -239,7 +239,7 @@ class GestionController extends CommonController
         $ecritures = [];
         $ecritures_futures = [];
         {
-            $operations = $em->getRepository('App:Operation')->getAllForBanque($this->company);
+            $operations = $em->getRepository('App:Gestion\Operation')->getAllForBanque($this->company);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
@@ -282,7 +282,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
 
-        $operations = $em->getRepository('App:Operation')->getAllAsc();
+        $operations = $em->getRepository('App:Gestion\Operation')->getAllAsc();
         $chartjss = [];
         $ecritures = [];
         
@@ -362,7 +362,7 @@ class GestionController extends CommonController
             $compte->company = $this->company;
         } else {
             $compte = $em->getRepository('App:Gestion\Compte')->findOneById($compte_id);
-            $operations = $em->getRepository('App:Operation')->getAllForCompte($compte);
+            $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompte($compte);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
@@ -436,7 +436,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $operations = $em->getRepository('App:Operation')->getAllForCompany($this->company);
+        $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompany($this->company);
 
         return $this->render('Gestion/operations.html.twig', array(
             'campagnes' => $this->campagnes,
@@ -461,7 +461,7 @@ class GestionController extends CommonController
             $em->persist($operation);
             $em->flush();
         } else {
-            $operation = $em->getRepository('App:Operation')->findOneById($operation_id);
+            $operation = $em->getRepository('App:Gestion\Operation')->findOneById($operation_id);
             if($operation->facture){
                 return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $operation->facture->id));
             }
@@ -488,7 +488,7 @@ class GestionController extends CommonController
     public function operationDeleteAction($operation_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Operation')->delete($operation_id);
+        $em->getRepository('App:Gestion\Operation')->delete($operation_id);
         return $this->redirectToRoute('operations');
     }
 
@@ -501,9 +501,9 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         if($ecriture_id == '0'){
             $ecriture = new Ecriture();
-            $ecriture->operation = $em->getRepository('App:Operation')->findOneById($operation_id);;
+            $ecriture->operation = $em->getRepository('App:Gestion\Operation')->findOneById($operation_id);;
         } else {
-            $ecriture = $em->getRepository('App:Ecriture')->findOneById($ecriture_id);
+            $ecriture = $em->getRepository('App:Gestion\Ecriture')->findOneById($ecriture_id);
         }
         $campagnes = $em->getRepository('App:Campagne')->getAllAndNullforCompany($this->company);
         $form = $this->createForm(EcritureType::class, $ecriture, array(
@@ -530,7 +530,7 @@ class GestionController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $this->check_user($request);
-        $facture_fournisseurs = $em->getRepository('App:FactureFournisseur')->getAllForCompany($this->company);
+        $facture_fournisseurs = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForCompany($this->company);
 
         return $this->render('Gestion/facture_fournisseurs.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
@@ -543,9 +543,9 @@ class GestionController extends CommonController
     public function factureFournisseurDeletePdfAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $facture = $em->getRepository('App:FactureFournisseur')->findOneById($facture_id);
+        $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
         $facture->factureFile = null;
-        $em->getRepository('App:FactureFournisseur')->save($facture);
+        $em->getRepository('App:Gestion\FactureFournisseur')->save($facture);
         return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $facture_id));
     }
 
@@ -564,8 +564,8 @@ class GestionController extends CommonController
             $facture->company = $this->company;
             $facture->date = new Datetime();
         } else {
-            $facture = $em->getRepository('App:FactureFournisseur')->findOneById($facture_id);
-            $operations = $em->getRepository('App:Operation')->getForFacture($facture);
+            $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
+            $operations = $em->getRepository('App:Gestion\Operation')->getForFacture($facture);
         }
         if($facture->type == "V"){
             $facture->type = "Vente";
@@ -594,7 +594,7 @@ class GestionController extends CommonController
             } else {
                 $facture->type == "A";
             }
-            $em->getRepository('App:FactureFournisseur')->save($facture);
+            $em->getRepository('App:Gestion\FactureFournisseur')->save($facture);
 
             $redirect_url_facture = $session->get("redirect_url_facture");
             if($redirect_url_facture){
@@ -615,7 +615,7 @@ class GestionController extends CommonController
     public function factureFournisseurDeleteAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:FactureFournisseur')->delete($facture_id);
+        $em->getRepository('App:Gestion\FactureFournisseur')->delete($facture_id);
         return $this->redirectToRoute('factures_fournisseurs');
     }
 }

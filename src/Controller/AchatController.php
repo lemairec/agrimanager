@@ -52,7 +52,7 @@ class AchatController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
         $produits = $em->getRepository('App:Produit')->findByCompany($campagne->company);
-        $factures = $em->getRepository('App:FactureFournisseur')->getAllForCampagne($campagne);
+        $factures = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForCampagne($campagne);
         $factures[] = null;
         if($achat_id == '0'){
             $achat = new Achat();

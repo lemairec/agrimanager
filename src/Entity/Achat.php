@@ -83,7 +83,7 @@ class Achat
     public $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\FactureFournisseur")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\FactureFournisseur")
      * @ORM\JoinColumn(nullable=true)
      */
     public $facture;

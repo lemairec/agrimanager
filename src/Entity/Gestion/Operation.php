@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Operation
  *
- * @ORM\Entity(repositoryClass="App\Repository\OperationRepository")
- * @ORM\Table(name="operation")
+ * @ORM\Entity(repositoryClass="App\Repository\Gestion\OperationRepository")
+ * @ORM\Table(name="gestion_operation")
  */
 class Operation
 {
@@ -42,12 +42,12 @@ class Operation
     public $date;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Ecriture", mappedBy="operation",cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="App\Entity\Gestion\Ecriture", mappedBy="operation",cascade={"persist"})
     */
     public $ecritures;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\FactureFournisseur")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\FactureFournisseur")
      * @ORM\JoinColumn(nullable=true)
      */
     public $facture;

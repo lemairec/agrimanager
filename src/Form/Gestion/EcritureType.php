@@ -34,7 +34,7 @@ class EcritureType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Ecriture',
+            'data_class' => 'App\Entity\Gestion\Ecriture',
             'comptes' => null,
             'campagnes' => null
         ));

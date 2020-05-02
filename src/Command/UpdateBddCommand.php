@@ -36,7 +36,7 @@ class UpdateBddCommand extends Command
             // ...
         }
 
-        $facture = $this->em->getRepository('App:FactureFournisseur')->findAll();
+        $facture = $this->em->getRepository('App:Gestion\FactureFournisseur')->findAll();
         $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
         foreach ($facture as $f) {
             if($f->company){

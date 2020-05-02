@@ -38,7 +38,7 @@ class AchatType extends AbstractType
                 ),
             ));
             $builder->add('facture', EntityType::class, array(
-                'class'        => 'App:FactureFournisseur',
+                'class'        => 'App:Gestion\FactureFournisseur',
                 'choices' => $options['factures'],
             ));
             $builder->add('qty')->add('price_total')->add('externId')->add('comment');

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Compte
  *
  * @ORM\Entity(repositoryClass="App\Repository\Gestion\CompteRepository")
- * @ORM\Table(name="compte")
+ * @ORM\Table(name="gestion_compte")
  */
 class Compte
 {
@@ -62,7 +62,7 @@ class Compte
     public $previsionnel = 0;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Ecriture", mappedBy="compte",cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="App\Entity\Gestion\Ecriture", mappedBy="compte",cascade={"persist"})
     */
     public $ecritures;
 

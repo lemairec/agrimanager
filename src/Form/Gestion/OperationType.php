@@ -31,7 +31,7 @@ class OperationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Operation'
+            'data_class' => 'App\Entity\Gestion\Operation'
         ));
     }
 

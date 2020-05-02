@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,8 +11,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * FactureFournisseur
  *
- * @ORM\Entity(repositoryClass="App\Repository\FactureFournisseurRepository")
- * @ORM\Table(name="facture_fournisseur")
+ * @ORM\Entity(repositoryClass="App\Repository\Gestion\FactureFournisseurRepository")
+ * @ORM\Table(name="gestion_facture_fournisseur")
  * @Vich\Uploadable
  */
 class FactureFournisseur

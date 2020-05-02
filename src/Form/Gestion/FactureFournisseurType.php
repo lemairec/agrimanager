@@ -62,7 +62,7 @@ class FactureFournisseurType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\FactureFournisseur',
+            'data_class' => 'App\Entity\Gestion\FactureFournisseur',
             'banques' => null,
             'comptes' => null,
             'campagnes' => null
