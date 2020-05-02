@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Ecriture
  *
  * @ORM\Entity(repositoryClass="App\Repository\Gestion\EcritureRepository")
- * @ORM\Table(name="gestion_ecriture")
+ * @ORM\Table(name="ecriture")
  */
 class Ecriture
 {

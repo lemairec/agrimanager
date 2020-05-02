@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * FactureFournisseur
  *
  * @ORM\Entity(repositoryClass="App\Repository\Gestion\FactureFournisseurRepository")
- * @ORM\Table(name="gestion_facture_fournisseur")
+ * @ORM\Table(name="facture_fournisseur")
  * @Vich\Uploadable
  */
 class FactureFournisseur
