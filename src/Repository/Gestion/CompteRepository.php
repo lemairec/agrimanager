@@ -30,7 +30,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
     function getFirstBanque($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
-            ->where("p.type = 'banque'")
+            ->andWhere("p.type = 'banque'")
             ->setParameter('company', $company)
             ->orderBy('p.name')
             ->setMaxResults(1)->getQuery()->getOneOrNullResult();

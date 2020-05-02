@@ -35,9 +35,10 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
-    function getAllForBanque(){
+    function getAllForBanque($company){
+        
         $em = $this->getEntityManager();
-        $sql = 'SELECT operation_id FROM ecriture e join compte c on e.compte_id=c.id where c.type = "banque"';
+        $sql = 'SELECT operation_id FROM ecriture e join compte c on e.compte_id=c.id where c.type = "banque" and c.company_id = "'.$company->id.'"';
 
         $em = $this->getEntityManager();
         $connection = $em->getConnection();

@@ -239,7 +239,7 @@ class GestionController extends CommonController
         $ecritures = [];
         $ecritures_futures = [];
         {
-            $operations = $em->getRepository('App:Operation')->getAllForBanque();
+            $operations = $em->getRepository('App:Operation')->getAllForBanque($this->company);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
