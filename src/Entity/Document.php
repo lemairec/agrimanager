@@ -23,7 +23,7 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     public $company;
 
