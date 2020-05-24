@@ -162,6 +162,36 @@ class DefaultController extends CommonController
     }
 
     /**
+     * @Route("/assolement", name="assolement")
+     */
+    public function bilanIlotsAction(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $ilots = $em->getRepository('App:Ilot')->getAllforCompany($this->company);
+
+        $campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
+        
+        $res = [];
+        foreach($ilots as $i){
+            $ligne = ["ilot" => $i];
+            foreach($campagnes as $c){
+                $ligne[$c->name] = ["parcelles" => $em->getRepository('App:Parcelle')->getAllForIlotCampagne($i, $c)];
+            }
+            $res[] = $ligne;
+        }
+        dump($res);
+       
+
+        return $this->render('Default/assolement.html.twig', array(
+            'ilots' => $res,
+            'campagnes2' => $campagnes,
+            'navs' => ["Ilots" => "ilots"]
+        ));
+    }
+
+    /**
      * @Route("/ilot/{ilot_id}", name="ilot")
      **/
     public function ilotEditAction($ilot_id, Request $request)
@@ -377,6 +407,8 @@ class DefaultController extends CommonController
         } else {
             $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
         }
+
+        dump($parcelle);
         $form = $this->createForm(ParcelleType::class, $parcelle, array(
             'ilots' => $ilots,
             'cultures' => $cultures
@@ -398,6 +430,7 @@ class DefaultController extends CommonController
         }
         return $this->render('Default/parcelle.html.twig', array(
             'form' => $form->createView(),
+            'parcelle_id' => $parcelle_id,
             'parcelle' => $parcelle,
             'interventions' => $interventions,
             'priceHa' => $priceHa,
@@ -616,5 +649,21 @@ class DefaultController extends CommonController
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
         ));
+    }
+
+    /**
+     * @Route("/carte", name="carte")
+     **/
+    public function carte(Request $request)
+    {
+        return $this->render('carte.html.twig');
+    }
+
+    /**
+     * @Route("/traccia.gpx", name="traccia")
+     **/
+    public function traccia(Request $request)
+    {
+        return $this->render('traccia.html.twig');
     }
 }
