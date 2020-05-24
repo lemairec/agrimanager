@@ -22,6 +22,12 @@ class Document
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $company;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
@@ -106,5 +112,9 @@ class Document
         $str = strtolower($str);
 
         return $this->date->format('Ymd').'_'.$str.'.pdf';
+    }
+
+    public function __toString ( ){
+        return "toto";
     }
 }

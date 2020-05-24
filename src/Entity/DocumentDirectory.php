@@ -17,6 +17,12 @@ class DocumentDirectory
     public $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $company;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     public $name;
