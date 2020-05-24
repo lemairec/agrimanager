@@ -19,6 +19,15 @@ class RucherRepository extends ServiceEntityRepository
         parent::__construct($registry, Rucher::class);
     }
 
+    public function getAll()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.lieu', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Rucher[] Returns an array of Rucher objects
 //     */
