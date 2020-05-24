@@ -27,6 +27,16 @@ class DocumentDirectoryRepository extends ServiceEntityRepository
         ;
     }
 
+    function getAllforCompany($company){
+        $query = $this->createQueryBuilder('d')
+            ->where('d.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('d.ordre', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return DocumentDirectory[] Returns an array of DocumentDirectory objects
     //  */

@@ -28,7 +28,7 @@ class DocumentController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $res = $em->getRepository('App:Document')
-            ->getAll();
+            ->getAllForCompany($this->company);
 
         $documents = [];
         foreach($res as $d){
@@ -57,19 +57,77 @@ class DocumentController extends CommonController
     }
 
     /**
+     * @Route("/documents2", name="documents2")
+     */
+    public function documents2Action(Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $res = $em->getRepository('App:Document')
+            ->getAllOrderDate();
+
+        $directories = [];
+        foreach($res as $d){
+            $dir = $d->directory->name;
+            if(!in_array($dir, $directories)){
+                $directories[] = $dir;
+            }
+        }
+
+        $documentbymonths = [];
+        $documents = [];
+        foreach($res as $d){
+            $months = $d->date->format("Y-m");
+            if(!key_exists($months, $documentbymonths)){
+                $documentbymonths[$months] = ["mounth"=> $months, "documents" =>[]];
+                foreach($directories as $d2){
+                    $documentbymonths[$months]["documents"][$d2] = [];
+                }
+            }
+
+            $d->url = $this->generateUrl('document', array('document_id' => $d->id));
+            if($d->directory->name == "analyse_sol"){
+                $analyse_sol = $em->getRepository('App:AnalyseSol')
+                    ->findOneByDoc($d);
+                if($analyse_sol){
+                    $d->url = $this->generateUrl('analyse_sol', array('analyse_sol_id' => $analyse_sol->id));
+                }
+            }
+            if($d->directory->name == "appartement"){
+                $appartement = $em->getRepository('App:AppartementOperation')
+                    ->findOneByDoc($d);
+                if($appartement){
+                    $d->url = $this->generateUrl('appartement_operation', array('operation_id' => $appartement->id));
+                }
+            }
+            $documentbymonths[$months]["documents"][$d->directory->name][] = $d;
+        }
+
+        dump($documentbymonths);
+
+
+        return $this->render('Default/documents2.html.twig', array(
+            'documentbymonths' => $documentbymonths,
+            'directory' => $directories,
+        ));
+    }
+
+    /**
      * @Route("/document/{document_id}", name="document")
      **/
-    public function produitEditAction($document_id, Request $request)
+    public function documentEditAction($document_id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
         if($document_id == '0'){
             $document = new Document();
+            $document->company = $this->company;
         } else {
             $document = $em->getRepository('App:Document')->findOneById($document_id);
         }
-        $directories = $em->getRepository('App:DocumentDirectory')->findAll();
+        $directories = $em->getRepository('App:DocumentDirectory')->getAllForCompany($this->company);
         $form = $this->createForm(DocumentType::class, $document, array(
             'directories' => $directories
         ));
