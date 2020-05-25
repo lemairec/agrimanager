@@ -191,7 +191,7 @@ class DefaultController extends CommonController
             }
             $cultures_res[] = $ligne;
         }
-        dump($res);
+        //dump($res);
        
 
         return $this->render('Default/assolement.html.twig', array(
