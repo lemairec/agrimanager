@@ -181,11 +181,22 @@ class DefaultController extends CommonController
             }
             $res[] = $ligne;
         }
+
+        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures_res = [];
+        foreach($cultures as $c2){
+            $ligne = ["culture" => $c2];
+            foreach($campagnes as $c){
+                $ligne[$c->name] = ["sum" => $em->getRepository('App:Parcelle')->getSumForCultureCampagne($c2, $c)];
+            }
+            $cultures_res[] = $ligne;
+        }
         dump($res);
        
 
         return $this->render('Default/assolement.html.twig', array(
             'ilots' => $res,
+            'cultures' => $cultures_res,
             'campagnes2' => $campagnes,
             'navs' => ["Ilots" => "ilots"]
         ));

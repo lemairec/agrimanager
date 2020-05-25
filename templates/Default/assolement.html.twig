@@ -31,6 +31,17 @@
             {% endfor %}
         </tr>
         {% endfor %}
+        {% for culture in cultures %}
+        <tr>
+            <td>{{culture["culture"].name}}</td>
+            <td ></td>
+            {% for campagne in campagnes2 %}
+                <td>
+                    {{culture[campagne.name]["sum"] | showHa }}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
     </table>
 </div>
 
