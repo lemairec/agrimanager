@@ -54,6 +54,33 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    function getAllForIlotCampagne($ilot, $campagne){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.ilot = :ilot')
+            ->andWhere('p.campagne = :campagne')
+            ->setParameter('ilot', $ilot)
+            ->setParameter('campagne', $campagne)
+            ->addorderBy('p.name', 'DESC')
+            ->addorderBy('p.surface', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    function getSumForCultureCampagne($culture, $campagne){
+        $res = $this->createQueryBuilder('p')
+            ->where('p.culture = :culture')
+            ->andWhere('p.campagne = :campagne')
+            ->setParameter('culture', $culture)
+            ->setParameter('campagne', $campagne)
+            ->select('SUM(p.surface) as sum')
+            ->getQuery()
+
+            ->getOneOrNullResult();
+
+            return $res['sum'];
+    }
+
     function getAllForCampagneWithoutActive($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
