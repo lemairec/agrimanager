@@ -65,4 +65,8 @@ class Company
      */
     public $users;
 
+    public function __toString ( ){
+        return $this->id." ".$this->name;
+    }
+
 }
