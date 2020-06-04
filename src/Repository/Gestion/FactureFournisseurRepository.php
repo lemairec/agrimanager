@@ -72,6 +72,17 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
+    function getAllForExport($company){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->andWhere('p.dateExport is NULL')
+            ->setParameter('company', $company)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
+
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')

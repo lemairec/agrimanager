@@ -54,39 +54,39 @@ class ExportController extends CommonController
 
 
     /**
-     * @Route("export", name="export")
+     * @Route("export_company", name="export")
      **/
     public function factureFournisseurExportAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $campagne = $this->getCurrentCampagne($request);
+       
         $zip = new \ZipArchive();
         $zipName = 'Documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
-
-        $begin = new DateTime("20181201");
-        $end = new DateTime("20200201");
         
-        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->findAll() as $f) {
-            if($f->date > $begin && $f->date < $end){
-                $file = $f->getFactureFileName();
-                if($file){
-                    $fileName = $f->getFactureMyFileName();
-                    $src = "uploads/factures/".$file;
-                    $zip->addFile($src, "facture/".$fileName);
-                }
+        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->getAllForExport($this->company) as $f) {
+            $file = $f->getFactureFileName();
+            if($file){
+                $fileName = $f->getFactureMyFileName();
+                $src = "uploads/factures/".$file;
+                $zip->addFile($src, "facture/".$fileName);
+                $f->dateExport = new DateTime();
+                $em->persist($f);
             }
         }
-        foreach ($em->getRepository('App:Document')->findAll() as $f) {
-            if($f->date > $begin && $f->date < $end){
-                $file = $f->getDocName();
-                if($file){
-                    $fileName = $f->getDocMyFileName();
-                    $src = "uploads/documents/".$file;
-                    $zip->addFile($src,  $f->directory->name."/".$fileName);
-                }
+        
+        foreach ($em->getRepository('App:Document')->getAllForExport($this->company) as $f) {
+            $file = $f->getDocName();
+            if($file){
+                $fileName = $f->getDocMyFileName();
+                $src = "uploads/documents/".$file;
+                $zip->addFile($src,  $f->directory->name."/".$fileName);
+                $f->dateExport = new DateTime();
+                $em->persist($f);
             }
         }
+        $em->flush();
         $zip->close();
 
         $response = new Response(file_get_contents($zipName));

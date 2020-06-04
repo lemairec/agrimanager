@@ -107,6 +107,13 @@ class FactureFournisseur
     private $factureFileName;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_export", type="date", nullable=true)
+     */
+    public $dateExport;
+
+    /**
     * @var \DateTime
     *
     * @ORM\Column(type="datetime", nullable=true)
