@@ -167,7 +167,6 @@ class ProduitController extends CommonController
         foreach ($produits as $p) {
             $sum += $p->quantity * $p->price;
         }
-        dump($produits);
 
         return $this->render('Default/phytos.html.twig', array(
             'produits' => $produits,

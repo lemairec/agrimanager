@@ -37,7 +37,7 @@
             {% else %}
                 <tr>
             {% endif %}
-                <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
+                <th>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</th>
                 <th>{{ p.ephyProduit }}</th>
                 <td></td>
                 <td>{{p.unity}}</td>
