@@ -162,7 +162,7 @@ class ProduitController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:Produit')->getAllForCompanyType($this->company, "phytos");
+        $produits = $em->getRepository('App:Produit')->getAllForCompanyPhyto($this->company);
         $sum = 0;
         foreach ($produits as $p) {
             $sum += $p->quantity * $p->price;
