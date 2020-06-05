@@ -133,6 +133,17 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
+    public function getAllForCompanyType($company, $type){
+        return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->andWhere('p.type = :type')
+            ->addorderBy('p.type', 'ASC')
+            ->addorderBy('p.name', 'ASC')
+            ->setParameter('company', $company)
+            ->setParameter('type', $type)
+            ->getQuery()->getResult();
+    }
+
     public function getAllEngraisForCompany($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')

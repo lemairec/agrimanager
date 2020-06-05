@@ -1,0 +1,70 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+
+<div class="card", style="width:100%">
+    <div class="card-header">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/produit/0'">{{'Add' | trans}}</button>
+        Produits
+    </div>
+    <table class="table">
+        <tr>
+            <th>{{'Name' | trans}}</th>
+            <th>Ephy</th>
+            <th>Type</th>
+            <th>{{'Unity' | trans}}</th>
+            <th class="text-right">{{'Qty' | trans}}</th>
+            <th class="text-right">{{'Price' | trans}}</th>
+            <th class="text-right">{{'TotalPrice' | trans}}</th>
+            <th></th>
+        </tr>
+        {% if totalPrice is defined %}
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th class="text-right">{{ totalPrice | showEur }}</th>
+            <th></th>
+        </tr>
+        {% endif %}
+        {% for p in produits %}
+            {% if p.isCMR() %}
+                <tr  bgcolor='{{ p.getColor() }}'>
+            {% else %}
+                <tr>
+            {% endif %}
+                <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
+                <th>{{ p.ephyProduit }}</th>
+                <td></td>
+                <td>{{p.unity}}</td>
+                <th class="text-right">{{ p.quantity | showUnity('u') }}</th>
+                <td class="text-right">{{ p.price | showEurUnity('u') }}</td>
+                <td class="text-right">{{ (p.price*p.quantity) | showEur }}</td>
+                <td><a href="/produit/{{p.id}}/delete">d</a></td>
+
+            </tr>
+            {% if p.ephyProduit %}
+             {% for s in p.ephyProduit.substances %}
+                <tr>
+                <td></td>
+                <td></td>
+                <td>{{ s.ephysubstance.name }}</td>
+                <td class="text-right">{{ (s.quantity) | showUnity(s.unity) }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                
+                <td></td>
+                
+            </tr>
+             {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
