@@ -20,6 +20,14 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class ExportController extends CommonController
 {
     /**
+     * @Route("/export", name="export")
+     **/
+    public function export(Request $request)
+    {
+        return $this->render('Default/export.html.twig');
+    }
+
+    /**
      * @Route("/documents/export", name="document_export")
      **/
     public function documentsDump(Request $request)
@@ -38,8 +46,11 @@ class ExportController extends CommonController
         foreach ($em->getRepository('App:Document')->findAll() as $f) {
             $file = $f->getDocName();
             if($file){
+                $fileName = $f->getDocMyFileName();
                 $src = "uploads/documents/".$file;
-                $zip->addFile($src,  $f->repository."/".$f->name.".pdf");
+                $zip->addFile($src,  $f->directory->name."/".$fileName);
+                $f->dateExport = new DateTime();
+                $em->persist($f);
             }
         }
         $zip->close();
@@ -54,7 +65,7 @@ class ExportController extends CommonController
 
 
     /**
-     * @Route("export_company", name="export")
+     * @Route("export/company", name="export_company")
      **/
     public function factureFournisseurExportAction(Request $request)
     {
