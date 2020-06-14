@@ -40,10 +40,16 @@ class UserController extends CommonController
         $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
         $this->get("security.token_storage")->setToken($token);
         $this->get('session')->set('_security_main',serialize($token));
+        $this->company = null;
+        $this->campagne = null;
 
         $user->setLastLogin(new \DateTime());
         $em->persist($user);
         $em->flush();
+
+        $session = $request->getSession();
+        $session->clear();
+        //print($this->getUser());
 
         //home
         return $this->redirectToRoute('home');
