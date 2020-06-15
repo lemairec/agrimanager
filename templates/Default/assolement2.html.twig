@@ -1,0 +1,51 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+<div class="card">
+    <div class="card-header">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/ilot/0'">{{'Add' | trans }}</button>
+        Ilots
+    </div>
+    <table class="table">
+        <tr>
+            <th>{{'Ilot' | trans }}</th>
+            <th class="text-right">Surface</th>
+            {% for campagne in campagnes2 %}
+                <th></th>
+                <th>{{campagne.name}}</th>
+                <th></th>
+            {% endfor %}
+        </tr>
+        {% for ilot in ilots %}
+            {% for p in ilot["parcelles"] %}
+                <tr>
+                    {% if  p["idx"]==0%}
+                        <td  rowspan="{{ilot["parcelles_count"]}}"><a href="/ilot/{{ilot["ilot"].id}}">{{ilot["ilot"].name}}</a></td>
+                        <td  rowspan="{{ilot["parcelles_count"]}}"class="text-right">{{ ilot["ilot"].surface | showHa }}</td>
+                    {% endif %}
+                    {% for campagne in campagnes2 %}
+                        <td>{{ p[campagne.name]["name"] }}</td>
+                        <td>{{ p[campagne.name]["culture"] }}</td>
+                        <td>{{ p[campagne.name]["surface"] | showHa }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        {% for culture in cultures %}
+            <tr>
+                <td>{{culture["culture"].name}}</td>
+                <td ></td>
+                {% for campagne in campagnes2 %}
+                    <td  colspan="3">
+                        {{culture[campagne.name]["sum"] | showHa }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    
+    </table>
+</div>
+
+
+{% endblock %}

@@ -162,7 +162,7 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("/assolement", name="assolement")
+     * @Route("/assolement2", name="assolement2")
      */
     public function bilanIlotsAction(Request $request)
     {
@@ -195,6 +195,68 @@ class DefaultController extends CommonController
        
 
         return $this->render('Default/assolement.html.twig', array(
+            'ilots' => $res,
+            'cultures' => $cultures_res,
+            'campagnes2' => $campagnes,
+            'navs' => ["Ilots" => "ilots"]
+        ));
+    }
+
+    /**
+     * @Route("/assolement", name="assolement")
+     */
+    public function bilanAssolement2Action(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $ilots = $em->getRepository('App:Ilot')->getAllforCompany($this->company);
+
+        $campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
+        
+        $res = [];
+        foreach($ilots as $i){
+            $maxParcelles = 0;
+            foreach($campagnes as $c){
+                $c = count($em->getRepository('App:Parcelle')->getAllForIlotCampagne($i, $c));
+                if($c>$maxParcelles){
+                    $maxParcelles = $c;
+                }
+            }
+            $ligne_ilot = ["ilot"=>$i, "parcelles"=>[], "parcelles_count"=>$maxParcelles];
+            for($j = 0; $j < $maxParcelles; $j=$j+1){
+                $ligne = ["ilot" => $i, "ilot_name" => $i->name."_".$j, "idx" => $j];
+                foreach($campagnes as $c){
+                    foreach($campagnes as $c){
+                        $parcelles = $em->getRepository('App:Parcelle')->getAllForIlotCampagne($i, $c);
+                        if($j<count($parcelles)){
+                            $ligne[$c->name] = ["name" => $parcelles[$j]->name, "surface" => $parcelles[$j]->surface, "culture" => $parcelles[$j]->culture];
+                        } else {
+                            $ligne[$c->name] = ["name" => "", "surface" => 0,"culture" => ""];
+                        }
+                    }
+                    $cultures_res[] = $ligne;
+                }
+                $ligne_ilot["parcelles"][] = $ligne;
+                
+            }
+            $res[] = $ligne_ilot;
+            
+        }
+
+        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures_res = [];
+        foreach($cultures as $c2){
+            $ligne = ["culture" => $c2];
+            foreach($campagnes as $c){
+                $ligne[$c->name] = ["sum" => $em->getRepository('App:Parcelle')->getSumForCultureCampagne($c2, $c)];
+            }
+            $cultures_res[] = $ligne;
+        }
+        //dump($res);
+       
+
+        return $this->render('Default/assolement2.html.twig', array(
             'ilots' => $res,
             'cultures' => $cultures_res,
             'campagnes2' => $campagnes,
