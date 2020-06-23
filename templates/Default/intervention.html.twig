@@ -393,10 +393,8 @@ $( function() {
             },
             addRecolte: function (message) {
                 this.intervention.recoltes.push(
-                    this.recolte
+                    JSON.parse(JSON.stringify(this.recolte))
                 )
-                this.newProduit = '';
-                this.newQty = 0;
                 $('.js-select').val('').trigger('change');
             },
             removeRecolte: function(index) {
