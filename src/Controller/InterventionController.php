@@ -164,8 +164,10 @@ class InterventionController extends CommonController
             $it->espece = $recolte["espece"];
             $it->caracteristiques = [];
             $res = explode(";", $recolte["caracteristiques"]);
+            dump($res);
             foreach($res as $r){
-                $l = explode(" ", $r);
+                $l = explode(" ", trim($r));
+                dump($l);
                 if(count($l)>1){
                     $it->caracteristiques[$l[0]] = $l[1];
                 }
