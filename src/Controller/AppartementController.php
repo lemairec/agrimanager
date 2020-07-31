@@ -46,6 +46,7 @@ class AppartementController extends CommonController
     public function compteEditAction($operation_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
         if($operation_id == '0'){
             $operation = new AppartementOperation();
             $operation->date = new \DateTime();
@@ -62,6 +63,7 @@ class AppartementController extends CommonController
                     $operation->doc->updatedAt = new Datetime();
                     $operation->doc->repository = "appartement";
                     $operation->doc->directory = $em->getRepository('App:DocumentDirectory')->findOneByName("appartement");
+                    $operation->doc->company = $this->company;
                     $operation->doc->date = $operation->date;
                     $str = $this->stringlify($operation->type);
                     $operation->doc->name = $str;
