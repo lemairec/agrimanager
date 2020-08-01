@@ -615,7 +615,8 @@ class GestionController extends CommonController
     public function factureFournisseurDeleteAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Gestion\FactureFournisseur')->delete($facture_id);
+        $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
+        $em->getRepository('App:Gestion\FactureFournisseur')->delete($facture);
         return $this->redirectToRoute('factures_fournisseurs');
     }
 }
