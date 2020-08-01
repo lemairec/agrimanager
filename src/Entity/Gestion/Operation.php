@@ -44,13 +44,19 @@ class Operation
     /**
     * @ORM\OneToMany(targetEntity="App\Entity\Gestion\Ecriture", mappedBy="operation",cascade={"persist"})
     */
-    public $ecritures;
+    public $ecritures = [];
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\FactureFournisseur")
      * @ORM\JoinColumn(nullable=true)
      */
     public $facture;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Emprunt")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $emprunt;
 
     public function getSumEcriture($compte_name){
         $res = 0;

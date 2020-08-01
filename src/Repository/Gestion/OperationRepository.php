@@ -68,6 +68,16 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
+    
+    function getAllForEmprunt($emprunt){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.emprunt = :emprunt')
+            ->setParameter('emprunt', $emprunt)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 
     function getAllForCompany($company){
         $query = $this->createQueryBuilder('p')

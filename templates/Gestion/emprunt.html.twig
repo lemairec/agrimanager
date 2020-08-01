@@ -1,0 +1,43 @@
+{% extends 'base_form.html.twig' %}
+
+{% block body_form %}
+
+<div class="card">
+    <div class="card-header">
+        Operations
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th></th>
+            <th>Prix</th>
+        </tr>
+        {% for operation in operations %}
+            <tr>
+                <td><a href="/operation/{{operation.id}}">{{operation.getDateStr()}}</a></td>
+                <td>{{operation.name}}</td>
+                <td></td>
+                <td><a href="/operation/{{operation.id}}/delete">d</td>
+            </tr>
+            {% for ecriture in operation.ecritures %}
+                <tr>
+                    <td></td>
+                    <td>{{ecriture.compte.name}}</a></td>
+                    <td>{{ecriture.campagne}}</td>
+                    <td>{{ ecriture.value | showEur }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Annuite
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("emprunt_annuite", {'emprunt_id': emprunt_id}) }}'">Annuite</button>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -194,8 +194,8 @@ class GestionController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $operations = $em->getRepository('App:Gestion\Operation')->findAll();
-        $comptes = $em->getRepository('App:Gestion\Compte')->getAll();
+        $operations = $em->getRepository('App:Gestion\Operation')->findByCompany($this->company);
+        $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCompany($this->company);
         $years = ['2020', '2019', '2018','2017', '2016'];
 
 
@@ -265,76 +265,6 @@ class GestionController extends CommonController
         }
         
         $chartjss = $this->getDataWithDates($ecritures);
-        $ecritures = array_reverse($ecritures);
-        
-        return $this->render('Gestion/banques.html.twig', array(
-            'ecritures' => $ecritures,
-            'chartjss' => $chartjss
-        ));
-    }
-
-    /**
-     * @Route("/emprunt", name="emprunt")
-     **/
-    public function empruntEditAction(Request $request)
-    {
-        $this->check_user($request);
-        $em = $this->getDoctrine()->getManager();
-        $session = $request->getSession();
-
-        $operations = $em->getRepository('App:Gestion\Operation')->getAllAsc();
-        $chartjss = [];
-        $ecritures = [];
-        
-        $value = 0;
-        $l = count($operations);
-        for($i = 0; $i < $l; ++$i){
-            $operation = $operations[$i];
-            foreach($operation->ecritures as $e){
-                if($e->compte->type == "banque"){
-                    $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>-$e->value];
-                    $ecriture['campagne'] = "";
-                    $ecriture['facture'] = $operation->facture;
-                    if($e->campagne){
-                        $ecriture['campagne'] = $e->campagne->name;
-                    }
-
-                    $value += $ecriture['value'];
-                    $ecriture['sum_value'] = $value;
-                    $ecritures[] = $ecriture;
-                }
-
-            }
-        }
-        $chartjss[] = $this->getDataSerieChartJs($ecritures, "banque", 0);
-
-        $ecritures = [];
-        $value = 0;
-        $l = count($operations);
-        for($i = 0; $i < $l; ++$i){
-            $operation = $operations[$i];
-            foreach($operation->ecritures as $e){
-                if($e->compte->type == "emprunt"){
-                    $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>-$e->value];
-                    $ecriture['campagne'] = "";
-                    $ecriture['facture'] = $operation->facture;
-                    if($e->campagne){
-                        $ecriture['campagne'] = $e->campagne->name;
-                    }
-
-                    $value += $ecriture['value'];
-                    $ecriture['sum_value'] = $value;
-
-                    $ecriture['sum_value'] = $value;
-                    $ecritures[] = $ecriture;
-                }
-
-            }
-
-        }
-        $chartjss[] = $this->getDataSerieChartJs($ecritures, "emprunt", 1);
-
-        
         $ecritures = array_reverse($ecritures);
         
         return $this->render('Gestion/banques.html.twig', array(
