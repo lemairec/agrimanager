@@ -29,7 +29,7 @@ class GestionController extends CommonController
     }
 
     public function getDateColor(){
-        return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> ""];
+        return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#408080"];
     }
 
     public function getDataCampagne($campagne, $ecritures){
