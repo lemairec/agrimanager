@@ -25,7 +25,7 @@ class EmpruntRepository extends ServiceEntityRepository
     function getAllForCompany($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
-            ->orderBy('p.date')
+            ->orderBy('p.date', 'DESC')
             ->setParameter('company', $company)
             ->getQuery()->getResult();
     }
