@@ -21,6 +21,7 @@ class EmpruntAnnuiteType extends AbstractType
         $builder
             ->add('annuite')
             ->add('interet')
+            ->add('assurance')
         ;
     }
 

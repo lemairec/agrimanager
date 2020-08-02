@@ -117,9 +117,8 @@ class EmpruntController extends CommonController
     
             $ecriture = new Ecriture();
             $ecriture->compte = $emprunt->banque;
-            $ecriture->campagne = $campagne;
             $ecriture->operation = $operation;
-            $ecriture->value = $data["annuite"] +  $data["interet"];
+            $ecriture->value = $data["annuite"] + $data["assurance"] + $data["interet"];
             $em->persist($ecriture);
     
             $ecriture = new Ecriture();
@@ -129,12 +128,22 @@ class EmpruntController extends CommonController
             $ecriture->value = -$data["annuite"];
             $em->persist($ecriture);
 
+            
             if($data["interet"] != 0){
                 $ecriture = new Ecriture();
                 $ecriture->compte = $emprunt->compteInteret;
                 $ecriture->campagne = $campagne;
                 $ecriture->operation = $operation;
                 $ecriture->value = -$data["interet"];
+                $em->persist($ecriture);
+            }
+
+            if($data["assurance"] != 0){
+                $ecriture = new Ecriture();
+                $ecriture->compte = $emprunt->compteInteret;
+                $ecriture->campagne = $campagne;
+                $ecriture->operation = $operation;
+                $ecriture->value = -$data["assurance"];
                 $em->persist($ecriture);
             }
     
