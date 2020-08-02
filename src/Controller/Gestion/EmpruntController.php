@@ -105,6 +105,10 @@ class EmpruntController extends CommonController
 
         if ($form->isSubmitted()) {
             $data = $form->getData();
+            $annuite = $this->parseFloat($data["annuite"]);
+            $assurance = $this->parseFloat($data["assurance"]);
+            $interet = $this->parseFloat($data["interet"]);
+            
 
             $operation = new Operation();
             $operation->company = $this->company;
@@ -118,32 +122,32 @@ class EmpruntController extends CommonController
             $ecriture = new Ecriture();
             $ecriture->compte = $emprunt->banque;
             $ecriture->operation = $operation;
-            $ecriture->value = $data["annuite"] + $data["assurance"] + $data["interet"];
+            $ecriture->value = $annuite + $assurance + $interet;
             $em->persist($ecriture);
     
             $ecriture = new Ecriture();
             $ecriture->compte = $emprunt->compteEmprunt;
             $ecriture->campagne = $campagne;
             $ecriture->operation = $operation;
-            $ecriture->value = -$data["annuite"];
+            $ecriture->value = -$annuite;
             $em->persist($ecriture);
 
             
-            if($data["interet"] != 0){
+            if($interet != 0){
                 $ecriture = new Ecriture();
                 $ecriture->compte = $emprunt->compteInteret;
                 $ecriture->campagne = $campagne;
                 $ecriture->operation = $operation;
-                $ecriture->value = -$data["interet"];
+                $ecriture->value = -$interet;
                 $em->persist($ecriture);
             }
 
-            if($data["assurance"] != 0){
+            if($assurance != 0){
                 $ecriture = new Ecriture();
                 $ecriture->compte = $emprunt->compteInteret;
                 $ecriture->campagne = $campagne;
                 $ecriture->operation = $operation;
-                $ecriture->value = -$data["assurance"];
+                $ecriture->value = -$assurance;
                 $em->persist($ecriture);
             }
     
