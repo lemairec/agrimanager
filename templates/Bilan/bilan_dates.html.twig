@@ -24,9 +24,13 @@
                 <td>{{key}}</td>
                 {% for campagne in campagnes2 %}
                     <td>
+                    <ul>
                     {% for date in t2[campagne.name]["dates"] %}
-                        <a href="{{ url("intervention", {'intervention_id': date["id"] }) }}">{{ date["date"] | showDate }}{% if date["name"]%} - {{ date["name"] }} {% endif %}
+                        <li>
+                            <a href="{{ url("intervention", {'intervention_id': date["id"] }) }}">{{ date["date"] | showDate }}{% if date["name"]%} - {{ date["name"] }} {% endif %}
+                        </li>
                     {% endfor %}
+                    </ul>
                     </td>
                 {% endfor %}
             </tr>
