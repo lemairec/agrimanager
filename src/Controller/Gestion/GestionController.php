@@ -266,6 +266,8 @@ class GestionController extends CommonController
         
         $chartjss = $this->getDataWithDates($ecritures);
         $ecritures = array_reverse($ecritures);
+
+        $chartjss = array_reverse($chartjss);
         
         return $this->render('Gestion/banques.html.twig', array(
             'ecritures' => $ecritures,
@@ -340,6 +342,8 @@ class GestionController extends CommonController
             }
         }
 
+        $chartjss = array_reverse($chartjss);
+
         $ecritures = array_reverse($ecritures);
         $ecritures_futures = array_reverse($ecritures_futures);
     
@@ -348,6 +352,7 @@ class GestionController extends CommonController
             $em->flush();
             return $this->redirectToRoute('comptes');
         }
+        
         $session->set("redirect_url_facture", $this->generateUrl('compte', array('compte_id' => $compte_id)));
         return $this->render('Gestion/compte.html.twig', array(
             'form' => $form->createView(),
