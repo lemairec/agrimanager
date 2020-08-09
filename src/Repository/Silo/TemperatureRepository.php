@@ -22,7 +22,7 @@ class TemperatureRepository extends ServiceEntityRepository
     function getAllForBalise($balise){
         return $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
-            ->orderBy('p.datetime')
+            ->orderBy('p.datetime', 'DESC')
             ->setParameter('balise', $balise)
             ->getQuery()->getResult();
     }
