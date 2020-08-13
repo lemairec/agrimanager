@@ -261,9 +261,6 @@ class BilanController extends CommonController
 
         }
 
-        dump($engrais);
-        $cultures = [];
-
 
         return $this->render('Bilan/bilan_engrais2.html.twig', array(
             'engrais' => $engrais
