@@ -34,6 +34,9 @@ class Produit
     /** @ORM\Column(name="type", type="string", length=255) **/
     public $type;
 
+    /** @ORM\Column(name="bio", type="boolean", nullable=true) **/
+    public $bio = false;
+
     /** @ORM\Column(name="unity", type="string", length=255) **/
     public $unity = "unité";
 
@@ -67,6 +70,13 @@ class Produit
 
     /** @ORM\Column(name="s", type="float") **/
     public $engrais_so3 = 0;
+
+
+    /** @ORM\Column(name="mo", type="float", nullable = true) **/
+    public $engrais_mo = 0;
+
+     /** @ORM\Column(name="cn", type="float", nullable = true) **/
+     public $engrais_cn = 0;
 
     public function __toString ( ){
         $res = $this->name;

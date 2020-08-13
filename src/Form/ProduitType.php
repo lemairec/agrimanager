@@ -20,6 +20,7 @@ class ProduitType extends AbstractType
             ["autre" => "autre"
             , "agroequipements" => "agroequipements"
             , "engrais" => "engrais"
+            , "engrais organique" => "engrais organique"
             , "oligos" => "oligos"
             , "semences" => "semences"
             , "phytos" => "phytos"
@@ -27,6 +28,7 @@ class ProduitType extends AbstractType
             , "lisa" => "lisa"]
                 ));
         $builder->add('qty')->add('price')->add('unity')->add('ephyProduit');
+        $builder->add('bio');
         $builder->add('n')->add('p')->add('k')->add('s')->add('mg');
 
     }

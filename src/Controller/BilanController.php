@@ -222,6 +222,55 @@ class BilanController extends CommonController
     }
 
     /**
+     * @Route("/bilan_engrais2", name="bilan_engrais2")
+     */
+    public function bilanEngrais2Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $engrais = [];
+        $produits = $em->getRepository('App:Produit')->getAllForCompany($this->company);
+        foreach($produits as $p){
+            
+            $campagnes = [];
+
+            $achats = $em->getRepository('App:Achat')->getAllForProduit($p);
+            foreach($achats as $a){
+                $c = $a->campagne->name;
+                if(!array_key_exists($c,$campagnes)){
+                    $campagnes[$c] = ["name"=> $c, "qty"=>0, "price"=>0, ];
+                }
+                $campagnes[$c]["qty"] += $a->qty;
+                $campagnes[$c]["price"] += $a->price_total;
+
+                if($campagnes[$c]["qty"] != 0){
+                    $campagnes[$c]["price_qty"] = $campagnes[$c]["price"]/$campagnes[$c]["qty"];
+                } else {
+                    $campagnes[$c]["price_qty"] = 0;
+                }
+                
+            }
+
+            if($p->engrais_n != 0 || $p->engrais_p !=0 || $p->engrais_k !=0 || $p->engrais_mg !=0 || $p->engrais_so3 !=0){
+                $engrais[] = ["name" => $p->name, "type" => $p->type, "bio" => $p->bio, "engrais_n" => $p->engrais_n
+                , "engrais_p" => $p->engrais_p, "engrais_k" => $p->engrais_k, "engrais_mg" => $p->engrais_mg, "engrais_so3" => $p->engrais_so3
+                , "engrais_mo" => $p->engrais_mo, "engrais_cn" => $p->engrais_cn
+                , "campagnes" => $campagnes ];
+            }
+
+        }
+
+        dump($engrais);
+        $cultures = [];
+
+
+        return $this->render('Bilan/bilan_engrais2.html.twig', array(
+            'engrais' => $engrais
+        ));
+    }
+
+    /**
      * @Route("/bilan_charges", name="bilan_charges")
      */
     public function bilan2Action(Request $request)

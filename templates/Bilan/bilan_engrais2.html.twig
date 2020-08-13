@@ -1,0 +1,47 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+    <div class="toto">
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>Engrais</th>
+                <th>Type</th>
+                <th>Bio</th>
+                <th class="text-right">N</th>
+                <th class="text-right">P</th>
+                <th class="text-right">K</th>
+                <th class="text-right">Mg</th>
+                <th class="text-right">S</th>
+                <th class="text-right">MO</th>
+                <th class="text-right">C/N</th>
+                <th>Campagne</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for engrai in engrais %}
+                {% for campagnes in engrai['campagnes'] %}
+                <tr>
+                    <td>{{engrai['name']}}</td>
+                    <td>{{engrai['type']}}</td>
+                    <td>{{engrai['bio']}}</td>
+                    <td class="text-right">{{ engrai['engrais_n'] | showUnity('')}}</td>
+                    <td class="text-right">{{ engrai['engrais_p'] | showUnity('')}}</td>
+                    <td class="text-right">{{ engrai['engrais_k'] | showUnity('')}}</td>
+                    <td class="text-right">{{ engrai['engrais_mg'] | showUnity('')}}</td>
+                    <td class="text-right">{{ engrai['engrais_so3'] | showUnity('')}}</td>
+                    <td class="text-right">{{ engrai['engrais_mo'] | showUnity('')}}</td>
+                    <td class="text-right">{{ engrai['engrais_cn'] | showUnity('')}}</td>
+                    <td>{{campagnes['name']}}</td>
+                    <td>{{campagnes['qty'] | showUnity('u')}} </td>
+                    <td>{{campagnes['price_qty'] | showEur}}</td>
+                    
+
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}
