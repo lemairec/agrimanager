@@ -23,7 +23,7 @@
         </tr>
         {% for compte in comptes %}
             <tr>
-                <td>{{ compte.name | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
+                <td>{{ compte.getName() | my_path('compte', {'compte_id': compte.id}) | raw }}</td>
                 
                     <td>{{compte.getPrice() | showEur}}</td>
                     {% if compte.type == 'campagne' %}

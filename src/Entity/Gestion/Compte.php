@@ -36,16 +36,23 @@ class Compte
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="identifiant", type="string", length=10, nullable=true)
      */
-    public $name;
+    public $identifiant;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="short_name", type="string", length=255)
+     * @ORM\Column(name="label", type="string", length=255)
      */
-    public $shortName;
+    public $label;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="short_label", type="string", length=255)
+     */
+    public $shortLabel;
 
     /**
      * @var string
@@ -96,5 +103,13 @@ class Compte
 
     public function __toString ( ){
         return $this->name;
+    }
+
+    public function getShortName ( ){
+        return $this->identifiant."_".$this->shortLabel;
+    }
+
+    public function getName ( ){
+        return $this->identifiant.". ".$this->label;
     }
 }
