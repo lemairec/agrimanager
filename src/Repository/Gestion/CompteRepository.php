@@ -23,7 +23,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->where("p.company = :company")
             ->andWhere("p.type = 'banque'")
             ->setParameter('company', $company)
-            ->orderBy('p.name')
+            ->orderBy('p.identifiant')
             ->getQuery()->getResult();
     }
 
@@ -32,7 +32,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->where('p.company = :company')
             ->andWhere("p.type = 'banque'")
             ->setParameter('company', $company)
-            ->orderBy('p.name')
+            ->orderBy('p.identifiant')
             ->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }
 
@@ -41,7 +41,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->where("p.type != 'banque'")
             ->andWhere('p.company = :company')
             ->setParameter('company', $company)
-            ->orderBy('p.name')
+            ->orderBy('p.identifiant')
             ->getQuery()->getResult();
     }
 
@@ -50,7 +50,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->where("p.type = 'tva'")
             ->andWhere('p.company = :company')
             ->setParameter('company', $company)
-            ->orderBy('p.name')
+            ->orderBy('p.identifiant')
             ->getQuery()->getResult()[0];
     }
 }
