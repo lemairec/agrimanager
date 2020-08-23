@@ -59,7 +59,7 @@ class GestionController extends CommonController
                 $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
             }
             
-            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'] ];
+            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'], 'name' => $ecriture['name'] ];
         }
         $chartjss[] = $chartjs;
         return $chartjss;
@@ -227,7 +227,7 @@ class GestionController extends CommonController
     }
 
     /**
-     * @Route("/banque", name="banque")
+     * @Route("/bilan_banque", name="bilan_banque")
      **/
     public function banqueEditAction(Request $request)
     {
@@ -246,6 +246,55 @@ class GestionController extends CommonController
                 $operation = $operations[$i];
                 foreach($operation->ecritures as $e){
                     if($e->compte->type == "banque"){
+                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>-$e->value];
+                        $ecriture['campagne'] = "";
+                        $ecriture['facture'] = $operation->facture;
+                        if($e->campagne){
+                            $ecriture['campagne'] = $e->campagne->name;
+                        }
+
+                        $value += $ecriture['value'];
+                        $ecriture['sum_value'] = $value;
+
+                        $ecritures[] = $ecriture;
+                    }
+
+                }
+
+            }
+        }
+        
+        $chartjss = $this->getDataWithDates($ecritures);
+        $ecritures = array_reverse($ecritures);
+
+        $chartjss = array_reverse($chartjss);
+        
+        return $this->render('Gestion/banques.html.twig', array(
+            'ecritures' => $ecritures,
+            'chartjss' => $chartjss
+        ));
+    }
+
+    /**
+     * @Route("/bilan_emprunt", name="bilan_emprunt")
+     **/
+    public function empruntEditAction(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+
+        $operations = [];
+        $ecritures = [];
+        $ecritures_futures = [];
+        {
+            $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompany($this->company);
+            $value = 0;
+            $l = count($operations);
+            for($i = 0; $i < $l; ++$i){
+                $operation = $operations[$l-$i-1];
+                foreach($operation->ecritures as $e){
+                    if($e->compte->type == "emprunt"){
                         $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>-$e->value];
                         $ecriture['campagne'] = "";
                         $ecriture['facture'] = $operation->facture;

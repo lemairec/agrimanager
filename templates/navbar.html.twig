@@ -80,15 +80,13 @@ Ma Plaine</a>
                         </div>
                     </li>
 
-                    {% if app.user.username == "lejard" %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url('calendar') }}">Calendrier</a></li>
-                    {% endif %}
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Bilan
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        
+
                             <a class="dropdown-item" href="{{ url('fiches_parcellaires') }}">Fiches Parcellaires</a>
                             {% if is_granted('ROLE_NEW_FEATURE') %}
                             <a class="dropdown-item" href="{{ url('bilan_intervention_prix') }}">Bilan intervention</a>
@@ -104,6 +102,8 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('bilan_dates') }}">Dates</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('engrais') }}">Bilan coût engrais</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('calendar') }}">Calendrier</a>
                             {% endif %}
                             {% endif %}
 
@@ -121,9 +121,6 @@ Ma Plaine</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('comptes') }}">Comptes</a>
                             <a class="dropdown-item" href="{{ url('comptes_by_year') }}">Comptes by Year</a>
-                            {% if app.user.username == "lejard" %}
-                            <a class="dropdown-item" href="{{ url('banque') }}">Banque</a>
-                            {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('operations') }}">Operations</a>
                             <a class="dropdown-item" href="{{ url('factures_fournisseurs') }}">Factures</a>
@@ -133,8 +130,12 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('cotations') }}">Cotations</a>
                             <a class="dropdown-item" href="{{ url('bilan_commercialisations') }}">Bilan Commercialisations</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('assolement') }}">Assolement</a>
                             <a class="dropdown-item" href="{{ url('phytos') }}">Bilan Phytos</a>
+                            {% if app.user.username == "lejard" %}
+                            <a class="dropdown-item" href="{{ url('bilan_banque') }}">Bilan Banque</a>
+                            <a class="dropdown-item" href="{{ url('bilan_emprunt') }}">Bilan Emprunt</a>
+                            {% endif %}
+                            
                         </div>
                     </li>
                     {% endif %}
