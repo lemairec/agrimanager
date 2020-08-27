@@ -26,6 +26,13 @@ class FactureFournisseurType extends AbstractType
             'html5' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
+        $builder->add('paiementDate', DateType::class, array(
+            'widget' => 'single_text',
+            'format' => 'dd/MM/yyyy',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
+        ));
+        $builder->add('paiementOrder');
         $builder->add('campagne', EntityType::class, array(
             'class'        => 'App:Campagne',
             'choices' => $options['campagnes'],

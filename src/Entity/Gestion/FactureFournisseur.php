@@ -53,6 +53,20 @@ class FactureFournisseur
     public $date;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="paiement_date", type="date", nullable=true)
+     */
+    public $paiementDate = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="paiement_order", type="integer", nullable=true)
+     */
+    public $paiementOrder;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="montantHT", type="float")

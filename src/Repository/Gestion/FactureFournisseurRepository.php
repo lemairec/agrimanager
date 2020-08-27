@@ -24,7 +24,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
         $operation = new Operation();
         $operation->company = $facture->company;
         $operation->name = $facture->name;
-        $operation->date = $facture->date;
+        $operation->date = $facture->paiementDate;
         $operation->facture = $facture;
 
         $em->persist($operation);

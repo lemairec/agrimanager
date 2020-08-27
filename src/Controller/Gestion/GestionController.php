@@ -239,11 +239,11 @@ class GestionController extends CommonController
         $ecritures = [];
         $ecritures_futures = [];
         {
-            $operations = $em->getRepository('App:Gestion\Operation')->getAllForBanque($this->company);
+            $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompany($this->company);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
-                $operation = $operations[$i];
+                $operation = $operations[$l-$i-1];
                 foreach($operation->ecritures as $e){
                     if($e->compte->type == "banque"){
                         $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>-$e->value];
@@ -547,6 +547,8 @@ class GestionController extends CommonController
             $facture = new FactureFournisseur();
             $facture->company = $this->company;
             $facture->date = new Datetime();
+            $facture->paiementDate = new Datetime();
+            $facture->paiementOrder = 0;
         } else {
             $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
             $operations = $em->getRepository('App:Gestion\Operation')->getForFacture($facture);

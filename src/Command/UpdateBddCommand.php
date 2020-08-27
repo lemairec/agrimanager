@@ -36,28 +36,10 @@ class UpdateBddCommand extends Command
             // ...
         }
 
-        $facture = $this->em->getRepository('App:Document')->findAll();
-        $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
+        $facture = $this->em->getRepository('App:Gestion\FactureFournisseur')->findAll();
         foreach ($facture as $f) {
-            if($f->company){
-                print("ignore");
-                continue;
-            }
-            $f->company = $company;
-
-            $this->em->persist($f);
-            $this->em->flush();
-        }
-
-        $facture = $this->em->getRepository('App:DocumentDirectory')->findAll();
-        $company = $this->em->getRepository('App:Company')->find("f49d127e-3951-11e7-92c4-80e65014bb7c");
-        foreach ($facture as $f) {
-            if($f->company){
-                print("ignore");
-                continue;
-            }
-            $f->company = $company;
-
+            $f->paiementDate = $f->date;
+            $f->paiementOrder = 0;
             $this->em->persist($f);
             $this->em->flush();
         }
