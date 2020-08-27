@@ -55,14 +55,14 @@ class FactureFournisseur
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="paiement_date", type="date", nullable=true)
+     * @ORM\Column(name="paiement_date", type="date")
      */
     public $paiementDate = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="paiement_order", type="integer", nullable=true)
+     * @ORM\Column(name="paiement_order", type="integer")
      */
     public $paiementOrder;
 
