@@ -70,7 +70,7 @@ class GestionController extends CommonController
         $value=0;
         foreach($ecritures as $ecriture){
             $value += $ecriture['value'];
-            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m-Y"), 'value' => $ecriture['sum_value'] ];
+            $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m-Y"), 'value' => $ecriture['sum_value'], 'name' => $ecriture['name']  ];
         }
         return $chartjs;
     }

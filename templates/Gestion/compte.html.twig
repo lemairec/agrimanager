@@ -95,6 +95,7 @@
                             {
                                 x: "{{data['date']}}",
                                 y: {{data['value']}},
+                                text: "{{data['name']}}"
                             },
                         {% endfor %}
                     ],
@@ -126,6 +127,22 @@
                     }
                 }]
             },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                        var text = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].text;
+                        
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(tooltipItem.yLabel * 100) / 100;
+                        label += " ("+text+")";
+                       console.log(tooltipItem);
+                        return label;
+                    }
+                }
+            }
         }
     };
 
