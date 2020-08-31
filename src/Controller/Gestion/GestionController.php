@@ -39,7 +39,7 @@ class GestionController extends CommonController
         foreach($ecritures as $ecriture){
             $year = intVal($ecriture['date']->format("Y"))-intVal($campagne)+2017;
             $value += $ecriture['value'];
-            $data[] = ['date' => $ecriture['date']->format("d-m")."-".$year, 'value' => $value];
+            $data[] = ['date' => $ecriture['date']->format("d-m")."-".$year, 'value' => $value, 'name' => $ecriture['name']];
         }
         return ['annee'=> $campagne, 'data' => $data, 'color' => $this->getDateColor()[$campagne]];
     }
