@@ -71,7 +71,7 @@ class CommercialisationController extends CommonController
 
         $cultures = [];
         foreach($parcelles as $parcelle){
-            if($parcelle->active){
+            if($parcelle->active && $parcelle->culture){
                 if (!array_key_exists(strval($parcelle->culture), $cultures)) {
                     $cultures[strval($parcelle->culture)] = ['culture' => $parcelle->culture, 'qty_estime' => 0, 'qty_livraison' => 0, 'surface' => 0, 'qty_commercialise' => 0, 'price_total_commercialise' => 0, "price" => 0, "contrats"=>[]];
                 }
