@@ -254,7 +254,6 @@ class GestionController extends CommonController
                 $comptes_campagnes[$compte->identifiant]["solde ".$company->name] = $compte->getPrice();
                 $campagnes = $em->getRepository('App:Campagne')->getAllForCompany($company);
                 foreach ($this->campagnes as $campagne) {
-                    dump($campagne->name." ".$company->name);
                     $comptes_campagnes[$compte->identifiant][$campagne->name." ".$company->name] = $compte->getPriceCampagne($campagne);
                 }
             }
@@ -266,9 +265,6 @@ class GestionController extends CommonController
         }
 
         $comptes_campagnes2 = array_sort($comptes_campagnes2, 'identifiant', SORT_ASC);
-
-        dump($comptes_campagnes2);
-        dump($comptes_campagnes);
 
         return $this->render('Gestion/bilan2_comptes.html.twig', array(
             'campagnes2' => $campagnes2,
