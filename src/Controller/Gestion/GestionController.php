@@ -20,7 +20,40 @@ use Symfony\Component\HttpFoundation\File\File;
 //COMPTE
 //ECRITURE
 //OPERATION
+function array_sort($array, $on, $order=SORT_ASC)
+{
+    $new_array = array();
+    $sortable_array = array();
 
+    if (count($array) > 0) {
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                foreach ($v as $k2 => $v2) {
+                    if ($k2 == $on) {
+                        $sortable_array[$k] = $v2;
+                    }
+                }
+            } else {
+                $sortable_array[$k] = $v;
+            }
+        }
+
+        switch ($order) {
+            case SORT_ASC:
+                asort($sortable_array);
+            break;
+            case SORT_DESC:
+                arsort($sortable_array);
+            break;
+        }
+
+        foreach ($sortable_array as $k => $v) {
+            $new_array[$k] = $array[$k];
+        }
+    }
+
+    return $new_array;
+}
 
 class GestionController extends CommonController
 {
@@ -183,6 +216,63 @@ class GestionController extends CommonController
             'campagne_id' => $campagne->id,
             'comptes' => $comptes,
             'comptes_campagnes' => $comptes_campagnes
+        ));
+    }
+
+    /**
+     * @Route("/bilan_comptes", name="bilan_comptes")
+     */
+    public function bilanCompteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $c = $this->getCurrentCampagne($request);
+
+        $campagnes2 = [];
+        foreach($this->companies as $company){
+            $campagnes = $em->getRepository('App:Campagne')->getAllForCompany($company);
+            foreach ($this->campagnes as $campagne) {
+                $campagnes2[] = $campagne->name." ".$company->name;
+            }
+            $campagnes2[] = "solde ".$company->name;
+            $campagnes2[] = "prev ".$company->name;
+        }
+
+        $campagnes = rsort($campagnes2);
+
+        $comptes_campagnes = [];
+        foreach($this->companies as $company){
+            $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCompany($company);
+
+            foreach($comptes as $compte){
+                if (!array_key_exists($compte->identifiant, $comptes_campagnes)) {
+                    $comptes_campagnes[$compte->identifiant] = ["identifiant"=>$compte->identifiant, "name"=>$compte->label];
+                    foreach ($campagnes2 as $campagne) {
+                        $comptes_campagnes[$compte->identifiant][$campagne] = 0;
+                    }
+                }
+                $comptes_campagnes[$compte->identifiant]["prev ".$company->name] = $compte->previsionnel;
+                $comptes_campagnes[$compte->identifiant]["solde ".$company->name] = $compte->getPrice();
+                $campagnes = $em->getRepository('App:Campagne')->getAllForCompany($company);
+                foreach ($this->campagnes as $campagne) {
+                    dump($campagne->name." ".$company->name);
+                    $comptes_campagnes[$compte->identifiant][$campagne->name." ".$company->name] = $compte->getPriceCampagne($campagne);
+                }
+            }
+        }
+
+        $comptes_campagnes2 = [];
+        foreach($comptes_campagnes as $c){
+            $comptes_campagnes2[] = $c;
+        }
+
+        $comptes_campagnes2 = array_sort($comptes_campagnes2, 'identifiant', SORT_ASC);
+
+        dump($comptes_campagnes2);
+        dump($comptes_campagnes);
+
+        return $this->render('Gestion/bilan2_comptes.html.twig', array(
+            'campagnes2' => $campagnes2,
+            'comptes_campagnes' => $comptes_campagnes2
         ));
     }
 
