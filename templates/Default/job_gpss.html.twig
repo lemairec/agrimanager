@@ -1,0 +1,31 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+<div class="card">
+    <div class="card-header">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/gasoil/0'">Ajouter</button>
+        Gasoils
+    </div>
+    <table class="table">
+        <tr>
+            <th>begin</th>
+            <th>end</th>
+            <th>surface</th>
+            <th>email</th>
+        </tr>
+        {% for job_gps in job_gpss %}
+            <tr>
+                <td><a href="/job_gps/{{job_gps.id}}">{{ job_gps.dateBegin | showDatetime }}</a></td>
+                <td>{{ job_gps.dateEnd | showDatetime }}</td>
+                <td>{{ job_gps.surface | showHa() }}</td>
+                <td>{{ job_gps.userEmail }}</td>
+                
+            </tr>
+        {% endfor %}
+    </table>
+
+
+</div>
+   
+{% endblock %}
