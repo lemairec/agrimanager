@@ -20,6 +20,12 @@
                 <td>{{ job_gps.dateEnd | showDatetime }}</td>
                 <td>{{ job_gps.surface | showHa() }}</td>
                 <td>{{ job_gps.userEmail }}</td>
+                {% if job_gps.debug %}
+                    <td><a href="/job_gps/{{job_gps.id}}/debug">debug</a></td>
+                
+                {% else %}
+                    <td></td>
+                {% endif %}
                 
             </tr>
         {% endfor %}

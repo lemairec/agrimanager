@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,6 +48,23 @@ class JobGpsController extends CommonController
     }
 
     /**
+     * @Route("/job_gpss/remove_debug", name="job_remove_debug")
+     */
+    public function jobRemoveDebug(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $job_gpss = $em->getRepository("App:JobGps")->findAll();
+        
+        foreach($job_gpss as $j){
+            $j->debug = null;
+            $em->persist($j);
+            $em->flush();
+        }
+    }
+
+
+    /**
      * @Route("/job_gps/{id}")
      */
     public function jobAction($id, Request $request)
@@ -59,7 +77,7 @@ class JobGpsController extends CommonController
         $lat = 0;
         $long = 0;
 
-        $tab =  explode ("\n",  $job_gps->ubx);
+        $tab =  explode ("\n",  $job_gps->job);
         $points = [];
         foreach($tab as $t){
             $res = explode(",", $t);
@@ -70,6 +88,51 @@ class JobGpsController extends CommonController
             }
         }
         
+        //dump($tab);
+        //dump($lat);
+
+
+
+        return $this->render('Default/job_gps.html.twig', array(
+            'job_gps' => $job_gps,
+            'lat' => $lat,
+            'long' => $long,
+            'points' => $points,
+        ));
+    }
+
+    /**
+     * @Route("/job_gps/{id}/debug")
+     */
+    public function jobDebugAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $job_gps = $em->getRepository("App:JobGps")->find($id);
+
+        
+
+        // Provide a name for your file with extension
+        $filename = 'debug.txt';
+        
+        // The dinamically created content of the file
+        $fileContent = $job_gps->debug;
+        
+        // Return a response with a specific content
+        $response = new Response($fileContent);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        // Dispatch request
+        return $response;
+    
         //dump($tab);
         //dump($lat);
 
@@ -98,7 +161,8 @@ class JobGpsController extends CommonController
         $jobGps->surface = $data["surface"];
         $jobGps->dateBegin = new DateTime($data["date_begin"]);
         $jobGps->dateEnd = new DateTime($data["date_end"]);
-        $jobGps->ubx = $data["ubx"];
+        $jobGps->job = $data["job"];
+        $jobGps->debug = $data["debug"];
         $jobGps->userEmail = $data["user_email"];
         $jobGps->user = $em->getRepository("App:User")->findOneByEmail($jobGps->userEmail);
 

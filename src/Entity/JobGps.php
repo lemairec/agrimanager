@@ -34,12 +34,12 @@ class JobGps
     /**
      * @ORM\Column(type="text")
      */
-    public $ubx = "";
+    public $job = "";
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    public $ubx_debug = "";
+    public $debug = "";
 
     /**
      * @var string
