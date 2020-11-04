@@ -41,6 +41,9 @@ class JobGps
      */
     public $debug = "";
 
+    /** @ORM\Column(type="text", length=255, nullable=true) **/
+    public $label;
+
     /**
      * @var string
      *

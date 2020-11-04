@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use DateTime;
 use App\Entity\JobGps;
+use App\Form\JobGpsType;
 
 class JobGpsController extends CommonController
 {
@@ -91,9 +92,18 @@ class JobGpsController extends CommonController
         //dump($tab);
         //dump($lat);
 
+        $form = $this->createForm(JobGpsType::class, $job_gps);
+        $form->handleRequest($request);
 
+
+        if ($form->isSubmitted()) {
+            $em->persist($job_gps);
+            $em->flush();
+            return $this->redirectToRoute('job_gpss_me');
+        }
 
         return $this->render('Default/job_gps.html.twig', array(
+            'form' => $form->createView(),
             'job_gps' => $job_gps,
             'lat' => $lat,
             'long' => $long,

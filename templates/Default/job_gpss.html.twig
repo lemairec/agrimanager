@@ -12,6 +12,7 @@
             <th>begin</th>
             <th>end</th>
             <th>surface</th>
+            <th>label</th>
             <th>email</th>
         </tr>
         {% for job_gps in job_gpss %}
@@ -19,6 +20,7 @@
                 <td><a href="/job_gps/{{job_gps.id}}">{{ job_gps.dateBegin | showDatetime }}</a></td>
                 <td>{{ job_gps.dateEnd | showDatetime }}</td>
                 <td>{{ job_gps.surface | showHa() }}</td>
+                <td>{{ job_gps.label }}</td>
                 <td>{{ job_gps.userEmail }}</td>
                 {% if job_gps.debug %}
                     <td><a href="/job_gps/{{job_gps.id}}/debug">debug</a></td>
