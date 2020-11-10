@@ -12,6 +12,7 @@
         <tr>
             <th>{{'Name' | trans}}</th>
             <th>Ephy</th>
+            <th></th>
             <th>Type</th>
             <th>{{'Unity' | trans}}</th>
             <th class="text-right">{{'Qty' | trans}}</th>
@@ -21,6 +22,7 @@
         </tr>
         {% if totalPrice is defined %}
         <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -39,6 +41,7 @@
             {% endif %}
                 <td>{{ p.name | my_path('produit', {'produit_id': p.id}) | raw }}</td>
                 <td>{{ p.ephyProduit }}</td>
+                <td>{{p.comment}}</td>
                 <td>{{p.type}}</td>
                 <td>{{p.unity}}</td>
                 <td class="text-right">{{ p.quantity | showUnity('u') }}</td>

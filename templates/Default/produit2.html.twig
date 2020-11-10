@@ -47,6 +47,17 @@
 
                 <div class="form-group row">
                     <div class="col-sm-2">
+                        <label for="App_produit_name" class="required">Comment</label>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <input required="required" class="form-control" v-model="produit.comment" type="text">
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
                         <label for="App_produit_bio" class="required">Bio</label>
                     </div>
 
@@ -250,6 +261,7 @@ $( function() {
                 id: "{{ produit.id }}",
                 name : "{{ produit.name }}",
                 bio : "{{ produit.bio }}",
+                comment : "{{ produit.comment }}",
                 type: "{{ produit.type }}",
                 unity: "{{ produit.unity }}",
                 n: {{ produit.engrais_n }}, p: {{ produit.engrais_p }}, k: {{ produit.engrais_k }}, s: {{ produit.engrais_so3 }}, mg: {{ produit.engrais_mg }},
@@ -257,6 +269,7 @@ $( function() {
             },
             types : [
                 'phytos',
+                'phytos_adj',
                 'semences',
                 'engrais',
                 'engrais organique',

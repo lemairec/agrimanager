@@ -31,6 +31,9 @@ class Produit
     /** @ORM\Column(type="string") **/
     public $name;
 
+    /** @ORM\Column(type="string",nullable=true) **/
+    public $comment;
+
     /** @ORM\Column(name="type", type="string", length=255) **/
     public $type;
 

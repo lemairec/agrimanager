@@ -89,6 +89,7 @@ class ProduitController extends CommonController
         $produit->unity = $data["unity"];
         $produit->type = $data["type"];
         $produit->bio = $data["bio"];
+        $produit->comment = $data["comment"];
         $produit->engrais_n = $this->parseFloat($data["n"]);
         $produit->engrais_p = $this->parseFloat($data["p"]);
         $produit->engrais_k = $this->parseFloat($data["k"]);
