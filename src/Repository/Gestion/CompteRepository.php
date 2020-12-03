@@ -21,7 +21,7 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
     function getAllBanques($company){
         return $this->createQueryBuilder('p')
             ->where("p.company = :company")
-            ->andWhere("p.type = 'banque'")
+            ->andWhere("p.type like 'banqu%'")
             ->setParameter('company', $company)
             ->orderBy('p.identifiant')
             ->getQuery()->getResult();
