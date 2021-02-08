@@ -21,12 +21,17 @@
 
                 {% if essaim.description or essaim.parent %}
                 <div class="row" style="min-height: 1.5rem;">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         {{essaim.description}}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         {% if essaim.parent %}
                         parent : {{essaim.parent}}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2">
+                        {% if essaim.dateBegin %}
+                        {{essaim.dateBegin | showDate }}
                         {% endif %}
                     </div>
                 </div>
