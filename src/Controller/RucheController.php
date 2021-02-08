@@ -140,6 +140,10 @@ class RucheController extends CommonController
         $essaims = $em->getRepository('App:Ruche\Essaim')
             ->findAll();
 
+        foreach($essaims as $e){
+            $ruche = $em->getRepository('App:Ruche\Ruche')->findOneByEssaim($e);
+            $e->ruche = $ruche;
+        }
         return $this->render('Ruche/essaims.html.twig', array(
             'essaims' => $essaims
         ));

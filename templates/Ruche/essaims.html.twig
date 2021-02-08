@@ -29,10 +29,19 @@
                         {% endif %}
                     </div>
                     <div class="col-md-2">
-                        {% if essaim.dateBegin %}
-                        {{essaim.dateBegin | showDate }}
-                        {% endif %}
+                            {{essaim.dateBegin | showDate }}
+                        
                     </div>
+                </div>
+                <div class="row" style="min-height: 1.5rem;">
+                    {% if essaim.ruche %}
+                    <div class="col-md-4">
+                        {{essaim.ruche.rucher}}
+                    </div>
+                    <div class="col-md-4">
+                        {{essaim.ruche.name}} - {{essaim.ruche.color}}
+                    </div>
+                    {% endif %}
                 </div>
 
             </div>

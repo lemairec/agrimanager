@@ -43,6 +43,9 @@ class Essaim
      */
     public $parent;
 
+    public $ruche;
+    
+
     public function __toString(){
         return $this->name;
     }
