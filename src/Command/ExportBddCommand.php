@@ -43,7 +43,7 @@ class ExportBddCommand extends Command
         $doctrine = $container->get('doctrine');
         $this->em = $doctrine->getManager();
 
-        $output->writeln($this->projectDir);
+        #$output->writeln($this->projectDir);
 
         $path = $this->projectDir."/temp/dump";
 
