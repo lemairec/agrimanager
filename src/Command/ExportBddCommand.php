@@ -88,7 +88,7 @@ class ExportBddCommand extends Command
         $output->writeln('sql ok');
 
         $zip = new \ZipArchive();
-        $zipName = "$path/".time().".zip";
+        $zipName = "$path/dump_maplaine.zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
 
         foreach ($this->em->getRepository('App:Document')->findAll() as $f) {
