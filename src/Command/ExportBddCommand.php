@@ -84,7 +84,7 @@ class ExportBddCommand extends Command
             throw new ProcessFailedException($process);
         }
 
-        $output->writeln($backupSqlFile);
+        #$output->writeln($backupSqlFile);
         $output->writeln('sql ok');
 
         $zip = new \ZipArchive();
@@ -95,7 +95,7 @@ class ExportBddCommand extends Command
             $file = $f->getDocName();
             if($file){
                 $src = $this->projectDir."/public/uploads/documents/".$file;
-                $output->writeln($src);
+                #$output->writeln($src);
                 $zip->addFile($src, $file);
             }
         }
@@ -105,7 +105,7 @@ class ExportBddCommand extends Command
             $file = $f->getFactureFileName();
             if($file){
                 $src = $this->projectDir."/public/uploads/factures/".$file;
-                $output->writeln($src);
+                #$output->writeln($src);
                 $zip->addFile($src, "factures/".$file);
             }
         }
