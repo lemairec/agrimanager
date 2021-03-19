@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use Datetime;
@@ -738,5 +739,21 @@ class DefaultController extends CommonController
     public function traccia(Request $request)
     {
         return $this->render('traccia.html.twig');
+    }
+
+
+    /**
+     * @Route("/lemca/send_file", name="traccia")
+     **/
+    public function send_file(Request $request)
+    {
+        $path = __DIR__."/../../public/lemca";
+        $file = $request->files->get('myfile');
+        $file->move(
+            $path,
+            $file->getClientOriginalName()
+        );
+        return new JsonResponse("ok");
+
     }
 }
