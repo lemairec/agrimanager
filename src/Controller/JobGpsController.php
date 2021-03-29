@@ -188,5 +188,14 @@ class JobGpsController extends CommonController
 
         return new JsonResponse("ok");
     }
-     
+    
+    /**
+     * @Route("/api/parcelles_gps")
+     */
+    public function parcellesGpsApiAction(Request $request)
+    {
+        $parcelles = [];
+        $parcelles[] = ["name"=>"TOTO", "datetime"=>"2020-11-26T20:22:53"];
+        return new JsonResponse($parcelles);
+    }
 }

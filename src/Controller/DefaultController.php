@@ -406,11 +406,8 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("parcelles", name="parcelles")
-     */
-    public function parcellesAction(Request $request)
-    {
+    public function getParcelles(Request $request, $table){
+
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
@@ -449,15 +446,44 @@ class DefaultController extends CommonController
             }
         }
 
-        return $this->render('Default/parcelles.html.twig', array(
-            'ilots' => $ilots2,
-            'campagnes' => $this->campagnes,
-            'campagne_id' => $campagne->id,
-            'parcelles' => $parcelles,
-            'cultures' => $cultures,
-            'total' => $total,
-            'navs' => ["Parcelles" => "parcelles"]
-        ));
+        if($table){
+            return $this->render('Default/parcelles_t.html.twig', array(
+                'ilots' => $ilots2,
+                'campagnes' => $this->campagnes,
+                'campagne_id' => $campagne->id,
+                'parcelles' => $parcelles,
+                'cultures' => $cultures,
+                'total' => $total,
+                'navs' => ["Parcelles" => "parcelles"]
+            ));
+        } else {
+            return $this->render('Default/parcelles.html.twig', array(
+                'ilots' => $ilots2,
+                'campagnes' => $this->campagnes,
+                'campagne_id' => $campagne->id,
+                'parcelles' => $parcelles,
+                'cultures' => $cultures,
+                'total' => $total,
+                'navs' => ["Parcelles" => "parcelles"]
+            ));
+        }
+    }
+
+    /**
+     * @Route("parcelles", name="parcelles")
+     */
+    public function parcellesAction(Request $request)
+    {
+        return $this->getParcelles($request, false);
+        
+    }
+
+    /**
+     * @Route("parcelles_t", name="parcelles")
+     */
+    public function parcellesTAction(Request $request)
+    {
+        return $this->getParcelles($request, true);
     }
 
     /**
