@@ -77,7 +77,7 @@ class ExportBddCommand extends Command
         $db = getenv('DATABASE_NAME');
         $user = getenv('DATABASE_USER');
         $password = getenv('DATABASE_PASSWORD');
-        $command = "mysqldump -u $user --password=$password --host=$host --port=$port --opt $db > $backupSqlFile";
+        $command = "mysqldump -u $user --password=$password --host=$host --port=$port --opt $db --max_allowed_packet=512M > $backupSqlFile";
         $process= new Process($command);
         $process->run();
         if (!$process->isSuccessful()) {
