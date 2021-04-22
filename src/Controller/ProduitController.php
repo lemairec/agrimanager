@@ -199,6 +199,27 @@ class ProduitController extends CommonController
     }
 
     /**
+     * @Route("/stocks2", name="stocks2")
+     */
+    public function stocks2Action(Request $request)
+    {
+        $campagne = $this->getCurrentCampagne($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $produits = $em->getRepository('App:Produit')->getAllForCompanyStock($this->company);
+        $sum = 0;
+        foreach ($produits as $p) {
+            $sum += $p->quantity * $p->price;
+        }
+
+        return $this->render('Default/produits2.html.twig', array(
+            'produits' => $produits,
+            'totalPrice' => $sum,
+            'navs' => ["Produits" => "produits", "Stocks" => "stocks"]
+        ));
+    }
+
+    /**
      * @Route("/produit_campagnes", name = "produit_campagnes")
      */
     public function produitCampagneAction(Request $request)
