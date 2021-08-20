@@ -44,3 +44,12 @@ DROP TABLE ephy_phrase_risque;
 DROP TABLE ephy_commercial_name;
 DROP TABLE ephy_usage;
 DROP TABLE ephy_produit;
+
+
+
+
+ssh maplainemk@ssh.cluster023.hosting.ovh.net
+cd maplaine; php bin/console export_bdd
+exit
+
+rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/dump_maplaine.zip ~/workspace/dump

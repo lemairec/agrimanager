@@ -48,8 +48,10 @@ class ExportBddCommand extends Command
         $path = $this->projectDir."/temp/dump";
 
         
+        $output->writeln("begin");
 
         //remove old
+        $output->writeln("remove");
         $command = "rm -rf $path";
         $process= new Process($command);
         $process->run();
@@ -60,6 +62,7 @@ class ExportBddCommand extends Command
 
 
         //remove old
+        $output->writeln("mkdir");
         $command = "mkdir -p $path";
         $process= new Process($command);
         $process->run();
@@ -71,6 +74,7 @@ class ExportBddCommand extends Command
 
 
         //backup
+        $output->writeln("sql");
         $backupSqlFile = "$path/backup.sql";
         $host = getenv('DATABASE_HOST');
         $port = getenv('DATABASE_PORT');
@@ -87,10 +91,12 @@ class ExportBddCommand extends Command
         #$output->writeln($backupSqlFile);
         $output->writeln('sql ok');
 
+        $output->writeln("create zip");
         $zip = new \ZipArchive();
         $zipName = "$path/dump_maplaine.zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
 
+        $output->writeln("documents");
         foreach ($this->em->getRepository('App:Document')->findAll() as $f) {
             $file = $f->getDocName();
             if($file){
@@ -100,6 +106,7 @@ class ExportBddCommand extends Command
             }
         }
 
+        $output->writeln("factures");
         $zip->addEmptyDir("factures");
         foreach ($this->em->getRepository('App:Gestion\FactureFournisseur')->findAll() as $f) {
             $file = $f->getFactureFileName();

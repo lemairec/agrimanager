@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dumps=~/Downloads/dump_*
+dumps=~/workspace/dump/*
 
 arrays=($(ls -d $dumps))
 arraylength=${#arrays[@]}
@@ -33,4 +33,4 @@ mv $agrimanager/public/uploads/documents/factures/* $agrimanager/public/uploads/
 
 $agrimanager/bin/console doctrine:database:drop --force;
 $agrimanager/bin/console doctrine:database:create;
-mysql --host localhost --user root --password=root maplaine < database.sql
+docker exec -i mariadb mysql -uroot -pzeouane education < database.sql
