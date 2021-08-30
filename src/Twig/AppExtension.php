@@ -2,7 +2,13 @@
 
 // src/App/Twig/AppExtension.php
 namespace App\Twig;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+
+class AppExtension extends AbstractExtension
+{
     /**
      * @var TokenStorage
      */
@@ -12,15 +18,10 @@ namespace App\Twig;
     /**
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage    $tokenStorage
      */
-    public function __construct(TokenStorageInterface $tokenStorage, ContainerInterface $container)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
-        $this->container = $container;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-
-class AppExtension extends AbstractExtension
-{
+    }
 
     public function getFilters()
     {
