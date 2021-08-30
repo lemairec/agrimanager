@@ -19,12 +19,65 @@ class TemperatureRepository extends ServiceEntityRepository
         parent::__construct($registry, Temperature::class);
     }
 
+    function roundTo15Min(\DateTime $dt, $precision = 15) {
+        $s = $precision * 60;
+        $dt->setTimestamp($s * (int) floor($dt->getTimestamp() / $s));
+        return $dt;
+    }
+
     function getAllForBalise($balise){
+        for($i = 0; $i<200; ++$i){
+            $res = $this->createQueryBuilder('p')
+                ->where('p.balise = :balise')
+                ->andWhere('p.rounded_datetime is NULL')
+                ->orderBy('p.datetime', 'ASC')
+                ->setParameter('balise', $balise)
+                ->getQuery()->getResult();
+            if(count($res) > 1){
+                $this->addTemperature($res[0]);
+            }
+        }
+
         return $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
             ->orderBy('p.datetime', 'DESC')
             ->setParameter('balise', $balise)
             ->getQuery()->getResult();
+    }
+
+    function addTemperature($t){
+        $em = $this->getEntityManager();
+        
+        $rounded_datetime = new \DateTime($t->datetime->format("Y-m-d H:i:s"));
+        $rounded_datetime = $this->roundTo15Min($rounded_datetime);
+        $t->rounded_datetime = $rounded_datetime;
+        $olds = $this->createQueryBuilder('p')
+            ->where('p.balise = :balise')
+            ->andWhere('p.rounded_datetime = :rounded_datetime')
+            ->setParameter('balise', $t->balise)
+            ->setParameter('rounded_datetime', $rounded_datetime)
+            ->getQuery()->getResult();
+        $old = NULL;
+        if(count($olds)>0){
+            $old = $olds[0];
+        }
+        if($old == NULL){
+            $em->persist($t);
+            $em->flush();
+        } else {
+            $old_t = $old->datetime->getTimestamp()-$old->rounded_datetime->getTimestamp();
+            $temp_t = $t->datetime->getTimestamp()-$t->rounded_datetime->getTimestamp();
+            if($temp_t < $old_t){
+                $em->remove($old);
+                //print("delete ".$old->id);
+                $em->persist($t);
+            } else {
+                $em->remove($t);
+                //print("delete ".$t->id);
+            }
+            $em->flush();
+        }
+
     }
 
     // /**
