@@ -72,7 +72,9 @@ class TemperatureRepository extends ServiceEntityRepository
                 //print("delete ".$old->id);
                 $em->persist($t);
             } else {
-                $em->remove($t);
+                if($t->id){
+                    $em->remove($t);
+                }
                 //print("delete ".$t->id);
             }
             $em->flush();

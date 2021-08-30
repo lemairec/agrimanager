@@ -40,8 +40,7 @@ class SiloController extends CommonController
         $temperature->balise = $balise;
         $temperature->datetime = new DateTime();
 
-        $em->persist($temperature);
-        $em->flush();
+        $em->getRepository('App:Silo\Temperature')->addTemperature($temperature);
         
         
         return new Response("ok");
