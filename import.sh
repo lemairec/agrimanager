@@ -33,4 +33,4 @@ mv $agrimanager/public/uploads/documents/factures/* $agrimanager/public/uploads/
 
 $agrimanager/bin/console doctrine:database:drop --force;
 $agrimanager/bin/console doctrine:database:create;
-docker exec -i mariadb mysql -uroot -pzeouane education < database.sql
+docker exec -i mariadb mysql -uroot -pzeouane maplaine < database.sql
