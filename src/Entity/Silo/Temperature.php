@@ -25,6 +25,9 @@ class Temperature
     /** @ORM\Column(type="datetime") **/
     public $datetime;
 
+    /** @ORM\Column(type="datetime", nullable=true) **/
+    public $rounded_datetime;
+
     /** @ORM\Column(type="float") **/
     public $temp;
 }
