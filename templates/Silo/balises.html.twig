@@ -22,7 +22,7 @@
                         {{balise.name}}
                     </div>
                     <div class="col-md-2">
-                        {{balise.last_update }}
+                        {{balise.last_update | showDatetime }}
                     </div>
                     <div class="col-md-2">
                         {{balise.last_temp | showUnity("°") }}
