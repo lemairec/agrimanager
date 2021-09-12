@@ -30,4 +30,10 @@ class Temperature
 
     /** @ORM\Column(type="float") **/
     public $temp;
+
+    /** @ORM\Column(type="float", nullable = true) **/
+    public $temp2;
+
+    /** @ORM\Column(type="float", nullable = true) **/
+    public $temp3;
 }

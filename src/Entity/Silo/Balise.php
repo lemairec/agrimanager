@@ -30,4 +30,16 @@ class Balise
      * @ORM\JoinColumn(nullable=false)
      */
     public $company;
+
+    /** @ORM\Column(type="datetime") **/
+    public $last_update;
+
+    /** @ORM\Column(type="float", nullable=true) **/
+    public $last_temp;
+
+    /** @ORM\Column(type="float", nullable=true) **/
+    public $last_temp2;
+
+    /** @ORM\Column(type="float", nullable=true) **/
+    public $last_temp3;
 }

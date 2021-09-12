@@ -18,10 +18,20 @@
                 </div>
 
                 <div class="row" style="min-height: 1.5rem;">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         {{balise.name}}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-2">
+                        {{balise.last_update | showDatetime }}
+                    </div>
+                    <div class="col-md-2">
+                        {{balise.last_temp | showUnity("°") }}
+                    </div>
+                    <div class="col-md-2">
+                        {{balise.last_temp2 | showUnity("°") }}
+                    </div>
+                    <div class="col-md-2">
+                        {{balise.last_temp 3| showUnity("°") }}
                     </div>
                 </div>
 

@@ -19,8 +19,14 @@ class TemperatureRepository extends ServiceEntityRepository
         parent::__construct($registry, Temperature::class);
     }
 
-    function roundTo15Min(\DateTime $dt, $precision = 15) {
-        $s = $precision * 60;
+    function roundTo15Min(\DateTime $dt) {
+        $s = 15 * 60;
+        $dt->setTimestamp($s * (int) floor($dt->getTimestamp() / $s));
+        return $dt;
+    }
+
+    function roundTo60Min(\DateTime $dt) {
+        $s = 15 * 60;
         $dt->setTimestamp($s * (int) floor($dt->getTimestamp() / $s));
         return $dt;
     }
@@ -49,7 +55,7 @@ class TemperatureRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         
         $rounded_datetime = new \DateTime($t->datetime->format("Y-m-d H:i:s"));
-        $rounded_datetime = $this->roundTo15Min($rounded_datetime);
+        $rounded_datetime = $this->roundTo60Min($rounded_datetime);
         $t->rounded_datetime = $rounded_datetime;
         $olds = $this->createQueryBuilder('p')
             ->where('p.balise = :balise')

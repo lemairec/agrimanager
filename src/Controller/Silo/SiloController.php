@@ -26,6 +26,8 @@ class SiloController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $temp = $request->query->get("temp");
+        $temp2 = $request->query->get("temp2");
+        $temp3 = $request->query->get("temp3");
         $balise = $request->query->get("balise");
         $company = $request->query->get("company");
 
@@ -37,11 +39,20 @@ class SiloController extends CommonController
         $balise = $em->getRepository("App:Silo\Balise")->getOrCreate($company, $balise);
         $temperature = new Temperature();
         $temperature->temp = $temp;
+        $temperature->temp2 = $temp2;
+        $temperature->temp3 = $temp3;
         $temperature->balise = $balise;
         $temperature->datetime = new DateTime();
 
         $em->getRepository('App:Silo\Temperature')->addTemperature($temperature);
         
+        $balise->last_update = new DateTime();
+        $balise->last_temp = $temp;
+        $balise->last_temp2 = $temp2;
+        $balise->last_temp3 = $temp3;
+
+        $em->persist($balise);
+        $em->flush();
         
         return new Response("ok");
     }
