@@ -7,7 +7,7 @@ use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiRobotControlleurController extends AbstractController
+class ApiRobotControlleurController extends CommonController
 {
     /**
      * @Route("/robot/api/get_order", name="robot_api")
