@@ -7,6 +7,9 @@ use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Entity\Robot\Robot;
+
+
 class ApiRobotControlleurController extends CommonController
 {
     /**
@@ -16,7 +19,24 @@ class ApiRobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         
-        $temp = $request->query->get("robot_id");
+        $robot_id = $request->query->get("robot_id");
+
+        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
+        if($robot == NULL){
+            $robot = new Robot();
+            $robot->name = $robot_id;
+            $em->persist($robot);
+            $em->flush();
+        }
+
+        $order = $em->getRepository("App:Robot\Order")->getLastForRobot($robot);
+        if($order){
+            $now = new \DateTime();
+            $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
+            if($diffInSeconds > 0 && $diffInSeconds < 10){
+                return new Response($order->name);
+            }
+        }
         
         return new Response("WAIT");
     }
