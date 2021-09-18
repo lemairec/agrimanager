@@ -2,10 +2,12 @@
 
 // src/App/Twig/AppExtension.php
 namespace App\Twig;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AppExtension extends \Twig_Extension
+
+class AppExtension extends AbstractExtension
 {
     /**
      * @var TokenStorage
@@ -16,29 +18,27 @@ class AppExtension extends \Twig_Extension
     /**
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage    $tokenStorage
      */
-    public function __construct(TokenStorageInterface $tokenStorage, ContainerInterface $container)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
-        $this->container = $container;
-
     }
 
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('showDecimal', array($this, 'showDecimal')),
-            new \Twig_SimpleFilter('showInt', array($this, 'showInt')),
-            new \Twig_SimpleFilter('showUnity', array($this, 'showUnityFilter')),
-            new \Twig_SimpleFilter('showUnityHa', array($this, 'showUnityHaFilter')),
-            new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
-            new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
-            new \Twig_SimpleFilter('showDatetime', array($this, 'showDatetimeFilter')),
-            new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
-            new \Twig_SimpleFilter('showPercent', array($this, 'showPercentFilter')),
-            new \Twig_SimpleFilter('showEur', array($this, 'showEurFilter')),
-            new \Twig_SimpleFilter('showEurUnity', array($this, 'showEurUnityFilter')),
-            new \Twig_SimpleFilter('showIsoDate', array($this, 'showIsoDateFilter')),
-            new \Twig_SimpleFilter('my_path', array($this, 'my_path')),
+            new TwigFilter('showDecimal', array($this, 'showDecimal')),
+            new TwigFilter('showInt', array($this, 'showInt')),
+            new TwigFilter('showUnity', array($this, 'showUnityFilter')),
+            new TwigFilter('showUnityHa', array($this, 'showUnityHaFilter')),
+            new TwigFilter('showLitre', array($this, 'showLitreFilter')),
+            new TwigFilter('showDate', array($this, 'showDateFilter')),
+            new TwigFilter('showDatetime', array($this, 'showDatetimeFilter')),
+            new TwigFilter('showHa', array($this, 'showHaFilter')),
+            new TwigFilter('showPercent', array($this, 'showPercentFilter')),
+            new TwigFilter('showEur', array($this, 'showEurFilter')),
+            new TwigFilter('showEurUnity', array($this, 'showEurUnityFilter')),
+            new TwigFilter('showIsoDate', array($this, 'showIsoDateFilter')),
+            new TwigFilter('my_path', array($this, 'my_path')),
 
 
         );
