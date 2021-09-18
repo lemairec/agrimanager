@@ -31,11 +31,14 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         
-        $robot = $em->getRepository("App:Robot\Robot")->findByName($robot_id);
+        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
         $orders = $em->getRepository("App:Robot\Order")->getLast10ForRobot($robot);
+        $data = json_encode($robot->last_data);
         return $this->render('robot/robot.html.twig', array(
             'robot_id' => $robot_id,
-            'orders' => $orders
+            'orders' => $orders,
+            'robot' => $robot,
+            'robot_data' => $data
         ));
     }
 

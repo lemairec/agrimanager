@@ -1,7 +1,31 @@
 {% extends 'base_agri.html.twig' %}
 
 {% block body %}
-
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>Last_Update</th>
+                <th>
+                    {%if robot.last_update %} {{robot.last_update | showDatetime}} {%endif %}
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>GPS</th>
+                <th>
+                    {%if robot.last_data.gps_type is defined %}{ {robot.last_data.gps_type}} {%endif %}
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {%if robot.last_data.gps_latitude is defined %}{ {robot.last_data.gps_latitude}} {%endif %}
+                </th>
+                <th>
+                    {%if robot.last_data.gps_longitude is defined %}{ {robot.last_data.gps_longitude}} {%endif %}
+                </th>
+            </tr>
+        </table>
+    </div>
 
     <div class="card">
         <div class="card-header">
@@ -47,6 +71,12 @@
 
     <div class="card">
         <div class="card-header">
+            {{ robot_data }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
             Ordres
         </div>
             <table class="table">
@@ -58,7 +88,7 @@
                 <tr>
                     <td>{{order.id}}</td>
                     <td>{{order.name }}</td>
-                    <td>{{order.d_create | showDatetime}}</td>
+                    <td>{{order.d_create | showDate}}</td>
                 </tr>
             {% endfor %}
         </table>

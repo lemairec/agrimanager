@@ -25,7 +25,7 @@ class Robot
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    public $data = [];
+    public $last_data = [];
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
