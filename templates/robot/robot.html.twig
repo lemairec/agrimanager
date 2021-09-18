@@ -13,15 +13,15 @@
             <tr>
                 <th>GPS</th>
                 <th>
-                    {%if robot.last_data.gps_type is defined %}{ {robot.last_data.gps_type}} {%endif %}
+                    {%if robot.last_data.gps_type is defined %} {{robot.last_data.gps_type}} {%endif %}
                 </th>
             </tr>
             <tr>
                 <th>
-                    {%if robot.last_data.gps_latitude is defined %}{ {robot.last_data.gps_latitude}} {%endif %}
+                    {%if robot.last_data.gps_latitude is defined %} {{robot.last_data.gps_latitude}} {%endif %}
                 </th>
                 <th>
-                    {%if robot.last_data.gps_longitude is defined %}{ {robot.last_data.gps_longitude}} {%endif %}
+                    {%if robot.last_data.gps_longitude is defined %} {{robot.last_data.gps_longitude}} {%endif %}
                 </th>
             </tr>
         </table>
