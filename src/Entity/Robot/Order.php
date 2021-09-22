@@ -38,4 +38,10 @@ class Order
      * @ORM\JoinColumn(nullable=false)
      */
     public $robot;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    public $params;
+    
 }

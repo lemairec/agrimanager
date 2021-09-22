@@ -56,6 +56,7 @@ class RobotControlleurController extends CommonController
         $order->robot = $robot;
         $order->name = $order_label;
         $order->d_create = new \DateTime();
+        $order->params = $request->query->all();
 
         $em->persist($order);
         $em->flush();

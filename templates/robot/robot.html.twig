@@ -72,11 +72,17 @@
                 <th></th>
             </tr>
             <tr>
-                <th></th>
+                <th>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
+                    , 'a_lat': '49.3336', 'a_lon': '4.2294', 'b_lat': '49.3333', 'b_lon': '4.22991'}) }}'">LINEAB Canon</button>
+                </th>
                 <th>
                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'}) }}'">LINEAB</button>
                 </th>
-                <th></th>
+                <th>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
+                    , 'a_lat': '49.6267', 'a_lon': '4.02223', 'b_lat': '49.6267', 'b_lon': '4.02211'}) }}'">LINEAB Maison</button>
+                </th>
             </tr>
         </table>
     </div>
@@ -101,6 +107,7 @@
                     <td>{{order.id}}</td>
                     <td>{{order.name }}</td>
                     <td>{{order.d_create | showDate}}</td>
+                    <td>{{order.params |json_encode()}}</td>
                 </tr>
             {% endfor %}
         </table>

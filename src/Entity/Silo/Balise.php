@@ -31,7 +31,7 @@ class Balise
      */
     public $company;
 
-    /** @ORM\Column(type="datetime") **/
+    /** @ORM\Column(type="datetime", nullable=true) **/
     public $last_update;
 
     /** @ORM\Column(type="float", nullable=true) **/
