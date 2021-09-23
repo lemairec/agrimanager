@@ -11,25 +11,35 @@
 <script>
     console.log("otot");
     window.addEventListener( "load", function( event ) {    
-        var map = L.map( 'map' /* the id of the tag used for map injection */ );
+        var map = L.map( 'map');
 
-        var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
-        measureControl.addTo(map);
+        /*var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
+        measureControl.addTo(map);*/
 
-        map.setView( [{{lat}},  {{long}} /*longitude*/], 18 /*zoom*/ );
+        map.setView( [{{lat}},  {{lng}} /*longitude*/], 18 /*zoom*/ );
 
         // --- We add a layer based on OpenStreetMap ---
-        L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
-
+        L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.example.com/">Example</a>',
+            maxNativeZoom:19,
+            maxZoom:35
+        }).addTo(map);   // Base Map
+        L.marker([{{lat}}, {{lng}}]).addTo(map);
 
         var latlngs = [
             [
             {% for point in points %}
-                [{{point["lat"]}},{{point["long"]}}],
+                [{{point["lat"]}},{{point["lng"]}}],
             {% endfor %}
             ]
         ];
 
+        var polyline = new L.Polyline(latlngs).addTo(map);
+
+        map.on('click', function(event) {
+            polyline.addLatLng(event.latlng);
+            $("#job_params_json").val(JSON.stringify(polyline._latlngs));
+        });
         L.polyline(latlngs).addTo(map);
 
 

@@ -32,6 +32,8 @@ class Robot
      */
     public $last_update;
 
+    public $is_connected = true;
+    
     public function __toString ( ){
         return $this->name;
     }

@@ -14,7 +14,7 @@
         {% for robot in robots %}
             <tr>
                 <td><a href="/robot/{{robot.name}}">{{robot.name}}</a></td>
-                <td></td>
+                <td><span class="badge {%if robot.is_connected %}badge-success{%else%}badge-danger{%endif%}">{{ robot.last_update | showDatetime }}</span></td>
             </tr>
         {% endfor %}
     </table>

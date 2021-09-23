@@ -17,10 +17,10 @@
             </tr>
             <tr>
                 <th>
-                    {%if robot.last_data.gps_latitude is defined %} {{robot.last_data.gps_latitude}} {%endif %}
+                    {%if robot.last_data.lat is defined %} {{robot.last_data.lat}} {%endif %}
                 </th>
                 <th>
-                    {%if robot.last_data.gps_longitude is defined %} {{robot.last_data.gps_longitude}} {%endif %}
+                    {%if robot.last_data.lng is defined %} {{robot.last_data.lng}} {%endif %}
                 </th>
             </tr>
         </table>
@@ -102,6 +102,29 @@
     </div>
 
     <div class="card">
+        <div class="card-header">
+            Job
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/robot_job/0?robot_id={{robot_id}}'">Ajouter</button>    
+            
+        </div>
+        <table class="table" id="table">
+            <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Reste</th>
+            </tr>
+            {% for job in jobs %}
+                <tr>
+                    <td><a href="/robot_job/{{job.id}}">{{job.name}}</a></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <div class="card">
         <div id="map" style="position: relative;height: 600px;"></div>
     </div>
 
@@ -149,7 +172,7 @@
         /*var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
         measureControl.addTo(map);*/
 
-        map.setView( [{{lat}},  {{lon}} /*longitude*/], 18 /*zoom*/ );
+        map.setView( [{{lat}},  {{lng}} /*longitude*/], 18 /*zoom*/ );
 
         // --- We add a layer based on OpenStreetMap ---
         L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -157,21 +180,28 @@
             maxNativeZoom:19,
             maxZoom:35
         }).addTo(map);   // Base Map
-        L.marker([{{lat}}, {{lon}}]).addTo(map);
+        L.marker([{{lat}}, {{lng}}]).addTo(map);
 
         var latlngs = [
             [
             {% for point in points %}
-                [{{point["lat"]}},{{point["lon"]}}],
+                [{{point["lat"]}},{{point["lng"]}}],
             {% endfor %}
             ]
         ];
 
+        var polyline = new L.Polyline([]).addTo(map);
+
+        map.on('click', function(event) {
+
+            new L.Marker(event.latlng).addTo(map);
+
+            polyline.addLatLng(event.latlng);
+        
+        });
         L.polyline(latlngs).addTo(map);
 
-        map.on('click', function(e){
-            var marker = new L.marker(e.latlng).addTo(map);
-        });
+        
 
     });
 </script> 

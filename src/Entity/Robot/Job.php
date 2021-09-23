@@ -23,9 +23,9 @@ class Job
     public $name;
 
      /**
-     * @ORM\Column(type="type", length=255)
+     * @ORM\Column(type="string", length=255)
      */
-    public $type;
+    public $job_type;
 
     /**
      * @ORM\Column(type="json")
