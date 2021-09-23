@@ -34,11 +34,20 @@ class RobotControlleurController extends CommonController
         $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
         $orders = $em->getRepository("App:Robot\Order")->getLast10ForRobot($robot);
         $data = json_encode($robot->last_data);
+        $lat = 0;
+        $lon = 0;
+        if(array_key_exists("gps_latitude", $robot->last_data)){
+            $lat = $robot->last_data["gps_latitude"];
+            $lon = $robot->last_data["gps_longitude"];
+        };
         return $this->render('robot/robot.html.twig', array(
             'robot_id' => $robot_id,
             'orders' => $orders,
             'robot' => $robot,
-            'robot_data' => $data
+            'robot_data' => $data,
+            'lat' => $lat,
+            'lon' => $lon,
+            'points' => []
         ));
     }
 
