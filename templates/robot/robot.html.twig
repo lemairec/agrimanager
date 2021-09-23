@@ -150,16 +150,16 @@
     var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
     measureControl.addTo(map);
 
-    map.setView( [{{lat}},  {{long}} /*longitude*/], 18 /*zoom*/ );
+    map.setView( [{{lat}},  {{lon}} /*longitude*/], 18 /*zoom*/ );
 
     // --- We add a layer based on OpenStreetMap ---
     L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
-
+    L.marker([{{lat}}, {{lon}}]).addTo(map);
 
     var latlngs = [
         [
         {% for point in points %}
-            [{{point["lat"]}},{{point["long"]}}],
+            [{{point["lat"]}},{{point["lon"]}}],
         {% endfor %}
         ]
     ];
