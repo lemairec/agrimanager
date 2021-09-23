@@ -11,26 +11,26 @@
 <script>
     console.log("otot");
     window.addEventListener( "load", function( event ) {    
-    var map = L.map( 'map' /* the id of the tag used for map injection */ );
+        var map = L.map( 'map' /* the id of the tag used for map injection */ );
 
-    var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
-    measureControl.addTo(map);
+        var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
+        measureControl.addTo(map);
 
-    map.setView( [{{lat}},  {{long}} /*longitude*/], 18 /*zoom*/ );
+        map.setView( [{{lat}},  {{long}} /*longitude*/], 18 /*zoom*/ );
 
-    // --- We add a layer based on OpenStreetMap ---
-    L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
+        // --- We add a layer based on OpenStreetMap ---
+        L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
 
 
-    var latlngs = [
-        [
-        {% for point in points %}
-            [{{point["lat"]}},{{point["long"]}}],
-        {% endfor %}
-        ]
-    ];
+        var latlngs = [
+            [
+            {% for point in points %}
+                [{{point["lat"]}},{{point["long"]}}],
+            {% endfor %}
+            ]
+        ];
 
-    L.polyline(latlngs).addTo(map);
+        L.polyline(latlngs).addTo(map);
 
 
     });
