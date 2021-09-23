@@ -144,10 +144,10 @@
   <script>
     console.log("otot");
     window.addEventListener( "load", function( event ) {    
-    var map = L.map( 'map' /* the id of the tag used for map injection */ );
+    var map = L.map( 'map');
 
-    var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
-    measureControl.addTo(map);
+    /*var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
+    measureControl.addTo(map);*/
 
     map.setView( [{{lat}},  {{lon}} /*longitude*/], 18 /*zoom*/ );
 
@@ -169,6 +169,9 @@
 
     L.polyline(latlngs).addTo(map);
 
+    map.on('click', function(e){
+        var marker = new L.marker(e.latlng).addTo(map);
+    });
 
     });
     </script>  

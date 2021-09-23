@@ -31,4 +31,8 @@ class Robot
      * @ORM\Column(type="datetime", nullable=true)
      */
     public $last_update;
+
+    public function __toString ( ){
+        return $this->name;
+    }
 }

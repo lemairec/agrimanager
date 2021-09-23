@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Entity\Robot\Order;
+use App\Entity\Robot\Job;
+use App\Form\Robot\JobType;
 use DateTime;
 
 class RobotControlleurController extends CommonController
@@ -70,6 +72,58 @@ class RobotControlleurController extends CommonController
         $em->persist($order);
         $em->flush();
         return $this->redirectToRoute('robot', array('robot_id' => $robot_id));
+    }
+
+    /**
+     * @Route("/robot_job/{id}", name="robot")
+     **/
+    public function jobAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot_job = new Job();
+        
+        $lat = 0;
+        $lon = 0;
+        $points = [];
+
+        $robot_id = $request->query->get("robot_id");
+        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
+        if(array_key_exists("gps_latitude", $robot->last_data)){
+            $lat = $robot->last_data["gps_latitude"];
+            $lon = $robot->last_data["gps_longitude"];
+        };
+
+        
+        /*$tab =  explode ("\n",  $job_gps->job);
+        foreach($tab as $t){
+            $res = explode(",", $t);
+            if(count($res)>2){
+                $lat = $res[1];
+                $long = $res[2];
+                $points[] = ["lat"=>$res[1], "long"=>$res[2]];
+            }
+        }*/
+        
+        //dump($tab);
+        //dump($lat);
+
+        $form = $this->createForm(JobType::class, $robot_job);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($robot_job);
+            $em->flush();
+            return $this->redirectToRoute('robots');
+        }
+
+        return $this->render('robot/robot_job.html.twig', array(
+            'form' => $form->createView(),
+            'lat' => $lat,
+            'long' => $lon,
+            'points' => $points
+        ));
     }
 
 }

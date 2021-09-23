@@ -1,0 +1,49 @@
+{% extends 'base_form.html.twig' %}
+
+
+{% block javascripts %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />   
+        
+    <!-- On charge le code JavaScript de la librairie leaflet -->
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script src="/js/leaflet-measure.js"></script>
+
+  <script>
+    console.log("otot");
+    window.addEventListener( "load", function( event ) {    
+    var map = L.map( 'map' /* the id of the tag used for map injection */ );
+
+    var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
+    measureControl.addTo(map);
+
+    map.setView( [{{lat}},  {{long}} /*longitude*/], 18 /*zoom*/ );
+
+    // --- We add a layer based on OpenStreetMap ---
+    L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
+
+
+    var latlngs = [
+        [
+        {% for point in points %}
+            [{{point["lat"]}},{{point["long"]}}],
+        {% endfor %}
+        ]
+    ];
+
+    L.polyline(latlngs).addTo(map);
+
+
+    });
+    </script>  
+{% endblock %}
+
+{% block body_form %}
+
+<div class="card">
+    <div id="map" style="position: relative;height: 600px;"></div>
+    
+       
+
+</div>
+   
+{% endblock %}
