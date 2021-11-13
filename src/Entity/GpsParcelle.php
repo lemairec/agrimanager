@@ -20,7 +20,7 @@ class GpsParcelle
     /**
      * @ORM\Column(type="datetime")
      */
-    public $dateUpdate;
+    public $datetime;
 
     /**
      * @ORM\Column(type="float")
@@ -28,25 +28,24 @@ class GpsParcelle
     public $surface;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    public $parcelle = "";
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user_email", type="string", length=255,nullable=true)
-     */
-    public $userEmail;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public $user;
-
-    /**
      * @ORM\Column(type="boolean")
      */
-    public $deleted = false;
+    public $active;
+
+    /** @ORM\Column(type="string", length=255) **/
+    public $name = "";
+    
+    /** @ORM\Column(type="string", length=255) **/
+    public $status = "";
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $company;
+
+     /**
+     * @ORM\Column(type="json")
+     */
+    public $data = [];
 }

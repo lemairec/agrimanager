@@ -36,15 +36,41 @@ class GpsParcelleRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?GpsParcelle
+    
+    public function getActiveByNameCompany($name, $company)
     {
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('g.name = :name')
+            ->andWhere('g.active = true')
+            ->andWhere('g.company = :company')
+            ->setParameter('company', $company)
+            ->setParameter('name', $name)
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
+    public function getAllByNameCompany($name, $company)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.name = :name')
+            ->setParameter('name', $name)
+            ->andWhere('g.company = :company')
+            ->setParameter('company', $company)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getAllByCompany($company)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.active = true')
+            ->andWhere('g.company = :company')
+            ->setParameter('company', $company)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

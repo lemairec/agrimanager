@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use DateTime;
 use App\Entity\JobGps;
+use App\Entity\GpsParcelle;
 use App\Form\JobGpsType;
 
 class JobGpsController extends CommonController
@@ -164,7 +165,8 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $data = $request->request->all();
-
+        
+        
 
 
         $jobGps = new JobGps();
@@ -188,14 +190,144 @@ class JobGpsController extends CommonController
 
         return new JsonResponse("ok");
     }
+
+    /**
+     * @Route("/gps_parcelles", name="gps_parcelles")
+     */
+    public function parcellesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $company_id = $this->getCurrentCompanyId($request);
+        $company = $em->getRepository("App:Company")->find($company_id);
+        
+        $parcelles_p = $em->getRepository("App:GpsParcelle")->getAllByCompany($company);
+        
+        return $this->render('Default/gps_parcelles.html.twig', array(
+            'parcelles' => $parcelles_p
+        ));
+    }
+
+    /**
+     * @Route("/gps_parcelle/{parcelle_name}", name="gps_parcelle")
+     */
+    public function parcelleAction($parcelle_name, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $company_id = $this->getCurrentCompanyId($request);
+        $company = $em->getRepository("App:Company")->find($company_id);
+        
+        $parc = $em->getRepository("App:GpsParcelle")->getActiveByNameCompany($parcelle_name, $company);
+        $contour = $parc->data["contour"];
+        $lat = $contour[0]["lat"];
+        $lon = $contour[0]["lon"];
+
+        $contour[] = $contour[0];
+
+        /*$tab =  explode ("\n",  $job_gps->job);
+        $points = [];
+        foreach($tab as $t){
+            $res = explode(",", $t);
+            if(count($res)>2){
+                $lat = $res[1];
+                $long = $res[2];
+                $points[] = ["lat"=>$res[1], "long"=>$res[2]];
+            }
+        }*/
+
+        return $this->render('Default/gps_parcelle.html.twig', array(
+            'parcelle' => $parc,
+            'lat' => $lat,
+            'lon' => $lon,
+            'contour' => $contour
+        ));
+    }
     
     /**
-     * @Route("/api/parcelles_gps")
+     * @Route("/api/autosteer/parcelles")
      */
     public function parcellesGpsApiAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $company = $request->query->get("company");
+        $company = $em->getRepository("App:Company")->findOneByName($company);
+        if($company == null){
+            throw new Exception("not found Company");
+        }
+        
+        $parcelles_p = $em->getRepository("App:GpsParcelle")->getAllByCompany($company);
         $parcelles = [];
-        $parcelles[] = ["name"=>"TOTO", "datetime"=>"2020-11-26T20:22:53"];
+        foreach($parcelles_p as $p){
+            if($p->name){
+                $parcelles[] = ["name"=> $p->name, "datetime"=>$p->datetime->format('Y-m-d H:i:s')];
+            }
+        }
+         
         return new JsonResponse($parcelles);
+    }
+
+    public function returnParcelle($em, $name, $company){
+        $parc = $em->getRepository("App:GpsParcelle")->getActiveByNameCompany($name, $company);
+        $parc_d = json_decode(json_encode($parc->data));
+        
+        $json = ["name"=> $parc->name, "status"=>$parc->status, "datetime"=>$parc->datetime->format('Y-m-d H:i:s')
+            , "contour"=>$parc_d->contour, "flag"=>$parc_d->flag, "surface"=>$parc_d->surface];
+        return new JsonResponse($json);
+    }
+
+    /**
+     * @Route("/api/autosteer/parcelle/{name}")
+     */
+    public function parcelleGpsApiAction($name, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $company = $request->query->get("company");
+        $company = $em->getRepository("App:Company")->findOneByName($company);
+        if($company == null){
+            throw new Exception("not found Company");
+        }
+        
+        return $this->returnParcelle($em, $name, $company);
+    }
+
+    /**
+     * @Route("/api/autosteer/parcelle")
+     */
+    public function parcelleGpsApiAction2(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = json_decode($request->request->get("parcelle"));
+        $name = $data->name;
+        $company = $request->query->get("company");
+        $company = $em->getRepository("App:Company")->findOneByName($company);
+        if($company == null){
+            throw new Exception("not found Company");
+        }
+
+        $parcelles_p = $em->getRepository("App:GpsParcelle")->getAllByNameCompany($data->name, $company);
+        foreach($parcelles_p as $p3){
+            $p3->active = false;
+            $em->persist($p3);
+            $em->flush();
+        }
+        
+
+        $p2 = new GpsParcelle();
+        $p2->surface = $data->surface;
+        $p2->datetime = new DateTime();
+        $p2->data = $data;
+        $p2->name = $data->name;
+        $p2->status = "ok";
+        $p2->active = true;
+        $p2->company = $company;
+        
+        $em->persist($p2);
+        $em->flush();
+
+        return $this->returnParcelle($em, $name, $company);
     }
 }
