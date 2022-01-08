@@ -533,7 +533,7 @@ class GestionController extends CommonController
         }
 
         //dump($ecritures_by_campagne_by_tag);
-        rsort($ecritures_by_campagne_by_tag);
+        sort($ecritures_by_campagne_by_tag);
         return $this->render('Gestion/compte_by_tag.html.twig', array(
             'res' => $ecritures_by_campagne_by_tag,
             'compte' => $compte
