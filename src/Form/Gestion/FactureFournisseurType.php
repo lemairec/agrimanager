@@ -20,6 +20,7 @@ class FactureFournisseurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
+        $builder->add('tag');
         $builder->add('date', DateType::class, array(
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',

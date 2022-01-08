@@ -46,6 +46,13 @@ class FactureFournisseur
     public $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tag", type="string", length=255, nullable=true)
+     */
+    public $tag;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date")
@@ -158,6 +165,15 @@ class FactureFournisseur
     public function getFactureFile(): ?File
     {
         return $this->factureFile;
+    }
+
+    public function getCompleteName(): ?string
+    {
+        if($this->tag){
+            return $this->name." - ".$this->tag;
+        } else {
+            return $this->name;
+        }
     }
 
     public function setFactureFileName(?string $factureFileName): void

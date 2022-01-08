@@ -7,13 +7,16 @@
         {{ form_start(form) }}
         {{ form_row(form.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
         {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.tag, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.campagne, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.montantHT, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.montantTTC, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.banque, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.compte, {'attr': {'class': 'form-control'}}) }}
-
+        {{ form_row(form.paiementDate, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.paiementOrder, {'attr': {'class': 'form-control'}}) }}
+        
         {% if (facture.factureFileName != '') %}
             <div class="form-group row">
                 <div class="col-sm-10">
