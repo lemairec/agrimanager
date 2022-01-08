@@ -53,3 +53,4 @@ cd maplaine; php bin/console export_bdd
 exit
 
 rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/dump_maplaine.zip ~/workspace/dump
+sh ~/workspace/agrimanager/import.sh

@@ -499,6 +499,48 @@ class GestionController extends CommonController
     }
 
     /**
+     * @Route("/compte/{compte_id}/by_tag", name="compte_by_tag")
+     **/
+    public function compteTagAction($compte_id, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+
+        $operations = [];
+        $ecritures_by_campagne_by_tag = [];
+        $ecritures = [];
+        $ecritures_futures = [];
+        if($compte_id == '0'){
+            return;
+        } else {
+            $compte = $em->getRepository('App:Gestion\Compte')->findOneById($compte_id);
+            $factures = $em->getRepository('App:Gestion\FactureFournisseur')->findByCompte($compte);
+            $value = 0;
+            foreach($factures as $f){
+                $campagne = "";
+                if($f->campagne){
+                    $campagne = $f->campagne->name;
+                }
+                $str = $campagne." - ".$f->tag;
+                if(!array_key_exists($str, $ecritures_by_campagne_by_tag)){
+                    $ecritures_by_campagne_by_tag[$str] = [ "value" => $str, "sum" => 0, "facture" => []]; 
+                }
+                $ecritures_by_campagne_by_tag[$str]["facture"][] = $f;
+                $ecritures_by_campagne_by_tag[$str]["sum"] += $f->montantHT;
+
+            }
+        }
+
+        dump($ecritures_by_campagne_by_tag);
+        rsort($ecritures_by_campagne_by_tag);
+        return $this->render('Gestion/compte_by_tag.html.twig', array(
+            'res' => $ecritures_by_campagne_by_tag,
+            'compte' => $compte
+        ));
+    }
+
+    /**
      * @Route("/operations", name="operations")
      */
     public function operationsAction(Request $request)
