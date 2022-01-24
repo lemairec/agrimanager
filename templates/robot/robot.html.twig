@@ -70,54 +70,20 @@
                 <th></th>
                 <th></th>
             </tr>
-            <tr>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
-                    , 'a_lat': '49.3336', 'a_lon': '4.2294', 'b_lat': '49.3333', 'b_lon': '4.22991'}) }}'">LINEAB Canon</button>
-                </th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'}) }}'">LINEAB</button>
-                </th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
-                    , 'a_lat': '49.6267', 'a_lon': '4.02223', 'b_lat': '49.6267', 'b_lon': '4.02211'}) }}'">LINEAB Maison</button>
-                </th>
-            </tr>
-
-            <tr>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
-                    , 'a_lat': '49.6266941133', 'a_lon': '4.0220975683', 'b_lat': '49.6267245700', 'b_lon': '4.0220980917 '}) }}'">Line 1</button>
-                </th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
-                    , 'a_lat': '49.6267245700', 'a_lon': '4.0220980917', 'b_lat': '49.6267332717', 'b_lon': '4.0222318717'}) }}'">Line 2</button>
-                </th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'LINEAB'
-                    , 'a_lat': '49.6267332717', 'a_lon': '4.0220980917', 'b_lat': '49.6267083983', 'b_lon': '4.0222350100'}) }}'">Line 3</button>
-                </th>
-            </tr>
         </table>
     </div>
 
     <div class="card">
         <div class="card-header">
-            Job
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/robot_job/0?robot_id={{robot_id}}'">Ajouter</button>    
-            
+            Job    
         </div>
         <table class="table" id="table">
             <tr>
                 <th></th>
-                <th>Date</th>
-                <th>Montant</th>
-                <th>Reste</th>
             </tr>
             {% for job in jobs %}
                 <tr>
-                    <td><a href="/robot_job/{{job.id}}">{{job.name}}</a></td>
-                    <td></td>
+                    <td><a href="/robot_job/{{job.id}}/do_it/{{robot.id}}">{{job.name}}</a></td>
                 </tr>
             {% endfor %}
 

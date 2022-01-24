@@ -31,35 +31,6 @@ class ApiRobotControlleurController extends CommonController
         }
 
         $order = $em->getRepository("App:Robot\Order")->getLastForRobot($robot);
-        if($order){
-            $now = new \DateTime();
-            $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
-            if($diffInSeconds > 0 && $diffInSeconds < 10){
-                return new Response($order->name);
-            }
-        }
-        
-        return new Response("WAIT");
-    }
-
-    /**
-     * @Route("/robot/api/post_order")
-     **/
-    public function post_silo_api(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        
-        $robot_id = $request->request->get('robot_id');
-
-        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
-        if($robot == NULL){
-            $robot = new Robot();
-            $robot->name = $robot_id;
-            $em->persist($robot);
-            $em->flush();
-        }
-
-        $order = $em->getRepository("App:Robot\Order")->getLastForRobot($robot);
         $robot->last_data = $request->request->all();
         $robot->last_update = new \DateTime();
 
@@ -68,12 +39,17 @@ class ApiRobotControlleurController extends CommonController
         if($order){
             $now = new \DateTime();
             $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
-            if($diffInSeconds > 0 && $diffInSeconds < 10){
-                return new Response($order->name);
+            if($diffInSeconds > 0 && $diffInSeconds < 1000){
+                $data = $order->params;
+                if($data == null){
+                    $data = [];
+                }
+                $data["order"] = $order->name;
+                return new JsonResponse($data);
             }
         }
         
-        return new Response("WAIT");
+        return new JsonResponse(["order"=>"WAIT"]);
     }
 
     /**

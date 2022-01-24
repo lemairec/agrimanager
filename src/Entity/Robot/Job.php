@@ -33,10 +33,4 @@ class Job
     public $params = [];
 
     public $params_json = "";
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Robot::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public $robot;
 }

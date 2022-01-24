@@ -43,7 +43,7 @@ class RobotControlleurController extends CommonController
         
         $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_name);
         $orders = $em->getRepository("App:Robot\Order")->getLast10ForRobot($robot);
-        $jobs = $em->getRepository("App:Robot\Job")->findByRobot($robot);
+        $jobs = $em->getRepository("App:Robot\Job")->getTop10();
         $data = json_encode($robot->last_data);
         $lat = 0;
         $lng = 0;
@@ -70,18 +70,41 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
-        print("otot");
         print($robot->id);
         
         $order = new Order();
         $order->robot = $robot;
         $order->name = $order_label;
         $order->d_create = new \DateTime();
-        $order->params = $request->query->all();
+        $order->params = [];
+        //print(json_encode($request->query->all()));
+        foreach($request->query->all() as $k => $v){
+            if($k == "a_lat" || $k == "a_lon" || $k == "b_lat" || $k == "b_lon" ){
+                $order->params[$k] = doubleval($v);
+            } else {
+                $order->params[$k] = $v;
+            }
+        }
+        
+        //print(json_encode($order->params));
 
         $em->persist($order);
         $em->flush();
+        //return new Response("OK");
         return $this->redirectToRoute('robot', array('robot_name' => $robot_id));
+    }
+
+     /**
+     * @Route("/robot_jobs", name="robot_jobs")
+     **/
+    public function robot_jobs(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $robot_jobs = $em->getRepository("App:Robot\Job")->getAll();
+
+        return $this->render('robot/jobs.html.twig', array(
+            'jobs' => $robot_jobs,
+        ));
     }
 
     /**
@@ -95,18 +118,8 @@ class RobotControlleurController extends CommonController
         if($robot_job == null){
             $robot_job = new Job();
             $robot_id = $request->query->get("robot_id");
-            $robot_job->robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id); 
         }
-        $robot = $robot_job->robot;
-        $lat = 0;
-        $lng = 0;
-        $points = $robot_job->params;
-
-        if(array_key_exists("gps_latitude", $robot->last_data)){
-            $lat = $robot->last_data["gps_latitude"];
-            $lng = $robot->last_data["gps_longitude"];
-        };
-       
+        $robot_job->params_json = json_encode($robot_job->params);
         $form = $this->createForm(JobType::class, $robot_job);
         $form->handleRequest($request);
 
@@ -115,15 +128,34 @@ class RobotControlleurController extends CommonController
             $robot_job->params = json_decode($robot_job->params_json);
             $em->persist($robot_job);
             $em->flush();
-            return $this->redirectToRoute('robots');
+            return $this->redirectToRoute('robot_jobs');
         }
 
         return $this->render('robot/robot_job.html.twig', array(
-            'form' => $form->createView(),
-            'lat' => $lat,
-            'lng' => $lng,
-            'points' => $points
+            'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/robot_job/{id}/do_it/{robot_id}", name="robot_job_do_it")
+     **/
+    public function jobDoItAction($id, $robot_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot_job = $em->getRepository("App:Robot\Job")->find($id);
+        $robot = $em->getRepository("App:Robot\Robot")->find($robot_id);
+
+        $order = new Order();
+        $order->robot = $robot;
+        $order->name = $robot_job->name;
+        $order->d_create = new \DateTime();
+        $order->params = $robot_job->params;
+        
+        $em->persist($order);
+        $em->flush();
+        //return new Response("OK");
+        return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
     }
 
      /**

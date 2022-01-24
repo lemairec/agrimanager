@@ -22,19 +22,24 @@ class JobRepository extends ServiceEntityRepository
     // /**
     //  * @return Job[] Returns an array of Job objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function getAll()
     {
         return $this->createQueryBuilder('j')
-            ->andWhere('j.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('j.id', 'ASC')
+            ->orderBy('j.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getTop10()
+    {
+        return $this->createQueryBuilder('j')
+           ->orderBy('j.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Job
