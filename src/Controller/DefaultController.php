@@ -470,7 +470,7 @@ class DefaultController extends CommonController
     }
 
     /**
-     * @Route("parcelles", name="parcelles")
+     * @Route("parcelles", name="parcelles2")
      */
     public function parcellesAction(Request $request)
     {
