@@ -13,7 +13,7 @@ class JobType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('job_type')
+            ->add('type')
             ->add('params_json')
         ;
     }

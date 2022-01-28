@@ -24,6 +24,11 @@ class Order
     public $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $type;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     public $d_create;

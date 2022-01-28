@@ -11,11 +11,12 @@
     <table class="table">
         <tr>
             <th>Nom</th>
-            <th></th>
+            <th>Type</th>
         </tr>
         {% for job in jobs %}
             <tr>
                 <td><a href="/robot_job/{{job.id}}">{{job.name}}</a></td>
+                <td>{{job.type}}</td>
                 
             </tr>
         {% endfor %}

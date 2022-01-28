@@ -22,10 +22,10 @@ class Job
      */
     public $name;
 
-     /**
-     * @ORM\Column(type="string", length=255)
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    public $job_type;
+    public $type;
 
     /**
      * @ORM\Column(type="json")

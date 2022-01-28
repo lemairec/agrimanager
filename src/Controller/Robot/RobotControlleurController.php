@@ -75,6 +75,7 @@ class RobotControlleurController extends CommonController
         $order = new Order();
         $order->robot = $robot;
         $order->name = $order_label;
+        $order->type = $order_label;
         $order->d_create = new \DateTime();
         $order->params = [];
         //print(json_encode($request->query->all()));
@@ -149,6 +150,7 @@ class RobotControlleurController extends CommonController
         $order = new Order();
         $order->robot = $robot;
         $order->name = $robot_job->name;
+        $order->type = $robot_job->type;
         $order->d_create = new \DateTime();
         $order->params = $robot_job->params;
         

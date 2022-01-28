@@ -44,12 +44,13 @@ class ApiRobotControlleurController extends CommonController
                 if($data == null){
                     $data = [];
                 }
-                $data["order"] = $order->name;
+                $data["name"] = $order->name;
+                $data["type"] = $order->type;
                 return new JsonResponse($data);
             }
         }
         
-        return new JsonResponse(["order"=>"WAIT"]);
+        return new JsonResponse(["name"=>"","type"=>"WAIT"]);
     }
 
     /**
@@ -83,12 +84,13 @@ class ApiRobotControlleurController extends CommonController
                 if($data == null){
                     $data = [];
                 }
-                $data["order"] = $order->name;
-                return new JsonResponse($data);
+                $data["name"] = $order->name;
+                $data["type"] = $order->type;
+               return new JsonResponse($data);
             }
         }
         
-        return new JsonResponse(["order"=>"WAIT"]);
+        return new JsonResponse(["name"=>"","type"=>"WAIT"]);
     }
 
 }
