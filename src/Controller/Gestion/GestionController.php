@@ -62,7 +62,11 @@ class GestionController extends CommonController
     }
 
     public function getDateColor(){
-        return ["" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#fcba03", "2021"=> ""];
+        return ["" => "", "2014" => "", "2015" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#fcba03", "2021"=> "#99ccff", "2022"=> "#ff9966"];
+    }
+
+    public function getHidden(){
+        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => false, "2019"=> false, "2020"=> false, "2021"=> false, "2022"=> false];
     }
 
     public function getDataCampagne($campagne, $ecritures){
@@ -74,7 +78,7 @@ class GestionController extends CommonController
             $value += $ecriture['value'];
             $data[] = ['date' => $ecriture['date']->format("d-m")."-".$year, 'value' => $value, 'name' => $ecriture['name']];
         }
-        return ['annee'=> $campagne, 'data' => $data, 'color' => $this->getDateColor()[$campagne]];
+        return ['annee'=> $campagne, 'data' => $data, 'color' => $this->getDateColor()[$campagne], 'hidden' => $this->getHidden()[$campagne]];
     }
 
     public function getDataWithDates($ecritures){
@@ -89,7 +93,7 @@ class GestionController extends CommonController
                 if($chartjs){
                     $chartjss[] = $chartjs;
                 }
-                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year]];
+                $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year], 'hidden' => $this->getHidden()[$year]];
             }
             
             $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'], 'name' => $ecriture['name'] ];
