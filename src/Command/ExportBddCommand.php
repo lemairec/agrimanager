@@ -119,15 +119,16 @@ class ExportBddCommand extends Command
                 $zip->addFile($src, "factures/".$file);
             }
             $i = $i+1;
-            if($i%($len/100) == 0){
+            if($i%($len/10) == 0){
                 $perc = round($i/($len/100));
                 $output->writeln("factures $perc %");
             }
         }
-        $output->writeln("factures_end");
+        $output->writeln("sql");
         
         $zip->addFile($backupSqlFile, "database.sql");
-        $zip->close();
+        $output->writeln("close");
+       $zip->close();
     }
 
 }
