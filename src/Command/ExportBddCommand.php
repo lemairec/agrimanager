@@ -108,6 +108,9 @@ class ExportBddCommand extends Command
 
         $output->writeln("factures");
         $zip->addEmptyDir("factures");
+        $factures = $this->em->getRepository('App:Gestion\FactureFournisseur')->findAll();
+        $len = count($factures);
+        $i = 0;
         foreach ($this->em->getRepository('App:Gestion\FactureFournisseur')->findAll() as $f) {
             $file = $f->getFactureFileName();
             if($file){
@@ -115,7 +118,14 @@ class ExportBddCommand extends Command
                 #$output->writeln($src);
                 $zip->addFile($src, "factures/".$file);
             }
+            $i = $i+1;
+            if($i%($len/100) == 0){
+                $perc = round($i/($len/100));
+                $output->writeln("factures $perc %");
+            }
         }
+        $output->writeln("factures_end");
+        
         $zip->addFile($backupSqlFile, "database.sql");
         $zip->close();
     }
