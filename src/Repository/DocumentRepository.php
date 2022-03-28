@@ -53,4 +53,19 @@ class DocumentRepository extends ServiceEntityRepository
 
             return $query->getResult();
     }
+
+
+    function getAllForExport2($company, $date_begin, $date_end){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->andWhere('p.date > :date_begin')
+            ->andWhere('p.date < :date_end')
+            ->setParameter('company', $company)
+            ->setParameter('date_end', $date_end)
+            ->setParameter('date_begin', $date_begin)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
 }

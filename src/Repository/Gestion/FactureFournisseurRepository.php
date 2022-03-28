@@ -83,6 +83,20 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
+    function getAllForExport2($company, $date_begin, $date_end){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->andWhere('p.paiementDate > :date_begin')
+            ->andWhere('p.paiementDate < :date_end')
+            ->setParameter('company', $company)
+            ->setParameter('date_end', $date_end)
+            ->setParameter('date_begin', $date_begin)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
+
     function getAllForCampagne($campagne){
         $query = $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')

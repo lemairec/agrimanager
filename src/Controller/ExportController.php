@@ -24,7 +24,85 @@ class ExportController extends CommonController
      **/
     public function export(Request $request)
     {
-        return $this->render('Default/export.html.twig');
+        return $this->render('Export/export.html.twig');
+    }
+
+    /**
+     * @Route("/export_preview/year/{year}/month/{month}", name="export_preview")
+     **/
+    public function export_preview(Request $request, $month, $year)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        
+        $date_begin = new Datetime("$year-$month-01");
+        $date_end = new Datetime("$year-$month-01");
+        $date_end = $date_end->modify('+1 month');
+        
+        $factures = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForExport2($this->company, $date_begin, $date_end);
+
+        $documents = $em->getRepository('App:Document')->getAllForExport2($this->company, $date_begin, $date_end);
+
+        return $this->render('Export/export_preview.html.twig', [
+            'date_begin' => $date_begin,
+            'date_end' => $date_end,
+            'month' => $month,
+            'year' => $year,
+            'factures' => $factures,
+            'documents' => $documents
+        ]);
+    }
+
+     /**
+     * @Route("/export_2/year/{year}/month/{month}", name="export3")
+     **/
+    public function export_3(Request $request, $month, $year)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+        
+        $date_begin = new Datetime("$year-$month-01");
+        $date_end = new Datetime("$year-$month-01");
+        $date_end = $date_end->modify('+1 month');
+        
+        $factures = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForExport2($this->company, $date_begin, $date_end);
+
+        $documents = $em->getRepository('App:Document')->getAllForExport2($this->company, $date_begin, $date_end);
+
+        $zip = new \ZipArchive();
+        $zipName = 'Documents_'.$this->company->name.'_'.$year.'_'.$month.".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+        
+        foreach ($factures as $f) {
+            $file = $f->getFactureFileName();
+            if($file){
+                $fileName = $f->getFactureMyFileName();
+                $src = "uploads/factures/".$file;
+                $zip->addFile($src, "facture/".$fileName);
+                $f->dateExport = new DateTime();
+                $em->persist($f);
+            }
+        }
+        
+        foreach ($documents as $f) {
+            $file = $f->getDocName();
+            if($file){
+                $fileName = $f->getDocMyFileName();
+                $src = "uploads/documents/".$file;
+                $zip->addFile($src,  $f->directory->name."/".$fileName);
+                $f->dateExport = new DateTime();
+                $em->persist($f);
+            }
+        }
+        $em->flush();
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        return $response;
     }
 
     /**
