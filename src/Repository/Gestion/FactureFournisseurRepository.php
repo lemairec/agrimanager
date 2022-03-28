@@ -91,7 +91,7 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('company', $company)
             ->setParameter('date_end', $date_end)
             ->setParameter('date_begin', $date_begin)
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.paiementDate', 'DESC')
             ->getQuery();
 
             return $query->getResult();
