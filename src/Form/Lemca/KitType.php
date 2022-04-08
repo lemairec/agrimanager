@@ -13,7 +13,7 @@ class KitType extends AbstractType
     {
         $builder
             ->add('client')
-            ->add('option')
+            ->add('my_option')
             ->add('revendeur')
             ->add('status')
             ->add('comment')

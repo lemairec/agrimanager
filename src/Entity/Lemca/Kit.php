@@ -27,7 +27,7 @@ class Kit
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    public $option;
+    public $my_option;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
