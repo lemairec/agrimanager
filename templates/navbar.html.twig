@@ -33,6 +33,19 @@ Ma Plaine</a>
                         </div>
                     </li>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{'Lemca' | trans}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('kits') }}">Kits</a>   
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('panels') }}">Panels</a>   
+                            <a class="dropdown-item" href="{{ url('cameras') }}">Cameras</a>   
+                               
+                        </div>
+                    {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Société
