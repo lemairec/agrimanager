@@ -140,4 +140,12 @@ class LemcaController extends CommonController
             'form' => $form->createView()
         ));
     }
+
+    /**
+     * @Route("/lemca/ping")
+     */
+    public function pingAction()
+    {
+        return new Response("ok");
+    }
 }
