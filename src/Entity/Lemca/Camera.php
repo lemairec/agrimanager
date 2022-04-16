@@ -31,7 +31,7 @@ class Camera
      * @ORM\ManyToOne(targetEntity=Kit::class, inversedBy="cameras")
      */
     public $kit;
-
+n
     public function getKitStr()
     {
         if($this->kit){

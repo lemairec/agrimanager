@@ -48,4 +48,6 @@ class GpsParcelle
      * @ORM\Column(type="json")
      */
     public $data = [];
+
+    public $data_str = "";
 }

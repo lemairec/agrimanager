@@ -14,8 +14,10 @@ use App\Controller\CommonController;
 
 use DateTime;
 use App\Entity\Agrigps\JobGps;
+use App\Entity\Agrigps\Balise;
 use App\Entity\Agrigps\GpsParcelle;
 use App\Form\JobGpsType;
+use App\Form\Agrigps\GpsParcelleType;
 
 class JobGpsController extends CommonController
 {
@@ -223,8 +225,20 @@ class JobGpsController extends CommonController
         $contour = $parc->data["contour"];
         $lat = $contour[0]["lat"];
         $lon = $contour[0]["lon"];
+        $parc->data_str = json_encode($parc->data);
 
         $contour[] = $contour[0];
+
+        $form = $this->createForm(GpsParcelleType::class, $parc);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($parc);
+            $parc->data = json_decode($parc->data_str);
+            $em->flush();
+            return $this->redirectToRoute('gps_parcelles');
+        }
 
         /*$tab =  explode ("\n",  $job_gps->job);
         $points = [];
@@ -238,10 +252,32 @@ class JobGpsController extends CommonController
         }*/
 
         return $this->render('Default/gps_parcelle.html.twig', array(
+            'form' => $form->createView(),
             'parcelle' => $parc,
             'lat' => $lat,
             'lon' => $lon,
             'contour' => $contour
+        ));
+    }
+
+    /**
+     * @Route("/gps_balises", name="gps_balises")
+     */
+    public function baliseAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $company_id = $this->getCurrentCompanyId($request);
+        $company = $em->getRepository("App:Company")->find($company_id);
+        
+        $balises = $em->getRepository("App:Agrigps\Balise")->findByCompany($company);
+        $lat = $balises[0]->latitude;
+        $lon = $balises[0]->longitude;
+
+        return $this->render('Default/gps_balises.html.twig', array(
+            'lat' => $lat,
+            'lon' => $lon,
+            'balises' => $balises
         ));
     }
     
@@ -330,5 +366,50 @@ class JobGpsController extends CommonController
         $em->flush();
 
         return $this->returnParcelle($em, $name, $company);
+    }
+
+    /**
+     * @Route("/api/autosteer/balises")
+     */
+    public function balisesAction2(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $balises = json_decode($request->request->get("balises"));
+        $company = $request->query->get("company");
+        $company = $em->getRepository("App:Company")->findOneByName($company);
+        if($company == null){
+            throw new Exception("not found Company");
+        }
+
+        foreach($balises as $b){
+            $my_id = strval($b->lat)."/".strval($b->lon);
+            $balise = $em->getRepository("App:Agrigps\Balise")->find($my_id);
+            if($balise == null){
+                $balise = new Balise();
+                $balise->my_id = $my_id;
+                $balise->latitude = $b->lat;
+                $balise->longitude = $b->lon;
+                $balise->company = $company;
+
+                $em->persist($balise);
+                $em->flush();
+                //throw new Exception("not found Company");
+            }
+        }
+        
+
+        /*$p2 = new GpsParcelle();
+        $p2->surface = $data->surface;
+        $p2->datetime = new DateTime();
+        $p2->data = $data;
+        $p2->name = $data->name;
+        $p2->status = "ok";
+        $p2->active = true;
+        $p2->company = $company;
+        
+        $em->persist($p2);
+        $em->flush();*/
+        return new JsonResponse("OK");
     }
 }
