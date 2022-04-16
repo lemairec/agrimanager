@@ -19,32 +19,26 @@ class BaliseRepository extends ServiceEntityRepository
         parent::__construct($registry, Balise::class);
     }
 
-    // /**
-    //  * @return Balise[] Returns an array of Balise objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getAllByCompany($company)
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('b.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('b.datetime', 'ASC')
+            ->orderBy('b.enable', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
-    /*
-    public function findOneBySomeField($value): ?Balise
+    public function getOneByMyId($my_id): ?Balise
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('b.myId = :my_id')
+            ->setParameter('my_id', $my_id)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }
