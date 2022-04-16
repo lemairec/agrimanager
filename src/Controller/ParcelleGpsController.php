@@ -24,7 +24,7 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gpss = $em->getRepository("App:JobGps")->findAll();
+        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
         
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
@@ -41,7 +41,7 @@ class ParcelleGpsController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $user = $this->getUser();
         
-        $job_gpss = $em->getRepository("App:JobGps")->findByUser($user);
+        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findByUser($user);
         
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
@@ -55,7 +55,7 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gpss = $em->getRepository("App:JobGps")->findAll();
+        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
         
         foreach($job_gpss as $j){
             $j->debug = null;
@@ -72,7 +72,7 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gps = $em->getRepository("App:JobGps")->find($id);
+        $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
 
         
         $lat = 0;
@@ -118,7 +118,7 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gps = $em->getRepository("App:JobGps")->find($id);
+        $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
 
         
 
@@ -177,7 +177,7 @@ class ParcelleGpsController extends CommonController
         $jobGps->user = $em->getRepository("App:User")->findOneByEmail($jobGps->userEmail);
 
         
-        $res = $em->getRepository("App:JobGps")->findByDateBegin($jobGps->dateBegin);
+        $res = $em->getRepository("App:Agrigps\JobGps")->findByDateBegin($jobGps->dateBegin);
         foreach($res as $r){
             $em->remove($r);
         }

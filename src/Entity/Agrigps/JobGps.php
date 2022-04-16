@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Agrigpss;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\JobGpsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Agrigps\JobGpsRepository")
  */
 class JobGps
 {

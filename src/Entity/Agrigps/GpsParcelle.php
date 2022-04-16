@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Agrigps;
 
-use App\Repository\GpsParcelleRepository;
+use App\Repository\Agrigps\GpsParcelleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
