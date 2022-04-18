@@ -399,7 +399,7 @@ class JobGpsController extends CommonController
                 //throw new Exception("not found Company");
             }
         }
-        
+ 
         $res = [];
         $balises2 = $em->getRepository("App:Agrigps\Balise")->findByCompany($company);
         foreach($balises2 as $b){

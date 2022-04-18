@@ -54,6 +54,4 @@ class Balise
      * @ORM\Column(type="boolean")
      */
     public $enable = true;
-
-
 }
