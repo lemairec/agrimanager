@@ -50,13 +50,16 @@
             <th>name</th>
             <th>longitude</th>
             <th>latitude</th>
+            <th>date</th>
+            <th></th>
         </tr>
         {% for balise in balises %}
             <tr>
-                <td>{{ balise.my_id }}</td>
+                <td>{{ balise.name }}</td>
                 <td>{{ balise.longitude }}</td>
                 <td>{{ balise.latitude }}</td>
-                
+                <td>{{ balise.my_datetime | showDatetime }}</td>
+                <td></td>
                 
             </tr>
         {% endfor %}
