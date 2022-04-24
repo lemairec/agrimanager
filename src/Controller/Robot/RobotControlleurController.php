@@ -176,7 +176,7 @@ class RobotControlleurController extends CommonController
             $order->type = $robot_job->type;
             $order->d_create = new \DateTime();
             $order->params = $robot_job->params;
-            $order->params["offset"] = $robot_job->offset;
+            $order->params["offset"] = doubleval($robot_job->offset);
             $order->params["inrows"] = $robot_job->inrows;
             $em->persist($order);
             $em->flush();
