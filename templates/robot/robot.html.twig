@@ -121,6 +121,16 @@
         </table>
     </div>
 
+     <div class="card">
+        <div class="card-header">
+            Admin
+        </div>
+        <div class="card-header">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_clear", {'robot_id': robot_id_bdd}) }}'">Clear</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_delete", {'robot_id': robot_id_bdd}) }}'">Delete</button>
+        <div>   
+    </div>
+
 {% endblock %}
 
 

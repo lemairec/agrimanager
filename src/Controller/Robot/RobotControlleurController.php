@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Robot\Order;
 use App\Entity\Robot\Job;
 use App\Form\Robot\JobType;
+use App\Form\Robot\JobRobotType;
 use DateTime;
 
 class RobotControlleurController extends CommonController
@@ -53,6 +54,7 @@ class RobotControlleurController extends CommonController
         };
         return $this->render('robot/robot.html.twig', array(
             'robot_id' => $robot->name,
+            'robot_id_bdd' => $robot->id,
             'orders' => $orders,
             'robot' => $robot,
             'robot_data' => $data,
@@ -118,6 +120,7 @@ class RobotControlleurController extends CommonController
         $robot_job = $em->getRepository("App:Robot\Job")->find($id);
         if($robot_job == null){
             $robot_job = new Job();
+            $robot_job->id = 0;
             $robot_id = $request->query->get("robot_id");
         }
         $robot_job->params_json = json_encode($robot_job->params);
@@ -133,8 +136,24 @@ class RobotControlleurController extends CommonController
         }
 
         return $this->render('robot/robot_job.html.twig', array(
+            'robot_job_id' => $robot_job->id,
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/robot_job/{robot_job_id}/delete", name="robot_job_delete")
+     **/
+    public function deletection($robot_job_id, Request $request)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $robot_job= $em->getRepository("App:Robot\Job")->find($robot_job_id);
+
+        $em->remove($robot_job);
+        $em->flush();
+
+        return $this->redirectToRoute('robot_jobs');
     }
 
     /**
@@ -147,33 +166,75 @@ class RobotControlleurController extends CommonController
         $robot_job = $em->getRepository("App:Robot\Job")->find($id);
         $robot = $em->getRepository("App:Robot\Robot")->find($robot_id);
 
-        $order = new Order();
-        $order->robot = $robot;
-        $order->name = $robot_job->name;
-        $order->type = $robot_job->type;
-        $order->d_create = new \DateTime();
-        $order->params = $robot_job->params;
+        $form = $this->createForm(JobRobotType::class, $robot_job);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $order = new Order();
+            $order->robot = $robot;
+            $order->name = $robot_job->name;
+            $order->type = $robot_job->type;
+            $order->d_create = new \DateTime();
+            $order->params = $robot_job->params;
+            $order->params["offset"] = $robot_job->offset;
+            $order->params["inrows"] = $robot_job->inrows;
+            $em->persist($order);
+            $em->flush();
+            //return new Response("OK");
+            return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
+        }
+
+        return $this->render('robot/robot_job.html.twig', array(
+            'robot_job_id' => $robot_job->id,
+            'form' => $form->createView()
+        ));
+
         
-        $em->persist($order);
-        $em->flush();
-        //return new Response("OK");
-        return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
+        
+        
     }
 
      /**
-     * @Route("/robot_job/{id}/delete", name="robot_job_delete")
+     * @Route("/robot/{robot_id}/delete", name="robot_delete")
      **/
-    public function jobActionDelete($id, Request $request)
+    public function robotActionDelete($robot_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $robot_job = $em->getRepository("App:Robot\Job")->find($id);
-        $robot = $robot_job->robot;
+        $robot = $em->getRepository("App:Robot\Robot")->find($robot_id);
+        
+        $orders= $em->getRepository("App:Robot\Order")->findByRobot($robot);
+        foreach($orders as $o){
+            $em->remove($o);
+            $em->flush();
+        }
 
-        $em->remove($robot_job);
+        $em->remove($robot);
         $em->flush();
 
-        return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
+        return $this->redirectToRoute('robots');
+    }
+
+      /**
+     * @Route("/robot_job/{robot_id}/clear", name="robot_clear")
+     **/
+    public function robotActionClear($robot_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot= $em->getRepository("App:Robot\Robot")->find($robot_id);
+
+
+        $orders= $em->getRepository("App:Robot\Order")->findByRobot($robot);
+        foreach($orders as $o){
+            $em->remove($o);
+            $em->flush();
+        }
+       
+       // $em->remove($robot_job);
+       // $em->flush();
+
+        return $this->redirectToRoute('robots');
     }
             
         

@@ -33,4 +33,8 @@ class Job
     public $params = [];
 
     public $params_json = "";
+
+    public $offset = 0;
+
+    public $inrows = true;
 }

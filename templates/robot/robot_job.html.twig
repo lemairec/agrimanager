@@ -1,3 +1,14 @@
 {% extends 'base_form.html.twig' %}
 
 
+{% block body_form %}
+<div class="card">
+    <div class="card-header">
+        Admin
+    </div>
+    <div class="card-header">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_job_delete", {'robot_job_id': robot_job_id}) }}'">Delete</button>
+    <div>   
+</div>
+
+{% endblock body_form %}
