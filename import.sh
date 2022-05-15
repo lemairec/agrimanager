@@ -18,7 +18,7 @@ echo "$dump, is ok?"
 read input
 
 
-agrimanager=~/workspace/agrimanager;
+agrimanager=~/workspace/maplaine;
 
 rm -f $agrimanager/public/uploads/documents/*
 rm -f $agrimanager/public/uploads/factures/*
