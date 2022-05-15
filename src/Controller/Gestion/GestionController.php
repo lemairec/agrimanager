@@ -474,7 +474,17 @@ class GestionController extends CommonController
         $year = 0;
         $value = 0;
         if(array_key_exists("", $ecritures_by_campagne)){
-            $chartjss = $this->getDataWithDates($ecritures_by_campagne[""]["ecritures"]);
+            foreach($ecritures_by_campagne as $k => $value){
+                if($k != ""){
+                    foreach($value["ecritures"] as $e){
+                        $ecritures_by_campagne[$campagne]["ecritures"][] = $e;
+                    }
+                }
+            }
+            $ecritures = $ecritures_by_campagne[""]["ecritures"];
+            $ecritures = array_sort($ecritures, "date");
+            $chartjss = $this->getDataWithDates($ecritures);
+            //dump($ecritures_by_campagne);
         } else {
             foreach($ecritures_by_campagne as $k => $value){
                 $chartjss[] = $this->getDataCampagne($k, $value["ecritures"]);
