@@ -444,7 +444,7 @@ class GestionController extends CommonController
                         if($e->campagne){
                             $campagne = $e->campagne->name;
                         }
-                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>$e->value, 'campagne'=>$campagne];
+                        $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>$e->value, 'campagne'=>$campagne, "i"=>$i];
                         $ecriture['facture'] = $operation->facture;
                         
                         if($compte->type == 'banque'){
@@ -483,7 +483,7 @@ class GestionController extends CommonController
                     }
                 }
             }
-            $ecritures2 = array_sort($ecritures2, "date");
+            $ecritures2 = array_sort($ecritures2, "i");
             $chartjss = $this->getDataWithDates($ecritures2);
         } else {
             foreach($ecritures_by_campagne as $k => $value){
