@@ -33,6 +33,7 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
             new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
             new \Twig_SimpleFilter('showDatetime', array($this, 'showDatetimeFilter')),
+            new \Twig_SimpleFilter('showDatetime2', array($this, 'showDatetimeFilter2')),
             new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
             new \Twig_SimpleFilter('showPercent', array($this, 'showPercentFilter')),
             new \Twig_SimpleFilter('showEur', array($this, 'showEurFilter')),
@@ -40,6 +41,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFilter('showIsoDate', array($this, 'showIsoDateFilter')),
             new \Twig_SimpleFilter('my_path', array($this, 'my_path')),
 
+//new TwigFilter('my_path', array($this, 'my_path')),
+//new \Twig_SimpleFilter('my_path', array($this, 'my_path')),
 
         );
     }
@@ -146,6 +149,15 @@ class AppExtension extends \Twig_Extension
     {
         if($date){
             return $date->format('d/m/Y H:i');
+        } else {
+            return "-";
+        }
+    }
+
+    public function showDatetimeFilter2($date)
+    {
+        if($date){
+            return $date->format('d/m/Y H:i:s');
         } else {
             return "-";
         }

@@ -79,7 +79,7 @@ class ApiRobotControlleurController extends CommonController
         if($order){
             $now = new \DateTime();
             $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
-            if($diffInSeconds > 0 && $diffInSeconds < 10){
+            if($diffInSeconds > 0 && $diffInSeconds < 20){
                 $data = $order->params;
                 if($data == null){
                     $data = [];
@@ -88,9 +88,11 @@ class ApiRobotControlleurController extends CommonController
                 $data["type"] = $order->type;
                return new JsonResponse($data);
             }
+            return new JsonResponse(["name"=>"","type"=>"WAIT", "last_order"=> $order->name, "time"=>$diffInSeconds]);
         }
-        
         return new JsonResponse(["name"=>"","type"=>"WAIT"]);
+        
+       
     }
 
 }
