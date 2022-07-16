@@ -17,6 +17,21 @@ use App\Entity\Silo\Temperature;
 
 class SiloController extends CommonController
 {
+
+    public function addTemperature($em, $t, $balise_str, $company){
+        if($t && $t > -20){
+            $balise_ = $em->getRepository("App:Silo\Balise")->getOrCreate($company, $balise_str);
+            $temperature = new Temperature();
+            $temperature->temp = $t;
+            $temperature->balise = $balise_;
+            $temperature->datetime = new DateTime();
+            $em->getRepository('App:Silo\Temperature')->addTemperature($temperature);
+            $balise_->last_update = new DateTime();
+            $balise_->last_temp = $t;
+            $em->persist($balise_);
+            $em->flush();
+        }
+    }
     
     /**
      * @Route("/silo/api_sonde", name="silo_api")
@@ -25,10 +40,10 @@ class SiloController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $temp = $request->query->get("temp");
-        $temp2 = $request->query->get("temp2");
-        $temp3 = $request->query->get("temp3");
-        $balise = $request->query->get("balise");
+        $t1 = $request->query->get("t1");
+        $t2 = $request->query->get("t2");
+        $t3 = $request->query->get("t3");
+        $balise_str = $request->query->get("balise");
         $company = $request->query->get("company");
 
         $company = $em->getRepository("App:Company")->findOneByName($company);
@@ -36,23 +51,9 @@ class SiloController extends CommonController
             throw new Exception("not found Company");
         }
 
-        $balise = $em->getRepository("App:Silo\Balise")->getOrCreate($company, $balise);
-        $temperature = new Temperature();
-        $temperature->temp = $temp;
-        $temperature->temp2 = $temp2;
-        $temperature->temp3 = $temp3;
-        $temperature->balise = $balise;
-        $temperature->datetime = new DateTime();
-
-        $em->getRepository('App:Silo\Temperature')->addTemperature($temperature);
-        
-        $balise->last_update = new DateTime();
-        $balise->last_temp = $temp;
-        $balise->last_temp2 = $temp2;
-        $balise->last_temp3 = $temp3;
-
-        $em->persist($balise);
-        $em->flush();
+        $this->addTemperature($em,$t1,$balise_str."_1", $company);
+        $this->addTemperature($em,$t2,$balise_str."_2", $company);
+        $this->addTemperature($em,$t3,$balise_str."_3", $company);
         
         return new Response("ok");
     }

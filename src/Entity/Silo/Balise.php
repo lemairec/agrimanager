@@ -36,10 +36,4 @@ class Balise
 
     /** @ORM\Column(type="float", nullable=true) **/
     public $last_temp;
-
-    /** @ORM\Column(type="float", nullable=true) **/
-    public $last_temp2;
-
-    /** @ORM\Column(type="float", nullable=true) **/
-    public $last_temp3;
 }
