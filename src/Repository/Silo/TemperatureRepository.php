@@ -41,6 +41,8 @@ class TemperatureRepository extends ServiceEntityRepository
                 ->getQuery()->getResult();
             if(count($res) > 1){
                 $this->addTemperature($res[0]);
+            } else {
+                break;
             }
         }
 
