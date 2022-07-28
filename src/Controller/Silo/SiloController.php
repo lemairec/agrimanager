@@ -100,7 +100,7 @@ class SiloController extends CommonController
             $chartjs_min['data'][] = ['date' => $temperature->datetime->format("d-m-Y"), 'value' => $temperature->temp, 'name' => "" ];
         }
         $chartjss[] = $chartjs_min;
-        dump($chartjss);
+        //dump($chartjss);
         
         return $this->render('Silo/balise.html.twig', array(
             'balise' => $balise,
