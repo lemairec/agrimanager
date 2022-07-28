@@ -32,7 +32,7 @@ class TemperatureRepository extends ServiceEntityRepository
     }
 
     function getAllForBalise($balise){
-        for($i = 0; $i<200; ++$i){
+        for($i = 0; $i<20; ++$i){
             $res = $this->createQueryBuilder('p')
                 ->where('p.balise = :balise')
                 ->andWhere('p.rounded_datetime is NULL')
