@@ -58,45 +58,17 @@
             ]
         },
         options: {
-            title: {
-                text: 'Chart.js Time Scale'
-            },
             scales: {
                 xAxes: [{
                     type: 'time',
-                    time: {
-                        format: timeFormat,
-                        // round: 'day'
-                        tooltipFormat: 'll'
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Date'
-                    }
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'value'
-                    }
+                    distribution: 'linear'
                 }]
             },
-            tooltips: {
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                        var text = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].text;
-                        
-                        if (label) {
-                            label += ': ';
-                        }
-                        label += Math.round(tooltipItem.yLabel * 100) / 100;
-                        label += " ("+text+")";
-                       console.log(tooltipItem);
-                        return label;
+            elements: {
+                    point:{
+                        radius: 0
                     }
                 }
-            }
         }
     };
 
