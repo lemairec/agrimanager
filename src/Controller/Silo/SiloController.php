@@ -85,9 +85,27 @@ class SiloController extends CommonController
         $balise = $em->getRepository('App:Silo\Balise')->find($id);
         $temperatures = $em->getRepository('App:Silo\Temperature')->getAllForBalise($balise);
 
+        /*$temp2 = [];
+        foreach($temperatures as $temperature){
+            $d = $temperature->datetime->format("d-m-y");
+            if(!array_key_exists($temp2, $d)){
+                $temp2[$d] = ["min"=>]
+            }
+        }*/
+
+        $chartjs_min = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
+        $chartjs_max = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
+
+        foreach($temperatures as $temperature){
+            $chartjs_min['data'][] = ['date' => $temperature->datetime->format("d-m-Y"), 'value' => $temperature->temp, 'name' => "" ];
+        }
+        $chartjss[] = $chartjs_min;
+        dump($chartjss);
+        
         return $this->render('Silo/balise.html.twig', array(
             'balise' => $balise,
-            'temperatures' => $temperatures
+            'temperatures' => $temperatures,
+            'chartjss' => $chartjss
         ));
     }
 
