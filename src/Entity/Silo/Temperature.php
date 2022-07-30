@@ -3,9 +3,11 @@
 namespace App\Entity\Silo;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Silo\TemperatureRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="datetime_idx", columns={"datetime"})})
  */
 class Temperature
 {
