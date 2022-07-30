@@ -19,7 +19,8 @@ class SiloController extends CommonController
 {
 
     public function addTemperature($em, $t, $balise_str, $company){
-        if($t && $t > -20){
+        
+
             $balise_ = $em->getRepository("App:Silo\Balise")->getOrCreate($company, $balise_str);
             $temperature = new Temperature();
             $temperature->temp = $t;
@@ -30,7 +31,6 @@ class SiloController extends CommonController
             $balise_->last_temp = $t;
             $em->persist($balise_);
             $em->flush();
-        }
     }
     
     /**
