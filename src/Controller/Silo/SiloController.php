@@ -10,6 +10,8 @@ use DateTime;
 use App\Entity\Silo\Balise;
 use App\Entity\Silo\Temperature;
 
+use App\Form\Silo\BaliseType;
+
 //COMPTE
 //ECRITURE
 //OPERATION
@@ -71,8 +73,20 @@ class SiloController extends CommonController
         $this->check_user($request);
         $balises = $em->getRepository('App:Silo\Balise')->getAllForCompany($this->company);
 
+        $balises_names = [];
+        $balises_others = [];
+
+        foreach($balises as $b){
+            if($b->label){
+                $balises_names[] = $b;
+            } else {
+                $balises_others[] = $b;
+            }
+        }
+
         return $this->render('Silo/balises.html.twig', array(
-            'balises' => $balises
+            'balises_names' => $balises_names,
+            'balises_others' => $balises_others
         ));
     }
 
@@ -87,13 +101,14 @@ class SiloController extends CommonController
         $balise = $em->getRepository('App:Silo\Balise')->find($id);
         $temperatures = $em->getRepository('App:Silo\Temperature')->getAllForBalise($balise);
 
-        /*$temp2 = [];
-        foreach($temperatures as $temperature){
-            $d = $temperature->datetime->format("d-m-y");
-            if(!array_key_exists($temp2, $d)){
-                $temp2[$d] = ["min"=>]
-            }
-        }*/
+        $form = $this->createForm(BaliseType::class, $balise);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->persist($balise);
+            $em->flush();
+            return $this->redirectToRoute('silo_balises');
+        }
 
         $chartjs_min = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
         $chartjs_max = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
@@ -105,6 +120,7 @@ class SiloController extends CommonController
         //dump($chartjss);
         
         return $this->render('Silo/balise.html.twig', array(
+            'form' => $form->createView(),
             'balise' => $balise,
             'temperatures' => $temperatures,
             'chartjss' => $chartjss

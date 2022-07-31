@@ -31,6 +31,11 @@ class Balise
      */
     public $company;
 
+
+    /** @ORM\Column(type="string", length=255) **/
+    public $label = "";
+
+
     /** @ORM\Column(type="datetime", nullable=true) **/
     public $last_update;
 

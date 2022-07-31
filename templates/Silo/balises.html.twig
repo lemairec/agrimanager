@@ -8,11 +8,11 @@
             Balises
         </div>
         <div class="list-group">
-            {% for balise in balises %}
+            {% for balise in balises_names %}
             <div class="list-group-item flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
-                        <a href="{{ url("silo_balise", {'id': balise.id}) }}">{{balise.name}}
+                        <a href="{{ url("silo_balise", {'id': balise.id}) }}">{{balise.label}}
                         </a>
                     </h5>
                 </div>
@@ -20,6 +20,32 @@
                 <div class="row" style="min-height: 1.5rem;">
                     <div class="col-md-4">
                         {{balise.name}}
+                    </div>
+                    <div class="col-md-2">
+                        {{balise.last_update | showDatetime }}
+                    </div>
+                    <div class="col-md-2">
+                        {{balise.last_temp | showUnity("°") }}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            Balises (autres)
+        </div>
+        <div class="list-group">
+            {% for balise in balises_others %}
+            <div class="list-group-item flex-column align-items-start">
+
+                <div class="row" style="min-height: 1.5rem;">
+                    <div class="col-md-4">
+                        <a href="{{ url("silo_balise", {'id': balise.id}) }}">{{balise.name}}
+                        </a>
                     </div>
                     <div class="col-md-2">
                         {{balise.last_update | showDatetime }}
