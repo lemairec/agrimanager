@@ -49,6 +49,22 @@ class Company
      */
     public $cityCode;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="site1_name", type="string", length=255)
+     */
+    public $site1_name;
+
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="site1_url", type="string", length=255)
+     */
+    public $site1_url;
+
     /**
      * @var string
      *

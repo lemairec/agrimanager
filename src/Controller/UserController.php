@@ -64,11 +64,19 @@ class UserController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $defaultData = array('adresse' => $this->company->adresse, 'codePostal' => $this->company->cityCode, 'ville' => $this->company->city);
+        $defaultData = array(
+            'adresse' => $this->company->adresse,
+            'codePostal' => $this->company->cityCode,
+            'ville' => $this->company->city,
+            'site1_name' => $this->company->site1_name,
+            'site1_url' => $this->company->site1_url
+        );
         $form = $this->createFormBuilder($defaultData)
             ->add('adresse', TextType::class)
             ->add('codePostal', TextType::class)
             ->add('ville', TextType::class)
+            ->add('site1_name', TextType::class)
+            ->add('site1_url', TextType::class)
             ->getForm();
 
         $form->handleRequest($request);
@@ -80,6 +88,8 @@ class UserController extends CommonController
             $this->company->cityCode = $data["codePostal"];
             $this->company->city = $data["ville"];
             $this->company->meteoCity = $data["ville"];
+            $this->company->site1_name = $data["site1_name"];
+            $this->company->site1_url = $data["site1_url"];
             $em->persist($this->company);
             $em->flush();
             return $this->redirectToRoute("home");

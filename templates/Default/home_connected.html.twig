@@ -41,6 +41,11 @@
                     <div class="card-body">
                         Adresse : <br>{{ company.adresse}} <br>{{ company.cityCode}} {{ company.city}}
                     </div>
+                    {% if company.site1_url %}
+                    <div class="card-body">
+                        <a href={{company.site1_url}}>{{ company.site1_name}} </a>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="card">
