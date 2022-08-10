@@ -89,7 +89,7 @@ class ExportBddCommand extends Command
         }
         $output->writeln('sql ok');
 
-
+        set_time_limit(200);
         $output->writeln("copie");
         $command = "cp -r ~/maplaine/public/uploads/* $path";
         $process= new Process($command);
