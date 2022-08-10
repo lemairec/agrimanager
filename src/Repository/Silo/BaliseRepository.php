@@ -46,7 +46,7 @@ class BaliseRepository extends ServiceEntityRepository
     function getAllForCompany($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
-            ->orderBy('p.name')
+            ->orderBy('p.label')
             ->setParameter('company', $company)
             ->getQuery()->getResult();
     }
