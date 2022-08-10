@@ -95,7 +95,8 @@ class ExportBddCommand extends Command
         $zip = new \ZipArchive();
         $zipName = "$path/dump_maplaine.zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
-
+        $output->writeln("file $zipName");
+        
         $output->writeln("documents");
         foreach ($this->em->getRepository('App:Document')->findAll() as $f) {
             $file = $f->getDocName();
@@ -128,7 +129,7 @@ class ExportBddCommand extends Command
         
         $zip->addFile($backupSqlFile, "database.sql");
         $output->writeln("close");
-       $zip->close();
+        $zip->close();
     }
 
 }
