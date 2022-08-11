@@ -29,8 +29,8 @@ class SiloController extends CommonController
             $temperature->datetime = new DateTime();
             if($t > -100){
                 $em->getRepository('App:Silo\Temperature')->addTemperature($temperature);
-                $balise_->last_temp = $t;
             }
+            $balise_->last_temp = $t;
             $balise_->last_update = new DateTime();
             $em->persist($balise_);
             $em->flush();
