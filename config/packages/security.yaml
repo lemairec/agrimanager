@@ -25,6 +25,9 @@ security:
                 path:     /
                 always_remember_me: true
 
+    role_hierarchy:
+        ROLE_LEMCA: ROLE_USER
+        ROLE_ADMIN: ROLE_LEMCA
 
     access_control:
         - { path: ^/init$, role: IS_AUTHENTICATED_ANONYMOUSLY }
