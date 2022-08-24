@@ -22,6 +22,9 @@ class LicenceController extends AbstractController
      */
     public function achatsAction(Request $request)
     {
+
+        $this->denyAccessUnlessGranted('ROLE_LEMCA');
+        
         $em = $this->getDoctrine()->getManager();
         $licences = $em->getRepository('App:Lemca\Licence')->findAll();
 
@@ -35,6 +38,8 @@ class LicenceController extends AbstractController
      **/
     public function achatEditAction($licence_id, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_LEMCA');
+        
         $em = $this->getDoctrine()->getManager();
         if($licence_id == '0'){
             $licence = new Licence();
