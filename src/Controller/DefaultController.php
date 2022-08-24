@@ -162,11 +162,22 @@ class DefaultController extends CommonController
         ));
     }
 
+    
+
+    /**
+     * @Route("/assolement", name="assolement")
+     */
+    public function bilanAssolement2Action(Request $request)
+    {
+        return $this->getAssolement($request, 2);
+    }
+
     /**
      * @Route("/assolement2", name="assolement2")
      */
     public function bilanIlotsAction(Request $request)
     {
+        return $this->getAssolement($request, 2);
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
@@ -202,12 +213,16 @@ class DefaultController extends CommonController
             'navs' => ["Ilots" => "ilots"]
         ));
     }
-
+    
     /**
-     * @Route("/assolement", name="assolement")
+     * @Route("/assolement3", name="assolement3")
      */
-    public function bilanAssolement2Action(Request $request)
+    public function bilanIlots3Action(Request $request)
     {
+        return $this->getAssolement($request, 3);
+    }
+
+    public function getAssolement(Request $request, $mode){
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
@@ -255,15 +270,24 @@ class DefaultController extends CommonController
             $cultures_res[] = $ligne;
         }
         //dump($res);
-       
-
-        return $this->render('Default/assolement2.html.twig', array(
-            'ilots' => $res,
-            'cultures' => $cultures_res,
-            'campagnes2' => $campagnes,
-            'navs' => ["Ilots" => "ilots"]
-        ));
+        if($mode==2){
+            return $this->render('Default/assolement2.html.twig', array(
+                'ilots' => $res,
+                'cultures' => $cultures_res,
+                'campagnes2' => $campagnes,
+                'navs' => ["Ilots" => "ilots"]
+            ));
+        } else if($mode == 3){
+            return $this->render('Default/assolement3.html.twig', array(
+                'ilots' => $res,
+                'cultures' => $cultures_res,
+                'campagnes2' => $campagnes,
+                'navs' => ["Ilots" => "ilots"]
+            ));
+        }
     }
+
+    
 
     /**
      * @Route("/ilot/{ilot_id}", name="ilot")
@@ -446,7 +470,17 @@ class DefaultController extends CommonController
             }
         }
 
-        if($table){
+        if($table == 0){
+            return $this->render('Default/parcelles_t.html.twig', array(
+                'ilots' => $ilots2,
+                'campagnes' => $this->campagnes,
+                'campagne_id' => $campagne->id,
+                'parcelles' => $parcelles,
+                'cultures' => $cultures,
+                'total' => $total,
+                'navs' => ["Parcelles" => "parcelles"]
+            ));
+        } else if($table == 1){
             return $this->render('Default/parcelles_t.html.twig', array(
                 'ilots' => $ilots2,
                 'campagnes' => $this->campagnes,
@@ -457,7 +491,7 @@ class DefaultController extends CommonController
                 'navs' => ["Parcelles" => "parcelles"]
             ));
         } else {
-            return $this->render('Default/parcelles.html.twig', array(
+            return $this->render('Default/parcelles_t2.html.twig', array(
                 'ilots' => $ilots2,
                 'campagnes' => $this->campagnes,
                 'campagne_id' => $campagne->id,
@@ -474,7 +508,7 @@ class DefaultController extends CommonController
      */
     public function parcellesAction(Request $request)
     {
-        return $this->getParcelles($request, false);
+        return $this->getParcelles($request, 0);
         
     }
 
@@ -483,7 +517,15 @@ class DefaultController extends CommonController
      */
     public function parcellesTAction(Request $request)
     {
-        return $this->getParcelles($request, true);
+        return $this->getParcelles($request, 1);
+    }
+
+     /**
+     * @Route("parcelles_t2", name="parcelles3")
+     */
+    public function parcellesTAction3(Request $request)
+    {
+        return $this->getParcelles($request, 2);
     }
 
     /**

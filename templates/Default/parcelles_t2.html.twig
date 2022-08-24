@@ -1,0 +1,113 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+<div class="card">
+    <div class="card-header">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("parcelle", {'parcelle_id': 0}) }}'">{{'Add' | trans }}</button>
+
+        Parcelles
+    </div>
+
+    <table class="table" id="table">
+            <tr>
+                {% for parcelle in parcelles %}
+                    <td>
+                        <a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}
+                        </a>
+                    </td>
+                {% endfor %}
+                
+            </tr>
+
+            <tr>
+                {% for parcelle in parcelles %}
+                    <td>
+                        {{parcelle.getIlotName()}}
+                    </td>
+                {% endfor %}
+                
+            </tr>
+            <tr>
+                {% for parcelle in parcelles %}
+                    <td>
+                        {{parcelle.name}}
+                    </td>
+                {% endfor %}
+                
+            </tr>
+            <tr>
+                {% for parcelle in parcelles %}
+                    <td>
+                        {{parcelle.culture}}
+                    </td>
+                {% endfor %}
+                
+            </tr>
+            <tr>
+                {% for parcelle in parcelles %}
+                    <td>
+                        {{ parcelle.surface | showHa }}
+                    </td>
+                {% endfor %}
+                
+            </tr>
+       
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Cultures
+        <span class="badge float-right">{{ (total) | showHa }}</span>
+    </div>
+
+    <table class="table" id="table">
+        {% for key, culture in cultures %}
+            <tr>
+                <td>
+                    {{key}}
+                </td>
+                <td>
+                    {{ culture | showHa }}
+                </td>
+                <td>
+                    {{ (culture/total) | showPercent }}
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+{% if ilots | length > 0 %}
+<div class="card">
+    <div class="card-header">
+        Ilots Restant
+    </div>
+    <div class="list-group">
+        {% for ilot in ilots %}
+        <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">
+                    {{ilot["name"]}}
+
+                </h6>
+                <a href="{{ url("parcelle", {'parcelle_id': 0}) }}?surface={{ (ilot["surface_restante"])}}&ilot_id={{ (ilot["id"])}}">Ajouter</a>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Surface Ilot: {{ ilot["surface_totale"] | showHa }}
+                </div>
+                <div class="col-md-4">
+                    Surface restante: {{ (ilot["surface_restante"]) | showHa }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
