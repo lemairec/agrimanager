@@ -4,8 +4,10 @@
 namespace App\Twig;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class AppExtension extends \Twig_Extension
+class AppExtension extends AbstractExtension
 {
     /**
      * @var TokenStorage
@@ -25,28 +27,24 @@ class AppExtension extends \Twig_Extension
 
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('showDecimal', array($this, 'showDecimal')),
-            new \Twig_SimpleFilter('showInt', array($this, 'showInt')),
-            new \Twig_SimpleFilter('showUnity', array($this, 'showUnityFilter')),
-            new \Twig_SimpleFilter('showUnityHa', array($this, 'showUnityHaFilter')),
-            new \Twig_SimpleFilter('showLitre', array($this, 'showLitreFilter')),
-            new \Twig_SimpleFilter('showDate', array($this, 'showDateFilter')),
-            new \Twig_SimpleFilter('showDatetime', array($this, 'showDatetimeFilter')),
-            new \Twig_SimpleFilter('showDatetime2', array($this, 'showDatetimeFilter2')),
-            new \Twig_SimpleFilter('showHa', array($this, 'showHaFilter')),
-            new \Twig_SimpleFilter('showPercent', array($this, 'showPercentFilter')),
-            new \Twig_SimpleFilter('showEur', array($this, 'showEurFilter')),
-            new \Twig_SimpleFilter('showEurUnity', array($this, 'showEurUnityFilter')),
-            new \Twig_SimpleFilter('showIsoDate', array($this, 'showIsoDateFilter')),
-            new \Twig_SimpleFilter('my_path', array($this, 'my_path')),
-
-//new TwigFilter('my_path', array($this, 'my_path')),
-//new \Twig_SimpleFilter('my_path', array($this, 'my_path')),
-
-        );
+        return [
+            new TwigFilter('showDecimal', [$this, 'showDecimal']),
+            new TwigFilter('showInt', [$this, 'showInt']),
+            new TwigFilter('showUnity', [$this, 'showUnityFilter']),
+            new TwigFilter('showUnityHa', [$this, 'showUnityHaFilter']),
+            new TwigFilter('showLitre', [$this, 'showLitreFilter']),
+            new TwigFilter('showDate', [$this, 'showDateFilter']),
+            new TwigFilter('showDatetime', [$this, 'showDatetimeFilter']),
+            new TwigFilter('showDatetime2', [$this, 'showDatetimeFilter2']),
+            new TwigFilter('showHa', [$this, 'showHaFilter']),
+            new TwigFilter('showPercent', [$this, 'showHaFilter']),
+            new TwigFilter('showEur', [$this, 'showEurFilter']),
+            new TwigFilter('showEurUnity', [$this, 'showEurUnityFilter']),
+            new TwigFilter('showIsoDate', [$this, 'showIsoDateFilter']),
+            new TwigFilter('my_path', [$this, 'my_path']),
+        ];
     }
-
+    
     public function getUser()
     {
         return $this->tokenStorage->getToken()->getUser();
