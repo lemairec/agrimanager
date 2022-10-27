@@ -44,7 +44,7 @@ class ExportBddCommand extends Command
         $this->em = $doctrine->getManager();
 
         //backup
-        $output->writeln("sql");
+        $output->writeln("#sql");
         $path = $this->projectDir."/temp/dump";
         $backupSqlFile = "$path/backup.sql";
         $host = getenv('DATABASE_HOST');
@@ -58,17 +58,7 @@ class ExportBddCommand extends Command
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
-        $output->writeln('sql ok');
-
-        set_time_limit(200);
-        $output->writeln("copie");
-        $command = "cp -r ~/maplaine/public/uploads/* $path";
-        $process= new Process($command);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-        $output->writeln("copie ok");
+        $output->writeln('#sql ok');
 
     }
 
