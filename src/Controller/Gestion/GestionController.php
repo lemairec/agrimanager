@@ -85,7 +85,7 @@ class GestionController extends CommonController
         $chartjss = [];
         $chartjs = NULL;
         $year = 0;
-        
+
         foreach($ecritures as $ecriture){
             $new_year = $ecriture['date']->format('Y');
             if($year != $new_year){
@@ -95,7 +95,7 @@ class GestionController extends CommonController
                 }
                 $chartjs = ['annee'=> $year, 'data' => [], 'color' => $this->getDateColor()[$year], 'hidden' => $this->getHidden()[$year]];
             }
-            
+
             $chartjs['data'][] = ['date' => $ecriture['date']->format("d-m")."-2017", 'value' => $ecriture['sum_value'], 'name' => $ecriture['name'] ];
         }
         $chartjss[] = $chartjs;
@@ -353,12 +353,12 @@ class GestionController extends CommonController
 
             }
         }
-        
+
         $chartjss = $this->getDataWithDates($ecritures);
         $ecritures = array_reverse($ecritures);
 
         $chartjss = array_reverse($chartjss);
-        
+
         return $this->render('Gestion/banques.html.twig', array(
             'ecritures' => $ecritures,
             'chartjss' => $chartjss
@@ -402,12 +402,12 @@ class GestionController extends CommonController
 
             }
         }
-        
+
         $chartjss = $this->getDataWithDates($ecritures);
         $ecritures = array_reverse($ecritures);
 
         $chartjss = array_reverse($chartjss);
-        
+
         return $this->render('Gestion/banques.html.twig', array(
             'ecritures' => $ecritures,
             'chartjss' => $chartjss
@@ -446,7 +446,7 @@ class GestionController extends CommonController
                         }
                         $ecriture = ['operation_id'=>$operation->id,'date'=>$operation->date, 'name'=>$operation->name, 'value'=>$e->value, 'campagne'=>$campagne, "i"=>$i];
                         $ecriture['facture'] = $operation->facture;
-                        
+
                         if($compte->type == 'banque'){
                             $ecriture['value'] = -$ecriture['value'];
                         }
@@ -456,7 +456,7 @@ class GestionController extends CommonController
 
                         $ecritures[] = $ecriture;
                         if(!array_key_exists($campagne, $ecritures_by_campagne)){
-                            $ecritures_by_campagne[$campagne] = ["value" => 0, "ecritures" => []]; 
+                            $ecritures_by_campagne[$campagne] = ["value" => 0, "ecritures" => []];
                         }
                         $ecritures_by_campagne[$campagne]["ecritures"][] = $ecriture;
                         $ecritures_by_campagne[$campagne]["value"] += $ecriture['value'];
@@ -495,13 +495,13 @@ class GestionController extends CommonController
 
         $ecritures = array_reverse($ecritures);
         $ecritures_futures = array_reverse($ecritures_futures);
-    
+
         if ($form->isSubmitted()) {
             $em->persist($compte);
             $em->flush();
             return $this->redirectToRoute('comptes');
         }
-        
+
         $session->set("redirect_url_facture", $this->generateUrl('compte', array('compte_id' => $compte_id)));
         return $this->render('Gestion/compte.html.twig', array(
             'form' => $form->createView(),
@@ -538,7 +538,7 @@ class GestionController extends CommonController
                 }
                 $str = $campagne." - ".$f->tag;
                 if(!array_key_exists($str, $ecritures_by_campagne_by_tag)){
-                    $ecritures_by_campagne_by_tag[$str] = [ "value" => $str, "sum" => 0, "facture" => []]; 
+                    $ecritures_by_campagne_by_tag[$str] = [ "value" => $str, "sum" => 0, "facture" => []];
                 }
                 $ecritures_by_campagne_by_tag[$str]["facture"][] = $f;
                 $ecritures_by_campagne_by_tag[$str]["sum"] += $f->montantHT;

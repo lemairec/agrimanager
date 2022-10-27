@@ -49,7 +49,10 @@ yarn run encore production
 
 
 ssh maplainemk@ssh.cluster023.hosting.ovh.net
-cd maplaine; php bin/console export_bdd
+cd maplaine; sh ~/maplaine/export.sh
 exit
 
-rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/dump_maplaine.zip ~/workspace/dump --progress && sh ~/workspace/maplaine/import.sh
+rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspace/dump/ --progress
+
+rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspace/dump/ --progress
+ && sh ~/workspace/maplaine/import.sh
