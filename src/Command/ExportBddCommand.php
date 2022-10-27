@@ -43,36 +43,6 @@ class ExportBddCommand extends Command
         $doctrine = $container->get('doctrine');
         $this->em = $doctrine->getManager();
 
-        #$output->writeln($this->projectDir);
-
-        $path = $this->projectDir."/temp/dump";
-
-        
-        $output->writeln("begin");
-
-        //remove old
-        $output->writeln("remove $path");
-        $command = "rm -rf $path";
-        $process= new Process($command);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-        $output->writeln("remove ok");
-
-
-        //remove old
-        $output->writeln("mkdir $path");
-        $command = "mkdir -p $path";
-        $process= new Process($command);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-        $output->writeln("mkdir ok");
-
-
-
         //backup
         $output->writeln("sql");
         $backupSqlFile = "$path/backup.sql";
@@ -98,7 +68,7 @@ class ExportBddCommand extends Command
             throw new ProcessFailedException($process);
         }
         $output->writeln("copie ok");
-       
+
     }
 
 }
