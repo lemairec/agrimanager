@@ -45,6 +45,7 @@ class ExportBddCommand extends Command
 
         //backup
         $output->writeln("sql");
+        $path = $this->projectDir."/temp/dump";
         $backupSqlFile = "$path/backup.sql";
         $host = getenv('DATABASE_HOST');
         $port = getenv('DATABASE_PORT');
