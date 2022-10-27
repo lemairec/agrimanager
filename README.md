@@ -45,7 +45,7 @@ DROP TABLE ephy_commercial_name;
 DROP TABLE ephy_usage;
 DROP TABLE ephy_produit;
 
-
+yarn run encore production
 
 
 ssh maplainemk@ssh.cluster023.hosting.ovh.net
