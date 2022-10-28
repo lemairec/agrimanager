@@ -4,19 +4,19 @@ vich_uploader:
     mappings:
         analyse_sol:
             uri_prefix: '/uploads/analyse_sol'
-            upload_destination: '%kernel.root_dir%/../public/uploads/analyse_sol'
+            upload_destination: '%kernel.project_dir%/../public/uploads/analyse_sol'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
 
         facture_file:
             uri_prefix: '/uploads/factures'
-            upload_destination: '%kernel.root_dir%/../public/uploads/factures'
+            upload_destination: '%kernel.project_dir%/../public/uploads/factures'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         appartement_file:
             uri_prefix: '/uploads/appartements'
-            upload_destination: '%kernel.root_dir%/../public/uploads/appartements'
+            upload_destination: '%kernel.project_dir%/../public/uploads/appartements'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         document:
             uri_prefix: '/uploads/documents'
-            upload_destination: '%kernel.root_dir%/../public/uploads/documents'
+            upload_destination: '%kernel.project_dir%/../public/uploads/documents'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
             delete_on_update: true
