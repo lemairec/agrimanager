@@ -12,11 +12,6 @@ use Symfony\Component\Uid\Uuid;
  */
 class Group
 {
-    public function __construct()
-    {
-        $this->id = Uuid::v4();
-    }
-
     /**
      * @ORM\Id
      * @ORM\Column(type="guid", unique=true)
@@ -45,6 +40,7 @@ class Group
 
     public function __construct()
     {
+        $this->id = Uuid::v4();
         $this->roles = [];
     }
 }

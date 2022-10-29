@@ -13,11 +13,6 @@ use Symfony\Component\Uid\Uuid;
  */
 class User extends BaseUser
 {
-    public function __construct()
-    {
-        $this->id = Uuid::v4();
-    }
-
     /**
      * @ORM\Id
      * @ORM\Column(type="guid", unique=true)
@@ -53,6 +48,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->id = Uuid::v4();
         // your own logic
     }
 }
