@@ -1,5 +1,6 @@
 # app/config/security.yml
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User:
             algorithm: bcrypt
@@ -15,19 +16,20 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
-                csrf_token_generator: security.csrf.token_manager
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                enable_csrf: true
 
             logout:       true
-            anonymous:    true
-            
+
     role_hierarchy:
         ROLE_LEMCA: ROLE_USER
         ROLE_ADMIN: ROLE_LEMCA
 
     access_control:
-        - { path: ^/init$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/k8f96gtb$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/annonces/api, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/init$, role: PUBLIC_ACCESS }
+        - { path: ^/login, role: PUBLIC_ACCESS }
+        - { path: ^/register, role: PUBLIC_ACCESS }
+        - { path: ^/resetting, role: PUBLIC_ACCESS }
+        - { path: ^/k8f96gtb$, role: PUBLIC_ACCESS }
+        - { path: ^/annonces/api, role: PUBLIC_ACCESS }
