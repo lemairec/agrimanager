@@ -7,6 +7,3 @@ monolog:
             excluded_404s:
                 # regex: exclude all 404 errors from the logs
                 - ^/
-        deduplicated:
-            type:    deduplication
-            handler: swift
