@@ -19,12 +19,7 @@ security:
 
             logout:       true
             anonymous:    true
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 604800 # 1 week in seconds
-                path:     /
-                always_remember_me: true
-
+            
     role_hierarchy:
         ROLE_LEMCA: ROLE_USER
         ROLE_ADMIN: ROLE_LEMCA
