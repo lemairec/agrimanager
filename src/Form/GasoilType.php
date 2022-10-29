@@ -34,7 +34,7 @@ class GasoilType extends AbstractType
             ]]);
 
         $builder->add('materiel', EntityType::class, array(
-            'class'        => 'App:Materiel',
+            'class'        => Materiel::class,
             'choices' => $options['materiels'],
         ));
         $builder->add('nb_heure');

@@ -673,7 +673,7 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $materiels = $em->getRepository('App:Materiel')->getAllForCompany($this->company);
+        $materiels = $em->getRepository(Materiel::class)->getAllForCompany($this->company);
 
         return $this->render('Default/materiels.html.twig', array(
             'materiels' => $materiels,
@@ -694,7 +694,7 @@ class DefaultController extends CommonController
             $materiel = new Materiel();
             $materiel->company = $this->company;
         } else {
-            $materiel = $em->getRepository('App:Materiel')->findOneById($materiel_id);
+            $materiel = $em->getRepository(Materiel::class)->findOneById($materiel_id);
             $entretiens =  $em->getRepository('App:MaterielEntretien')->findByMateriel($materiel);
             $interventions =  $em->getRepository(Intervention::class)->getAllForMateriel($materiel);
         }
@@ -726,7 +726,7 @@ class DefaultController extends CommonController
         if($entretien_id == '0'){
             $entretien = new MaterielEntretien();
             $entretien->company = $this->company;
-            $entretien->materiel = $em->getRepository('App:Materiel')->findOneById($materiel_id);
+            $entretien->materiel = $em->getRepository(Materiel::class)->findOneById($materiel_id);
             $entretien->date = new \Datetime();
         } else {
             $entretien = $em->getRepository('App:MaterielEntretien')->findOneById($entretien_id);

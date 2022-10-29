@@ -140,7 +140,7 @@ class AdminController extends CommonController
         public function adminMetaCulturesAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
-            $metacultures = $em->getRepository('App:MetaCulture')->findAll();
+            $metacultures = $em->getRepository(MetaCulture::class)->findAll();
 
             return $this->render('Admin/metacultures.html.twig', array(
                 'metacultures' => $metacultures
@@ -157,7 +157,7 @@ class AdminController extends CommonController
             if($id == '0'){
                 $metaculture = new MetaCulture();
             } else {
-                $metaculture = $em->getRepository('App:MetaCulture')->findOneById($id);
+                $metaculture = $em->getRepository(MetaCulture::class)->findOneById($id);
             }
             $form = $this->createForm(MetaCultureType::class, $metaculture);
             $form->handleRequest($request);

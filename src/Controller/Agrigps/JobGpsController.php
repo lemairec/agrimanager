@@ -29,7 +29,7 @@ class JobGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
+        $job_gpss = $em->getRepository(JobGps::class)->findAll();
 
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
@@ -46,7 +46,7 @@ class JobGpsController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $user = $this->getUser();
 
-        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findByUser($user);
+        $job_gpss = $em->getRepository(JobGps::class)->findByUser($user);
 
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
@@ -60,7 +60,7 @@ class JobGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
+        $job_gpss = $em->getRepository(JobGps::class)->findAll();
 
         foreach($job_gpss as $j){
             $j->debug = null;
@@ -77,7 +77,7 @@ class JobGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
+        $job_gps = $em->getRepository(JobGps::class)->find($id);
 
 
         $lat = 0;
@@ -123,7 +123,7 @@ class JobGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
+        $job_gps = $em->getRepository(JobGps::class)->find($id);
 
 
 
@@ -183,7 +183,7 @@ class JobGpsController extends CommonController
         $jobGps->user = $em->getRepository("App:User")->findOneByEmail($jobGps->userEmail);
 
 
-        $res = $em->getRepository("App:Agrigps\JobGps")->findByDateBegin($jobGps->dateBegin);
+        $res = $em->getRepository(JobGps::class)->findByDateBegin($jobGps->dateBegin);
         foreach($res as $r){
             $em->remove($r);
         }

@@ -16,7 +16,7 @@ class InterventionMaterielType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('materiel', EntityType::class, array(
-            'class'        => 'App:Materiel',
+            'class'        => Materiel::class,
             'choice_label' => 'name',
             'choices' => $options['materiels'],
         ));

@@ -287,7 +287,7 @@ class InterventionController extends CommonController
         } else {
             $intervention_materiel = $em->getRepository('App:InterventionMateriel')->findOneById($intervention_materiel);
         }
-        $materiels =  $em->getRepository('App:Materiel')->getAllForCompany($this->company);
+        $materiels =  $em->getRepository(Materiel::class)->getAllForCompany($this->company);
         $form = $this->createForm(InterventionMaterielType::class, $intervention_materiel, array(
             'materiels' => $materiels
         ));

@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use DateTime;
-use App\Entity\JobGps;
+use App\Entity\Agrigps\JobGps;
 use App\Form\JobGpsType;
 
 class ParcelleGpsController extends CommonController
@@ -24,8 +24,8 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
-        
+        $job_gpss = $em->getRepository(JobGps::class)->findAll();
+
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
         ));
@@ -40,9 +40,9 @@ class ParcelleGpsController extends CommonController
 
         $campagne = $this->getCurrentCampagne($request);
         $user = $this->getUser();
-        
-        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findByUser($user);
-        
+
+        $job_gpss = $em->getRepository(JobGps::class)->findByUser($user);
+
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
         ));
@@ -55,8 +55,8 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
-        
+        $job_gpss = $em->getRepository(JobGps::class)->findAll();
+
         foreach($job_gpss as $j){
             $j->debug = null;
             $em->persist($j);
@@ -72,9 +72,9 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
+        $job_gps = $em->getRepository(JobGps::class)->find($id);
 
-        
+
         $lat = 0;
         $long = 0;
 
@@ -88,7 +88,7 @@ class ParcelleGpsController extends CommonController
                 $points[] = ["lat"=>$res[1], "long"=>$res[2]];
             }
         }
-        
+
         //dump($tab);
         //dump($lat);
 
@@ -118,16 +118,16 @@ class ParcelleGpsController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
+        $job_gps = $em->getRepository(JobGps::class)->find($id);
 
-        
+
 
         // Provide a name for your file with extension
         $filename = 'debug.txt';
-        
+
         // The dinamically created content of the file
         $fileContent = $job_gps->debug;
-        
+
         // Return a response with a specific content
         $response = new Response($fileContent);
 
@@ -142,7 +142,7 @@ class ParcelleGpsController extends CommonController
 
         // Dispatch request
         return $response;
-    
+
         //dump($tab);
         //dump($lat);
 
@@ -176,8 +176,8 @@ class ParcelleGpsController extends CommonController
         $jobGps->userEmail = $data["user_email"];
         $jobGps->user = $em->getRepository("App:User")->findOneByEmail($jobGps->userEmail);
 
-        
-        $res = $em->getRepository("App:Agrigps\JobGps")->findByDateBegin($jobGps->dateBegin);
+
+        $res = $em->getRepository(JobGps::class)->findByDateBegin($jobGps->dateBegin);
         foreach($res as $r){
             $em->remove($r);
         }
@@ -188,7 +188,7 @@ class ParcelleGpsController extends CommonController
 
         return new JsonResponse("ok");
     }
-    
+
     /**
      * @Route("/api/parcelles_gps")
      */

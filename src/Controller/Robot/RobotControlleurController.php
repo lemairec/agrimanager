@@ -45,7 +45,7 @@ class RobotControlleurController extends CommonController
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
         $orders = $em->getRepository("App:Robot\Order")->getLast10ForRobot($robot);
-        $jobs = $em->getRepository("App:Robot\Job")->getTop10();
+        $jobs = $em->getRepository(Job::class)->getTop10();
         $data = json_encode($robot->last_data);
         $lat = 0;
         $lng = 0;
@@ -104,7 +104,7 @@ class RobotControlleurController extends CommonController
     public function robot_jobs(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $robot_jobs = $em->getRepository("App:Robot\Job")->getAll();
+        $robot_jobs = $em->getRepository(Job::class)->getAll();
 
         return $this->render('robot/jobs.html.twig', array(
             'jobs' => $robot_jobs,
@@ -118,7 +118,7 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $robot_job = $em->getRepository("App:Robot\Job")->find($id);
+        $robot_job = $em->getRepository(Job::class)->find($id);
         if($robot_job == null){
             $robot_job = new Job();
             $robot_job->id = 0;
@@ -149,7 +149,7 @@ class RobotControlleurController extends CommonController
     {
 
         $em = $this->getDoctrine()->getManager();
-        $robot_job= $em->getRepository("App:Robot\Job")->find($robot_job_id);
+        $robot_job= $em->getRepository(Job::class)->find($robot_job_id);
 
         $em->remove($robot_job);
         $em->flush();
@@ -164,7 +164,7 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $robot_job = $em->getRepository("App:Robot\Job")->find($id);
+        $robot_job = $em->getRepository(Job::class)->find($id);
         $robot = $em->getRepository(Robot::class)->find($robot_id);
 
         $form = $this->createForm(JobRobotType::class, $robot_job);

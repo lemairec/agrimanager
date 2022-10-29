@@ -27,7 +27,7 @@ class AnnonceController extends CommonController
         }
         $order = $request->query->get("order");
 
-        $annonces = $em->getRepository('App:Annonce')->getAll2($label, $order);
+        $annonces = $em->getRepository(Annonce::class)->getAll2($label, $order);
         return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
         ));
@@ -41,7 +41,7 @@ class AnnonceController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
 
-        $annonces = $em->getRepository('App:Annonce')->getAllCategories("immobilier");
+        $annonces = $em->getRepository(Annonce::class)->getAllCategories("immobilier");
 
         return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
@@ -56,7 +56,7 @@ class AnnonceController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
 
-        $annonces = $em->getRepository('App:Annonce')->getAllCategories("immobilier_nantes");
+        $annonces = $em->getRepository(Annonce::class)->getAllCategories("immobilier_nantes");
 
         return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
@@ -72,7 +72,7 @@ class AnnonceController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
 
-        $annonces = $em->getRepository('App:Annonce')->getBennes();
+        $annonces = $em->getRepository(Annonce::class)->getBennes();
 
         return $this->render('Default/annonces.html.twig', array(
             'annonces' => $annonces,
@@ -102,7 +102,7 @@ class AnnonceController extends CommonController
             //print(json_encode($annonce));
             //print("\n");
             if($annonce->price > 10){
-                $em->getRepository('App:Annonce')->saveOrUpdate($annonce, $mailer);
+                $em->getRepository(Annonce::class)->saveOrUpdate($annonce, $mailer);
             }
         }
         return new Response("ok");
@@ -114,7 +114,7 @@ class AnnonceController extends CommonController
     public function annoncesApiUpdateNew(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Annonce')->updateNew();
+        $em->getRepository(Annonce::class)->updateNew();
         return new Response("ok");
     }
 }

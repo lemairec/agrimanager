@@ -88,7 +88,7 @@ class GasoilController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $materiels = $em->getRepository('App:Materiel')->getAllForCompany($this->company);
+        $materiels = $em->getRepository(Materiel::class)->getAllForCompany($this->company);
         $materiels[] = null;
         if($gasoil_id == '0'){
             $gasoil = new Gasoil();
