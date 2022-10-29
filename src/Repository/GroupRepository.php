@@ -13,7 +13,7 @@ class GroupRepository extends \Doctrine\ORM\EntityRepository
 {
     /*function count($group){
         $em = $this->getEntityManager();
-        $campagne = $em->getRepository('App:Campagne')->findOneById("f49d37d6-3951-11e7-92c4-80e65014bb7c");
+        $campagne = $em->getRepository(Campagne::class)->findOneById("f49d37d6-3951-11e7-92c4-80e65014bb7c");
 
         $achats = $this->findByCampagne($campagne);
         foreach ($achats as $achat) {

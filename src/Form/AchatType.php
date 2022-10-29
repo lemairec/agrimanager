@@ -26,7 +26,7 @@ class AchatType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
             ));
             $builder->add('produit', EntityType::class, array(
-                'class'        => 'App:Produit',
+                'class'        => Produit::class,
                 'choices' => $options['produits'],
             ));
             $builder->add('type', ChoiceType::class, array(
@@ -38,7 +38,7 @@ class AchatType extends AbstractType
                 ),
             ));
             $builder->add('facture', EntityType::class, array(
-                'class'        => 'App:Gestion\FactureFournisseur',
+                'class'        => FactureFournisseur::class,
                 'choices' => $options['factures'],
             ));
             $builder->add('qty')->add('price_total')->add('externId')->add('comment');

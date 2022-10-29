@@ -20,7 +20,6 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('admin_companies') }}">Companies</a>
                             <a class="dropdown-item" href="{{ url('admin_metacultures') }}">Cultures Admin</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('easyadmin') }}">Easy Admin</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('robots') }}">Robots</a>
                             <a class="dropdown-item" href="{{ url('robot_jobs') }}">Jobs</a>
@@ -39,11 +38,11 @@ Ma Plaine</a>
                     {% if is_granted('ROLE_LEMCA') %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{'Lemca' | trans}}
+                            Lemca
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('licences') }}">Licences</a>   
-                               
+                            <a class="dropdown-item" href="{{ url('licences') }}">Licences</a>
+
                         </div>
                     {% endif %}
                     <li class="nav-item dropdown">
@@ -103,7 +102,7 @@ Ma Plaine</a>
                             Bilan
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        
+
 
                             <a class="dropdown-item" href="{{ url('fiches_parcellaires') }}">Fiches Parcellaires</a>
                             {% if is_granted('ROLE_NEW_FEATURE') %}
@@ -153,7 +152,7 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('bilan_banque') }}">Bilan Banque</a>
                             <a class="dropdown-item" href="{{ url('bilan_emprunt') }}">Bilan Emprunt</a>
                             {% endif %}
-                            
+
                         </div>
                     </li>
                     {% endif %}

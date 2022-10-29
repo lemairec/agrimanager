@@ -25,7 +25,7 @@ class ProduitController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $produits = $em->getRepository('App:Produit')
+        $produits = $em->getRepository(Produit::class)
             ->getAllForCompany($this->company);
 
         return $this->render('Default/produits.html.twig', array(
@@ -42,9 +42,9 @@ class ProduitController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $produits = $em->getRepository('App:Produit')
+        $produits = $em->getRepository(Produit::class)
             ->getAllForCompany($this->company);
-        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes2 = $em->getRepository(Campagne::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
 
         $produits2 = [];
         foreach($produits as $produit){
@@ -79,7 +79,7 @@ class ProduitController extends CommonController
 
         $data = $data["produit"];
 
-        $produit = $em->getRepository('App:Produit')->find($data["id"]);
+        $produit = $em->getRepository(Produit::class)->find($data["id"]);
         if($produit){
         } else {
             $produit = new Produit();
@@ -99,7 +99,7 @@ class ProduitController extends CommonController
         $produit->ephyProduit = $em->getRepository('App:EphyProduit')->find($data["produit_ephy"]);
         //$intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
 
-        $em->getRepository('App:Produit')->update($produit);
+        $em->getRepository(Produit::class)->update($produit);
 
         return new JsonResponse($produit);
     }
@@ -111,7 +111,7 @@ class ProduitController extends CommonController
 
         if ($form->isSubmitted()) {
             $produit->company = $this->company;
-            $em->getRepository('App:Produit')->update($produit);
+            $em->getRepository(Produit::class)->update($produit);
             return $this->redirectToRoute('produits');
         }
     }
@@ -129,8 +129,8 @@ class ProduitController extends CommonController
         if($produit_id == '0'){
             $produit = new Produit();
         } else {
-            $produit = $em->getRepository('App:Produit')->findOneById($produit_id);
-            $interventions = $em->getRepository('App:Intervention')->getAllForProduit($produit);
+            $produit = $em->getRepository(Produit::class)->findOneById($produit_id);
+            $interventions = $em->getRepository(Intervention::class)->getAllForProduit($produit);
             $produitcampagnes = $em->getRepository('App:ProduitCampagne')->getAllForProduit($produit);
             $achats = $em->getRepository('App:Achat')->getAllForProduit($produit);
         }
@@ -152,7 +152,7 @@ class ProduitController extends CommonController
     public function produitDeleteAction($produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Produit')->delete($produit_id);
+        $em->getRepository(Produit::class)->delete($produit_id);
         return $this->redirectToRoute('produits');
     }
 
@@ -164,7 +164,7 @@ class ProduitController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:Produit')->getAllForCompanyPhyto($this->company);
+        $produits = $em->getRepository(Produit::class)->getAllForCompanyPhyto($this->company);
         $sum = 0;
         foreach ($produits as $p) {
             $sum += $p->quantity * $p->price;
@@ -185,7 +185,7 @@ class ProduitController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:Produit')->getAllForCompanyStock($this->company);
+        $produits = $em->getRepository(Produit::class)->getAllForCompanyStock($this->company);
         $sum = 0;
         foreach ($produits as $p) {
             $sum += $p->quantity * $p->price;
@@ -206,7 +206,7 @@ class ProduitController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:Produit')->getAllForCompanyStock($this->company);
+        $produits = $em->getRepository(Produit::class)->getAllForCompanyStock($this->company);
         $sum = 0;
         foreach ($produits as $p) {
             $sum += $p->quantity * $p->price;
@@ -226,8 +226,8 @@ class ProduitController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:Produit')->getAllForCompany($this->getCurrentCampagne($request)->company);
-        $campagnes = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $produits = $em->getRepository(Produit::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes = $em->getRepository(Campagne::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
         foreach($produits as $produit){
             $produit->produit_campagnes = [];
             foreach($campagnes as $campagne){
@@ -251,7 +251,7 @@ class ProduitController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $produits = $em->getRepository('App:Produit')
+        $produits = $em->getRepository(Produit::class)
             ->getAllEngraisForCompany($this->company);
 
         return $this->render('Default/produit_engrais.html.twig', array(

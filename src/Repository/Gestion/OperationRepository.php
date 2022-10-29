@@ -2,6 +2,7 @@
 
 namespace App\Repository\Gestion;
 
+use Doctrine\ORM\Query\ResultSetMapping;
 /**
  * OperationRepository
  *
@@ -15,15 +16,20 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
         $sql = 'SELECT operation_id FROM ecriture where compte_id = ?';
 
         $em = $this->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare($sql);
-        $statement->bindValue(1, $compte->id);
-        $statement->execute();
-        $res = $statement->fetchAll();
+        $rsm = new ResultSetMapping();
+
+        $rsm->addScalarResult('operation_id', 'operation_id');
+        $statement = $em->createNativeQuery($sql, $rsm);
+        $statement->setParameter(1, $compte->id);
+        $res = $statement->getResult();
+
         $ids = [];
         foreach($res as $p){
             $ids[] = $p["operation_id"];
         }
+
+
+
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $this->createQueryBuilder('p')
@@ -36,7 +42,7 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /*function getAllForBanque($company){
-        
+
         $em = $this->getEntityManager();
         $sql = 'SELECT operation_id FROM ecriture e join compte c on e.compte_id=c.id where c.type = "banque" and c.company_id = "'.$company->id.'"';
 
@@ -68,7 +74,7 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
             return $query->getResult();
     }
 
-    
+
     function getAllForEmprunt($emprunt){
         $query = $this->createQueryBuilder('p')
             ->where('p.emprunt = :emprunt')

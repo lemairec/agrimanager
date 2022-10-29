@@ -5,8 +5,5 @@ fos_user:
     from_email:
         address: "noreply@maplaine.fr"
         sender_name: "Ma Plaine"
-    registration:
-        confirmation:
-            enabled: true
     service:
         mailer: 'fos_user.mailer.noop'

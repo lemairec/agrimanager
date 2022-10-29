@@ -20,7 +20,7 @@ class ProduitCampagneRepository extends \Doctrine\ORM\EntityRepository
         }
         $em->flush();
 
-        $campagnes = $em->getRepository('App:Campagne')->findByCompany($produit->company);
+        $campagnes = $em->getRepository(Campagne::class)->findByCompany($produit->company);
         foreach($campagnes as $campagne){
             $achats = $em->getRepository('App:Achat')->createQueryBuilder('a')
                 ->where('a.campagne = :campagne')

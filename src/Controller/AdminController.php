@@ -7,13 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Group;
+use App\Entity\User;
+use App\Entity\Company;
+use App\Entity\Log;
 use App\Entity\MetaCulture;
 
 use App\Form\UserType;
 use App\Form\CompanyAdminType;
 use App\Form\MetaCultureType;
 
-class AdminController extends AbstractController
+class AdminController extends CommonController
 {
 
         /**
@@ -22,10 +25,10 @@ class AdminController extends AbstractController
         public function adminUsersAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
-            $users = $em->getRepository('App:User')->findAll();
-            $logs = $em->getRepository('App:Log')->countByUser();
-            $parcelles = $em->getRepository('App:Parcelle')->countByCompany();
-            $interventions = $em->getRepository('App:Intervention')->countByCompany();
+            $users = $em->getRepository(User::class)->findAll();
+            $logs = $em->getRepository(Log::class)->countByUser();
+            $parcelles = $em->getRepository(Parcelle::class)->countByCompany();
+            $interventions = $em->getRepository(Intervention::class)->countByCompany();
 
             $logs_dict = [];
             foreach ($logs as $log) {
@@ -43,7 +46,7 @@ class AdminController extends AbstractController
             }
 
             foreach($users as $user){
-                $companies = $em->getRepository('App:Company')->getAllForUser($user);
+                $companies = $em->getRepository(Company::class)->getAllForUser($user);
                 $user->logs = 0;
                 $user->parcelles = 0;
                 $user->interventions = 0;
@@ -73,11 +76,11 @@ class AdminController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
 
-            $user = $em->getRepository('App:User')->findOneById($id);
+            $user = $em->getRepository(User::class)->findOneById($id);
             $form = $this->createForm(UserType::class, $user);
             $form->handleRequest($request);
 
-            $logs = $em->getRepository('App:Log')->findByUser($user);
+            $logs = $em->getRepository(Log::class)->findByUser($user);
 
 
             if ($form->isSubmitted()) {
@@ -98,7 +101,7 @@ class AdminController extends AbstractController
         public function adminCompaniesAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
-            $companies = $em->getRepository('App:Company')->findAll();
+            $companies = $em->getRepository(Company::class)->findAll();
 
             return $this->render('Admin/companies.html.twig', array(
                 'companies' => $companies
@@ -115,7 +118,7 @@ class AdminController extends AbstractController
             if($id == '0'){
                 return;
             } else {
-                $company = $em->getRepository('App:Company')->findOneById($id);
+                $company = $em->getRepository(Company::class)->findOneById($id);
             }
             $form = $this->createForm(CompanyAdminType::class, $company);
             $form->handleRequest($request);

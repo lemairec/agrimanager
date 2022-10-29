@@ -18,12 +18,12 @@ class ParcelleType extends AbstractType
     {
         $builder->add('surface')->add('name');
         $builder->add('ilot', EntityType::class, array(
-            'class'        => 'App:Ilot',
+            'class'        => Ilot::class,
             'choices' => $options['ilots'],
             'required' => false
         ));
         $builder->add('culture', EntityType::class, array(
-            'class'        => 'App:Culture',
+            'class'        => Culture::class,
             'choices' => $options['cultures'],
         ));
         $builder->add('active');

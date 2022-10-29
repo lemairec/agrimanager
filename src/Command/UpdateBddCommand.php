@@ -37,7 +37,7 @@ class UpdateBddCommand extends Command
         }
         $output->writeln('begin');
         
-        /*$facture = $this->em->getRepository('App:Gestion\FactureFournisseur')->findAll();
+        /*$facture = $this->em->getRepository(FactureFournisseur::class)->findAll();
         foreach ($facture as $f) {
             $f->paiementDate = $f->date;
             $f->paiementOrder = 0;

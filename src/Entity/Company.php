@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Company
@@ -12,12 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Company
 {
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
     /**
-     * @var guid
-     *
-     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     public $id;
 
@@ -57,7 +62,7 @@ class Company
      */
     public $site1_name;
 
-    
+
      /**
      * @var string
      *
@@ -71,7 +76,7 @@ class Company
      * @ORM\Column(name="meto_city", type="string", length=255, nullable=true)
      */
     public $meteoCity;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User")
      * @ORM\JoinTable(name="_fos_user_user_company",

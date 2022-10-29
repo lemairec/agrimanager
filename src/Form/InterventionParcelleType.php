@@ -17,7 +17,7 @@ class InterventionParcelleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('parcelle', EntityType::class, array(
-            'class'        => 'App:Parcelle',
+            'class'        => Parcelle::class,
             'choice_label' => 'completeName',
             'choices' => $options['parcelles'],
         ));

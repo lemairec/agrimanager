@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DocumentRepository")
@@ -12,12 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document
 {
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
     /**
-     * @var guid
-     *
-     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     public $id;
 
@@ -105,7 +110,7 @@ class Document
     {
         return $this->docName;
     }
-    
+
     public function getDocMyFileName(){
         $str = $this->name;
         $str = str_replace(" - ", '_', $str);

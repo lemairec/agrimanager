@@ -35,7 +35,7 @@ class UserController extends CommonController
         if($user_id == ''){
             return new Response("user not found");
         }
-        $user = $em->getRepository('App:User')->findOneById($user_id);
+        $user = $em->getRepository(User::class)->findOneById($user_id);
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
         $this->get("security.token_storage")->setToken($token);

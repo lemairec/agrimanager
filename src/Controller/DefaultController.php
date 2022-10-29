@@ -52,20 +52,19 @@ use App\Form\VarieteType;
 
 class DefaultController extends CommonController
 {
-
     /**
      * @Route("/", name="home")
      */
     public function indexAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return  $this->render('home.html.twig');
         }
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $interventions = $em->getRepository('App:Intervention')->getLast5ForCampagne($campagne);
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $interventions = $em->getRepository(Intervention::class)->getLast5ForCampagne($campagne);
+        $parcelles = $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
 
         $cultures = [];
         $total = 0;
@@ -125,7 +124,7 @@ class DefaultController extends CommonController
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
-        $logs = $em->getRepository('App:Log')->find10ByUser($this->getUser());
+        $logs = $em->getRepository(Log::class)->find10ByUser($this->getUser());
         return $this->render('Profile/historique.html.twig', array(
             'logs' => $logs,
             'navs' => ["historique" => "profile_historique"]
@@ -149,7 +148,7 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $ilots = $em->getRepository('App:Ilot')->getAllforCompany($this->company);
+        $ilots = $em->getRepository(Ilot::class)->getAllforCompany($this->company);
         $sum_ilots = array_reduce($ilots, function($i, $obj)
         {
             return $i += $obj->surface;
@@ -162,7 +161,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    
+
 
     /**
      * @Route("/assolement", name="assolement")
@@ -181,30 +180,30 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $ilots = $em->getRepository('App:Ilot')->getAllforCompany($this->company);
+        $ilots = $em->getRepository(Ilot::class)->getAllforCompany($this->company);
 
-        $campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
-        
+        $campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
+
         $res = [];
         foreach($ilots as $i){
             $ligne = ["ilot" => $i];
             foreach($campagnes as $c){
-                $ligne[$c->name] = ["parcelles" => $em->getRepository('App:Parcelle')->getAllForIlotCampagne($i, $c)];
+                $ligne[$c->name] = ["parcelles" => $em->getRepository(Parcelle::class)->getAllForIlotCampagne($i, $c)];
             }
             $res[] = $ligne;
         }
 
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $cultures_res = [];
         foreach($cultures as $c2){
             $ligne = ["culture" => $c2];
             foreach($campagnes as $c){
-                $ligne[$c->name] = ["sum" => $em->getRepository('App:Parcelle')->getSumForCultureCampagne($c2, $c)];
+                $ligne[$c->name] = ["sum" => $em->getRepository(Parcelle::class)->getSumForCultureCampagne($c2, $c)];
             }
             $cultures_res[] = $ligne;
         }
         //dump($res);
-       
+
 
         return $this->render('Default/assolement.html.twig', array(
             'ilots' => $res,
@@ -213,7 +212,7 @@ class DefaultController extends CommonController
             'navs' => ["Ilots" => "ilots"]
         ));
     }
-    
+
     /**
      * @Route("/assolement3", name="assolement3")
      */
@@ -226,15 +225,15 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $ilots = $em->getRepository('App:Ilot')->getAllforCompany($this->company);
+        $ilots = $em->getRepository(Ilot::class)->getAllforCompany($this->company);
 
-        $campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
-        
+        $campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
+
         $res = [];
         foreach($ilots as $i){
             $maxParcelles = 0;
             foreach($campagnes as $c){
-                $c = count($em->getRepository('App:Parcelle')->getAllForIlotCampagne($i, $c));
+                $c = count($em->getRepository(Parcelle::class)->getAllForIlotCampagne($i, $c));
                 if($c>$maxParcelles){
                     $maxParcelles = $c;
                 }
@@ -244,7 +243,7 @@ class DefaultController extends CommonController
                 $ligne = ["ilot" => $i, "ilot_name" => $i->name."_".$j, "idx" => $j];
                 foreach($campagnes as $c){
                     foreach($campagnes as $c){
-                        $parcelles = $em->getRepository('App:Parcelle')->getAllForIlotCampagne($i, $c);
+                        $parcelles = $em->getRepository(Parcelle::class)->getAllForIlotCampagne($i, $c);
                         if($j<count($parcelles)){
                             $ligne[$c->name] = ["name" => $parcelles[$j]->name, "surface" => $parcelles[$j]->surface, "culture" => $parcelles[$j]->culture];
                         } else {
@@ -254,18 +253,18 @@ class DefaultController extends CommonController
                     $cultures_res[] = $ligne;
                 }
                 $ligne_ilot["parcelles"][] = $ligne;
-                
+
             }
             $res[] = $ligne_ilot;
-            
+
         }
 
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $cultures_res = [];
         foreach($cultures as $c2){
             $ligne = ["culture" => $c2];
             foreach($campagnes as $c){
-                $ligne[$c->name] = ["sum" => $em->getRepository('App:Parcelle')->getSumForCultureCampagne($c2, $c)];
+                $ligne[$c->name] = ["sum" => $em->getRepository(Parcelle::class)->getSumForCultureCampagne($c2, $c)];
             }
             $cultures_res[] = $ligne;
         }
@@ -287,7 +286,7 @@ class DefaultController extends CommonController
         }
     }
 
-    
+
 
     /**
      * @Route("/ilot/{ilot_id}", name="ilot")
@@ -301,8 +300,8 @@ class DefaultController extends CommonController
             $ilot = new Ilot();
             $ilot->company = $this->company;
         } else {
-            $ilot = $em->getRepository('App:Ilot')->findOneById($ilot_id);
-            $parcelles = $em->getRepository('App:Parcelle')->getAllForIlot($ilot);
+            $ilot = $em->getRepository(Ilot::class)->findOneById($ilot_id);
+            $parcelles = $em->getRepository(Parcelle::class)->getAllForIlot($ilot);
         }
         $form = $this->createForm(IlotType::class, $ilot);
         $form->handleRequest($request);
@@ -334,7 +333,7 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
+        $campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
         return $this->render('Default/campagnes.html.twig', array(
             'campagnes2' => $campagnes,
             'navs' => ["Campagnes" => "campagnes"]
@@ -352,7 +351,7 @@ class DefaultController extends CommonController
             $campagne = new Campagne();
             $campagne->company = $this->company;
         } else {
-            $campagne = $em->getRepository('App:Campagne')->findOneById($campagne_id);
+            $campagne = $em->getRepository(Campagne::class)->findOneById($campagne_id);
         }
         $form = $this->createForm(CampagneType::class, $campagne);
         if($this->getUser()->getUsername() == "lejard"){
@@ -380,7 +379,7 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         return $this->render('Default/cultures.html.twig', array(
             'cultures' => $cultures,
             'navs' => ["Cultures" => "cultures"]
@@ -398,7 +397,7 @@ class DefaultController extends CommonController
             $culture = new Culture();
             $culture->company = $this->company;
         } else {
-            $culture = $em->getRepository('App:Culture')->findOneById($culture_id);
+            $culture = $em->getRepository(Culture::class)->findOneById($culture_id);
         }
         $form = $this->createForm(CultureType::class, $culture);
         if($this->getUser()->getUsername() == "lejard"){
@@ -438,13 +437,13 @@ class DefaultController extends CommonController
         $cultures = [];
         $total = 0;
 
-        $is = $em->getRepository('App:Ilot')->getAllForCompany($campagne->company);
+        $is = $em->getRepository(Ilot::class)->getAllForCompany($campagne->company);
         $ilots = [];
         foreach ($is as $i) {
             $ilots[] = ["id" => $i->id, "name" => $i->name, "surface_totale" => $i->surface, "surface" => 0];
         }
 
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $parcelles = $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
         foreach ($parcelles as $p) {
             if($p->active && $p->culture){
                 if (!array_key_exists($p->getCultureName(), $cultures)) {
@@ -509,7 +508,7 @@ class DefaultController extends CommonController
     public function parcellesAction(Request $request)
     {
         return $this->getParcelles($request, 0);
-        
+
     }
 
     /**
@@ -535,19 +534,19 @@ class DefaultController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $ilots = $em->getRepository('App:Ilot')->getAllforCompany($this->company);
+        $ilots = $em->getRepository(Ilot::class)->getAllforCompany($this->company);
         $ilots[] = null;
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $cultures[] = null;
         if($parcelle_id == '0'){
             $parcelle = new Parcelle();
             $parcelle->active = 1;
             $parcelle->campagne = $campagne;
             $parcelle->surface = $request->query->get("surface", 0);
-            $parcelle->ilot = $em->getRepository('App:Ilot')->find($request->query->get("ilot_id", ""));
+            $parcelle->ilot = $em->getRepository(Ilot::class)->find($request->query->get("ilot_id", ""));
             $parcelle->geoJson = "";
         } else {
-            $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
+            $parcelle = $em->getRepository(Parcelle::class)->findOneById($parcelle_id);
         }
 
         //dump($parcelle);
@@ -559,12 +558,12 @@ class DefaultController extends CommonController
 
 
         if ($form->isSubmitted()) {
-            $parcelle = $em->getRepository('App:Parcelle')->save($parcelle);
+            $parcelle = $em->getRepository(Parcelle::class)->save($parcelle);
             return $this->redirectToRoute('parcelles');
         }
         $interventions = [];
         if($parcelle->id && $parcelle->id != '0'){
-            $interventions = $em->getRepository('App:Intervention')->getAllForParcelle($parcelle);
+            $interventions = $em->getRepository(Intervention::class)->getAllForParcelle($parcelle);
          }
         $priceHa = 0;
         foreach($interventions as $it){
@@ -587,8 +586,8 @@ class DefaultController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $parcelle = $em->getRepository(Parcelle::class)->findOneById($parcelle_id);
+        $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         if($variete_id == '0'){
             $variete = new Variete();
             $variete->parcelle = $parcelle;
@@ -630,9 +629,9 @@ class DefaultController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $parcelle = $em->getRepository('App:Parcelle')->findOneById($parcelle_id);
+        $parcelle = $em->getRepository(Parcelle::class)->findOneById($parcelle_id);
         $variete = $em->getRepository('App:Variete')->findOneById($variete_id);
-        
+
         $em->remove($variete);
         $em->flush();
         return $this->redirectToRoute('parcelle',['parcelle_id'=> $parcelle_id]);
@@ -645,7 +644,7 @@ class DefaultController extends CommonController
     public function parcelleDeleteAction($parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Parcelle')->delete($parcelle_id);
+        $em->getRepository(Parcelle::class)->delete($parcelle_id);
         return $this->redirectToRoute('parcelles');
     }
 
@@ -656,8 +655,8 @@ class DefaultController extends CommonController
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
-        $interventions = $em->getRepository('App:Intervention')->getAllForCompany($this->company);
-        $gasoils = $em->getRepository('App:Gasoil')->getAllForCompany($this->company);
+        $interventions = $em->getRepository(Intervention::class)->getAllForCompany($this->company);
+        $gasoils = $em->getRepository(Gasoil::class)->getAllForCompany($this->company);
         $deplacements = $em->getRepository('App:Deplacement')->getAllForCompany($this->company);
         return $this->render('Default/calendar.html.twig', array(
             'interventions' => $interventions,
@@ -697,7 +696,7 @@ class DefaultController extends CommonController
         } else {
             $materiel = $em->getRepository('App:Materiel')->findOneById($materiel_id);
             $entretiens =  $em->getRepository('App:MaterielEntretien')->findByMateriel($materiel);
-            $interventions =  $em->getRepository('App:Intervention')->getAllForMateriel($materiel);
+            $interventions =  $em->getRepository(Intervention::class)->getAllForMateriel($materiel);
         }
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);

@@ -19,7 +19,7 @@ class InterventionProduitType extends AbstractType
         $builder->add('qty');
         $builder->add('name');
         #$builder->add('produit', EntityType::class, array(
-        #    'class'        => 'App:Produit',
+        #    'class'        => Produit::class,
         #    'choice_label' => 'name',
         #));
         

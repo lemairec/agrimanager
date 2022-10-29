@@ -39,7 +39,7 @@ class ExportController extends CommonController
         $date_end = new Datetime("$year-$month-01");
         $date_end = $date_end->modify('+1 month');
         
-        $factures = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForExport2($this->company, $date_begin, $date_end);
+        $factures = $em->getRepository(FactureFournisseur::class)->getAllForExport2($this->company, $date_begin, $date_end);
 
         $documents = $em->getRepository('App:Document')->getAllForExport2($this->company, $date_begin, $date_end);
 
@@ -65,7 +65,7 @@ class ExportController extends CommonController
         $date_end = new Datetime("$year-$month-01");
         $date_end = $date_end->modify('+1 month');
         
-        $factures = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForExport2($this->company, $date_begin, $date_end);
+        $factures = $em->getRepository(FactureFournisseur::class)->getAllForExport2($this->company, $date_begin, $date_end);
 
         $documents = $em->getRepository('App:Document')->getAllForExport2($this->company, $date_begin, $date_end);
 
@@ -154,7 +154,7 @@ class ExportController extends CommonController
         $zipName = 'Documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
         
-        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->getAllForExport($this->company) as $f) {
+        foreach ($em->getRepository(FactureFournisseur::class)->getAllForExport($this->company) as $f) {
             $file = $f->getFactureFileName();
             if($file){
                 $fileName = $f->getFactureMyFileName();
@@ -199,7 +199,7 @@ class ExportController extends CommonController
         $zipName = 'Documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
         
-        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->findByCompany($this->company) as $f) {
+        foreach ($em->getRepository(FactureFournisseur::class)->findByCompany($this->company) as $f) {
             $file = $f->getFactureFileName();
             if($file){
                 $fileName = $f->getFactureMyFileName();
@@ -240,7 +240,7 @@ class ExportController extends CommonController
         $zipName = 'Documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
         
-        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->findByCompany($this->company) as $f) {
+        foreach ($em->getRepository(FactureFournisseur::class)->findByCompany($this->company) as $f) {
             $file = $f->getFactureFileName();
             if($file && $f->date->format('y') == "21"){
                 $fileName = $f->getFactureMyFileName();
@@ -276,7 +276,7 @@ class ExportController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $this->check_user($request);
-        $facture_fournisseurs = $em->getRepository('App:Gestion\FactureFournisseur')->getAll();
+        $facture_fournisseurs = $em->getRepository(FactureFournisseur::class)->getAll();
 
         return $this->render('Gestion/facture_fournisseurs_export.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
@@ -330,7 +330,7 @@ class ExportController extends CommonController
         }
 
         $zip->addEmptyDir("factures");
-        foreach ($em->getRepository('App:Gestion\FactureFournisseur')->findAll() as $f) {
+        foreach ($em->getRepository(FactureFournisseur::class)->findAll() as $f) {
             $file = $f->getFactureFileName();
             if($file){
                 $src = "uploads/factures/".$file;

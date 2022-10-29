@@ -18,7 +18,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $achat->price = $achat->price_total/$achat->qty;
         $em->persist($achat);
         $em->flush();
-        $em->getRepository('App:Produit')->update($achat->produit);
+        $em->getRepository(Produit::class)->update($achat->produit);
     }
 
     function addCaj($achat, $campagne){
@@ -32,12 +32,12 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
             }
         }
 
-        $produit = $em->getRepository('App:Produit')->findOrCreateCaj($achat->name, $achat->type, $achat->unity, $campagne);
+        $produit = $em->getRepository(Produit::class)->findOrCreateCaj($achat->name, $achat->type, $achat->unity, $campagne);
         $achat->produit = $produit;
         $achat->campagne = $campagne;
         $em->persist($achat);
         $em->flush();
-        $em->getRepository('App:Produit')->update($produit);
+        $em->getRepository(Produit::class)->update($produit);
     }
 
     function parseCAJFloat($s){
@@ -104,7 +104,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
 
     function addCajCsv($fileName){
         $em = $this->getEntityManager();
-        $campagne = $em->getRepository('App:Campagne')->findOneById("f49d37d6-3951-11e7-92c4-80e65014bb7c");
+        $campagne = $em->getRepository(Campagne::class)->findOneById("f49d37d6-3951-11e7-92c4-80e65014bb7c");
 
         $achats = $this->findByCampagne($campagne);
         foreach ($achats as $achat) {

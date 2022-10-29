@@ -25,22 +25,22 @@ class EmpruntType extends AbstractType
         ));
         $builder->add('montant');
         $builder->add('banque', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
         $builder->add('compte', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
         $builder->add('compteEmprunt', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
         $builder->add('compteInteret', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));

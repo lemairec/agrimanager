@@ -153,7 +153,7 @@ class CommercialisationController extends CommonController
 
 
         //chartjss
-        $cultures3 = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures3 = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $chartjss = [];
         foreach ($cultures3 as $culture) {
             $cotations = $em->getRepository('App:Commercialisation\Cotation')->getAll('caj',$campagne->commercialisation,$culture->commercialisation);
@@ -199,7 +199,7 @@ class CommercialisationController extends CommonController
         } else {
             $commercialisation = $em->getRepository('App:Commercialisation')->find($commercialisation_id);
         }
-        $cultures = $em->getRepository('App:Culture')->getAllforCompany($this->company);
+        $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $form = $this->createForm(CommercialisationType::class, $commercialisation, array(
             'cultures' => $cultures
         ));

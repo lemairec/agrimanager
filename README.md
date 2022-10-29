@@ -56,3 +56,6 @@ rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspa
 
 rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspace/dump/ --progress
  && sh ~/workspace/maplaine/import.sh
+
+
+ brew link --overwrite php@8.1

@@ -24,7 +24,7 @@ class CommercialisationType extends AbstractType
             'attr' => ['class' => 'js-datepicker'],
         ));
         $builder->add('culture', EntityType::class, array(
-            'class'        => 'App:Culture',
+            'class'        => Culture::class,
             'choices' => $options['cultures'],
         ));
         $builder->add('type', ChoiceType::class, array(

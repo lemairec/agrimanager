@@ -23,7 +23,7 @@ class LivraisonType extends AbstractType
             'attr' => ['class' => 'js-datepicker'],
         ));
         $builder->add('parcelle', EntityType::class, array(
-            'class'        => 'App:Parcelle',
+            'class'        => Parcelle::class,
             'choices' => $options['parcelles'],
         ));
         $builder->add('espece')->add('poid_total')->add('tare')->add('poid_norme');

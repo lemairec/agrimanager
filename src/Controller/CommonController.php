@@ -3,18 +3,37 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 use App\Entity\Log;
+use App\Entity\Company;
+use App\Entity\Campagne;
 use App\Entity\InterventionRecolte;
 use DateTime;
 
 class CommonController extends AbstractController
 {
+    protected $security;
+    protected $doctrine;
+    public function __construct(RequestStack $requestStack, Security $security, ManagerRegistry $doctrine)
+    {
+        $this->requestStack = $requestStack;
+        $this->security = $security;
+        $this->doctrine = $doctrine;
+    }
+
+    public function getDoctrine(){
+      return $this->doctrine;
+    }
+
+
     public function mylog($string){
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();
-        //$this->company = $em->getRepository('App:Company')->findOrCreate($user);
+        //$this->company = $em->getRepository(Company::class)->findOrCreate($user);
 
         $log = new Log();
         $log->date = new DateTime();
@@ -32,7 +51,7 @@ class CommonController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();
-        //$this->company = $em->getRepository('App:Company')->findOrCreate($user);
+        //$this->company = $em->getRepository(Company::class)->findOrCreate($user);
 
         $log = new Log();
         $log->date = new DateTime();
@@ -48,7 +67,8 @@ class CommonController extends AbstractController
     }
 
     public function check_user($request){
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+
+        if (!$this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw $this->createAccessDeniedException();
         }
         $this->getUser()->show_unity=true;
@@ -56,11 +76,11 @@ class CommonController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
-        $this->companies = $em->getRepository('App:Company')->getAllForUser($user);
+        $this->companies = $em->getRepository(Company::class)->getAllForUser($user);
         $company_id = $this->getCurrentCompanyId($request);
-        $this->company = $em->getRepository('App:Company')->findOneById($company_id);
+        $this->company = $em->getRepository(Company::class)->findOneById($company_id);
         if($this->company == null){
-            $this->company = $em->getRepository('App:Company')->findOrCreate($user);
+            $this->company = $em->getRepository(Company::class)->findOrCreate($user);
         }
         $session = $this->requestStack->getSession();
         $session->set('companies', $this->companies);
@@ -83,7 +103,7 @@ class CommonController extends AbstractController
         $company_id = $session->get('company_id', '');
         if($company_id == ''){
             $em = $this->getDoctrine()->getManager();
-            $company = $em->getRepository('App:Company')->findAll()[0]->id;
+            $company = $em->getRepository(Company::class)->findAll()[0]->id;
         }
         $new_company_id = $request->query->get('company_id');
         if($new_company_id != ''){
@@ -100,7 +120,7 @@ class CommonController extends AbstractController
         $campagne_id = $session->get('campagne_id', '');
         if($campagne_id == ''){
             $em = $this->getDoctrine()->getManager();
-            $campagne = $em->getRepository('App:Campagne')->findAll()[0]->id;
+            $campagne = $em->getRepository(Campagne::class)->findAll()[0]->id;
         }
         $new_campagne_id = $request->query->get('campagne_id');
         if($new_campagne_id != ''){
@@ -118,13 +138,13 @@ class CommonController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $this->check_user($request);
 
-        $campagne = $em->getRepository('App:Campagne')->findOneById($campagne_id);
+        $campagne = $em->getRepository(Campagne::class)->findOneById($campagne_id);
         if(!property_exists($this, 'campagnes')){
-            $this->campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
+            $this->campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
         }
         if(count($this->campagnes)<1){
             $em->getRepository("App:Campagne")->createCurrentCampagne($this->company);
-            $this->campagnes = $em->getRepository('App:Campagne')->getAllforCompany($this->company);
+            $this->campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
         }
 
         if($campagne){
@@ -135,7 +155,7 @@ class CommonController extends AbstractController
     }
 
     public function saveLastUrl($request){
-        $last_url = $this->get('session')->get('last_url', []);
+        /*$last_url = $this->get('session')->get('last_url', []);
         $url = $request->getUri();
         if(count($last_url)==0 || $last_url[count($last_url)-1] != $url){
             $last_url[] = $url;
@@ -143,7 +163,7 @@ class CommonController extends AbstractController
                 array_shift($last_url);
             }
             $this->get('session')->set('last_url', $last_url);
-        }
+        }*/ //todo
         //print(json_encode( $this->get('session')->get('last_url', [])));
     }
 
@@ -173,11 +193,11 @@ class CommonController extends AbstractController
 
     public function getParcellesForFiches($campagne){
         $em = $this->getDoctrine()->getManager();
-        $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+        $parcelles = $em->getRepository(Parcelle::class)->getAllForCampagneWithoutActive($campagne);
         foreach ($parcelles as $p) {
             $p->interventions = [];
             if($p->id != '0'){
-                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+                $p->interventions = $em->getRepository(Intervention::class)->getAllForParcelle($p);
             }
             $p->engrais_n = 0;
             $p->engrais_p = 0;

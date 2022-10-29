@@ -81,7 +81,7 @@ class BilanController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
+        $interventions = $em->getRepository(Intervention::class)->getAllForCampagne($campagne);
 
         $res = [];
         $sum = 0;
@@ -172,7 +172,7 @@ class BilanController extends CommonController
         $cultures = [];
 
         foreach($this->campagnes as $campagne){
-            $parcelles = $em->getRepository('App:Parcelle')->getAllForCampagneWithoutActive($campagne);
+            $parcelles = $em->getRepository(Parcelle::class)->getAllForCampagneWithoutActive($campagne);
 
             foreach ($parcelles as $p) {
                 if (!array_key_exists($p->getCultureName(), $cultures)) {
@@ -185,7 +185,7 @@ class BilanController extends CommonController
                 }
 
                 if($p->id != '0'){
-                    $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p, 'ASC');
+                    $p->interventions = $em->getRepository(Intervention::class)->getAllForParcelle($p, 'ASC');
                 }
                 $p->engrais_n = 0;
                 $p->engrais_p = 0;
@@ -230,7 +230,7 @@ class BilanController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
 
         $engrais = [];
-        $produits = $em->getRepository('App:Produit')->getAllForCompany($this->company);
+        $produits = $em->getRepository(Produit::class)->getAllForCompany($this->company);
         foreach($produits as $p){
             
             $campagnes = [];
@@ -290,7 +290,7 @@ class BilanController extends CommonController
 
             $p->interventions = [];
             if($p->id != '0'){
-                $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+                $p->interventions = $em->getRepository(Intervention::class)->getAllForParcelle($p);
             }
             $p->details = [];
             foreach($p->interventions as $it){
@@ -333,11 +333,11 @@ class BilanController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes2 = $em->getRepository(Campagne::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
         $cultures = [];
 
         foreach($campagnes2 as $campagne){
-            $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
+            $interventions = $em->getRepository(Intervention::class)->getAllForCampagne($campagne);
 
             foreach ($interventions as $intervention) {
                 $intervention_culture = "";
@@ -381,7 +381,7 @@ class BilanController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes2 = $em->getRepository(Campagne::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
         $cultures = [];
 
         foreach($campagnes2 as $campagne){
@@ -400,7 +400,7 @@ class BilanController extends CommonController
 
                 $p->interventions = [];
                 if($p->id != '0'){
-                    $p->interventions = $em->getRepository('App:Intervention')->getAllForParcelle($p);
+                    $p->interventions = $em->getRepository(Intervention::class)->getAllForParcelle($p);
                 }
                 $p->details = [];
                 foreach($p->interventions as $it){
@@ -433,7 +433,7 @@ class BilanController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes2 = $em->getRepository(Campagne::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
         $rendements = [];
         $cultures = [];
 
@@ -505,7 +505,7 @@ class BilanController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCampagne($campagne);
+        $comptes = $em->getRepository(Compte::class)->getAllForCampagne($campagne);
 
         $comptes_campagnes = [];
         foreach ($this->campagnes as $campagne) {
@@ -544,12 +544,12 @@ class BilanController extends CommonController
     public function bilanGasoilAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $campagnes2 = $em->getRepository('App:Campagne')->getAllForCompany($this->getCurrentCampagne($request)->company);
+        $campagnes2 = $em->getRepository(Campagne::class)->getAllForCompany($this->getCurrentCampagne($request)->company);
         $lines = [];
         foreach($campagnes2 as $campagne){
-            $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
+            $interventions = $em->getRepository(Intervention::class)->getAllForCampagne($campagne);
 
-            $gasoils = $em->getRepository('App:Gasoil')->getAllForCampagne($campagne);
+            $gasoils = $em->getRepository(Gasoil::class)->getAllForCampagne($campagne);
             foreach($gasoils as $gasoil){
                 if($gasoil->litre < 0){
                     $lines[] = ['date' => $gasoil->date, 'type' => 'gasoil', 'litre' => -$gasoil->litre, 'object'=> json_encode($gasoil), 'sumHa' => 0, 'sumL' => 0, 'conso' => 0];

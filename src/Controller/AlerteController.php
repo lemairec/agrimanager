@@ -30,12 +30,12 @@ class AlerteController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $alerteRepository = $em->getRepository('App:Alerte');
+        $alerteRepository = $em->getRepository(Alerte::class);
         $alerteRepository->removeAlerteCampagne($campagne);
         $alerteRepository->verifyCampagne($campagne);
 
 
-        $alertes = $em->getRepository('App:Alerte')->findByCampagne($campagne);
+        $alertes = $em->getRepository(Alerte::class)->findByCampagne($campagne);
         return $this->render('Default/alertes.html.twig', array(
             'alertes' => $alertes,
             'campagnes' => $this->campagnes,

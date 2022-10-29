@@ -23,8 +23,7 @@ class CampagneRepository extends \Doctrine\ORM\EntityRepository
 
     function getAllAndNullforCompany($company){
         $res = $this->getAllforCompany($company);
-        $res[] = null;
-
+        
         return $res;
     }
 

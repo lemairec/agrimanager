@@ -8,6 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+use Symfony\Component\Uid\Uuid;
+
 /**
  * FactureFournisseur
  *
@@ -17,12 +19,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class FactureFournisseur
 {
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
     /**
-     * @var guid
-     *
-     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     public $id;
 

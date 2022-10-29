@@ -30,10 +30,10 @@ class AlerteRepository extends ServiceEntityRepository
 
     public function verifyCampagne($campagne){
         $em = $this->getEntityManager();
-        $its = $em->getRepository('App:Intervention')->findByCampagne($campagne);
+        $its = $em->getRepository(Intervention::class)->findByCampagne($campagne);
         foreach ($its as $it) {
-            $em->getRepository('App:Alerte')->verifyMelange($it);
-            $em->getRepository('App:Alerte')->verifyIntervention($it);
+            $em->getRepository(Alerte::class)->verifyMelange($it);
+            $em->getRepository(Alerte::class)->verifyIntervention($it);
         }
     }
 

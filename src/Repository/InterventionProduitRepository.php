@@ -12,13 +12,13 @@ class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
 {
     function save($intervention_produit, $campagne){
         $em = $this->getEntityManager();
-        $produit = $em->getRepository('App:Produit')->findOrCreate($intervention_produit->name, $campagne);
+        $produit = $em->getRepository(Produit::class)->findOrCreate($intervention_produit->name, $campagne);
         print($intervention_produit->name);
         print(json_encode($produit));
         $intervention_produit->produit = $produit;
         $em->persist($intervention_produit);
         $em->flush();
-        $produit = $em->getRepository('App:Produit')->update($produit);
+        $produit = $em->getRepository(Produit::class)->update($produit);
         return $produit;
     }
 
@@ -34,7 +34,7 @@ class InterventionProduitRepository extends \Doctrine\ORM\EntityRepository
     function delete($intervention_produit_id){
         $em = $this->getEntityManager();
         $intervention_produit = $this->findOneById($intervention_produit_id);
-        $produit = $em->getRepository('App:Produit')->update($intervention_produit->produit);
+        $produit = $em->getRepository(Produit::class)->update($intervention_produit->produit);
         $em->remove($intervention_produit);
         $em->flush();
     }

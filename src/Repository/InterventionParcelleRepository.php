@@ -14,6 +14,6 @@ class InterventionParcelleRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $em->persist($intervention_parcelle);
         $em->flush();
-        $em->getRepository('App:Intervention')->updateSurface($intervention_parcelle->intervention->id);
+        $em->getRepository(Intervention::class)->updateSurface($intervention_parcelle->intervention->id);
     }
 }

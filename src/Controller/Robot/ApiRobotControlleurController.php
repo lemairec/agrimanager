@@ -22,7 +22,7 @@ class ApiRobotControlleurController extends CommonController
         
         $robot_id = $request->query->get("robot_id");
 
-        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
         if($robot == NULL){
             $robot = new Robot();
             $robot->name = $robot_id;
@@ -62,7 +62,7 @@ class ApiRobotControlleurController extends CommonController
         
         $robot_id = $request->request->get('robot_id');
 
-        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
         if($robot == NULL){
             $robot = new Robot();
             $robot->name = $robot_id;

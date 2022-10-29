@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
+use App\Entity\Campagne;
+use App\Entity\Gestion\Compte;
+
 class FactureFournisseurType extends AbstractType
 {
     /**
@@ -35,8 +38,9 @@ class FactureFournisseurType extends AbstractType
         ));
         $builder->add('paiementOrder');
         $builder->add('campagne', EntityType::class, array(
-            'class'        => 'App:Campagne',
+            'class'        => Campagne::class,
             'choices' => $options['campagnes'],
+            'required' => false
         ));
         $builder->add('type', ChoiceType::class, array(
             'choices' => array(
@@ -47,12 +51,12 @@ class FactureFournisseurType extends AbstractType
         ));
         $builder->add('montantHT')->add('montantTTC')->add('compte');
         $builder->add('banque', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['banques'],
         ));
         $builder->add('compte', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));

@@ -37,7 +37,7 @@ class EmpruntRepository extends ServiceEntityRepository
         $em->flush();
 
         $operation_name = "emprunt ".$emprunt->id." ".$emprunt->name;
-        $operation = $em->getRepository('App:Gestion\Operation')->findOneByName($operation_name);
+        $operation = $em->getRepository(Operation::class)->findOneByName($operation_name);
         if($operation == NULL){
             $operation = new Operation();
             $operation->company = $emprunt->company;

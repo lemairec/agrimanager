@@ -25,7 +25,7 @@ class AnalyseSolController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $analyseSols = $em->getRepository('App:AnalyseSol')
+        $analyseSols = $em->getRepository(AnalyseSol::class)
             ->getAll();
 
         return $this->render('Default/analyse_sols.html.twig', array(
@@ -44,9 +44,9 @@ class AnalyseSolController extends CommonController
         if($analyse_sol_id == '0'){
             $analyse_sol = new AnalyseSol();
         } else {
-            $analyse_sol = $em->getRepository('App:AnalyseSol')->findOneById($analyse_sol_id);
+            $analyse_sol = $em->getRepository(AnalyseSol::class)->findOneById($analyse_sol_id);
         }
-        $parcelles =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $parcelles =  $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
         $form = $this->createForm(AnalyseSolType::class, $analyse_sol, array(
             'parcelles' => $parcelles
         ));

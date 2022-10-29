@@ -3,7 +3,8 @@
 namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Uid\Uuid;
+  
 /**
  * Operation
  *
@@ -12,12 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Operation
 {
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
     /**
-     * @var guid
-     *
-     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     public $id;
 
@@ -26,7 +31,7 @@ class Operation
      * @ORM\JoinColumn(nullable=false)
      */
     public $company;
-    
+
     /**
      * @var string
      *

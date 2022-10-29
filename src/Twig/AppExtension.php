@@ -3,7 +3,7 @@
 // src/App/Twig/AppExtension.php
 namespace App\Twig;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -18,10 +18,10 @@ class AppExtension extends AbstractExtension
     /**
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage    $tokenStorage
      */
-    public function __construct(TokenStorageInterface $tokenStorage, ContainerInterface $container)
+    public function __construct(TokenStorageInterface $tokenStorage, RouterInterface $router)
     {
         $this->tokenStorage = $tokenStorage;
-        $this->container = $container;
+        $this->router = $router;
 
     }
 
@@ -165,7 +165,7 @@ class AppExtension extends AbstractExtension
     {
         if($this->getUser()->show_unity){
             //$url = $this->generateUrl('fos_user_profile_edit');
-            $url = $this->container->get('router')->generate($route, $parameters);
+            $url = $this->router->generate($route, $parameters);
             return "<a href=\"".$url."\">".$label."</a>";
         } else {
             return $label;

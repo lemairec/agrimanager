@@ -23,10 +23,10 @@ class GasoilController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $gasoils = $em->getRepository('App:Gasoil')->getAllForCampagne($campagne);
-        $gasoilsType = $em->getRepository('App:Gasoil')->getAllforCompanyGroupByType($this->company);
+        $gasoils = $em->getRepository(Gasoil::class)->getAllForCampagne($campagne);
+        $gasoilsType = $em->getRepository(Gasoil::class)->getAllforCompanyGroupByType($this->company);
 
-        $gasoilsAll = $em->getRepository('App:Gasoil')->getAllForCompany($this->company);
+        $gasoilsAll = $em->getRepository(Gasoil::class)->getAllForCompany($this->company);
         $gasoils2 = [];
 
         $campagnes_g = [];
@@ -74,7 +74,7 @@ class GasoilController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $gasoilsAll = $em->getRepository('App:Gasoil')->getAllForCompany($this->company);
+        $gasoilsAll = $em->getRepository(Gasoil::class)->getAllForCompany($this->company);
 
         return $this->render('Default/gasoils_all.html.twig', array(
             'gasoilsAll' => $gasoilsAll
@@ -95,14 +95,14 @@ class GasoilController extends CommonController
             $gasoil->campagne = $campagne;
             $gasoil->date = new \DateTime();
         } else {
-            $gasoil = $em->getRepository('App:Gasoil')->findOneById($gasoil_id);
+            $gasoil = $em->getRepository(Gasoil::class)->findOneById($gasoil_id);
         }
         $form = $this->createForm(GasoilType::class, $gasoil, ['materiels'=>$materiels]);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted()) {
-            $gasoil = $em->getRepository('App:Gasoil')->save($gasoil);
+            $gasoil = $em->getRepository(Gasoil::class)->save($gasoil);
             return $this->redirectToRoute('gasoils');
         }
         return $this->render('Default/gasoil.html.twig', array(

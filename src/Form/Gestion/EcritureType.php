@@ -16,12 +16,12 @@ class EcritureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('compte', EntityType::class, array(
-            'class'        => 'App:Gestion\Compte',
+            'class'        => Compte::class,
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
         $builder->add('campagne', EntityType::class, array(
-            'class'        => 'App:Campagne',
+            'class'        => Campagne::class,
             'choices' => $options['campagnes'],
         ));
         $builder->add('value');

@@ -22,7 +22,7 @@ class SiloController extends CommonController
 
     public function addTemperature($em, $t, $balise_str, $company){
         if($t){
-            $balise_ = $em->getRepository("App:Silo\Balise")->getOrCreate($company, $balise_str);
+            $balise_ = $em->getRepository(Balise::class)->getOrCreate($company, $balise_str);
             $temperature = new Temperature();
             $temperature->temp = $t;
             $temperature->balise = $balise_;
@@ -52,7 +52,7 @@ class SiloController extends CommonController
         $balise_str = $request->query->get("balise");
         $company = $request->query->get("company");
 
-        $company = $em->getRepository("App:Company")->findOneByName($company);
+        $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
             throw new Exception("not found Company");
         }
@@ -75,7 +75,7 @@ class SiloController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $this->check_user($request);
-        $balises = $em->getRepository('App:Silo\Balise')->getAllForCompany($this->company);
+        $balises = $em->getRepository(Balise::class)->getAllForCompany($this->company);
 
         $balises_names = [];
         $balises_others = [];
@@ -102,7 +102,7 @@ class SiloController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $this->check_user($request);
-        $balise = $em->getRepository('App:Silo\Balise')->find($id);
+        $balise = $em->getRepository(Balise::class)->find($id);
         $temperatures = $em->getRepository('App:Silo\Temperature')->getAllForBalise($balise);
 
         $form = $this->createForm(BaliseType::class, $balise);

@@ -11,6 +11,9 @@ use Datetime;
 
 use App\Controller\CommonController;
 
+use App\Entity\Parcelle;
+use App\Entity\Alerte;
+use App\Entity\Produit;
 use App\Entity\Intervention;
 use App\Entity\InterventionParcelle;
 use App\Entity\InterventionProduit;
@@ -25,7 +28,7 @@ class InterventionController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $interventions = $em->getRepository('App:Intervention')->getAllForCampagne($campagne);
+        $interventions = $em->getRepository(Intervention::class)->getAllForCampagne($campagne);
         return $this->render('Default/interventions.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
@@ -43,7 +46,7 @@ class InterventionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $parcelles2 =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $parcelles2 =  $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
 
         $parcelles = [];
         $produitsIntervention = [];
@@ -53,11 +56,11 @@ class InterventionController extends CommonController
         $name = "";
         $comment = "";
 
-        $intervention = $em->getRepository('App:Intervention')->find($intervention_id);
+        $intervention = $em->getRepository(Intervention::class)->find($intervention_id);
         if($intervention){
             if($campagne->id != $intervention->campagne->id){
                 $campagne = $intervention->campagne;
-                $parcelles2 =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+                $parcelles2 =  $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
             }
             $date = $intervention->datetime;
             $type = $intervention->type;
@@ -90,7 +93,7 @@ class InterventionController extends CommonController
             }
         }
 
-        $produits = $em->getRepository('App:Produit')->getAllName($campagne);
+        $produits = $em->getRepository(Produit::class)->getAllName($campagne);
 
         return $this->render('Default/intervention.html.twig', array(
             'id' => $intervention_id,
@@ -115,13 +118,13 @@ class InterventionController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $em->getRepository('App:Alerte')->removeAlerteCampagne($campagne);
+        $em->getRepository(Alerte::class)->removeAlerteCampagne($campagne);
 
         $data = $data["intervention"];
 
-        $intervention = $em->getRepository('App:Intervention')->find($data["id"]);
+        $intervention = $em->getRepository(Intervention::class)->find($data["id"]);
         if($intervention){
-            $em->getRepository('App:Intervention')->my_clear($intervention);
+            $em->getRepository(Intervention::class)->my_clear($intervention);
         } else {
             $intervention = new Intervention();
             $intervention->campagne = $campagne;
@@ -139,7 +142,7 @@ class InterventionController extends CommonController
             if($parcelle["checked"]){
                 $it = new InterventionParcelle();
                 $it->intervention = $intervention;
-                $it->parcelle = $em->getRepository('App:Parcelle')->find($parcelle["id"]);
+                $it->parcelle = $em->getRepository(Parcelle::class)->find($parcelle["id"]);
                 $em->persist($it);
                 $em->flush();
                 $intervention->surface += $it->parcelle->surface;
@@ -174,7 +177,7 @@ class InterventionController extends CommonController
             }
             $em->persist($it);
             $em->flush();
-            
+
         }
 
 
@@ -199,7 +202,7 @@ class InterventionController extends CommonController
     public function interventionDeleteAction($intervention_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Intervention')->delete($intervention_id);
+        $em->getRepository(Intervention::class)->delete($intervention_id);
         return $this->redirectToRoute('interventions');
     }
 
@@ -212,11 +215,11 @@ class InterventionController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         if($intervention_parcelle_id == '0'){
             $intervention_parcelle = new InterventionParcelle();
-            $intervention_parcelle->intervention = $em->getRepository('App:Intervention')->findOneById($intervention_id);
+            $intervention_parcelle->intervention = $em->getRepository(Intervention::class)->findOneById($intervention_id);
         } else {
             $intervention_parcelle = $em->getRepository('App:InterventionParcelle')->findOneById($intervention_parcelle_id);
         }
-        $parcelles =  $em->getRepository('App:Parcelle')->getAllForCampagne($campagne);
+        $parcelles =  $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
         $form = $this->createForm(InterventionParcelleType::class, $intervention_parcelle, array(
             'parcelles' => $parcelles
         ));
@@ -251,13 +254,13 @@ class InterventionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         if($intervention_produit_id == '0'){
             $intervention_produit = new InterventionProduit();
-            $intervention_produit->intervention = $em->getRepository('App:Intervention')->findOneById($intervention_id);
+            $intervention_produit->intervention = $em->getRepository(Intervention::class)->findOneById($intervention_id);
         } else {
             $intervention_produit = $em->getRepository('App:InterventionProduit')->findOneById($intervention_produit_id);
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
-        $produits = $em->getRepository('App:Produit')->getAllName($campagne);
+        $produits = $em->getRepository(Produit::class)->getAllName($campagne);
 
         if ($form->isSubmitted()) {
             $em->getRepository('App:InterventionProduit')->save($intervention_produit, $campagne);
@@ -280,7 +283,7 @@ class InterventionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         if($intervention_materiel_id == '0'){
             $intervention_materiel = new InterventionMateriel();
-            $intervention_materiel->intervention = $em->getRepository('App:Intervention')->findOneById($intervention_id);
+            $intervention_materiel->intervention = $em->getRepository(Intervention::class)->findOneById($intervention_id);
         } else {
             $intervention_materiel = $em->getRepository('App:InterventionMateriel')->findOneById($intervention_materiel);
         }

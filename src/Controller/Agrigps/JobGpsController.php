@@ -14,6 +14,7 @@ use App\Controller\CommonController;
 
 use DateTime;
 use App\Entity\Agrigps\JobGps;
+use App\Entity\Company;
 use App\Entity\Agrigps\Balise;
 use App\Entity\Agrigps\GpsParcelle;
 use App\Form\JobGpsType;
@@ -29,7 +30,7 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
-        
+
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
         ));
@@ -44,9 +45,9 @@ class JobGpsController extends CommonController
 
         $campagne = $this->getCurrentCampagne($request);
         $user = $this->getUser();
-        
+
         $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findByUser($user);
-        
+
         return $this->render('Default/job_gpss.html.twig', array(
             'job_gpss' => $job_gpss
         ));
@@ -60,7 +61,7 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $job_gpss = $em->getRepository("App:Agrigps\JobGps")->findAll();
-        
+
         foreach($job_gpss as $j){
             $j->debug = null;
             $em->persist($j);
@@ -78,7 +79,7 @@ class JobGpsController extends CommonController
 
         $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
 
-        
+
         $lat = 0;
         $long = 0;
 
@@ -92,7 +93,7 @@ class JobGpsController extends CommonController
                 $points[] = ["lat"=>$res[1], "long"=>$res[2]];
             }
         }
-        
+
         //dump($tab);
         //dump($lat);
 
@@ -124,14 +125,14 @@ class JobGpsController extends CommonController
 
         $job_gps = $em->getRepository("App:Agrigps\JobGps")->find($id);
 
-        
+
 
         // Provide a name for your file with extension
         $filename = 'debug.txt';
-        
+
         // The dinamically created content of the file
         $fileContent = $job_gps->debug;
-        
+
         // Return a response with a specific content
         $response = new Response($fileContent);
 
@@ -146,7 +147,7 @@ class JobGpsController extends CommonController
 
         // Dispatch request
         return $response;
-    
+
         //dump($tab);
         //dump($lat);
 
@@ -168,8 +169,8 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $data = $request->request->all();
-        
-        
+
+
 
 
         $jobGps = new JobGps();
@@ -181,7 +182,7 @@ class JobGpsController extends CommonController
         $jobGps->userEmail = $data["user_email"];
         $jobGps->user = $em->getRepository("App:User")->findOneByEmail($jobGps->userEmail);
 
-        
+
         $res = $em->getRepository("App:Agrigps\JobGps")->findByDateBegin($jobGps->dateBegin);
         foreach($res as $r){
             $em->remove($r);
@@ -202,10 +203,10 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $company_id = $this->getCurrentCompanyId($request);
-        $company = $em->getRepository("App:Company")->find($company_id);
-        
+        $company = $em->getRepository(Company::class)->find($company_id);
+
         $parcelles_p = $em->getRepository("App:Agrigps\GpsParcelle")->getAllByCompany($company);
-        
+
         return $this->render('Default/gps_parcelles.html.twig', array(
             'parcelles' => $parcelles_p
         ));
@@ -219,8 +220,8 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $company_id = $this->getCurrentCompanyId($request);
-        $company = $em->getRepository("App:Company")->find($company_id);
-        
+        $company = $em->getRepository(Company::class)->find($company_id);
+
         $parc = $em->getRepository("App:Agrigps\GpsParcelle")->getActiveByNameCompany($parcelle_name, $company);
         $contour = $parc->data["contour"];
         $lat = $contour[0]["lat"];
@@ -268,9 +269,9 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $company_id = $this->getCurrentCompanyId($request);
-        $company = $em->getRepository("App:Company")->find($company_id);
-        
-        $balises = $em->getRepository("App:Agrigps\Balise")->getAllByCompany($company);
+        $company = $em->getRepository(Company::class)->find($company_id);
+
+        $balises = $em->getRepository(Balise::class)->getAllByCompany($company);
         $lat = $balises[0]->latitude;
         $lon = $balises[0]->longitude;
 
@@ -280,7 +281,7 @@ class JobGpsController extends CommonController
             'balises' => $balises
         ));
     }
-    
+
     /**
      * @Route("/api/autosteer/parcelles")
      */
@@ -289,11 +290,11 @@ class JobGpsController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $company = $request->query->get("company");
-        $company = $em->getRepository("App:Company")->findOneByName($company);
+        $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
             return new JsonResponse("not found Company", 400);
         }
-        
+
         $parcelles_p = $em->getRepository("App:Agrigps\GpsParcelle")->getAllByCompany($company);
         $parcelles = [];
         foreach($parcelles_p as $p){
@@ -301,14 +302,14 @@ class JobGpsController extends CommonController
                 $parcelles[] = ["name"=> $p->name, "datetime"=>$p->datetime->format('Y-m-d H:i:s')];
             }
         }
-         
+
         return new JsonResponse($parcelles);
     }
 
     public function returnParcelle($em, $name, $company){
         $parc = $em->getRepository("App:Agrigps\GpsParcelle")->getActiveByNameCompany($name, $company);
         $parc_d = json_decode(json_encode($parc->data));
-        
+
         $json = ["name"=> $parc->name, "status"=>$parc->status, "datetime"=>$parc->datetime->format('Y-m-d H:i:s')
             , "contour"=>$parc_d->contour, "flag"=>$parc_d->flag, "surface"=>$parc_d->surface];
         return new JsonResponse($json);
@@ -320,13 +321,13 @@ class JobGpsController extends CommonController
     public function parcelleGpsApiAction($name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $company = $request->query->get("company");
-        $company = $em->getRepository("App:Company")->findOneByName($company);
+        $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
             throw new Exception("not found Company");
         }
-        
+
         return $this->returnParcelle($em, $name, $company);
     }
 
@@ -340,7 +341,7 @@ class JobGpsController extends CommonController
         $data = json_decode($request->request->get("parcelle"));
         $name = $data->name;
         $company = $request->query->get("company");
-        $company = $em->getRepository("App:Company")->findOneByName($company);
+        $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
             throw new Exception("not found Company");
         }
@@ -351,7 +352,7 @@ class JobGpsController extends CommonController
             $em->persist($p3);
             $em->flush();
         }
-        
+
 
         $p2 = new GpsParcelle();
         $p2->surface = $data->surface;
@@ -361,7 +362,7 @@ class JobGpsController extends CommonController
         $p2->status = "ok";
         $p2->active = true;
         $p2->company = $company;
-        
+
         $em->persist($p2);
         $em->flush();
 
@@ -377,14 +378,14 @@ class JobGpsController extends CommonController
 
         $balises = json_decode($request->request->get("balises"));
         $company = $request->query->get("company");
-        $company = $em->getRepository("App:Company")->findOneByName($company);
+        $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
             throw new Exception("not found Company");
         }
 
         foreach($balises as $b){
             $my_id = strval($b->lat)."_".strval($b->lon);
-            $b2 = $em->getRepository("App:Agrigps\Balise")->getOneByMyId($my_id);
+            $b2 = $em->getRepository(Balise::class)->getOneByMyId($my_id);
             if($b2 == null){
                 $balise = new Balise();
                 $balise->myId = $my_id;
@@ -399,9 +400,9 @@ class JobGpsController extends CommonController
                 //throw new Exception("not found Company");
             }
         }
- 
+
         $res = [];
-        $balises2 = $em->getRepository("App:Agrigps\Balise")->findByCompany($company);
+        $balises2 = $em->getRepository(Balise::class)->findByCompany($company);
         foreach($balises2 as $b){
             $res[] = ["lat" => $b->latitude, "lon" => $b->longitude, "name"=> $b->name, "color"=> $b->color, "my_datetime" => $b->my_datetime->format("Y-m-d H:i:s")];
         }

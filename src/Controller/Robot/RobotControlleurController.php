@@ -7,6 +7,7 @@ use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Entity\Robot\Robot;
 use App\Entity\Robot\Order;
 use App\Entity\Robot\Job;
 use App\Form\Robot\JobType;
@@ -21,7 +22,7 @@ class RobotControlleurController extends CommonController
     public function robots(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $robots = $em->getRepository("App:Robot\Robot")->findAll();
+        $robots = $em->getRepository(Robot::class)->findAll();
 
         $robots2 = [];
         $now = new DateTime;
@@ -41,8 +42,8 @@ class RobotControlleurController extends CommonController
     public function robot($robot_name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
-        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_name);
+
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
         $orders = $em->getRepository("App:Robot\Order")->getLast10ForRobot($robot);
         $jobs = $em->getRepository("App:Robot\Job")->getTop10();
         $data = json_encode($robot->last_data);
@@ -71,9 +72,9 @@ class RobotControlleurController extends CommonController
     public function robot_order($robot_id, $order_label, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $robot = $em->getRepository("App:Robot\Robot")->findOneByName($robot_id);
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
         print($robot->id);
-        
+
         $order = new Order();
         $order->robot = $robot;
         $order->name = $order_label;
@@ -88,7 +89,7 @@ class RobotControlleurController extends CommonController
                 $order->params[$k] = $v;
             }
         }
-        
+
         //print(json_encode($order->params));
 
         $em->persist($order);
@@ -146,7 +147,7 @@ class RobotControlleurController extends CommonController
      **/
     public function deletection($robot_job_id, Request $request)
     {
-        
+
         $em = $this->getDoctrine()->getManager();
         $robot_job= $em->getRepository("App:Robot\Job")->find($robot_job_id);
 
@@ -164,7 +165,7 @@ class RobotControlleurController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $robot_job = $em->getRepository("App:Robot\Job")->find($id);
-        $robot = $em->getRepository("App:Robot\Robot")->find($robot_id);
+        $robot = $em->getRepository(Robot::class)->find($robot_id);
 
         $form = $this->createForm(JobRobotType::class, $robot_job);
         $form->handleRequest($request);
@@ -189,9 +190,9 @@ class RobotControlleurController extends CommonController
             'form' => $form->createView()
         ));
 
-        
-        
-        
+
+
+
     }
 
      /**
@@ -201,8 +202,8 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $robot = $em->getRepository("App:Robot\Robot")->find($robot_id);
-        
+        $robot = $em->getRepository(Robot::class)->find($robot_id);
+
         $orders= $em->getRepository("App:Robot\Order")->findByRobot($robot);
         foreach($orders as $o){
             $em->remove($o);
@@ -222,7 +223,7 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $robot= $em->getRepository("App:Robot\Robot")->find($robot_id);
+        $robot= $em->getRepository(Robot::class)->find($robot_id);
 
 
         $orders= $em->getRepository("App:Robot\Order")->findByRobot($robot);
@@ -230,12 +231,12 @@ class RobotControlleurController extends CommonController
             $em->remove($o);
             $em->flush();
         }
-       
+
        // $em->remove($robot_job);
        // $em->flush();
 
         return $this->redirectToRoute('robots');
     }
-            
-        
+
+
 }

@@ -5,7 +5,7 @@ namespace App\Controller\Lemca;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\CommonController;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -15,8 +15,9 @@ use App\Entity\Lemca\Licence;
 
 use App\Form\Lemca\LicenceType;
 
-class LicenceController extends AbstractController
+class LicenceController extends CommonController
 {
+
     /**
      * @Route("/lemca/licences", name = "licences")
      */
@@ -24,9 +25,9 @@ class LicenceController extends AbstractController
     {
 
         $this->denyAccessUnlessGranted('ROLE_LEMCA');
-        
+
         $em = $this->getDoctrine()->getManager();
-        $licences = $em->getRepository('App:Lemca\Licence')->findAll();
+        $licences = $em->getRepository(Licence::class)->findAll();
 
         return $this->render('Lemca/licences.html.twig', array(
             'licences' => $licences
@@ -39,19 +40,19 @@ class LicenceController extends AbstractController
     public function achatEditAction($licence_id, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_LEMCA');
-        
+
         $em = $this->getDoctrine()->getManager();
         if($licence_id == '0'){
             $licence = new Licence();
         } else {
-            $licence = $em->getRepository('App:Lemca\Licence')->findOneById($licence_id);
+            $licence = $em->getRepository(Licence::class)->findOneById($licence_id);
         }
 
         $form = $this->createForm(LicenceType::class, $licence);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $em->getRepository('App:Lemca\Licence')->save($licence);;
+            $em->getRepository(Licence::class)->save($licence);;
             return $this->redirectToRoute('licences');
         }
         return $this->render('Lemca/licence.html.twig', array(

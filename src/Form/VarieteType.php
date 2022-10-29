@@ -15,7 +15,7 @@ class VarieteType extends AbstractType
         $builder->add('name');
         $builder->add('ordre');
         $builder->add('precedent', EntityType::class, array(
-            'class'        => 'App:Culture',
+            'class'        => Culture::class,
             'choices' => $options['cultures'],
         ));
         $builder->add('surface');

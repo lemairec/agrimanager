@@ -24,9 +24,9 @@ class ParcelleRepository extends \Doctrine\ORM\EntityRepository
 
         $em->persist($parcelle);
         $em->flush();
-        $interventions =  $em->getRepository('App:Intervention')->getAllForParcelle($parcelle);
+        $interventions =  $em->getRepository(Intervention::class)->getAllForParcelle($parcelle);
         foreach($interventions as $intervention){
-            $em->getRepository('App:Intervention')->updateSurface($intervention->id);
+            $em->getRepository(Intervention::class)->updateSurface($intervention->id);
         }
         return $parcelle;
 

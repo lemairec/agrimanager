@@ -33,12 +33,12 @@ class EmpruntController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $c = $this->getCurrentCampagne($request);
 
-        $emprunts = $em->getRepository('App:Gestion\Emprunt')->getAllForCompany($this->company);
+        $emprunts = $em->getRepository(Emprunt::class)->getAllForCompany($this->company);
        
         foreach($emprunts as $emprunt){
             $emprunt->reste = 0;
 
-            $operations = $em->getRepository('App:Gestion\Operation')->findByEmprunt($emprunt);
+            $operations = $em->getRepository(Operation::class)->findByEmprunt($emprunt);
             foreach($operations as $o){
                 foreach($o->ecritures as $e){
                     if($e->compte->id == $emprunt->compteEmprunt->id){
@@ -68,17 +68,17 @@ class EmpruntController extends CommonController
             $emprunt = new Emprunt();
             $emprunt->company = $this->company;
         } else {
-            $emprunt = $em->getRepository('App:Gestion\Emprunt')->find($emprunt_id);
-            $operations = $em->getRepository('App:Gestion\Operation')->getAllForEmprunt($emprunt);
+            $emprunt = $em->getRepository(Emprunt::class)->find($emprunt_id);
+            $operations = $em->getRepository(Operation::class)->getAllForEmprunt($emprunt);
         }
         $form = $this->createForm(EmpruntType::class, $emprunt, array(
-            'comptes' => $em->getRepository('App:Gestion\Compte')->getAllForCompany($this->company),
+            'comptes' => $em->getRepository(Compte::class)->getAllForCompany($this->company),
         ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             $emprunt->campagne = $campagne;
-            $em->getRepository('App:Gestion\Emprunt')->save($emprunt);
+            $em->getRepository(Emprunt::class)->save($emprunt);
             return $this->redirectToRoute('emprunts');
         }
         return $this->render('Gestion/emprunt.html.twig', array(
@@ -98,7 +98,7 @@ class EmpruntController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $emprunt = $em->getRepository('App:Gestion\Emprunt')->find($emprunt_id);
+        $emprunt = $em->getRepository(Emprunt::class)->find($emprunt_id);
         
         $form = $this->createForm(EmpruntAnnuiteType::class);
         $form->handleRequest($request);

@@ -7,10 +7,13 @@ use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
+
 use App\Entity\Gestion\Compte;
 use App\Entity\Gestion\Ecriture;
 use App\Entity\Gestion\Operation;
 use App\Entity\Gestion\FactureFournisseur;
+use App\Entity\Campagne;
+
 use App\Form\Gestion\CompteType;
 use App\Form\Gestion\EcritureType;
 use App\Form\Gestion\OperationType;
@@ -173,7 +176,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $c = $this->getCurrentCampagne($request);
 
-        $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCompany($this->company);
+        $comptes = $em->getRepository(Compte::class)->getAllForCompany($this->company);
 
         $comptes_campagnes = [];
         foreach ($this->campagnes as $campagne) {
@@ -202,7 +205,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $c = $this->getCurrentCampagne($request);
 
-        $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCompany($this->company);
+        $comptes = $em->getRepository(Compte::class)->getAllForCompany($this->company);
 
         $comptes_campagnes = [];
         foreach ($this->campagnes as $campagne) {
@@ -233,7 +236,7 @@ class GestionController extends CommonController
 
         $campagnes2 = [];
         foreach($this->companies as $company){
-            $campagnes = $em->getRepository('App:Campagne')->getAllForCompany($company);
+            $campagnes = $em->getRepository(Campagne::class)->getAllForCompany($company);
             foreach ($this->campagnes as $campagne) {
                 $campagnes2[] = $campagne->name." ".$company->name;
             }
@@ -245,7 +248,7 @@ class GestionController extends CommonController
 
         $comptes_campagnes = [];
         foreach($this->companies as $company){
-            $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCompany($company);
+            $comptes = $em->getRepository(Compte::class)->getAllForCompany($company);
 
             foreach($comptes as $compte){
                 if (!array_key_exists($compte->identifiant, $comptes_campagnes)) {
@@ -256,7 +259,7 @@ class GestionController extends CommonController
                 }
                 $comptes_campagnes[$compte->identifiant]["prev ".$company->name] = $compte->previsionnel;
                 $comptes_campagnes[$compte->identifiant]["solde ".$company->name] = $compte->getPrice();
-                $campagnes = $em->getRepository('App:Campagne')->getAllForCompany($company);
+                $campagnes = $em->getRepository(Campagne::class)->getAllForCompany($company);
                 foreach ($this->campagnes as $campagne) {
                     $comptes_campagnes[$compte->identifiant][$campagne->name." ".$company->name] = $compte->getPriceCampagne($campagne);
                 }
@@ -284,8 +287,8 @@ class GestionController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $operations = $em->getRepository('App:Gestion\Operation')->findByCompany($this->company);
-        $comptes = $em->getRepository('App:Gestion\Compte')->getAllForCompany($this->company);
+        $operations = $em->getRepository(Operation::class)->findByCompany($this->company);
+        $comptes = $em->getRepository(Compte::class)->getAllForCompany($this->company);
         $years = ['2022','2021','2020', '2019', '2018','2017', '2016', '2015', '2014'];
 
 
@@ -329,7 +332,7 @@ class GestionController extends CommonController
         $ecritures = [];
         $ecritures_futures = [];
         {
-            $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompany($this->company);
+            $operations = $em->getRepository(Operation::class)->getAllForCompany($this->company);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
@@ -378,7 +381,7 @@ class GestionController extends CommonController
         $ecritures = [];
         $ecritures_futures = [];
         {
-            $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompany($this->company);
+            $operations = $em->getRepository(Operation::class)->getAllForCompany($this->company);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
@@ -432,8 +435,8 @@ class GestionController extends CommonController
             $compte = new Compte();
             $compte->company = $this->company;
         } else {
-            $compte = $em->getRepository('App:Gestion\Compte')->findOneById($compte_id);
-            $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompte($compte);
+            $compte = $em->getRepository(Compte::class)->findOneById($compte_id);
+            $operations = $em->getRepository(Operation::class)->getAllForCompte($compte);
             $value = 0;
             $l = count($operations);
             for($i = 0; $i < $l; ++$i){
@@ -528,8 +531,8 @@ class GestionController extends CommonController
         if($compte_id == '0'){
             return;
         } else {
-            $compte = $em->getRepository('App:Gestion\Compte')->findOneById($compte_id);
-            $factures = $em->getRepository('App:Gestion\FactureFournisseur')->findByCompte($compte);
+            $compte = $em->getRepository(Compte::class)->findOneById($compte_id);
+            $factures = $em->getRepository(FactureFournisseur::class)->findByCompte($compte);
             $value = 0;
             foreach($factures as $f){
                 $campagne = "";
@@ -562,7 +565,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $operations = $em->getRepository('App:Gestion\Operation')->getAllForCompany($this->company);
+        $operations = $em->getRepository(Operation::class)->getAllForCompany($this->company);
 
         return $this->render('Gestion/operations.html.twig', array(
             'campagnes' => $this->campagnes,
@@ -587,7 +590,7 @@ class GestionController extends CommonController
             $em->persist($operation);
             $em->flush();
         } else {
-            $operation = $em->getRepository('App:Gestion\Operation')->findOneById($operation_id);
+            $operation = $em->getRepository(Operation::class)->findOneById($operation_id);
             if($operation->facture){
                 return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $operation->facture->id));
             }
@@ -614,7 +617,7 @@ class GestionController extends CommonController
     public function operationDeleteAction($operation_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Gestion\Operation')->delete($operation_id);
+        $em->getRepository(Operation::class)->delete($operation_id);
         return $this->redirectToRoute('operations');
     }
 
@@ -627,13 +630,13 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         if($ecriture_id == '0'){
             $ecriture = new Ecriture();
-            $ecriture->operation = $em->getRepository('App:Gestion\Operation')->findOneById($operation_id);;
+            $ecriture->operation = $em->getRepository(Operation::class)->findOneById($operation_id);;
         } else {
             $ecriture = $em->getRepository('App:Gestion\Ecriture')->findOneById($ecriture_id);
         }
-        $campagnes = $em->getRepository('App:Campagne')->getAllAndNullforCompany($this->company);
+        $campagnes = $em->getRepository(Campagne::class)->getAllAndNullforCompany($this->company);
         $form = $this->createForm(EcritureType::class, $ecriture, array(
-            'comptes' => $em->getRepository('App:Gestion\Compte')->getAllForCompany($this->company),
+            'comptes' => $em->getRepository(Compte::class)->getAllForCompany($this->company),
             'campagnes' => $campagnes
         ));
         $form->handleRequest($request);
@@ -656,7 +659,7 @@ class GestionController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $this->check_user($request);
-        $facture_fournisseurs = $em->getRepository('App:Gestion\FactureFournisseur')->getAllForCompany($this->company);
+        $facture_fournisseurs = $em->getRepository(FactureFournisseur::class)->getAllForCompany($this->company);
 
         return $this->render('Gestion/facture_fournisseurs.html.twig', array(
             'facture_fournisseurs' => $facture_fournisseurs
@@ -669,9 +672,9 @@ class GestionController extends CommonController
     public function factureFournisseurDeletePdfAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
+        $facture = $em->getRepository(FactureFournisseur::class)->findOneById($facture_id);
         $facture->factureFile = null;
-        $em->getRepository('App:Gestion\FactureFournisseur')->save($facture);
+        $em->getRepository(FactureFournisseur::class)->save($facture);
         return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $facture_id));
     }
 
@@ -692,8 +695,8 @@ class GestionController extends CommonController
             $facture->paiementDate = new Datetime();
             $facture->paiementOrder = 0;
         } else {
-            $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
-            $operations = $em->getRepository('App:Gestion\Operation')->getForFacture($facture);
+            $facture = $em->getRepository(FactureFournisseur::class)->findOneById($facture_id);
+            $operations = $em->getRepository(Operation::class)->getForFacture($facture);
         }
         if($facture->type == "V"){
             $facture->type = "Vente";
@@ -703,9 +706,9 @@ class GestionController extends CommonController
             $facture->type = "Achat";
         }
 
-        $campagnes = $em->getRepository('App:Campagne')->getAllAndNullforCompany($this->company);
-        $banques = $em->getRepository('App:Gestion\Compte')->getAllBanques($this->company);
-        $comptes = $em->getRepository('App:Gestion\Compte')->getNoBanques($this->company);
+        $campagnes = $em->getRepository(Campagne::class)->getAllAndNullforCompany($this->company);
+        $banques = $em->getRepository(Compte::class)->getAllBanques($this->company);
+        $comptes = $em->getRepository(Compte::class)->getNoBanques($this->company);
         $form = $this->createForm(FactureFournisseurType::class, $facture, array(
             'banques' => $banques,
             'comptes' => $comptes,
@@ -722,7 +725,7 @@ class GestionController extends CommonController
             } else {
                 $facture->type == "A";
             }
-            $em->getRepository('App:Gestion\FactureFournisseur')->save($facture);
+            $em->getRepository(FactureFournisseur::class)->save($facture);
 
             $redirect_url_facture = $session->get("redirect_url_facture");
             if($redirect_url_facture){
@@ -743,8 +746,8 @@ class GestionController extends CommonController
     public function factureFournisseurDeleteAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $facture = $em->getRepository('App:Gestion\FactureFournisseur')->findOneById($facture_id);
-        $em->getRepository('App:Gestion\FactureFournisseur')->delete($facture);
+        $facture = $em->getRepository(FactureFournisseur::class)->findOneById($facture_id);
+        $em->getRepository(FactureFournisseur::class)->delete($facture);
         return $this->redirectToRoute('factures_fournisseurs');
     }
 }

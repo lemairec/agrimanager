@@ -1,11 +1,9 @@
 # app/config/security.yml
 security:
     enable_authenticator_manager: true
-    encoders:
-        App\Entity\User:
-            algorithm: bcrypt
-
     # ...
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
         fos_userbundle:
