@@ -30,6 +30,18 @@ class User extends BaseUser
      */
     public $groups;
 
+    public function getRoles(): array {
+      $roles = $this->roles;
+
+      foreach ($this->groups as $group) {
+          $roles = array_merge($roles, $group->roles);
+      }
+
+      $roles[] = static::ROLE_DEFAULT;
+
+      return array_unique($roles);
+    }
+
     public $show_unity = true;
 
 

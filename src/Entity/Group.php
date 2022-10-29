@@ -3,14 +3,13 @@
 
 namespace App\Entity;
 
-use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  * @ORM\Table(name="_fos_group")
  */
-class Group extends BaseGroup
+class Group
 {
     /**
      * @var guid
@@ -20,6 +19,20 @@ class Group extends BaseGroup
      * @ORM\GeneratedValue(strategy="UUID")
      */
     public $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    public $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="roles", type="array")
+     */
+    public $roles;
 
     public function __toString ( ){
         return $this->name;
