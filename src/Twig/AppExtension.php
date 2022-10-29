@@ -25,7 +25,7 @@ class AppExtension extends AbstractExtension
 
     }
 
-    public function getFilters()
+    public function getFilters() : array
     {
         return [
             new TwigFilter('showDecimal', [$this, 'showDecimal']),
@@ -44,7 +44,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('my_path', [$this, 'my_path']),
         ];
     }
-    
+
     public function getUser()
     {
         return $this->tokenStorage->getToken()->getUser();
