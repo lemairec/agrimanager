@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Intervention
@@ -11,12 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Intervention
 {
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
     /**
-     * @var guid
-     *
-     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     public $id;
 
@@ -34,7 +39,7 @@ class Intervention
 
     /** @ORM\Column(type="datetime") **/
     public $datetime;
-	
+
 	/** @ORM\Column(type="datetime", nullable=true) **/
     public $datetimeEnd;
 
@@ -77,7 +82,7 @@ class Intervention
      /**
     * @ORM\OneToMany(targetEntity=App\Entity\InterventionRecolte::class, mappedBy="intervention",cascade={"persist"})
     * @ORM\OrderBy({"datetime" = "ASC"})
- 
+
     */
     public $recoltes;
 

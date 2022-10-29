@@ -13,7 +13,6 @@ use Symfony\Component\Uid\Uuid;
  */
 class Compte
 {
-    //use Symfony\Component\Uid\Uuid;
     public function __construct()
     {
         $this->id = Uuid::v4();

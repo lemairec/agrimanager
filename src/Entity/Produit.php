@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
@@ -10,12 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Produit
 {
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
     /**
-     * @var guid
-     *
-     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     public $id;
 
@@ -50,7 +55,7 @@ class Produit
     public $price = 0;
 
     /** Phyto **/
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit")
      * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="amm")
@@ -58,7 +63,7 @@ class Produit
     public $ephyProduit;
 
     /** ENGRAIS **/
-    
+
     /** @ORM\Column(name="n", type="float") **/
     public $engrais_n = 0;
 
@@ -67,7 +72,7 @@ class Produit
 
     /** @ORM\Column(name="k", type="float") **/
     public $engrais_k = 0;
-    
+
     /** @ORM\Column(name="mg", type="float") **/
     public $engrais_mg = 0;
 
