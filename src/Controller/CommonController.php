@@ -55,18 +55,18 @@ class CommonController extends AbstractController
         $this->getUser()->show_unity=true;
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        
+
         $this->companies = $em->getRepository('App:Company')->getAllForUser($user);
-        $company_id = $this->getCurrentCompanyId($request);  
+        $company_id = $this->getCurrentCompanyId($request);
         $this->company = $em->getRepository('App:Company')->findOneById($company_id);
         if($this->company == null){
             $this->company = $em->getRepository('App:Company')->findOrCreate($user);
         }
-        $session = $this->get('session');
+        $session = $this->requestStack->getSession();
         $session->set('companies', $this->companies);
         $session->set('company_id', $this->company->id);
-    
-        
+
+
         $this->getUser()->show_unity=true;
 
         $show_unity = $request->query->get('show_unity');
