@@ -11,7 +11,7 @@ use App\Entity\Silo\Temperature;
  * @method SiloTemperature[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class TemperatureRepository extends \Doctrine\ORM\EntityRepository
-
+{
     function roundTo15Min(\DateTime $dt) {
         $s = 15 * 60;
         $dt->setTimestamp($s * (int) floor($dt->getTimestamp() / $s));
