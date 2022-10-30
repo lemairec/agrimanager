@@ -44,7 +44,7 @@ class UpdateBddCommand extends Command
             $this->em->persist($f);
             $this->em->flush();
         }*/
-        $facture = $this->em->getRepository('App:Silo\Temperature')->getAllForBalise("0e53210a-da1d-11ea-be14-0242ac110005");
+        $facture = $this->em->getRepository(Temperature::class)->getAllForBalise("0e53210a-da1d-11ea-be14-0242ac110005");
 
         $output->writeln('Command result.');
     }

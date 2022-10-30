@@ -30,7 +30,7 @@ class SiloController extends CommonController
             $temperature->balise = $balise_;
             $temperature->datetime = new DateTime();
             if($t > -100){
-                $em->getRepository('App:Silo\Temperature')->addTemperature($temperature);
+                $em->getRepository(Temperature::class)->addTemperature($temperature);
             }
             $balise_->last_temp = $t;
             $balise_->last_update = new DateTime();
@@ -105,7 +105,7 @@ class SiloController extends CommonController
 
         $this->check_user($request);
         $balise = $em->getRepository(Balise::class)->find($id);
-        $temperatures = $em->getRepository('App:Silo\Temperature')->getAllForBalise($balise);
+        $temperatures = $em->getRepository(Temperature::class)->getAllForBalise($balise);
 
         $form = $this->createForm(BaliseType::class, $balise);
         $form->handleRequest($request);
