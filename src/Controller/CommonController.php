@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Mime\Email;
 
 use App\Entity\Log;
 use App\Entity\Company;
@@ -168,9 +169,18 @@ class CommonController extends AbstractController
     }
 
     public function sendMail($from, $to, $str, $mailer){
-        $message = (new \Swift_Message($str))->setFrom($from)->setTo($to)->setBody($str);
-        $res = $mailer->send($message);
-        $res = mail($to, $str, $str);
+        $email = (new Email())
+            ->from($from)
+            ->to($to)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text($str)
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email);
     }
 
 

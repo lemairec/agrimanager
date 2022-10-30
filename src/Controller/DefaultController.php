@@ -8,8 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-use Datetime;
+use Symfony\Component\Mailer\MailerInterface;
 
+use Datetime;
 
 use App\Controller\CommonController;
 
@@ -109,7 +110,7 @@ class DefaultController extends CommonController
     /**
      * @Route("test_mail", name="test_mail")
      */
-    public function testMail(Request $request,  \Swift_Mailer $mailer)
+    public function testMail(Request $request,  MailerInterface $mailer)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $this->sendMail("noreply@maplaine.fr", 'lemairec02@gmail.com', "Test", $mailer);
