@@ -3,8 +3,6 @@
 namespace App\Repository\Silo;
 
 use App\Entity\Silo\Temperature;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method SiloTemperature|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,12 +10,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method SiloTemperature[]    findAll()
  * @method SiloTemperature[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TemperatureRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Temperature::class);
-    }
+class TemperatureRepository extends \Doctrine\ORM\EntityRepository
 
     function roundTo15Min(\DateTime $dt) {
         $s = 15 * 60;
@@ -46,7 +39,7 @@ class TemperatureRepository extends ServiceEntityRepository
                 }
             }
         }
-        
+
 
         return $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
@@ -57,7 +50,7 @@ class TemperatureRepository extends ServiceEntityRepository
 
     function addTemperature($t){
         $em = $this->getEntityManager();
-        
+
         $rounded_datetime = new \DateTime($t->datetime->format("Y-m-d H:i:s"));
         $rounded_datetime = $this->roundTo60Min($rounded_datetime);
         $t->rounded_datetime = $rounded_datetime;
