@@ -15,6 +15,6 @@ monolog:
             # or list of recipients
             # to_email:   ['dev1@example.com', 'dev2@example.com', ...]
             subject:    'An Error Occurred! %%message%%'
-            level:      error
+            level:      critical
             formatter:  monolog.formatter.html
             content_type: text/html
