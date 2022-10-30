@@ -7,6 +7,8 @@ use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
+
+use App\Entity\Company;
 use App\Entity\Silo\Balise;
 use App\Entity\Silo\Temperature;
 
@@ -36,7 +38,7 @@ class SiloController extends CommonController
             $em->flush();
         }
     }
-    
+
     /**
      * @Route("/silo/api_sonde", name="silo_api")
      **/
@@ -62,7 +64,7 @@ class SiloController extends CommonController
         $this->addTemperature($em,$t3,$balise_str."_3", $company);
         $this->addTemperature($em,$t4,$balise_str."_4", $company);
         $this->addTemperature($em,$te,$balise_str."_e", $company);
-        
+
         return new Response("ok");
     }
 
@@ -122,7 +124,7 @@ class SiloController extends CommonController
         }
         $chartjss[] = $chartjs_min;
         //dump($chartjss);
-        
+
         return $this->render('Silo/balise.html.twig', array(
             'form' => $form->createView(),
             'balise' => $balise,
