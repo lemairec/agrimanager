@@ -5,9 +5,6 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: critical
-            type: fingers_crossed
-            action_level: critical
-            handler:      deduplicated
         deduplicated:
             type:    deduplication
             handler: symfony_mailer
