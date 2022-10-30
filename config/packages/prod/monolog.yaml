@@ -2,19 +2,22 @@
 monolog:
     handlers:
         main:
-            type: stream
-            path: "%kernel.logs_dir%/%kernel.environment%.log"
-            level: critical
+            type: fingers_crossed
+            action_level: error
+            handler: deduplicated
+            excluded_404s:
+                # regex: exclude all 404 errors from the logs
+                - ^/
         deduplicated:
             type:    deduplication
-            handler: symfony_mailer
-        symfony_mailer:
+            handler: swift
+        swift:
             type:       symfony_mailer
             from_email: 'contact@maplaine.fr'
             to_email:   'lemairec02@gmail.com'
             # or list of recipients
             # to_email:   ['dev1@example.com', 'dev2@example.com', ...]
             subject:    'An Error Occurred! %%message%%'
-            level:      critical
+            level:      debug
             formatter:  monolog.formatter.html
             content_type: text/html
