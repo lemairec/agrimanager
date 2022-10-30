@@ -12,13 +12,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method SiloBalise[]    findAll()
  * @method SiloBalise[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BaliseRepository extends ServiceEntityRepository
+class BaliseRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Balise::class);
-    }
-
     public function getOrCreate($company, $name){
         $balise = $this->createQueryBuilder('s')
             ->andWhere('s.company = :company')
