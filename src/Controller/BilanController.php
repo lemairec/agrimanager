@@ -9,6 +9,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use Datetime;
 use App\Entity\InterventionRecolte;
+use App\Entity\Campagne;
 
 use App\Controller\CommonController;
 
@@ -232,7 +233,7 @@ class BilanController extends CommonController
         $engrais = [];
         $produits = $em->getRepository(Produit::class)->getAllForCompany($this->company);
         foreach($produits as $p){
-            
+
             $campagnes = [];
 
             $achats = $em->getRepository('App:Achat')->getAllForProduit($p);
@@ -249,7 +250,7 @@ class BilanController extends CommonController
                 } else {
                     $campagnes[$c]["price_qty"] = 0;
                 }
-                
+
             }
 
             if($p->engrais_n != 0 || $p->engrais_p !=0 || $p->engrais_k !=0 || $p->engrais_mg !=0 || $p->engrais_so3 !=0){
@@ -456,7 +457,7 @@ class BilanController extends CommonController
                 $cultures[$culture][$campagne->name]['poid'] += $p->poid_norme;
                 $cultures[$culture][$campagne->name]['surface'] += $p->surface;
 
-                
+
 
             }
 

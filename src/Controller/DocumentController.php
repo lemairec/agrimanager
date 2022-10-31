@@ -27,7 +27,7 @@ class DocumentController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $res = $em->getRepository('App:Document')
+        $res = $em->getRepository(Document::class)
             ->getAllForCompany($this->company);
 
         $documents = [];
@@ -64,7 +64,7 @@ class DocumentController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $res = $em->getRepository('App:Document')
+        $res = $em->getRepository(Document::class)
             ->getAllOrderDate();
 
         $directories = [];
@@ -125,7 +125,7 @@ class DocumentController extends CommonController
             $document = new Document();
             $document->company = $this->company;
         } else {
-            $document = $em->getRepository('App:Document')->findOneById($document_id);
+            $document = $em->getRepository(Document::class)->findOneById($document_id);
         }
         $directories = $em->getRepository('App:DocumentDirectory')->getAllForCompany($this->company);
         $form = $this->createForm(DocumentType::class, $document, array(

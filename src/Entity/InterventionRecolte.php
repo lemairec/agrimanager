@@ -91,7 +91,7 @@ class InterventionRecolte
                 if($res != ""){
                     $res = $res."; ";
                 }
-                $res = $res.$key." ".round($value, 2);
+                //$res = $res.$key." ".round($value, 2);
             }
         }
         return $res;

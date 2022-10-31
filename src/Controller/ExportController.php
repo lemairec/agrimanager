@@ -41,7 +41,7 @@ class ExportController extends CommonController
         
         $factures = $em->getRepository(FactureFournisseur::class)->getAllForExport2($this->company, $date_begin, $date_end);
 
-        $documents = $em->getRepository('App:Document')->getAllForExport2($this->company, $date_begin, $date_end);
+        $documents = $em->getRepository(Document::class)->getAllForExport2($this->company, $date_begin, $date_end);
 
         return $this->render('Export/export_preview.html.twig', [
             'date_begin' => $date_begin,
@@ -67,7 +67,7 @@ class ExportController extends CommonController
         
         $factures = $em->getRepository(FactureFournisseur::class)->getAllForExport2($this->company, $date_begin, $date_end);
 
-        $documents = $em->getRepository('App:Document')->getAllForExport2($this->company, $date_begin, $date_end);
+        $documents = $em->getRepository(Document::class)->getAllForExport2($this->company, $date_begin, $date_end);
 
         $zip = new \ZipArchive();
         $zipName = 'Documents_'.$this->company->name.'_'.$year.'_'.$month.".zip";
@@ -121,7 +121,7 @@ class ExportController extends CommonController
         $zipName = 'documents_'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
 
-        foreach ($em->getRepository('App:Document')->findAll() as $f) {
+        foreach ($em->getRepository(Document::class)->findAll() as $f) {
             $file = $f->getDocName();
             if($file){
                 $fileName = $f->getDocMyFileName();
@@ -165,7 +165,7 @@ class ExportController extends CommonController
             }
         }
         
-        foreach ($em->getRepository('App:Document')->getAllForExport($this->company) as $f) {
+        foreach ($em->getRepository(Document::class)->getAllForExport($this->company) as $f) {
             $file = $f->getDocName();
             if($file){
                 $fileName = $f->getDocMyFileName();
@@ -208,7 +208,7 @@ class ExportController extends CommonController
             }
         }
         
-        foreach ($em->getRepository('App:Document')->findByCompany($this->company) as $f) {
+        foreach ($em->getRepository(Document::class)->findByCompany($this->company) as $f) {
             $file = $f->getDocName();
             if($file){
                 $fileName = $f->getDocMyFileName();
@@ -249,7 +249,7 @@ class ExportController extends CommonController
             }
         }
         
-        foreach ($em->getRepository('App:Document')->findByCompany($this->company) as $f) {
+        foreach ($em->getRepository(Document::class)->findByCompany($this->company) as $f) {
             $file = $f->getDocName();
             if($file && $f->date->format('y') == "21"){
                 $fileName = $f->getDocMyFileName();
@@ -321,7 +321,7 @@ class ExportController extends CommonController
         $zipName = 'dump/'.time().".zip";
         $zip->open($zipName,  \ZipArchive::CREATE);
 
-        foreach ($em->getRepository('App:Document')->findAll() as $f) {
+        foreach ($em->getRepository(Document::class)->findAll() as $f) {
             $file = $f->getDocName();
             if($file){
                 $src = "uploads/documents/".$file;

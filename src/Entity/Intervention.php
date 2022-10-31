@@ -117,7 +117,7 @@ class Intervention
             if($culture == NULL){
                 $culture = $p->parcelle->culture;
             }
-            if($culture->id != $p->parcelle->culture->id){
+            if($culture && $culture->id != $p->parcelle->culture->id){
                 $oneCulture = false;
             }
         }
