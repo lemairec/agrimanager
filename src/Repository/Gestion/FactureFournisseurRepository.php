@@ -4,6 +4,7 @@ namespace App\Repository\Gestion;
 
 use App\Entity\Gestion\Ecriture;
 use App\Entity\Gestion\Operation;
+use App\Entity\Gestion\Compte;
 
 /**
  * FactureFournisseurRepository
