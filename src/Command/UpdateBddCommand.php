@@ -24,7 +24,7 @@ class UpdateBddCommand extends Command
     }
 
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $container = $this->getApplication()->getKernel()->getContainer();
         $doctrine = $container->get('doctrine');
@@ -36,7 +36,7 @@ class UpdateBddCommand extends Command
             // ...
         }
         $output->writeln('begin');
-        
+
         /*$facture = $this->em->getRepository(FactureFournisseur::class)->findAll();
         foreach ($facture as $f) {
             $f->paiementDate = $f->date;
@@ -47,6 +47,7 @@ class UpdateBddCommand extends Command
         $facture = $this->em->getRepository(Temperature::class)->getAllForBalise("0e53210a-da1d-11ea-be14-0242ac110005");
 
         $output->writeln('Command result.');
+        return Command::SUCCESS;
     }
 
 }

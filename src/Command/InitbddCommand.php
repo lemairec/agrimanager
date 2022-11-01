@@ -100,7 +100,7 @@ class InitbddCommand extends Command
         });
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $argument = $input->getArgument('argument');
 
@@ -119,6 +119,7 @@ class InitbddCommand extends Command
         //for($i = 'a'; $i < 'z'; $i++){
         //    $this->scrapper_ephy($i);
         //}
+        return Command::SUCCESS;
     }
 
 }

@@ -37,7 +37,7 @@ class ExportBddCommand extends Command
     }
 
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $container = $this->getApplication()->getKernel()->getContainer();
         $doctrine = $container->get('doctrine');
@@ -60,6 +60,7 @@ class ExportBddCommand extends Command
         }
         $output->writeln('#sql ok');
 
+        return Command::SUCCESS;
     }
 
 }

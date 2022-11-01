@@ -33,7 +33,7 @@ class ScrappeCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $argument = $input->getArgument('argument');
 
@@ -47,6 +47,8 @@ class ScrappeCommand extends Command
 		$this->scrappe_leboncoins();
 		$this->scrappe_leboncoin_appartements();
         $this->scrappe_agriaffaires();
+
+		return Command::SUCCESS;
 	}
 
 	protected function saveOrUpdate($array){
@@ -193,7 +195,7 @@ class ScrappeCommand extends Command
 		} else {
 			$data = [];
 		}
-		
+
 		$annonces = [];
 		foreach($data as $d){
 			$annonce = new Annonce();

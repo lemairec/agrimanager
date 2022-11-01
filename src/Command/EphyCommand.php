@@ -28,7 +28,7 @@ class EphyCommand extends Command
         $this->io->note(sprintf('%s : %s', (new DateTime())->format('Y-m-d H:i:s'), $s));
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $io = new SymfonyStyle($input, $output);
         $this->io = $io;
@@ -57,6 +57,8 @@ class EphyCommand extends Command
         $ephyrepository->xml_file($file, $begin, $end);
 
         $this->log('Fin');
+
+        return Command::SUCCESS;
     }
 
 }
