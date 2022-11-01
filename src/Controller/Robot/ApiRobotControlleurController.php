@@ -19,7 +19,7 @@ class ApiRobotControlleurController extends CommonController
     public function silo_api(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $robot_id = $request->query->get("robot_id");
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
@@ -30,7 +30,7 @@ class ApiRobotControlleurController extends CommonController
             $em->flush();
         }
 
-        $order = $em->getRepository("App:Robot\Order")->getLastForRobot($robot);
+        $order = $em->getRepository(Order::class)->getLastForRobot($robot);
         $robot->last_data = $request->request->all();
         $robot->last_update = new \DateTime();
 
@@ -49,7 +49,7 @@ class ApiRobotControlleurController extends CommonController
                 return new JsonResponse($data);
             }
         }
-        
+
         return new JsonResponse(["name"=>"","type"=>"WAIT"]);
     }
 
@@ -59,7 +59,7 @@ class ApiRobotControlleurController extends CommonController
     public function post_silo_api2(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $robot_id = $request->request->get('robot_id');
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
@@ -70,7 +70,7 @@ class ApiRobotControlleurController extends CommonController
             $em->flush();
         }
 
-        $order = $em->getRepository("App:Robot\Order")->getLastForRobot($robot);
+        $order = $em->getRepository(Order::class)->getLastForRobot($robot);
         $robot->last_data = $request->request->all();
         $robot->last_update = new \DateTime();
 
@@ -91,8 +91,8 @@ class ApiRobotControlleurController extends CommonController
             return new JsonResponse(["name"=>"","type"=>"WAIT", "last_order"=> $order->name, "time"=>$diffInSeconds]);
         }
         return new JsonResponse(["name"=>"","type"=>"WAIT"]);
-        
-       
+
+
     }
 
 }

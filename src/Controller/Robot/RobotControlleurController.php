@@ -44,7 +44,7 @@ class RobotControlleurController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
-        $orders = $em->getRepository("App:Robot\Order")->getLast10ForRobot($robot);
+        $orders = $em->getRepository(Order::class)->getLast10ForRobot($robot);
         $jobs = $em->getRepository(Job::class)->getTop10();
         $data = json_encode($robot->last_data);
         $lat = 0;
@@ -204,7 +204,7 @@ class RobotControlleurController extends CommonController
 
         $robot = $em->getRepository(Robot::class)->find($robot_id);
 
-        $orders= $em->getRepository("App:Robot\Order")->findByRobot($robot);
+        $orders= $em->getRepository(Order::class)->findByRobot($robot);
         foreach($orders as $o){
             $em->remove($o);
             $em->flush();
@@ -226,7 +226,7 @@ class RobotControlleurController extends CommonController
         $robot= $em->getRepository(Robot::class)->find($robot_id);
 
 
-        $orders= $em->getRepository("App:Robot\Order")->findByRobot($robot);
+        $orders= $em->getRepository(Order::class)->findByRobot($robot);
         foreach($orders as $o){
             $em->remove($o);
             $em->flush();
