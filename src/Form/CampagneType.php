@@ -27,14 +27,4 @@ class CampagneType extends AbstractType
             'data_class' => 'App\Entity\Campagne'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_campagne';
-    }
-
-
 }

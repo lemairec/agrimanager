@@ -22,7 +22,7 @@ class InterventionProduitType extends AbstractType
         #    'class'        => Produit::class,
         #    'choice_label' => 'name',
         #));
-        
+
     }
 
     /**
@@ -34,14 +34,5 @@ class InterventionProduitType extends AbstractType
             'data_class' => 'App\Entity\InterventionProduit'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_interventionproduit';
-    }
-
 
 }

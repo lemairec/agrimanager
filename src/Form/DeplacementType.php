@@ -31,7 +31,7 @@ class DeplacementType extends AbstractType
 
         $builder->add('km');
         $builder->add('comment');
-        
+
     }
     /**
      * {@inheritdoc}
@@ -42,14 +42,4 @@ class DeplacementType extends AbstractType
             'data_class' => 'App\Entity\Deplacement'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_deplacement';
-    }
-
-
 }

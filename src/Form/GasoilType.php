@@ -39,7 +39,7 @@ class GasoilType extends AbstractType
         ));
         $builder->add('nb_heure');
         $builder->add('comment');
-        
+
     }
 
     /**
@@ -52,14 +52,4 @@ class GasoilType extends AbstractType
             'materiels' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_gasoil';
-    }
-
-
 }

@@ -33,14 +33,4 @@ class InterventionMaterielType extends AbstractType
             'materiels' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_interventionmateriel';
-    }
-
-
 }

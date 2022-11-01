@@ -55,14 +55,4 @@ class AchatType extends AbstractType
             'factures' => null,
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_achat';
-    }
-
-
 }

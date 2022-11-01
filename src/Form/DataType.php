@@ -27,14 +27,4 @@ class DataType extends AbstractType
     {
         $resolver->setDefaults(array());
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_achat';
-    }
-
-
 }

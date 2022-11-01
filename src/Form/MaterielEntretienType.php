@@ -34,14 +34,4 @@ class MaterielEntretienType extends AbstractType
             'data_class' => 'App\Entity\MaterielEntretien'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_materielentretien';
-    }
-
-
 }

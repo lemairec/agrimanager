@@ -15,7 +15,7 @@ class CompanyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name')->add('adresse')->add('cityCode')->add('city')->add('meteoCity');
-        
+
     }
 
     /**
@@ -27,14 +27,4 @@ class CompanyType extends AbstractType
             'data_class' => 'App\Entity\Company'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_company';
-    }
-
-
 }

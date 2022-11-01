@@ -27,14 +27,4 @@ class CompteType extends AbstractType
             'data_class' => 'App\Entity\Gestion\Compte'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_compte';
-    }
-
-
 }

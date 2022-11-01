@@ -48,14 +48,4 @@ class CommercialisationType extends AbstractType
             'cultures' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_compte';
-    }
-
-
 }

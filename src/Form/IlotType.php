@@ -28,14 +28,4 @@ class IlotType extends AbstractType
             'data_class' => 'App\Entity\Ilot'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_ilot';
-    }
-
-
 }

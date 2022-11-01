@@ -44,9 +44,4 @@ class DocumentType extends AbstractType
             'directories' => null
         ));
     }
-
-    public function getBlockPrefix()
-    {
-        return 'App_document';
-    }
 }

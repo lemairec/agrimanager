@@ -40,14 +40,4 @@ class LivraisonType extends AbstractType
             'parcelles' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_livraison';
-    }
-
-
 }

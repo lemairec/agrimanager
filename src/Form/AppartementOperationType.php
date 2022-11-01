@@ -41,7 +41,7 @@ class AppartementOperationType extends AbstractType
                 2017 => 2017
             ]]);
         $builder->add('value');
-        $builder->add('doc', Document2Type::class); 
+        $builder->add('doc', Document2Type::class);
 
     }/**
      * {@inheritdoc}
@@ -52,14 +52,4 @@ class AppartementOperationType extends AbstractType
             'data_class' => 'App\Entity\AppartementOperation'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_appartementoperation';
-    }
-
-
 }

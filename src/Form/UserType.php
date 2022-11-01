@@ -27,14 +27,4 @@ class UserType extends AbstractType
             'data_class' => 'App\Entity\User'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_user';
-    }
-
-
 }

@@ -25,7 +25,7 @@ class EcritureType extends AbstractType
             'choices' => $options['campagnes'],
         ));
         $builder->add('value');
-        
+
     }
 
     /**
@@ -39,14 +39,4 @@ class EcritureType extends AbstractType
             'campagnes' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_ecriture';
-    }
-
-
 }

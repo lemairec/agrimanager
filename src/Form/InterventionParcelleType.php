@@ -21,7 +21,7 @@ class InterventionParcelleType extends AbstractType
             'choice_label' => 'completeName',
             'choices' => $options['parcelles'],
         ));
-        
+
     }
 
     /**
@@ -34,14 +34,4 @@ class InterventionParcelleType extends AbstractType
             'parcelles' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_interventionparcelle';
-    }
-
-
 }

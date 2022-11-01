@@ -50,14 +50,4 @@ class InterventionType extends AbstractType
             'data_class' => 'App\Entity\Intervention'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_intervention';
-    }
-
-
 }

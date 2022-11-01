@@ -36,7 +36,7 @@ class AnalyseSolType extends AbstractType
         $builder->add('p');
         $builder->add('k');
         $builder->add('mg');
-        $builder->add('doc', Document2Type::class); 
+        $builder->add('doc', Document2Type::class);
 
 
     }
@@ -51,14 +51,4 @@ class AnalyseSolType extends AbstractType
             'parcelles' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_analysesol';
-    }
-
-
 }

@@ -45,13 +45,4 @@ class ParcelleType extends AbstractType
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_parcelle';
-    }
-
-
 }

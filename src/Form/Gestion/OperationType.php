@@ -22,7 +22,7 @@ class OperationType extends AbstractType
             'html5' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
-        
+
     }
 
     /**
@@ -34,14 +34,4 @@ class OperationType extends AbstractType
             'data_class' => 'App\Entity\Gestion\Operation'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_operation';
-    }
-
-
 }

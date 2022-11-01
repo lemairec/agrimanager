@@ -42,14 +42,4 @@ class ProduitType extends AbstractType
             'data_class' => 'App\Entity\Produit'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_produit';
-    }
-
-
 }

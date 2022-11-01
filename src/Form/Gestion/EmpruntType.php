@@ -44,7 +44,7 @@ class EmpruntType extends AbstractType
             'choice_label' => 'name',
             'choices' => $options['comptes'],
         ));
-        
+
     }
 
     /**
@@ -57,14 +57,4 @@ class EmpruntType extends AbstractType
             'comptes' => null,
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_emprunt';
-    }
-
-
 }

@@ -36,14 +36,4 @@ class MaterielType extends AbstractType
             'data_class' => 'App\Entity\Materiel'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_materiel';
-    }
-
-
 }

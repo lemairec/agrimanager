@@ -30,14 +30,4 @@ class CultureType extends AbstractType
             'data_class' => 'App\Entity\Culture'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_culture';
-    }
-
-
 }

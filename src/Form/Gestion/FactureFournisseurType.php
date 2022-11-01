@@ -80,14 +80,4 @@ class FactureFournisseurType extends AbstractType
             'campagnes' => null
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'App_facturefournisseur';
-    }
-
-
 }
