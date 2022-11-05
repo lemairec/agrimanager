@@ -19,7 +19,7 @@ class EssaimRepository extends ServiceEntityRepository
         parent::__construct($registry, Essaim::class);
     }
 
-    public function findAll()
+    public function findAll() : array 
     {
         return $this->createQueryBuilder('r')
             ->orderBy('r.actif', 'DESC')

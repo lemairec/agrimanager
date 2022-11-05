@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Annonce;
+use Symfony\Component\Mailer\MailerInterface;
 
 use App\Controller\CommonController;
 
@@ -82,7 +83,7 @@ class AnnonceController extends CommonController
     /**
      * @Route("/annonces/api")
      */
-    public function annoncesApiAction(Request $request,  \Swift_Mailer $mailer)
+    public function annoncesApiAction(Request $request,  MailerInterface $mailer)
     {
         $em = $this->getDoctrine()->getManager();
         $annonces = $request->request->get("annonces");

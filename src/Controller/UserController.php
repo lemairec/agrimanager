@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+use Symfony\Component\Mailer\MailerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -102,7 +103,7 @@ class UserController extends CommonController
     /**
      * @Route("/contact/{contact_id}", name="contact")
      **/
-    public function contactAction($contact_id, Request $request,  \Swift_Mailer $mailer)
+    public function contactAction($contact_id, Request $request,  MailerInterface $mailer)
     {
         $em = $this->getDoctrine()->getManager();
 

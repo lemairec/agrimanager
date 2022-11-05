@@ -19,7 +19,7 @@ class MetaCultureRepository extends ServiceEntityRepository
         parent::__construct($registry, MetaCulture::class);
     }
 
-    public function findAll()
+    public function findAll() : array 
     {
         return $this->createQueryBuilder('m')
             ->orderBy('m.name', 'ASC')

@@ -19,7 +19,8 @@ class DocumentDirectoryRepository extends ServiceEntityRepository
         parent::__construct($registry, DocumentDirectory::class);
     }
 
-    public function findAll(){
+    public function findAll() : array
+    {
         return $this->createQueryBuilder('d')
             ->orderBy('d.ordre', 'ASC')
             ->getQuery()
