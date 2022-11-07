@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+use App\Entity\Gestion\Compte;
+
 class EmpruntType extends AbstractType
 {
     /**
