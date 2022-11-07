@@ -26,6 +26,7 @@ class EcritureType extends AbstractType
         $builder->add('campagne', EntityType::class, array(
             'class'        => Campagne::class,
             'choices' => $options['campagnes'],
+            'required' => false,
         ));
         $builder->add('value');
 
