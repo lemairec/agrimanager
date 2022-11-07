@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\Gestion\Compte;
+use App\Entity\Campagne;
 
 class EcritureType extends AbstractType
 {
