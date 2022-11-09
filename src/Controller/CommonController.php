@@ -11,6 +11,8 @@ use Symfony\Component\Mime\Email;
 use App\Entity\Log;
 use App\Entity\Company;
 use App\Entity\Campagne;
+use App\Entity\Parcelle;
+use App\Entity\Intervention;
 use App\Entity\InterventionRecolte;
 use DateTime;
 
