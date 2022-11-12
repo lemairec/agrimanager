@@ -6,15 +6,13 @@ use App\Entity\Gestion\Emprunt;
 use App\Entity\Gestion\Ecriture;
 use App\Entity\Gestion\Operation;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-
 /**
  * @method Emprunt|null find($id, $lockMode = null, $lockVersion = null)
  * @method Emprunt|null findOneBy(array $criteria, array $orderBy = null)
  * @method Emprunt[]    findAll()
  * @method Emprunt[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EmpruntRepository extends ServiceEntityRepository
+class EmpruntRepository extends \Doctrine\ORM\EntityRepository
 {
     function getAllForCompany($company){
         return $this->createQueryBuilder('p')
