@@ -245,7 +245,11 @@ class CommonController extends AbstractController
                 }
             }
 
-            $p->rendement = $p->poid_norme/$p->surface;
+            if($p->surface == 0){
+                $p->rendement = 0;
+            } else {
+                $p->rendement = $p->poid_norme/$p->surface;
+            }
 
             $caracteristiques = [];
             foreach($caracteristiques2 as $key => $value){

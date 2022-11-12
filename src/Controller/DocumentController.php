@@ -12,6 +12,7 @@ use Datetime;
 use App\Controller\CommonController;
 
 use App\Entity\Document;
+use App\Entity\AnalyseSol;
 use App\Entity\AppartementOperation;
 use App\Form\DocumentType;
 
@@ -42,7 +43,7 @@ class DocumentController extends CommonController
                 }
             }
             if($d->directory->name == "appartement"){
-                $appartement = $em->getRepository('App:AppartementOperation')
+                $appartement = $em->getRepository(AppartementOperation::class)
                     ->findOneByDoc($d);
                 if($appartement){
                     $d->url = $this->generateUrl('appartement_operation', array('operation_id' => $appartement->id));
@@ -96,7 +97,7 @@ class DocumentController extends CommonController
                 }
             }
             if($d->directory->name == "appartement"){
-                $appartement = $em->getRepository('App:AppartementOperation')
+                $appartement = $em->getRepository(AppartementOperation::class)
                     ->findOneByDoc($d);
                 if($appartement){
                     $d->url = $this->generateUrl('appartement_operation', array('operation_id' => $appartement->id));

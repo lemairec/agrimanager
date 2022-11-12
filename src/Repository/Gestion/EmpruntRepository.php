@@ -7,7 +7,6 @@ use App\Entity\Gestion\Ecriture;
 use App\Entity\Gestion\Operation;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Emprunt|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,11 +16,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EmpruntRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Emprunt::class);
-    }
-
     function getAllForCompany($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
@@ -45,7 +39,7 @@ class EmpruntRepository extends ServiceEntityRepository
             $operation->date = $emprunt->date;
             $operation->emprunt = $emprunt;
         }
-        
+
 
         $em->persist($operation);
         $em->flush();

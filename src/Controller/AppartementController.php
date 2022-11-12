@@ -25,7 +25,7 @@ class AppartementController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
-        $operations = $em->getRepository("App:AppartementOperation")->getAll();
+        $operations = $em->getRepository(AppartementOperation::class)->getAll();
 
         $sum = 0;
         $l = count($operations);
@@ -51,7 +51,7 @@ class AppartementController extends CommonController
             $operation = new AppartementOperation();
             $operation->date = new \DateTime();
         } else {
-            $operation = $em->getRepository('App:AppartementOperation')->find($operation_id);
+            $operation = $em->getRepository(AppartementOperation::class)->find($operation_id);
         }
         $form = $this->createForm(AppartementOperationType::class, $operation);
         $form->handleRequest($request);
@@ -90,7 +90,7 @@ class AppartementController extends CommonController
     public function bilanAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $operations = $em->getRepository("App:AppartementOperation")->findAll();
+        $operations = $em->getRepository(AppartementOperation::class)->findAll();
 
 
         return $this->render('Default/appartement_operations.html.twig', array(

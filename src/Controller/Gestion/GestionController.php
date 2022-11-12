@@ -632,7 +632,7 @@ class GestionController extends CommonController
             $ecriture = new Ecriture();
             $ecriture->operation = $em->getRepository(Operation::class)->findOneById($operation_id);;
         } else {
-            $ecriture = $em->getRepository(Ecriture::class)->findOneById($ecriture_id);
+            $ecriture = $em->getRepository(Ecriture::classBilanController)->findOneById($ecriture_id);
         }
         $campagnes = $em->getRepository(Campagne::class)->getAllAndNullforCompany($this->company);
         $form = $this->createForm(EcritureType::class, $ecriture, array(
