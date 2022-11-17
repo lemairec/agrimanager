@@ -15,6 +15,7 @@ use App\Entity\Document;
 use App\Entity\AnalyseSol;
 use App\Entity\AppartementOperation;
 use App\Form\DocumentType;
+use App\Form\DocumentDirectory;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -129,7 +130,7 @@ class DocumentController extends CommonController
         } else {
             $document = $em->getRepository(Document::class)->findOneById($document_id);
         }
-        $directories = $em->getRepository('App:DocumentDirectory')->getAllForCompany($this->company);
+        $directories = $em->getRepository(DocumentDirectory::class)->getAllForCompany($this->company);
         $form = $this->createForm(DocumentType::class, $document, array(
             'directories' => $directories
         ));
