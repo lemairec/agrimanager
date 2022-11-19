@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
+use App\Form\DocumentDirectory;
+
 class DocumentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -28,7 +30,7 @@ class DocumentType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
             ));
         $builder->add('directory', EntityType::class, array(
-            'class'        => 'App:DocumentDirectory',
+            'class'        => DocumentDirectory::class,
             'choices' => $options['directories'],
         ));
         $builder->add('docFile', VichFileType::class, array(
