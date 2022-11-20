@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
 use App\Entity\AppartementOperation;
+use App\Entity\DocumentDirectory;
 use App\Form\AppartementOperationType;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -62,7 +63,7 @@ class AppartementController extends CommonController
                 if($operation->doc->getDocFile() || $operation->doc->getDocName()){
                     $operation->doc->updatedAt = new Datetime();
                     $operation->doc->repository = "appartement";
-                    $operation->doc->directory = $em->getRepository('App:DocumentDirectory')->findOneByName("appartement");
+                    $operation->doc->directory = $em->getRepository(DocumentDirectory::class)->findOneByName("appartement");
                     $operation->doc->company = $this->company;
                     $operation->doc->date = $operation->date;
                     $str = $this->stringlify($operation->type);

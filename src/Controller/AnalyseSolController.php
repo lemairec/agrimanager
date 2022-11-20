@@ -12,7 +12,9 @@ use Datetime;
 use App\Controller\CommonController;
 
 use App\Entity\AnalyseSol;
+use App\Entity\DocumentDirectory;
 use App\Form\AnalyseSolType;
+
 
 
 class AnalyseSolController extends CommonController
@@ -56,7 +58,7 @@ class AnalyseSolController extends CommonController
             if($analyse_sol->doc){
                 if($analyse_sol->doc->getDocFile() || $analyse_sol->doc->getDocName()){
                     $analyse_sol->doc->updatedAt = new Datetime();
-                    $analyse_sol->doc->directory = $em->getRepository('App:DocumentDirectory')->findOneByName("analyse_sol");
+                    $analyse_sol->doc->directory = $em->getRepository(DocumentDirectory::class)->findOneByName("analyse_sol");
                     $analyse_sol->doc->date = $analyse_sol->date;
                     $str = $this->stringlify($analyse_sol->parcelle);
                     //$analyse_sol->date->format('Ym')."_"

@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
-use App\Form\DocumentDirectory;
+use App\Entity\DocumentDirectory;
 
 class DocumentType extends AbstractType
 {

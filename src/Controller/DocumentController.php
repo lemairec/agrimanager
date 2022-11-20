@@ -14,8 +14,9 @@ use App\Controller\CommonController;
 use App\Entity\Document;
 use App\Entity\AnalyseSol;
 use App\Entity\AppartementOperation;
+use App\Entity\DocumentDirectory;
+
 use App\Form\DocumentType;
-use App\Form\DocumentDirectory;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
