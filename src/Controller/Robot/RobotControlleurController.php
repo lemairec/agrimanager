@@ -42,7 +42,7 @@ class RobotControlleurController extends CommonController
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
         $passages = $em->getRepository(Passage::class)->findByRobot($robot);
-        dump($passages);
+        //dump($passages);
         $orders = $em->getRepository(Order::class)->getLast10ForRobot($robot);
         $jobs = $em->getRepository(Job::class)->getTop10();
         $data = json_encode($robot->last_data);
