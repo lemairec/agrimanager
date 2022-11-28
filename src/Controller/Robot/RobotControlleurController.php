@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Entity\Robot\Robot;
+use App\Entity\Robot\Passage;
 use App\Entity\Robot\Order;
 use App\Entity\Robot\Job;
 use App\Form\Robot\JobType;
@@ -40,6 +41,8 @@ class RobotControlleurController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
+        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        dump($passages);
         $orders = $em->getRepository(Order::class)->getLast10ForRobot($robot);
         $jobs = $em->getRepository(Job::class)->getTop10();
         $data = json_encode($robot->last_data);
@@ -57,7 +60,7 @@ class RobotControlleurController extends CommonController
             'robot_data' => $data,
             'lat' => $lat,
             'lng' => $lng,
-            'points' => [],
+            'passages' => $passages,
             'jobs' => $jobs
         ));
     }

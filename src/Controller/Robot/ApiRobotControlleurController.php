@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Robot\Robot;
 use App\Entity\Robot\Order;
+use App\Entity\Robot\Passage;
 
 
 class ApiRobotControlleurController extends CommonController
@@ -56,6 +57,7 @@ class ApiRobotControlleurController extends CommonController
     public function post_silo_api2(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $last_data = $request->request->all();
 
         $robot_id = $request->request->get('robot_id');
 
@@ -70,6 +72,15 @@ class ApiRobotControlleurController extends CommonController
         $order = $em->getRepository(Order::class)->getLastForRobot($robot);
         $robot->last_data = $request->request->all();
         $robot->last_update = new \DateTime();
+
+        $passage = new Passage();
+        $passage->robot = $robot;
+        $passage->datetime = new \DateTime();
+        $passage->latitude = $last_data["gps_latitude"];
+        $passage->longitude = $last_data["gps_longitude"];
+        //$passage->datetime = new \DateTime();
+        $em->persist($passage);
+        $em->flush();
 
         $em->persist($robot);
         $em->flush();

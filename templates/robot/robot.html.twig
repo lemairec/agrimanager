@@ -179,16 +179,15 @@
 
         var latlngs = [
             [
-            {% for point in points %}
-                [{{point["lat"]}},{{point["lng"]}}],
+            {% for p in passages %}
+                [{{p.latitude}},{{p.longitude}}],
             {% endfor %}
             ]
         ];
 
-        var polyline = new L.Polyline([]).addTo(map);
+        
 
-
-        L.polyline(latlngs).addTo(map);
+        L.polyline(latlngs, {weight:1, color: 'red'}).addTo(map);
 
 
 
