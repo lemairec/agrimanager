@@ -75,7 +75,7 @@
 
     <div class="card">
         <div class="card-header">
-            Job    
+            Job
         </div>
         <table class="table" id="table">
             <tr>
@@ -129,22 +129,22 @@
         <div class="card-header">
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_clear", {'robot_id': robot_id_bdd}) }}'">Clear</button>
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_delete", {'robot_id': robot_id_bdd}) }}'">Delete</button>
-        <div>   
+        <div>
     </div>
 
 {% endblock %}
 
 
     {% block javascripts %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />   
-        
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+
 <!-- On charge le code JavaScript de la librairie leaflet -->
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
 <script src="/js/leaflet-measure.js"></script>
 
 <script>
     console.log("otot");
-    window.addEventListener( "load", function( event ) {    
+    window.addEventListener( "load", function( event ) {
         var map = L.map( 'map');
 
         /*var measureControl = L.control.measure({ primaryLengthUnit: 'meters', secondaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' });
@@ -160,6 +160,23 @@
         }).addTo(map);   // Base Map
         L.marker([{{lat}}, {{lng}}]).addTo(map);
 
+        {% for job in jobs %}
+            var latlngs = [
+                [
+                    [{{job.params.a_lat}},{{job.params.a_lon}}],
+                    [{{job.params.b_lat}},{{job.params.b_lon}}],
+                ]
+            ];
+            var polyline = new L.Polyline(latlngs).addTo(map);
+
+            var iconOptions = {
+                title:"company name",
+                draggable:true,
+            }//pass the options to marker
+            var marker = new L.Marker([{{(job.params.a_lat+job.params.b_lat)/2}},{{(job.params.a_lon+job.params.b_lon)/2}}] , iconOptions).addTo(map);
+            marker.bindPopup("{{job.name}}");
+        {% endfor %}
+
         var latlngs = [
             [
             {% for point in points %}
@@ -170,18 +187,12 @@
 
         var polyline = new L.Polyline([]).addTo(map);
 
-        map.on('click', function(event) {
 
-            new L.Marker(event.latlng).addTo(map);
-
-            polyline.addLatLng(event.latlng);
-        
-        });
         L.polyline(latlngs).addTo(map);
 
-        
+
 
     });
-</script> 
+</script>
 
 {% endblock %}
