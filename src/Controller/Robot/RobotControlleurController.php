@@ -16,9 +16,7 @@ use DateTime;
 
 class RobotControlleurController extends CommonController
 {
-    /**
-     * @Route("/robots", name="robots")
-     **/
+    #[Route(path: '/robots', name: 'robots')]
     public function robots(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -36,9 +34,7 @@ class RobotControlleurController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/robot/{robot_name}", name="robot")
-     **/
+    #[Route(path: '/robot/{robot_name}', name: 'robot')]
     public function robot($robot_name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -66,9 +62,7 @@ class RobotControlleurController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/robot_order/{robot_id}/{order_label}", name="robot_order")
-     **/
+    #[Route(path: '/robot_order/{robot_id}/{order_label}', name: 'robot_order')]
     public function robot_order($robot_id, $order_label, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -98,9 +92,7 @@ class RobotControlleurController extends CommonController
         return $this->redirectToRoute('robot', array('robot_name' => $robot_id));
     }
 
-     /**
-     * @Route("/robot_jobs", name="robot_jobs")
-     **/
+     #[Route(path: '/robot_jobs', name: 'robot_jobs')]
     public function robot_jobs(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -111,9 +103,7 @@ class RobotControlleurController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/robot_job/{id}", name="robot_job")
-     **/
+    #[Route(path: '/robot_job/{id}', name: 'robot_job')]
     public function jobAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -142,9 +132,7 @@ class RobotControlleurController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/robot_job/{robot_job_id}/delete", name="robot_job_delete")
-     **/
+    #[Route(path: '/robot_job/{robot_job_id}/delete', name: 'robot_job_delete')]
     public function deletection($robot_job_id, Request $request)
     {
 
@@ -157,9 +145,7 @@ class RobotControlleurController extends CommonController
         return $this->redirectToRoute('robot_jobs');
     }
 
-    /**
-     * @Route("/robot_job/{id}/do_it/{robot_id}", name="robot_job_do_it")
-     **/
+    #[Route(path: '/robot_job/{id}/do_it/{robot_id}', name: 'robot_job_do_it')]
     public function jobDoItAction($id, $robot_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -195,9 +181,7 @@ class RobotControlleurController extends CommonController
 
     }
 
-     /**
-     * @Route("/robot/{robot_id}/delete", name="robot_delete")
-     **/
+     #[Route(path: '/robot/{robot_id}/delete', name: 'robot_delete')]
     public function robotActionDelete($robot_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -216,9 +200,7 @@ class RobotControlleurController extends CommonController
         return $this->redirectToRoute('robots');
     }
 
-      /**
-     * @Route("/robot_job/{robot_id}/clear", name="robot_clear")
-     **/
+      #[Route(path: '/robot_job/{robot_id}/clear', name: 'robot_clear')]
     public function robotActionClear($robot_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();

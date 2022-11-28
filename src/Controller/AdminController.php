@@ -19,9 +19,7 @@ use App\Form\MetaCultureType;
 class AdminController extends CommonController
 {
 
-        /**
-         * @Route("/admin/users", name="admin_users")
-         */
+        #[Route(path: '/admin/users', name: 'admin_users')]
         public function adminUsersAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
@@ -69,9 +67,7 @@ class AdminController extends CommonController
 
         }
 
-        /**
-         * @Route("admin/user/{id}", name="admin_user")
-         **/
+        #[Route(path: 'admin/user/{id}', name: 'admin_user')]
         public function adminUserAction($id, Request $request)
         {
             $em = $this->getDoctrine()->getManager();
@@ -95,9 +91,7 @@ class AdminController extends CommonController
             ));
         }
 
-        /**
-         * @Route("/admin/companies", name="admin_companies")
-         */
+        #[Route(path: '/admin/companies', name: 'admin_companies')]
         public function adminCompaniesAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
@@ -109,9 +103,7 @@ class AdminController extends CommonController
 
         }
 
-        /**
-         * @Route("/admin/company/{id}", name="admin_company")
-         **/
+        #[Route(path: '/admin/company/{id}', name: 'admin_company')]
         public function adminCompanyeAction($id, Request $request)
         {
             $em = $this->getDoctrine()->getManager();
@@ -134,9 +126,7 @@ class AdminController extends CommonController
             ));
         }
 
-        /**
-         * @Route("/admin/metacultures", name="admin_metacultures")
-         */
+        #[Route(path: '/admin/metacultures', name: 'admin_metacultures')]
         public function adminMetaCulturesAction(Request $request)
         {
             $em = $this->getDoctrine()->getManager();
@@ -148,9 +138,7 @@ class AdminController extends CommonController
 
         }
 
-        /**
-         * @Route("/admin/metaculture/{id}", name="admin_metaculture")
-         **/
+        #[Route(path: '/admin/metaculture/{id}', name: 'admin_metaculture')]
         public function adminMetaCultureAction($id, Request $request)
         {
             $em = $this->getDoctrine()->getManager();

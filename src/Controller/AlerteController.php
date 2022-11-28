@@ -21,9 +21,7 @@ use App\Form\DataType;
 
 class AlerteController extends CommonController
 {
-    /**
-     * @Route("/alertes", name="alertes")
-     */
+    #[Route(path: '/alertes', name: 'alertes')]
     public function alertes(Request $request)
     {
         $this->check_user($request);
@@ -47,9 +45,7 @@ class AlerteController extends CommonController
 
 
 
-    /**
-     * @Route("/run_alertes", name="run_alertes")
-     */
+    #[Route(path: '/run_alertes', name: 'run_alertes')]
     public function run_alertes(Request $request)
     {
         return $this->redirect("alertes");

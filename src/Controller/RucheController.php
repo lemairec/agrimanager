@@ -22,9 +22,7 @@ use App\Form\Ruche\ActionType;
 
 class RucheController extends CommonController
 {
-    /**
-     * @Route("/apiculture", name = "apiculture")
-     */
+    #[Route(path: '/apiculture', name: 'apiculture')]
     public function apicultureAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -50,9 +48,7 @@ class RucheController extends CommonController
     }
 
 
-    /**
-     * @Route("/ruchers", name = "ruchers")
-     */
+    #[Route(path: '/ruchers', name: 'ruchers')]
     public function ruchersAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -65,9 +61,7 @@ class RucheController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/rucher/{id}", name="rucher")
-     **/
+    #[Route(path: '/rucher/{id}', name: 'rucher')]
     public function rucherEditAction($id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -90,9 +84,7 @@ class RucheController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/ruches", name = "ruches")
-     */
+    #[Route(path: '/ruches', name: 'ruches')]
     public function ruchesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -105,9 +97,7 @@ class RucheController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/ruche/{id}", name="ruche")
-     **/
+    #[Route(path: '/ruche/{id}', name: 'ruche')]
     public function rucheEditAction($id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -130,9 +120,7 @@ class RucheController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/essaims", name = "essaims")
-     */
+    #[Route(path: '/essaims', name: 'essaims')]
     public function essaimsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -149,9 +137,7 @@ class RucheController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/essaim/{id}", name="essaim")
-     **/
+    #[Route(path: '/essaim/{id}', name: 'essaim')]
     public function essaimEditAction($id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -177,9 +163,7 @@ class RucheController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/action/{id}", name="action")
-     **/
+    #[Route(path: '/action/{id}', name: 'action')]
     public function actionEditAction($id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);

@@ -18,9 +18,7 @@ use App\Form\Lemca\LicenceType;
 class LicenceController extends CommonController
 {
 
-    /**
-     * @Route("/lemca/licences", name = "licences")
-     */
+    #[Route(path: '/lemca/licences', name: 'licences')]
     public function achatsAction(Request $request)
     {
 
@@ -34,9 +32,7 @@ class LicenceController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/licence/{licence_id}", name="licence")
-     **/
+    #[Route(path: '/lemca/licence/{licence_id}', name: 'licence')]
     public function achatEditAction($licence_id, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_LEMCA');

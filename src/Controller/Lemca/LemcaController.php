@@ -24,9 +24,7 @@ use App\Form\Lemca\CameraType;
 
 class LemcaController extends CommonController
 {
-    /**
-     * @Route("/lemca/panels", name = "panels")
-     */
+    #[Route(path: '/lemca/panels', name: 'panels')]
     public function achatsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -37,9 +35,7 @@ class LemcaController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/panel/{panel_id}", name="panel")
-     **/
+    #[Route(path: '/lemca/panel/{panel_id}', name: 'panel')]
     public function achatEditAction($panel_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -63,9 +59,7 @@ class LemcaController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/kits", name = "kits")
-     */
+    #[Route(path: '/lemca/kits', name: 'kits')]
     public function kitsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -76,9 +70,7 @@ class LemcaController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/kit/{kit_id}", name="kit")
-     **/
+    #[Route(path: '/lemca/kit/{kit_id}', name: 'kit')]
     public function kitEditAction($kit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -102,9 +94,7 @@ class LemcaController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/cameras", name = "cameras")
-     */
+    #[Route(path: '/lemca/cameras', name: 'cameras')]
     public function camerasAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -115,9 +105,7 @@ class LemcaController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/camera/{camera_id}", name="camera")
-     **/
+    #[Route(path: '/lemca/camera/{camera_id}', name: 'camera')]
     public function cameraEditAction($camera_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -141,9 +129,7 @@ class LemcaController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/lemca/ping")
-     */
+    #[Route(path: '/lemca/ping')]
     public function pingAction()
     {
         return new Response("ok");

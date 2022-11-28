@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EphyController extends AbstractController
 {
-    /**
-     * @Route("/ephy_produits", name="ephy_produits")
-     */
+    #[Route(path: '/ephy_produits', name: 'ephy_produits')]
     public function produitsAction(Request $request)
     {
         $all = intval($request->query->get('all', 0));
@@ -24,9 +22,7 @@ class EphyController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/api/ephy_produits", name="ephy_produits_api")
-     */
+    #[Route(path: '/api/ephy_produits', name: 'ephy_produits_api')]
     public function produitsApiAllAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -37,9 +33,7 @@ class EphyController extends AbstractController
         return new JsonResponse($produits);
     }
 
-    /**
-     * @Route("/ephy_produit/{amm}", name="ephy_produit")
-     **/
+    #[Route(path: '/ephy_produit/{amm}', name: 'ephy_produit')]
     public function produitEditAction($amm)
     {
         $em = $this->getDoctrine()->getManager();
@@ -52,9 +46,7 @@ class EphyController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/ephy_substance/{name}", name="ephy_substance")
-     **/
+    #[Route(path: '/ephy_substance/{name}', name: 'ephy_substance')]
     public function subtanceEditAction($name)
     {
         $em = $this->getDoctrine()->getManager();

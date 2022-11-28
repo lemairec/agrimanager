@@ -23,9 +23,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class DocumentController extends CommonController
 {
-    /**
-     * @Route("/documents", name="documents")
-     */
+    #[Route(path: '/documents', name: 'documents')]
     public function produitsAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -60,9 +58,7 @@ class DocumentController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/documents2", name="documents2")
-     */
+    #[Route(path: '/documents2', name: 'documents2')]
     public function documents2Action(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -117,9 +113,7 @@ class DocumentController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/document/{document_id}", name="document")
-     **/
+    #[Route(path: '/document/{document_id}', name: 'document')]
     public function documentEditAction($document_id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);

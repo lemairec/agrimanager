@@ -21,9 +21,7 @@ use App\Form\DataType;
 
 class AchatController extends CommonController
 {
-    /**
-     * @Route("/achats", name = "achats")
-     */
+    #[Route(path: '/achats', name: 'achats')]
     public function achatsAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -44,9 +42,7 @@ class AchatController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/achat/{achat_id}", name="achat")
-     **/
+    #[Route(path: '/achat/{achat_id}', name: 'achat')]
     public function achatEditAction($achat_id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -81,9 +77,7 @@ class AchatController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/achat/{achat_id}/delete", name="achat_delete")
-     **/
+    #[Route(path: '/achat/{achat_id}/delete', name: 'achat_delete')]
     public function achatDeleteAction($achat_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -91,9 +85,7 @@ class AchatController extends CommonController
         return $this->redirectToRoute('achats');
     }
 
-    /**
-     * @Route("/achats_data", name="achats_data")
-     **/
+    #[Route(path: '/achats_data', name: 'achats_data')]
     public function achatsDataEditAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

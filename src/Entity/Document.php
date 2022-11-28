@@ -8,9 +8,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\DocumentRepository")
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\DocumentRepository')]
 class Document
 {
     public function __construct()
@@ -18,38 +18,30 @@ class Document
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
+    #[ORM\JoinColumn(nullable: false)]
     public $company;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     public $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DocumentDirectory")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\DocumentDirectory')]
+    #[ORM\JoinColumn(nullable: true)]
     public $directory;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(type="date", nullable=true)
-    */
+     * @var \DateTime
+     */
+    #[ORM\Column(type: 'date', nullable: true)]
     public $date;
 
     /**
@@ -62,24 +54,21 @@ class Document
     private $docFile;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $docName;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(type="datetime", nullable=true)
-    */
+     * @var \DateTime
+     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     public $updatedAt;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date_export", type="date", nullable=true)
      */
+    #[ORM\Column(name: 'date_export', type: 'date', nullable: true)]
     public $dateExport;
 
     /**

@@ -5,31 +5,26 @@ namespace App\Entity\Silo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\Silo\TemperatureRepository")
- * @ORM\Table(indexes={@ORM\Index(name="datetime_idx", columns={"datetime"})})
- */
+#[ORM\Table]
+#[ORM\Index(name: 'datetime_idx', columns: ['datetime'])]
+#[ORM\Entity(repositoryClass: 'App\Repository\Silo\TemperatureRepository')]
 class Temperature
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Silo\Balise")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Silo\Balise')]
+    #[ORM\JoinColumn(nullable: false)]
     public $balise;
 
-    /** @ORM\Column(type="datetime") **/
+    #[ORM\Column(type: 'datetime')]
     public $datetime;
 
-    /** @ORM\Column(type="datetime", nullable=true) **/
+    #[ORM\Column(type: 'datetime', nullable: true)]
     public $rounded_datetime;
 
-    /** @ORM\Column(type="float") **/
+    #[ORM\Column(type: 'float')]
     public $temp;
 }

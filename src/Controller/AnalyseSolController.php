@@ -19,9 +19,7 @@ use App\Form\AnalyseSolType;
 
 class AnalyseSolController extends CommonController
 {
-    /**
-     * @Route("/analyse_sols", name="analyse_sols")
-     */
+    #[Route(path: '/analyse_sols', name: 'analyse_sols')]
     public function produitsAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -35,9 +33,7 @@ class AnalyseSolController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/analyse_sol/{analyse_sol_id}", name="analyse_sol")
-     **/
+    #[Route(path: '/analyse_sol/{analyse_sol_id}', name: 'analyse_sol')]
     public function produitEditAction($analyse_sol_id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);

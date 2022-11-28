@@ -22,9 +22,7 @@ use App\Form\Agrigps\GpsParcelleType;
 
 class JobGpsController extends CommonController
 {
-    /**
-     * @Route("/job_gpss", name="job_gpss")
-     */
+    #[Route(path: '/job_gpss', name: 'job_gpss')]
     public function testAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -36,9 +34,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/job_gpss/me", name="job_gpss_me")
-     */
+    #[Route(path: '/job_gpss/me', name: 'job_gpss_me')]
     public function jobGpsMeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -53,9 +49,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/job_gpss/remove_debug", name="job_remove_debug")
-     */
+    #[Route(path: '/job_gpss/remove_debug', name: 'job_remove_debug')]
     public function jobRemoveDebug(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -70,9 +64,7 @@ class JobGpsController extends CommonController
     }
 
 
-    /**
-     * @Route("/job_gps/{id}")
-     */
+    #[Route(path: '/job_gps/{id}')]
     public function jobAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -116,9 +108,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/job_gps/{id}/debug")
-     */
+    #[Route(path: '/job_gps/{id}/debug')]
     public function jobDebugAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -161,9 +151,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-     /**
-     * @Route("/api/job_gps")
-     */
+     #[Route(path: '/api/job_gps')]
     public function annoncesApiAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -195,9 +183,7 @@ class JobGpsController extends CommonController
         return new JsonResponse("ok");
     }
 
-    /**
-     * @Route("/gps_parcelles", name="gps_parcelles")
-     */
+    #[Route(path: '/gps_parcelles', name: 'gps_parcelles')]
     public function parcellesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -212,9 +198,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/gps_parcelle/{parcelle_name}", name="gps_parcelle")
-     */
+    #[Route(path: '/gps_parcelle/{parcelle_name}', name: 'gps_parcelle')]
     public function parcelleAction($parcelle_name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -261,9 +245,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/gps_balises", name="gps_balises")
-     */
+    #[Route(path: '/gps_balises', name: 'gps_balises')]
     public function baliseAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -282,9 +264,7 @@ class JobGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/api/autosteer/parcelles")
-     */
+    #[Route(path: '/api/autosteer/parcelles')]
     public function parcellesGpsApiAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -315,9 +295,7 @@ class JobGpsController extends CommonController
         return new JsonResponse($json);
     }
 
-    /**
-     * @Route("/api/autosteer/parcelle/{name}")
-     */
+    #[Route(path: '/api/autosteer/parcelle/{name}')]
     public function parcelleGpsApiAction($name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -331,9 +309,7 @@ class JobGpsController extends CommonController
         return $this->returnParcelle($em, $name, $company);
     }
 
-    /**
-     * @Route("/api/autosteer/parcelle")
-     */
+    #[Route(path: '/api/autosteer/parcelle')]
     public function parcelleGpsApiAction2(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -369,9 +345,7 @@ class JobGpsController extends CommonController
         return $this->returnParcelle($em, $name, $company);
     }
 
-    /**
-     * @Route("/api/autosteer/balises")
-     */
+    #[Route(path: '/api/autosteer/balises')]
     public function balisesAction2(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

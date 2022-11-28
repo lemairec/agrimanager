@@ -8,54 +8,47 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * AppartementOperation
  *
- * @ORM\Entity(repositoryClass="App\Repository\AppartementOperationRepository")
- * @ORM\Table(name="appartement_operation")
  * @Vich\Uploadable
  */
+#[ORM\Table(name: 'appartement_operation')]
+#[ORM\Entity(repositoryClass: 'App\Repository\AppartementOperationRepository')]
 class AppartementOperation
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     public $id;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date")
      */
+    #[ORM\Column(name: 'date', type: 'date')]
     public $date;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
      */
+    #[ORM\Column(name: 'type', type: 'string', length: 255)]
     public $type;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="annee", type="integer", length=255)
      */
+    #[ORM\Column(name: 'annee', type: 'integer', length: 255)]
     public $annee;
 
     public $sum;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="value", type="float")
      */
+    #[ORM\Column(name: 'value', type: 'float')]
     public $value;
 
-    /**
-    * @ORM\OneToOne(targetEntity="Document",cascade={"persist"})
-    */
+    #[ORM\OneToOne(targetEntity: 'Document', cascade: ['persist'])]
     public $doc;
 
     function getDateStr(){

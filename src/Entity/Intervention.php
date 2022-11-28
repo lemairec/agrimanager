@@ -6,10 +6,9 @@ use Symfony\Component\Uid\Uuid;
 
 /**
  * Intervention
- *
- * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
- * @ORM\Table(name="intervention")
  */
+#[ORM\Table(name: 'intervention')]
+#[ORM\Entity(repositoryClass: 'App\Repository\InterventionRepository')]
 class Intervention
 {
     public function __construct()
@@ -17,73 +16,58 @@ class Intervention
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Campagne')]
+    #[ORM\JoinColumn(nullable: false)]
     public $campagne;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
+    #[ORM\JoinColumn(nullable: false)]
     public $company;
 
-    /** @ORM\Column(type="datetime") **/
+    #[ORM\Column(type: 'datetime')]
     public $datetime;
 
-	/** @ORM\Column(type="datetime", nullable=true) **/
+	#[ORM\Column(type: 'datetime', nullable: true)]
     public $datetimeEnd;
 
-	/** @ORM\Column(type="time", nullable=true) **/
+	#[ORM\Column(type: 'time', nullable: true)]
     public $duration;
 
-    /** @ORM\Column(name="type", type="string", length=255) **/
+    #[ORM\Column(name: 'type', type: 'string', length: 255)]
     public $type;
 
-    /** @ORM\Column(type="float") **/
+    #[ORM\Column(type: 'float')]
     public $surface;
 
-    /** @ORM\Column(type="text", length=255, nullable=true) **/
+    #[ORM\Column(type: 'text', length: 255, nullable: true)]
     public $name;
 
-    /** @ORM\Column(type="text", nullable=true) **/
+    #[ORM\Column(type: 'text', nullable: true)]
     public $comment;
 
-    /** @ORM\Column(type="text", nullable=true, name="meteoJson") **/
+    #[ORM\Column(type: 'text', nullable: true, name: 'meteoJson')]
     public $meteoJson;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) **/
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $migration;
 
-    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\InterventionParcelle", mappedBy="intervention",cascade={"persist"})
-    */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\InterventionParcelle', mappedBy: 'intervention', cascade: ['persist'])]
     public $parcelles;
 
-    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\InterventionProduit", mappedBy="intervention",cascade={"persist"})
-    */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\InterventionProduit', mappedBy: 'intervention', cascade: ['persist'])]
     public $produits;
 
-    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\InterventionMateriel", mappedBy="intervention",cascade={"persist"})
-    */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\InterventionMateriel', mappedBy: 'intervention', cascade: ['persist'])]
     public $materiels;
 
-     /**
-    * @ORM\OneToMany(targetEntity=App\Entity\InterventionRecolte::class, mappedBy="intervention",cascade={"persist"})
-    * @ORM\OrderBy({"datetime" = "ASC"})
-
-    */
+     #[ORM\OneToMany(targetEntity: InterventionRecolte::class, mappedBy: 'intervention', cascade: ['persist'])]
+    #[ORM\OrderBy(['datetime' => 'ASC'])]
     public $recoltes;
 
     public function getDatetimeStr(){

@@ -16,9 +16,7 @@ use App\Controller\CommonController;
 
 class AnnonceController extends CommonController
 {
-    /**
-     * @Route("/annonces", name="annonces")
-     */
+    #[Route(path: '/annonces', name: 'annonces')]
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -34,9 +32,7 @@ class AnnonceController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/annonces/immobilier", name="annonces_immobilier")
-     */
+    #[Route(path: '/annonces/immobilier', name: 'annonces_immobilier')]
     public function index2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -49,9 +45,7 @@ class AnnonceController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/annonces/immobilier_nantes", name="annonces_immobilier_nantes")
-     */
+    #[Route(path: '/annonces/immobilier_nantes', name: 'annonces_immobilier_nantes')]
     public function index3Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -65,9 +59,7 @@ class AnnonceController extends CommonController
     }
 
 
-    /**
-     * @Route("/annonces/bennes", name="bennes")
-     */
+    #[Route(path: '/annonces/bennes', name: 'bennes')]
     public function bennesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -80,9 +72,7 @@ class AnnonceController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/annonces/api")
-     */
+    #[Route(path: '/annonces/api')]
     public function annoncesApiAction(Request $request,  MailerInterface $mailer)
     {
         $em = $this->getDoctrine()->getManager();
@@ -109,9 +99,7 @@ class AnnonceController extends CommonController
         return new Response("ok");
     }
 
-    /**
-     * @Route("/annonces/api/update_new")
-     */
+    #[Route(path: '/annonces/api/update_new')]
     public function annoncesApiUpdateNew(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

@@ -25,9 +25,7 @@ use App\Form\ContactType;
 
 class UserController extends CommonController
 {
-    /**
-     * @Route("/k8f96gtb", name="connection_user")
-     */
+    #[Route(path: '/k8f96gtb', name: 'connection_user')]
     public function testAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -57,9 +55,7 @@ class UserController extends CommonController
     }
 
 
-    /**
-     * @Route("/profile/edit")
-     */
+    #[Route(path: '/profile/edit')]
     public function profileEditAction(Request $request)
     {
         $this->check_user($request);
@@ -100,9 +96,7 @@ class UserController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/contact/{contact_id}", name="contact")
-     **/
+    #[Route(path: '/contact/{contact_id}', name: 'contact')]
     public function contactAction($contact_id, Request $request,  MailerInterface $mailer)
     {
         $em = $this->getDoctrine()->getManager();
@@ -128,9 +122,7 @@ class UserController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/contact_ok", name="contact_ok")
-     **/
+    #[Route(path: '/contact_ok', name: 'contact_ok')]
     public function contactOkAction(Request $request)
     {
         return $this->render('Profile/contact_ok.html.twig');

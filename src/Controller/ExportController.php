@@ -19,17 +19,13 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class ExportController extends CommonController
 {
-    /**
-     * @Route("/export", name="export")
-     **/
+    #[Route(path: '/export', name: 'export')]
     public function export(Request $request)
     {
         return $this->render('Export/export.html.twig');
     }
 
-    /**
-     * @Route("/export_preview/year/{year}/month/{month}", name="export_preview")
-     **/
+    #[Route(path: '/export_preview/year/{year}/month/{month}', name: 'export_preview')]
     public function export_preview(Request $request, $month, $year)
     {
         $em = $this->getDoctrine()->getManager();
@@ -53,9 +49,7 @@ class ExportController extends CommonController
         ]);
     }
 
-     /**
-     * @Route("/export_2/year/{year}/month/{month}", name="export3")
-     **/
+     #[Route(path: '/export_2/year/{year}/month/{month}', name: 'export3')]
     public function export_3(Request $request, $month, $year)
     {
         $em = $this->getDoctrine()->getManager();
@@ -105,9 +99,7 @@ class ExportController extends CommonController
         return $response;
     }
 
-    /**
-     * @Route("/documents/export", name="document_export")
-     **/
+    #[Route(path: '/documents/export', name: 'document_export')]
     public function documentsDump(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -142,9 +134,7 @@ class ExportController extends CommonController
     }
 
 
-    /**
-     * @Route("export_update/company", name="export_update_company")
-     **/
+    #[Route(path: 'export_update/company', name: 'export_update_company')]
     public function factureFournisseurExportAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -187,9 +177,7 @@ class ExportController extends CommonController
     }
     
 
-    /**
-     * @Route("export/company", name="export_company")
-     **/
+    #[Route(path: 'export/company', name: 'export_company')]
     public function exportCOmpanyAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -228,9 +216,7 @@ class ExportController extends CommonController
         return $response;
     }
 
-    /**
-     * @Route("export/company_date", name="export_company")
-     **/
+    #[Route(path: 'export/company_date', name: 'export_company')]
     public function exportCompanyDateAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -269,9 +255,7 @@ class ExportController extends CommonController
         return $response;
     }
 
-    /**
-     * @Route("/facture_fournisseurs_export", name="factures_fournisseurs2")
-     **/
+    #[Route(path: '/facture_fournisseurs_export', name: 'factures_fournisseurs2')]
     public function factureFournisseurs2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -284,9 +268,7 @@ class ExportController extends CommonController
     }
 
 
-    /**
-    * @Route("/export_all", name="export_all")
-    **/
+    #[Route(path: '/export_all', name: 'export_all')]
     public function exportDump(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

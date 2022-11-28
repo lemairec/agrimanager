@@ -7,10 +7,9 @@ use Symfony\Component\Uid\Uuid;
 
 /**
  * Livraison
- *
- * @ORM\Entity(repositoryClass="App\Repository\LivraisonRepository")
- * @ORM\Table(name="livraison")
  */
+#[ORM\Table(name: 'livraison')]
+#[ORM\Entity(repositoryClass: 'App\Repository\LivraisonRepository')]
 class Livraison
 {
     public function __construct()
@@ -18,108 +17,90 @@ class Livraison
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Campagne')]
+    #[ORM\JoinColumn(nullable: false)]
     public $campagne;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
      */
+    #[ORM\Column(name: 'date', type: 'datetime')]
     public $date;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255,nullable=true))
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: true)]
     public $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="vehicule", type="string", length=255,nullable=true))
      */
+    #[ORM\Column(name: 'vehicule', type: 'string', length: 255, nullable: true)]
     public $vehicule;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255,nullable=true))
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $espece;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float",nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $poid_total;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float",nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $tare;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $humidite;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $impurete;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $ps;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $proteine;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     public $calibrage;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
      */
+    #[ORM\Column(type: 'float')]
     public $poid_norme;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Parcelle")
-     * @ORM\JoinColumn(name="parcelle_id",nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Parcelle')]
+    #[ORM\JoinColumn(name: 'parcelle_id', nullable: true)]
     public $parcelle;
 
     function getDateStr(){

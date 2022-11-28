@@ -17,9 +17,7 @@ use App\Form\ProduitType;
 
 class ProduitController extends CommonController
 {
-    /**
-     * @Route("/produits", name="produits")
-     */
+    #[Route(path: '/produits', name: 'produits')]
     public function produitsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -34,9 +32,7 @@ class ProduitController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_produits2", name="bilan_produits2")
-     */
+    #[Route(path: '/bilan_produits2', name: 'bilan_produits2')]
     public function bilan_produits2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -67,9 +63,7 @@ class ProduitController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/api/produit", name="produit_api")
-     */
+    #[Route(path: '/api/produit', name: 'produit_api')]
     public function produitApiAction(Request $request)
     {
         $data = json_decode($request->getContent(), true);
@@ -116,9 +110,7 @@ class ProduitController extends CommonController
         }
     }
 
-    /**
-     * @Route("/produit/{produit_id}", name="produit")
-     **/
+    #[Route(path: '/produit/{produit_id}', name: 'produit')]
     public function produitEdit2Action($produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -146,9 +138,7 @@ class ProduitController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/produit/{produit_id}/delete", name="produit_delete")
-     **/
+    #[Route(path: '/produit/{produit_id}/delete', name: 'produit_delete')]
     public function produitDeleteAction($produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -156,9 +146,7 @@ class ProduitController extends CommonController
         return $this->redirectToRoute('produits');
     }
 
-    /**
-     * @Route("/phytos", name="phytos")
-     */
+    #[Route(path: '/phytos', name: 'phytos')]
     public function phytosAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -177,9 +165,7 @@ class ProduitController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/stocks", name="stocks")
-     */
+    #[Route(path: '/stocks', name: 'stocks')]
     public function stocksAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -198,9 +184,7 @@ class ProduitController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/stocks2", name="stocks2")
-     */
+    #[Route(path: '/stocks2', name: 'stocks2')]
     public function stocks2Action(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -219,9 +203,7 @@ class ProduitController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/produit_campagnes", name = "produit_campagnes")
-     */
+    #[Route(path: '/produit_campagnes', name: 'produit_campagnes')]
     public function produitCampagneAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -243,9 +225,7 @@ class ProduitController extends CommonController
     }
 
 
-    /**
-     * @Route("/engrais", name="engrais")
-     **/
+    #[Route(path: '/engrais', name: 'engrais')]
     public function engraisAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);

@@ -21,9 +21,7 @@ use App\Entity\InterventionRecolte;
 
 class InterventionController extends CommonController
 {
-    /**
-     * @Route("/interventions", name="interventions")
-     */
+    #[Route(path: '/interventions', name: 'interventions')]
     public function interventions(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -37,9 +35,7 @@ class InterventionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}", name="intervention", methods={"GET"}))
-     **/
+    #[Route(path: '/intervention/{intervention_id}', name: 'intervention', methods: ['GET'])]
     public function interventionGetAction($intervention_id, Request $request)
     {
         $this->check_user($request);
@@ -109,9 +105,7 @@ class InterventionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/api/intervention", name="intervention_api")
-     */
+    #[Route(path: '/api/intervention', name: 'intervention_api')]
     public function annoncesApiAction(Request $request)
     {
         $data = json_decode($request->getContent(), true);
@@ -196,9 +190,7 @@ class InterventionController extends CommonController
 
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}/delete", name="intervention_delete")
-     **/
+    #[Route(path: '/intervention/{intervention_id}/delete', name: 'intervention_delete')]
     public function interventionDeleteAction($intervention_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -206,9 +198,7 @@ class InterventionController extends CommonController
         return $this->redirectToRoute('interventions');
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}/parcelle/{intervention_parcelle_id}", name="intervention_parcelle")
-     **/
+    #[Route(path: '/intervention/{intervention_id}/parcelle/{intervention_parcelle_id}', name: 'intervention_parcelle')]
     public function interventionParcelleAction($intervention_id, $intervention_parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -235,9 +225,7 @@ class InterventionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}/parcelle/{intervention_parcelle_id}/delete", name="intervention_parcelle_delete")
-     **/
+    #[Route(path: '/intervention/{intervention_id}/parcelle/{intervention_parcelle_id}/delete', name: 'intervention_parcelle_delete')]
     public function interventionParcelleDeleteAction($intervention_id, $intervention_parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -245,9 +233,7 @@ class InterventionController extends CommonController
         return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}/produit/{intervention_produit_id}", name="intervention_produit")
-     **/
+    #[Route(path: '/intervention/{intervention_id}/produit/{intervention_produit_id}', name: 'intervention_produit')]
     public function interventionProduitAction($intervention_id, $intervention_produit_id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -274,9 +260,7 @@ class InterventionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}/materiel/{intervention_materiel_id}", name="intervention_materiel")
-     **/
+    #[Route(path: '/intervention/{intervention_id}/materiel/{intervention_materiel_id}', name: 'intervention_materiel')]
     public function interventionMaterielAction($intervention_id, $intervention_materiel_id, Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -303,9 +287,7 @@ class InterventionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/intervention/{intervention_id}/produit/{intervention_produit_id}/delete", name="intervention_produit_delete")
-     **/
+    #[Route(path: '/intervention/{intervention_id}/produit/{intervention_produit_id}/delete', name: 'intervention_produit_delete')]
     public function interventionProduitDeleteAction($intervention_id, $intervention_produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();

@@ -19,9 +19,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class AppartementController extends CommonController
 {
-    /**
-     * @Route("/appartement/operations", name="appartement_operations")
-     */
+    #[Route(path: '/appartement/operations', name: 'appartement_operations')]
     public function operationsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -41,9 +39,7 @@ class AppartementController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/appartement/operation/{operation_id}", name="appartement_operation")
-     **/
+    #[Route(path: '/appartement/operation/{operation_id}', name: 'appartement_operation')]
     public function compteEditAction($operation_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -85,9 +81,7 @@ class AppartementController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/appartement/bilan", name="appartement_bilan")
-     */
+    #[Route(path: '/appartement/bilan', name: 'appartement_bilan')]
     public function bilanAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

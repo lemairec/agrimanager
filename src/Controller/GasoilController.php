@@ -15,9 +15,7 @@ use App\Form\GasoilType;
 
 class GasoilController extends CommonController
 {
-    /**
-     * @Route("gasoils", name="gasoils")
-     */
+    #[Route(path: 'gasoils', name: 'gasoils')]
     public function gasoilsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -66,9 +64,7 @@ class GasoilController extends CommonController
         ));
     }
 
-    /**
-     * @Route("gasoils_all", name="gasoils_all")
-     */
+    #[Route(path: 'gasoils_all', name: 'gasoils_all')]
     public function gasoilsAllAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -81,9 +77,7 @@ class GasoilController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/gasoil/{gasoil_id}", name="gasoil")
-     **/
+    #[Route(path: '/gasoil/{gasoil_id}', name: 'gasoil')]
     public function gasoilEditAction($gasoil_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();

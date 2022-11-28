@@ -17,9 +17,7 @@ use App\Form\JobGpsType;
 
 class ParcelleGpsController extends CommonController
 {
-    /**
-     * @Route("/job_gpss", name="job_gpss")
-     */
+    #[Route(path: '/job_gpss', name: 'job_gpss')]
     public function testAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -31,9 +29,7 @@ class ParcelleGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/job_gpss/me", name="job_gpss_me")
-     */
+    #[Route(path: '/job_gpss/me', name: 'job_gpss_me')]
     public function jobGpsMeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -48,9 +44,7 @@ class ParcelleGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/job_gpss/remove_debug", name="job_remove_debug")
-     */
+    #[Route(path: '/job_gpss/remove_debug', name: 'job_remove_debug')]
     public function jobRemoveDebug(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -65,9 +59,7 @@ class ParcelleGpsController extends CommonController
     }
 
 
-    /**
-     * @Route("/job_gps/{id}")
-     */
+    #[Route(path: '/job_gps/{id}')]
     public function jobAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -111,9 +103,7 @@ class ParcelleGpsController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/job_gps/{id}/debug")
-     */
+    #[Route(path: '/job_gps/{id}/debug')]
     public function jobDebugAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -156,9 +146,7 @@ class ParcelleGpsController extends CommonController
         ));
     }
 
-     /**
-     * @Route("/api/job_gps")
-     */
+     #[Route(path: '/api/job_gps')]
     public function annoncesApiAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -189,9 +177,7 @@ class ParcelleGpsController extends CommonController
         return new JsonResponse("ok");
     }
 
-    /**
-     * @Route("/api/parcelles_gps")
-     */
+    #[Route(path: '/api/parcelles_gps')]
     public function parcellesGpsApiAction(Request $request)
     {
         $parcelles = [];

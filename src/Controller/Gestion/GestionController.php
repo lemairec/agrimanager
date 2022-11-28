@@ -115,9 +115,7 @@ class GestionController extends CommonController
         return $chartjs;
     }
 
-    /**
-     * @Route("/cours", name="cours")
-     */
+    #[Route(path: '/cours', name: 'cours')]
     public function coursAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -145,9 +143,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/cours/new", name="cours_new")
-     */
+    #[Route(path: '/cours/new', name: 'cours_new')]
     public function coursNewAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -168,9 +164,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/comptes2", name="comptes2")
-     */
+    #[Route(path: '/comptes2', name: 'comptes2')]
     public function comptes2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -197,9 +191,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/comptes", name="comptes")
-     */
+    #[Route(path: '/comptes', name: 'comptes')]
     public function comptesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -226,9 +218,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_comptes", name="bilan_comptes")
-     */
+    #[Route(path: '/bilan_comptes', name: 'bilan_comptes')]
     public function bilanCompteAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -279,9 +269,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/comptes_by_year", name="comptes_by_year")
-     */
+    #[Route(path: '/comptes_by_year', name: 'comptes_by_year')]
     public function comptesByYearAction(Request $request)
     {
         $this->check_user($request);
@@ -319,9 +307,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_banque", name="bilan_banque")
-     **/
+    #[Route(path: '/bilan_banque', name: 'bilan_banque')]
     public function banqueEditAction(Request $request)
     {
         $this->check_user($request);
@@ -368,9 +354,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_emprunt", name="bilan_emprunt")
-     **/
+    #[Route(path: '/bilan_emprunt', name: 'bilan_emprunt')]
     public function empruntEditAction(Request $request)
     {
         $this->check_user($request);
@@ -418,9 +402,7 @@ class GestionController extends CommonController
     }
 
 
-    /**
-     * @Route("/compte/{compte_id}", name="compte")
-     **/
+    #[Route(path: '/compte/{compte_id}', name: 'compte')]
     public function compteEditAction($compte_id, Request $request)
     {
         $this->check_user($request);
@@ -515,9 +497,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/compte/{compte_id}/by_tag", name="compte_by_tag")
-     **/
+    #[Route(path: '/compte/{compte_id}/by_tag', name: 'compte_by_tag')]
     public function compteTagAction($compte_id, Request $request)
     {
         $this->check_user($request);
@@ -557,9 +537,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/operations", name="operations")
-     */
+    #[Route(path: '/operations', name: 'operations')]
     public function operationsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -574,9 +552,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/operation/{operation_id}", name="operation")
-     **/
+    #[Route(path: '/operation/{operation_id}', name: 'operation')]
     public function operationEditAction($operation_id, Request $request)
     {
         $this->check_user($request);
@@ -611,9 +587,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/operation/{operation_id}/delete", name="operation_delete")
-     **/
+    #[Route(path: '/operation/{operation_id}/delete', name: 'operation_delete')]
     public function operationDeleteAction($operation_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -621,9 +595,7 @@ class GestionController extends CommonController
         return $this->redirectToRoute('operations');
     }
 
-    /**
-     * @Route("/operation/{operation_id}/ecriture/{ecriture_id}", name="ecriture")
-     **/
+    #[Route(path: '/operation/{operation_id}/ecriture/{ecriture_id}', name: 'ecriture')]
     public function ecritureEditAction($operation_id, $ecriture_id, Request $request)
     {
         $this->check_user($request);
@@ -652,9 +624,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/facture_fournisseurs", name="factures_fournisseurs")
-     **/
+    #[Route(path: '/facture_fournisseurs', name: 'factures_fournisseurs')]
     public function factureFournisseursAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -666,9 +636,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/facture_fournisseur/{facture_id}/delete_pdf", name="facture_fournisseur_delete_pdf")
-     **/
+    #[Route(path: '/facture_fournisseur/{facture_id}/delete_pdf', name: 'facture_fournisseur_delete_pdf')]
     public function factureFournisseurDeletePdfAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -678,9 +646,7 @@ class GestionController extends CommonController
         return $this->redirectToRoute('facture_fournisseur', array('facture_id' => $facture_id));
     }
 
-    /**
-     * @Route("/facture_fournisseur/{facture_id}", name="facture_fournisseur")
-     **/
+    #[Route(path: '/facture_fournisseur/{facture_id}', name: 'facture_fournisseur')]
     public function factureFournisseurAction($facture_id, Request $request)
     {
         $this->check_user($request);
@@ -740,9 +706,7 @@ class GestionController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/facture_fournisseur/{facture_id}/delete", name="facture_fournisseur_delete")
-     **/
+    #[Route(path: '/facture_fournisseur/{facture_id}/delete', name: 'facture_fournisseur_delete')]
     public function factureFournisseurDeleteAction($facture_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();

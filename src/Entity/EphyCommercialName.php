@@ -6,24 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * EphyCommercialName
- *
- * @ORM\Entity(repositoryClass="App\Repository\EphyCommercialNameRepository")
- * @ORM\Table(name="ephy_commercial_name")
  */
+#[ORM\Table(name: 'ephy_commercial_name')]
+#[ORM\Entity(repositoryClass: 'App\Repository\EphyCommercialNameRepository')]
 class EphyCommercialName
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit", inversedBy="commercialeNames")
-     * @ORM\JoinColumn(name="ephyproduit", referencedColumnName="amm", nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\EphyProduit', inversedBy: 'commercialeNames')]
+    #[ORM\JoinColumn(name: 'ephyproduit', referencedColumnName: 'amm', nullable: false)]
     public $ephyproduit;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
-     * @ORM\Id
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 100)]
+    #[ORM\Id]
     public $name;
 
     public function getAmm(){

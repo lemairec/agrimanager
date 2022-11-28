@@ -25,9 +25,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class EmpruntController extends CommonController
 {
-    /**
-     * @Route("/emprunts", name="emprunts")
-     */
+    #[Route(path: '/emprunts', name: 'emprunts')]
     public function coursNewAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -53,9 +51,7 @@ class EmpruntController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/emprunt/{emprunt_id}", name="emprunt")
-     **/
+    #[Route(path: '/emprunt/{emprunt_id}', name: 'emprunt')]
     public function compteEditAction($emprunt_id, Request $request)
     {
         $this->check_user($request);
@@ -90,9 +86,7 @@ class EmpruntController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/emprunt/{emprunt_id}/annuite", name="emprunt_annuite")
-     **/
+    #[Route(path: '/emprunt/{emprunt_id}/annuite', name: 'emprunt_annuite')]
     public function compte2EditAction($emprunt_id, Request $request)
     {
         $this->check_user($request);

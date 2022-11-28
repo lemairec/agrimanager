@@ -18,9 +18,7 @@ use Dompdf\Options;
 
 class BilanController extends CommonController
 {
-    /**
-     * @Route("/fiches_parcellaires", name="fiches_parcellaires")
-     */
+    #[Route(path: '/fiches_parcellaires', name: 'fiches_parcellaires')]
     public function ficheParcellairesAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -39,9 +37,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/fiches_parcellaires_pdf", name="fiches_parcellaires_pdf")
-     */
+    #[Route(path: '/fiches_parcellaires_pdf', name: 'fiches_parcellaires_pdf')]
     public function ficheParcellairesPdfAction(Request $request)
     {
         $campagne = $this->getCurrentCampagne($request);
@@ -75,9 +71,7 @@ class BilanController extends CommonController
         return new Response("ok");
     }
 
-    /**
-     * @Route("/bilan_intervention_prix", name="bilan_intervention_prix")
-     */
+    #[Route(path: '/bilan_intervention_prix', name: 'bilan_intervention_prix')]
     public function ficheInterventionPrixAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -103,9 +97,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan", name="bilan")
-     */
+    #[Route(path: '/bilan', name: 'bilan')]
     public function bilanAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -161,9 +153,7 @@ class BilanController extends CommonController
     }
 
 
-    /**
-     * @Route("/bilan_engrais", name="bilan_engrais")
-     */
+    #[Route(path: '/bilan_engrais', name: 'bilan_engrais')]
     public function bilanEngraisAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -222,9 +212,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_engrais2", name="bilan_engrais2")
-     */
+    #[Route(path: '/bilan_engrais2', name: 'bilan_engrais2')]
     public function bilanEngrais2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -268,9 +256,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_charges", name="bilan_charges")
-     */
+    #[Route(path: '/bilan_charges', name: 'bilan_charges')]
     public function bilan2Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -327,9 +313,7 @@ class BilanController extends CommonController
     }
 
 
-    /**
-     * @Route("/bilan_dates", name="bilan_dates")
-     */
+    #[Route(path: '/bilan_dates', name: 'bilan_dates')]
     public function bilanDatesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -375,9 +359,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_produits", name="bilan_produits")
-     */
+    #[Route(path: '/bilan_produits', name: 'bilan_produits')]
     public function bilanProduitsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -427,9 +409,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_rendements", name="bilan_rendements")
-     */
+    #[Route(path: '/bilan_rendements', name: 'bilan_rendements')]
     public function bilanRendementsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -498,9 +478,7 @@ class BilanController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_comptes", name="bilan_comptes")
-     */
+    #[Route(path: '/bilan_comptes', name: 'bilan_comptes')]
     public function comptesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -539,9 +517,7 @@ class BilanController extends CommonController
         return ($line1['date'] > $line2['date']) ? -1 : 1;
     }
 
-    /**
-     * @Route("/bilan_gasoil", name="bilan_gasoil")
-     */
+    #[Route(path: '/bilan_gasoil', name: 'bilan_gasoil')]
     public function bilanGasoilAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

@@ -25,9 +25,7 @@ use App\Form\Commercialisation\CotationType;
 class CommercialisationController extends CommonController
 {
 
-    /**
-     * @Route("/commercialisations", name="commercialisations")
-     */
+    #[Route(path: '/commercialisations', name: 'commercialisations')]
     public function commercialisationAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -58,9 +56,7 @@ class CommercialisationController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/bilan_commercialisations", name="bilan_commercialisations")
-     */
+    #[Route(path: '/bilan_commercialisations', name: 'bilan_commercialisations')]
     public function bilanCommercialisationAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -185,9 +181,7 @@ class CommercialisationController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/commercialisation/{commercialisation_id}", name="commercialisation")
-     **/
+    #[Route(path: '/commercialisation/{commercialisation_id}', name: 'commercialisation')]
     public function commercialisationEditAction($commercialisation_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -218,9 +212,7 @@ class CommercialisationController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/cotations", name="cotations")
-     **/
+    #[Route(path: '/cotations', name: 'cotations')]
     public function cotationAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -231,9 +223,7 @@ class CommercialisationController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/cotations_all", name="cotations_all")
-     **/
+    #[Route(path: '/cotations_all', name: 'cotations_all')]
     public function cotationAllAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -244,9 +234,7 @@ class CommercialisationController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/cotations_caj", name="cotation_caj")
-     **/
+    #[Route(path: '/cotations_caj', name: 'cotation_caj')]
     public function cotationCajAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -328,9 +316,7 @@ class CommercialisationController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/cotation/{id}", name="cotation")
-     **/
+    #[Route(path: '/cotation/{id}', name: 'cotation')]
     public function cotationEditAction($id, Request $request)
     {
         $this->check_user($request);

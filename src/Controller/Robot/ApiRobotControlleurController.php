@@ -14,9 +14,7 @@ use App\Entity\Robot\Order;
 
 class ApiRobotControlleurController extends CommonController
 {
-    /**
-     * @Route("/robot/api/get_order", name="robot_api")
-     **/
+    #[Route(path: '/robot/api/get_order', name: 'robot_api')]
     public function silo_api(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -54,9 +52,7 @@ class ApiRobotControlleurController extends CommonController
         return new JsonResponse(["name"=>"","type"=>"WAIT"]);
     }
 
-    /**
-     * @Route("/robot/api/v2/post_order")
-     **/
+    #[Route(path: '/robot/api/v2/post_order')]
     public function post_silo_api2(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

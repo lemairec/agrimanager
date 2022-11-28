@@ -39,9 +39,7 @@ class SiloController extends CommonController
         }
     }
 
-    /**
-     * @Route("/silo/api_sonde", name="silo_api")
-     **/
+    #[Route(path: '/silo/api_sonde', name: 'silo_api')]
     public function silo_api(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -69,9 +67,7 @@ class SiloController extends CommonController
     }
 
 
-    /**
-     * @Route("/silo/balises", name="silo_balises")
-     **/
+    #[Route(path: '/silo/balises', name: 'silo_balises')]
     public function siloBalises(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -96,9 +92,7 @@ class SiloController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/silo/balise/{id}", name="silo_balise")
-     **/
+    #[Route(path: '/silo/balise/{id}', name: 'silo_balise')]
     public function siloBalise($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();

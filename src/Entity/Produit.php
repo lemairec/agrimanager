@@ -5,10 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
- * @ORM\Table(name="produit")
- */
+#[ORM\Table(name: 'produit')]
+#[ORM\Entity(repositoryClass: 'App\Repository\ProduitRepository')]
 class Produit
 {
     public function __construct()
@@ -16,74 +14,64 @@ class Produit
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
+    #[ORM\JoinColumn(nullable: false)]
     public $company;
 
-    /** @ORM\Column(name="complete_name", type="string", length=255) **/
+    #[ORM\Column(name: 'complete_name', type: 'string', length: 255)]
     public $completeName;
 
-    /** @ORM\Column(type="string") **/
+    #[ORM\Column(type: 'string')]
     public $name;
 
-    /** @ORM\Column(type="string",nullable=true) **/
+    #[ORM\Column(type: 'string', nullable: true)]
     public $comment;
 
-    /** @ORM\Column(name="type", type="string", length=255) **/
+    #[ORM\Column(name: 'type', type: 'string', length: 255)]
     public $type;
 
-    /** @ORM\Column(name="bio", type="boolean", nullable=true) **/
+    #[ORM\Column(name: 'bio', type: 'boolean', nullable: true)]
     public $bio = false;
 
-    /** @ORM\Column(name="unity", type="string", length=255) **/
+    #[ORM\Column(name: 'unity', type: 'string', length: 255)]
     public $unity = "unité";
 
-    /** @ORM\Column(name="qty", type="float") **/
+    #[ORM\Column(name: 'qty', type: 'float')]
     public $quantity = 0;
 
-    /** @ORM\Column(name="price", type="float") **/
+    #[ORM\Column(name: 'price', type: 'float')]
     public $price = 0;
 
-    /** Phyto **/
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\EphyProduit")
-     * @ORM\JoinColumn(name="ephy_produit", referencedColumnName="amm")
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\EphyProduit')]
+    #[ORM\JoinColumn(name: 'ephy_produit', referencedColumnName: 'amm')]
     public $ephyProduit;
 
-    /** ENGRAIS **/
-
-    /** @ORM\Column(name="n", type="float") **/
+    #[ORM\Column(name: 'n', type: 'float')]
     public $engrais_n = 0;
 
-    /** @ORM\Column(name="p", type="float") **/
+    #[ORM\Column(name: 'p', type: 'float')]
     public $engrais_p = 0;
 
-    /** @ORM\Column(name="k", type="float") **/
+    #[ORM\Column(name: 'k', type: 'float')]
     public $engrais_k = 0;
 
-    /** @ORM\Column(name="mg", type="float") **/
+    #[ORM\Column(name: 'mg', type: 'float')]
     public $engrais_mg = 0;
 
-    /** @ORM\Column(name="s", type="float") **/
+    #[ORM\Column(name: 's', type: 'float')]
     public $engrais_so3 = 0;
 
 
-    /** @ORM\Column(name="mo", type="float", nullable = true) **/
+    #[ORM\Column(name: 'mo', type: 'float', nullable: true)]
     public $engrais_mo = 0;
 
-     /** @ORM\Column(name="cn", type="float", nullable = true) **/
+     #[ORM\Column(name: 'cn', type: 'float', nullable: true)]
      public $engrais_cn = 0;
 
     public function __toString ( ){
@@ -107,7 +95,7 @@ class Produit
             return "";
         }
     }
-    /** @ORM\Column(type="string") **/
+    #[ORM\Column(type: 'string')]
     public $migration = "";
 
     public function getAmm(){

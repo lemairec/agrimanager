@@ -13,10 +13,10 @@ use Symfony\Component\Uid\Uuid;
 /**
  * FactureFournisseur
  *
- * @ORM\Entity(repositoryClass="App\Repository\Gestion\FactureFournisseurRepository")
- * @ORM\Table(name="facture_fournisseur")
  * @Vich\Uploadable
  */
+#[ORM\Table(name: 'facture_fournisseur')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Gestion\FactureFournisseurRepository')]
 class FactureFournisseur
 {
     public function __construct()
@@ -24,97 +24,77 @@ class FactureFournisseur
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
+    #[ORM\JoinColumn(nullable: false)]
     public $company;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Campagne')]
+    #[ORM\JoinColumn(nullable: true)]
     public $campagne;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     public $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="tag", type="string", length=255, nullable=true)
      */
+    #[ORM\Column(name: 'tag', type: 'string', length: 255, nullable: true)]
     public $tag;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date")
      */
+    #[ORM\Column(name: 'date', type: 'date')]
     public $date;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="paiement_date", type="date")
      */
+    #[ORM\Column(name: 'paiement_date', type: 'date')]
     public $paiementDate = 0;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="paiement_order", type="integer")
      */
+    #[ORM\Column(name: 'paiement_order', type: 'integer')]
     public $paiementOrder;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="montantHT", type="float")
      */
+    #[ORM\Column(name: 'montantHT', type: 'float')]
     public $montantHT;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="montantTTC", type="float")
      */
+    #[ORM\Column(name: 'montantTTC', type: 'float')]
     public $montantTTC;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $type;
 
-    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Achat", mappedBy="facture")
-    */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Achat', mappedBy: 'facture')]
     public $achats;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Compte")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Gestion\Compte')]
+    #[ORM\JoinColumn(nullable: false)]
     public $compte;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Compte")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Gestion\Compte')]
+    #[ORM\JoinColumn(nullable: false)]
     public $banque;
 
     /**
@@ -127,24 +107,21 @@ class FactureFournisseur
     private $factureFile;
 
     /**
-     * @ORM\Column(type="string", name="brochure", length=255, nullable=true)
-     *
      * @var string
      */
+    #[ORM\Column(type: 'string', name: 'brochure', length: 255, nullable: true)]
     private $factureFileName;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date_export", type="date", nullable=true)
      */
+    #[ORM\Column(name: 'date_export', type: 'date', nullable: true)]
     public $dateExport;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(type="datetime", nullable=true)
-    */
+     * @var \DateTime
+     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     public $updatedAt;
 
     public function __toString ( ){

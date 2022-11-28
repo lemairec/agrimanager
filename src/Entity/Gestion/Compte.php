@@ -7,10 +7,9 @@ use Symfony\Component\Uid\Uuid;
 
 /**
  * Compte
- *
- * @ORM\Entity(repositoryClass="App\Repository\Gestion\CompteRepository")
- * @ORM\Table(name="compte")
  */
+#[ORM\Table(name: 'compte')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Gestion\CompteRepository')]
 class Compte
 {
     public function __construct()
@@ -18,64 +17,51 @@ class Compte
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
+    #[ORM\JoinColumn(nullable: false)]
     public $company;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campagne")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Campagne')]
+    #[ORM\JoinColumn(nullable: true)]
     public $campagne;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="identifiant", type="string", length=10, nullable=true)
      */
+    #[ORM\Column(name: 'identifiant', type: 'string', length: 10, nullable: true)]
     public $identifiant;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="label", type="string", length=255)
      */
+    #[ORM\Column(name: 'label', type: 'string', length: 255)]
     public $label;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="short_label", type="string", length=255)
      */
+    #[ORM\Column(name: 'short_label', type: 'string', length: 255)]
     public $shortLabel;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $type;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="previsionnel", type="float")
      */
+    #[ORM\Column(name: 'previsionnel', type: 'float')]
     public $previsionnel = 0;
 
-    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Gestion\Ecriture", mappedBy="compte",cascade={"persist"})
-    */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Gestion\Ecriture', mappedBy: 'compte', cascade: ['persist'])]
     public $ecritures;
 
     public function getPrice ( ){

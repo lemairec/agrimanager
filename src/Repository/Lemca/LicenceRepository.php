@@ -67,15 +67,15 @@ class LicenceRepository extends ServiceEntityRepository
         return $zero;
     }
 
-    
-    
+
+
 
 
 
     public function save($licence)
     {
         $key="WTHGDFHKKHUIKHG";
-        
+
 
         $licence->licence_decode = "";
 

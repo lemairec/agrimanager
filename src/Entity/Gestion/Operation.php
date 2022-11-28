@@ -7,10 +7,9 @@ use Symfony\Component\Uid\Uuid;
   
 /**
  * Operation
- *
- * @ORM\Entity(repositoryClass="App\Repository\Gestion\OperationRepository")
- * @ORM\Table(name="operation")
  */
+#[ORM\Table(name: 'operation')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Gestion\OperationRepository')]
 class Operation
 {
     public function __construct()
@@ -18,49 +17,37 @@ class Operation
         $this->id = Uuid::v4();
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="guid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'guid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
+    #[ORM\JoinColumn(nullable: false)]
     public $company;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     public $name;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date")
      */
+    #[ORM\Column(name: 'date', type: 'date')]
     public $date;
 
-    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Gestion\Ecriture", mappedBy="operation",cascade={"persist"})
-    */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Gestion\Ecriture', mappedBy: 'operation', cascade: ['persist'])]
     public $ecritures = [];
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\FactureFournisseur")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Gestion\FactureFournisseur')]
+    #[ORM\JoinColumn(nullable: true)]
     public $facture;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gestion\Emprunt")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Gestion\Emprunt')]
+    #[ORM\JoinColumn(nullable: true)]
     public $emprunt;
 
     public function getSumEcriture($compte_name){

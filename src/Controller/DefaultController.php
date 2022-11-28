@@ -53,9 +53,7 @@ use App\Form\VarieteType;
 
 class DefaultController extends CommonController
 {
-    /**
-     * @Route("/", name="home")
-     */
+    #[Route(path: '/', name: 'home')]
     public function indexAction(Request $request)
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -99,17 +97,13 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/my-error", name="my-error")
-     */
+    #[Route(path: '/my-error', name: 'my-error')]
     public function myErrorAction(Request $request)
     {
     }
 
 
-    /**
-     * @Route("test_mail", name="test_mail")
-     */
+    #[Route(path: 'test_mail', name: 'test_mail')]
     public function testMail(Request $request,  MailerInterface $mailer)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -118,9 +112,7 @@ class DefaultController extends CommonController
         return  $this->render('home.html.twig');
     }
 
-    /**
-     * @Route("/profile/historique", name="profile_historique")
-     */
+    #[Route(path: '/profile/historique', name: 'profile_historique')]
     public function profile(Request $request)
     {
         $this->check_user($request);
@@ -133,17 +125,13 @@ class DefaultController extends CommonController
     }
 
 
-    /**
-     * @Route("/send_file")
-     */
+    #[Route(path: '/send_file')]
     public function sendFileAction()
     {
         return $this->render('Default/send_file.html.twig');
     }
 
-    /**
-     * @Route("/ilots", name="ilots")
-     */
+    #[Route(path: '/ilots', name: 'ilots')]
     public function ilotsAction(Request $request)
     {
         $this->check_user($request);
@@ -164,17 +152,13 @@ class DefaultController extends CommonController
 
 
 
-    /**
-     * @Route("/assolement", name="assolement")
-     */
+    #[Route(path: '/assolement', name: 'assolement')]
     public function bilanAssolement2Action(Request $request)
     {
         return $this->getAssolement($request, 2);
     }
 
-    /**
-     * @Route("/assolement2", name="assolement2")
-     */
+    #[Route(path: '/assolement2', name: 'assolement2')]
     public function bilanIlotsAction(Request $request)
     {
         return $this->getAssolement($request, 2);
@@ -214,9 +198,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/assolement3", name="assolement3")
-     */
+    #[Route(path: '/assolement3', name: 'assolement3')]
     public function bilanIlots3Action(Request $request)
     {
         return $this->getAssolement($request, 3);
@@ -289,9 +271,7 @@ class DefaultController extends CommonController
 
 
 
-    /**
-     * @Route("/ilot/{ilot_id}", name="ilot")
-     **/
+    #[Route(path: '/ilot/{ilot_id}', name: 'ilot')]
     public function ilotEditAction($ilot_id, Request $request)
     {
         $this->check_user($request);
@@ -326,9 +306,7 @@ class DefaultController extends CommonController
     }
 
 
-    /**
-     * @Route("/campagnes", name="campagnes")
-     */
+    #[Route(path: '/campagnes', name: 'campagnes')]
     public function campagnesAction(Request $request)
     {
         $this->check_user($request);
@@ -341,9 +319,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/campagne/{campagne_id}", name="campagne")
-     **/
+    #[Route(path: '/campagne/{campagne_id}', name: 'campagne')]
     public function campagneEditAction($campagne_id, Request $request)
     {
         $this->check_user($request);
@@ -372,9 +348,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/cultures", name="cultures")
-     */
+    #[Route(path: '/cultures', name: 'cultures')]
     public function culturesAction(Request $request)
     {
         $this->check_user($request);
@@ -387,9 +361,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/culture/{culture_id}", name="culture")
-     **/
+    #[Route(path: '/culture/{culture_id}', name: 'culture')]
     public function cultureEditAction($culture_id, Request $request)
     {
         $this->check_user($request);
@@ -503,34 +475,26 @@ class DefaultController extends CommonController
         }
     }
 
-    /**
-     * @Route("parcelles", name="parcelles2")
-     */
+    #[Route(path: 'parcelles', name: 'parcelles2')]
     public function parcellesAction(Request $request)
     {
         return $this->getParcelles($request, 0);
 
     }
 
-    /**
-     * @Route("parcelles_t", name="parcelles")
-     */
+    #[Route(path: 'parcelles_t', name: 'parcelles')]
     public function parcellesTAction(Request $request)
     {
         return $this->getParcelles($request, 1);
     }
 
-     /**
-     * @Route("parcelles_t2", name="parcelles3")
-     */
+     #[Route(path: 'parcelles_t2', name: 'parcelles3')]
     public function parcellesTAction3(Request $request)
     {
         return $this->getParcelles($request, 2);
     }
 
-    /**
-     * @Route("/parcelle/{parcelle_id}", name="parcelle")
-     **/
+    #[Route(path: '/parcelle/{parcelle_id}', name: 'parcelle')]
     public function parcelleEditAction($parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -580,9 +544,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/parcelle/{parcelle_id}/variete/{variete_id}", name="variete")
-     **/
+    #[Route(path: '/parcelle/{parcelle_id}/variete/{variete_id}', name: 'variete')]
     public function varieteEditAction($parcelle_id, $variete_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -623,9 +585,7 @@ class DefaultController extends CommonController
 
     }
 
-    /**
-     * @Route("/parcelle/{parcelle_id}/variete/{variete_id}/delete", name="variete_delete")
-     **/
+    #[Route(path: '/parcelle/{parcelle_id}/variete/{variete_id}/delete', name: 'variete_delete')]
     public function varieteDeleteAction($parcelle_id, $variete_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -639,9 +599,7 @@ class DefaultController extends CommonController
 
     }
 
-    /**
-     * @Route("/parcelle/{parcelle_id}/delete", name="parcelle_delete")
-     **/
+    #[Route(path: '/parcelle/{parcelle_id}/delete', name: 'parcelle_delete')]
     public function parcelleDeleteAction($parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -649,9 +607,7 @@ class DefaultController extends CommonController
         return $this->redirectToRoute('parcelles');
     }
 
-    /**
-     * @Route("/calendar", name="calendar")
-     **/
+    #[Route(path: '/calendar', name: 'calendar')]
     public function calendar(Request $request)
     {
         $this->check_user($request);
@@ -666,9 +622,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/materiels", name="materiels")
-     */
+    #[Route(path: '/materiels', name: 'materiels')]
     public function materielsAction(Request $request)
     {
         $this->check_user($request);
@@ -682,9 +636,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/materiel/{materiel_id}", name="materiel")
-     **/
+    #[Route(path: '/materiel/{materiel_id}', name: 'materiel')]
     public function materielEditAction($materiel_id, Request $request)
     {
         $this->check_user($request);
@@ -717,9 +669,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/materiel/{materiel_id}/entretien/{entretien_id}", name="entretien_materiel")
-     **/
+    #[Route(path: '/materiel/{materiel_id}/entretien/{entretien_id}', name: 'entretien_materiel')]
     public function entretienMaterielAction($materiel_id, $entretien_id, Request $request)
     {
         $this->check_user($request);
@@ -746,9 +696,7 @@ class DefaultController extends CommonController
     }
 
 
-    /**
-     * @Route("deplacements", name="deplacements")
-     */
+    #[Route(path: 'deplacements', name: 'deplacements')]
     public function deplacementsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -762,9 +710,7 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/deplacement/{deplacement_id}", name="deplacement")
-     **/
+    #[Route(path: '/deplacement/{deplacement_id}', name: 'deplacement')]
     public function deplacementEditAction($deplacement_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -793,26 +739,20 @@ class DefaultController extends CommonController
         ));
     }
 
-    /**
-     * @Route("/carte", name="carte")
-     **/
+    #[Route(path: '/carte', name: 'carte')]
     public function carte(Request $request)
     {
         return $this->render('carte.html.twig');
     }
 
-    /**
-     * @Route("/traccia.gpx", name="traccia")
-     **/
+    #[Route(path: '/traccia.gpx', name: 'traccia')]
     public function traccia(Request $request)
     {
         return $this->render('traccia.html.twig');
     }
 
 
-    /**
-     * @Route("/lemca/send_file", name="traccia")
-     **/
+    #[Route(path: '/lemca/send_file', name: 'traccia')]
     public function send_file(Request $request)
     {
         $path = __DIR__."/../../public/lemca";
