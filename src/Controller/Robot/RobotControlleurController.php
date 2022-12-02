@@ -184,7 +184,7 @@ class RobotControlleurController extends CommonController
 
     }
 
-     #[Route(path: '/robot/{robot_id}/delete', name: 'robot_delete')]
+    #[Route(path: '/robot/{robot_id}/delete', name: 'robot_delete')]
     public function robotActionDelete($robot_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -203,22 +203,31 @@ class RobotControlleurController extends CommonController
         return $this->redirectToRoute('robots');
     }
 
-      #[Route(path: '/robot_job/{robot_id}/clear', name: 'robot_clear')]
+    #[Route(path: '/robot_job/{robot_id}/clear', name: 'robot_clear')]
     public function robotActionClear($robot_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $robot= $em->getRepository(Robot::class)->find($robot_id);
 
-
+        $i = 0;
         $orders= $em->getRepository(Order::class)->findByRobot($robot);
         foreach($orders as $o){
             $em->remove($o);
-            $em->flush();
+            $i=$i+1;
+            if($i%20 == 0){
+                $em->flush();
+            }
         }
 
-       // $em->remove($robot_job);
-       // $em->flush();
+        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        foreach($passages as $p){
+            $em->remove($p);
+            $i=$i+1;
+            if($i%20 == 0){
+                $em->flush();
+            }
+        }
 
         return $this->redirectToRoute('robots');
     }
