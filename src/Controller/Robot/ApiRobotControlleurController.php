@@ -12,6 +12,7 @@ use App\Entity\Robot\Robot;
 use App\Entity\Robot\Order;
 use App\Entity\Robot\Passage;
 
+use App\Entity\Robot\Job;
 
 class ApiRobotControlleurController extends CommonController
 {
@@ -52,6 +53,23 @@ class ApiRobotControlleurController extends CommonController
 
         return new JsonResponse(["name"=>"","type"=>"WAIT"]);
     }
+
+    #[Route(path: '/robot/api/v2/job')]
+    public function post_job_api2(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $last_data = $request->request->all();
+
+        $job = new Job();
+        $job->name = "test";
+        $job->type = "web";
+        $job->params = json_decode($request->getContent());
+        $em->persist($job);
+        $em->flush();
+
+        return new JsonResponse(["OK"]);
+
+    }
+
 
     #[Route(path: '/robot/api/v2/post_order')]
     public function post_silo_api2(Request $request)

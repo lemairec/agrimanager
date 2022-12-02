@@ -27,6 +27,16 @@
     </div>
 
     <div class="card">
+        <div id="map" style="position: relative;height: 600px;"></div>
+    </div>
+
+    <div class="card">
+       <div class="card-header">
+           <button id="add_job" type="button" class="btn btn-primary" onclick="addJob()">Add Job</button>
+       </div>
+   </div>
+
+    <div class="card">
         <div class="card-header">
             Deplacement primaire (pendant 10 s)
         </div>
@@ -73,9 +83,7 @@
         </table>
     </div>
 
-    <div class="card">
-        <div id="map" style="position: relative;height: 600px;"></div>
-    </div>
+
 
     <div class="card">
         <div class="card-header">
@@ -144,6 +152,19 @@
 
 <script>
     console.log("otot");
+    var latlngs_job = [];
+    function addJob () {
+        console.log("addJob");
+        console.log(latlngs_job);
+        console.log(JSON.stringify(latlngs_job));
+        fetch("/robot/api/v2/job", {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(latlngs_job)
+        }).then(res => {
+          console.log("Request complete! response:", res);
+        });
+    }
     window.addEventListener( "load", function( event ) {
         var map = L.map( 'map');
 
@@ -185,7 +206,14 @@
             ]
         ];
 
+        var polyline2 = new L.Polyline([]).addTo(map);
+        map.on('click', function(event) {
+            new L.Marker(event.latlng).addTo(map);
+            polyline2.addLatLng(event.latlng);
+            latlngs_job.push([event.latlng.lat, event.latlng.lng]);
+            console.log(latlngs_job);
 
+        });
 
         L.polyline(latlngs, {weight:1, color: 'red'}).addTo(map);
 
