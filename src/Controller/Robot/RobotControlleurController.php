@@ -228,6 +228,7 @@ class RobotControlleurController extends CommonController
                 $em->flush();
             }
         }
+        $em->flush();
 
         return $this->redirectToRoute('robots');
     }

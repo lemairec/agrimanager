@@ -72,18 +72,19 @@ class ApiRobotControlleurController extends CommonController
         $order = $em->getRepository(Order::class)->getLastForRobot($robot);
         $robot->last_data = $request->request->all();
         $robot->last_update = new \DateTime();
+        $em->persist($robot);
+        $em->flush();
 
         $passage = new Passage();
         $passage->robot = $robot;
         $passage->datetime = new \DateTime();
         $passage->latitude = $last_data["gps_latitude"];
         $passage->longitude = $last_data["gps_longitude"];
-        //$passage->datetime = new \DateTime();
-        $em->persist($passage);
-        $em->flush();
+        if($passage->latitude && $passage->longitude){
+            $em->persist($passage);
+            $em->flush();
+        }
 
-        $em->persist($robot);
-        $em->flush();
         if($order){
             $now = new \DateTime();
             $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
