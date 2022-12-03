@@ -182,20 +182,33 @@
         L.marker([{{lat}}, {{lng}}]).addTo(map);
 
         {% for job in jobs %}
-            var latlngs = [
-                [
-                    [{{job.params.a_lat}},{{job.params.a_lon}}],
-                    [{{job.params.b_lat}},{{job.params.b_lon}}],
-                ]
-            ];
-            var polyline = new L.Polyline(latlngs).addTo(map);
+            {% if job.type == "LINEAB" %}
+                var latlngs = [
+                    [
+                        [{{job.params.a_lat}},{{job.params.a_lon}}],
+                        [{{job.params.b_lat}},{{job.params.b_lon}}],
+                    ]
+                ];
+                var polyline = new L.Polyline(latlngs).addTo(map);
 
-            var iconOptions = {
-                title:"company name",
-                draggable:true,
-            }//pass the options to marker
-            var marker = new L.Marker([{{(job.params.a_lat+job.params.b_lat)/2}},{{(job.params.a_lon+job.params.b_lon)/2}}] , iconOptions).addTo(map);
-            marker.bindPopup("{{job.name}}");
+                var iconOptions = {
+                    title:"company name",
+                    draggable:true,
+                }//pass the options to marker
+                var marker = new L.Marker([{{(job.params.a_lat+job.params.b_lat)/2}},{{(job.params.a_lon+job.params.b_lon)/2}}] , iconOptions).addTo(map);
+                marker.bindPopup("{{job.name}}");
+            {% endif %}
+            {% if job.type == "CURVEAB" %}
+                var latlngs = {{ job.params |json_encode() }};
+                var polyline = new L.Polyline(latlngs).addTo(map);
+
+                var iconOptions = {
+                    title:"company name",
+                    draggable:true,
+                }//pass the options to marker
+                var marker = new L.Marker([(latlngs[0][0]+latlngs[1][0])/2,(latlngs[0][1]+latlngs[1][1])/2] , iconOptions).addTo(map);
+                marker.bindPopup("{{job.name}}");
+            {% endif %}
         {% endfor %}
 
         var latlngs = [
