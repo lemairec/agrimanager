@@ -199,7 +199,7 @@
                 marker.bindPopup("{{job.name}}");
             {% endif %}
             {% if job.type == "CURVEAB" %}
-                var latlngs = {{ job.params |json_encode() }};
+                var latlngs = {{ job.params["points"] |json_encode() }};
                 var polyline = new L.Polyline(latlngs).addTo(map);
 
                 var iconOptions = {

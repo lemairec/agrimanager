@@ -62,7 +62,7 @@ class ApiRobotControlleurController extends CommonController
         $job = new Job();
         $job->name = "test";
         $job->type = "web";
-        $job->params = json_decode($request->getContent());
+        $job->params = ["points" => json_decode($request->getContent())];
         $em->persist($job);
         $em->flush();
 
