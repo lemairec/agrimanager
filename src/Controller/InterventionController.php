@@ -148,7 +148,7 @@ class InterventionController extends CommonController
             $it->intervention = $intervention;
             $it->name = ($produit["name"]);
             $it->quantity = $this->parseFloat($produit["qty"]);
-            $em->getRepository('App:InterventionProduit')->save($it, $campagne);
+            $em->getRepository(InterventionProduit::class)->save($it, $campagne);
         }
 
         foreach($data["recoltes"] as $recolte){
@@ -242,14 +242,14 @@ class InterventionController extends CommonController
             $intervention_produit = new InterventionProduit();
             $intervention_produit->intervention = $em->getRepository(Intervention::class)->findOneById($intervention_id);
         } else {
-            $intervention_produit = $em->getRepository('App:InterventionProduit')->findOneById($intervention_produit_id);
+            $intervention_produit = $em->getRepository(InterventionProduit::class)->findOneById($intervention_produit_id);
         }
         $form = $this->createForm(InterventionProduitType::class, $intervention_produit);
         $form->handleRequest($request);
         $produits = $em->getRepository(Produit::class)->getAllName($campagne);
 
         if ($form->isSubmitted()) {
-            $em->getRepository('App:InterventionProduit')->save($intervention_produit, $campagne);
+            $em->getRepository(InterventionProduit::class)->save($intervention_produit, $campagne);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
         return $this->render('Default/intervention_produit.html.twig', array(
@@ -291,7 +291,7 @@ class InterventionController extends CommonController
     public function interventionProduitDeleteAction($intervention_id, $intervention_produit_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:InterventionProduit')->delete($intervention_produit_id);
+        $em->getRepository(InterventionProduit::class)->delete($intervention_produit_id);
         return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
     }
 

@@ -34,7 +34,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
         }
 
-        $produits = $em->getRepository('App:InterventionProduit')->findByIntervention($intervention);
+        $produits = $em->getRepository(InterventionProduit::class)->findByIntervention($intervention);
         foreach ($produits as $p) {
             $em->remove($p);
         }
