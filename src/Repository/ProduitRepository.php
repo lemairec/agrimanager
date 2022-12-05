@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 use App\Entity\Produit;
+use App\Entity\EphyProduit;
+use App\Entity\ProduitCampagne;
 
 /**
  * ProduitRepository
@@ -23,7 +25,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $produit->company = $campagne->company;
         $produit->name = $completeName;
         $produit->completeName = $completeName;
-        $ephy = $em->getRepository('App:EphyProduit')->findOneByName($completeName);
+        $ephy = $em->getRepository(EphyProduit::class)->findOneByName($completeName);
         if($ephy){
             $produit->type = "ppp";
             $produit->unity = $ephy->unity;
@@ -71,8 +73,8 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $this->save($produit);
 
-        $em->getRepository('App:ProduitCampagne')->update($produit);
-        $ps = $em->getRepository('App:ProduitCampagne')->findByProduit($produit);
+        $em->getRepository(ProduitCampagne::class)->update($produit);
+        $ps = $em->getRepository(ProduitCampagne::class)->findByProduit($produit);
         $stock = 0;
         $price = 0;
         $nb = 0;
@@ -112,7 +114,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
     function delete($produit_id){
         $em = $this->getEntityManager();
         $produit = $this->findOneById($produit_id);
-        $ps = $em->getRepository('App:ProduitCampagne')->findByProduit($produit);
+        $ps = $em->getRepository(ProduitCampagne::class)->findByProduit($produit);
         foreach($ps as $p){
             $em->remove($p);
         }
