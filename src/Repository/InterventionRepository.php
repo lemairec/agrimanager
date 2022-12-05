@@ -18,7 +18,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
 
-        $parcelles = $em->getRepository('App:InterventionParcelle')->findByIntervention($intervention);
+        $parcelles = $em->getRepository(InterventionParcelle::class)->findByIntervention($intervention);
         foreach ($parcelles as $p) {
             $em->remove($p);
         }
@@ -43,8 +43,8 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
         foreach ($entrepreneur as $p) {
             $em->remove($p);
         }*/
-		
-		$recolte = $em->getRepository('App:InterventionRecolte')->findByIntervention($intervention);
+
+		$recolte = $em->getRepository(InterventionRecolte::class)->findByIntervention($intervention);
         foreach ($recolte as $p) {
             $em->remove($p);
         }
@@ -148,7 +148,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('i.produits', 'it_pdt')
             ->leftJoin('it_pdt.produit', 'pdt')
             ->leftJoin('i.recoltes', 'r')
-                
+
             ->where('p.parcelle = :parcelle')
             ->setParameter('parcelle', $parcelle)
             ->orderBy('i.datetime', $order)

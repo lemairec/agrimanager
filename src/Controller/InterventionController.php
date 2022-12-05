@@ -207,7 +207,7 @@ class InterventionController extends CommonController
             $intervention_parcelle = new InterventionParcelle();
             $intervention_parcelle->intervention = $em->getRepository(Intervention::class)->findOneById($intervention_id);
         } else {
-            $intervention_parcelle = $em->getRepository('App:InterventionParcelle')->findOneById($intervention_parcelle_id);
+            $intervention_parcelle = $em->getRepository(InterventionParcelle::class)->findOneById($intervention_parcelle_id);
         }
         $parcelles =  $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
         $form = $this->createForm(InterventionParcelleType::class, $intervention_parcelle, array(
@@ -217,7 +217,7 @@ class InterventionController extends CommonController
 
 
         if ($form->isSubmitted()) {
-            $em->getRepository('App:InterventionParcelle')->save($intervention_parcelle);
+            $em->getRepository(InterventionParcelle::class)->save($intervention_parcelle);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
         return $this->render('base_form.html.twig', array(
@@ -229,7 +229,7 @@ class InterventionController extends CommonController
     public function interventionParcelleDeleteAction($intervention_id, $intervention_parcelle_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:InterventionParcelle')->delete($intervention_parcelle_id);
+        $em->getRepository(InterventionParcelle::class)->delete($intervention_parcelle_id);
         return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
     }
 
