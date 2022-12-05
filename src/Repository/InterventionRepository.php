@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Entity\Intervention;
 use App\Entity\InterventionParcelle;
 use App\Entity\InterventionMateriel;
-use App\Entity\InterventionProduit
+use App\Entity\InterventionProduit;
 use \DateTime;
 
 
