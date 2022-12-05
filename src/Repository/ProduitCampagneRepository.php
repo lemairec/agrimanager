@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 use App\Entity\ProduitCampagne;
+use App\Entity\Campagne;
+use App\Entity\Achat;
+use App\Entity\InterventionProduit;
 
 /**
  * ProduitCampagneRepository
@@ -22,7 +25,7 @@ class ProduitCampagneRepository extends \Doctrine\ORM\EntityRepository
 
         $campagnes = $em->getRepository(Campagne::class)->findByCompany($produit->company);
         foreach($campagnes as $campagne){
-            $achats = $em->getRepository('App:Achat')->createQueryBuilder('a')
+            $achats = $em->getRepository(Achat::class)->createQueryBuilder('a')
                 ->where('a.campagne = :campagne')
                 ->andWhere('a.produit = :produit')
                 ->setParameter('campagne', $campagne)
