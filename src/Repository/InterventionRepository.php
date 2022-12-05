@@ -23,12 +23,7 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
             $em->remove($p);
         }
 
-		/*$worker = $em->getRepository('App:InterventionWorker')->findByIntervention($intervention);
-		foreach ($worker as $s) {
-            $em->remove($s);
-        }*/
-
-		$materiel = $em->getRepository('App:InterventionMateriel')->findByIntervention($intervention);
+		$materiel = $em->getRepository(InterventionMateriel::class)->findByIntervention($intervention);
 		foreach ($materiel as $s) {
             $em->remove($s);
 

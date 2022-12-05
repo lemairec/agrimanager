@@ -269,7 +269,7 @@ class InterventionController extends CommonController
             $intervention_materiel = new InterventionMateriel();
             $intervention_materiel->intervention = $em->getRepository(Intervention::class)->findOneById($intervention_id);
         } else {
-            $intervention_materiel = $em->getRepository('App:InterventionMateriel')->findOneById($intervention_materiel);
+            $intervention_materiel = $em->getRepository(InterventionMateriel::class)->findOneById($intervention_materiel);
         }
         $materiels =  $em->getRepository(Materiel::class)->getAllForCompany($this->company);
         $form = $this->createForm(InterventionMaterielType::class, $intervention_materiel, array(
@@ -279,7 +279,7 @@ class InterventionController extends CommonController
 
 
         if ($form->isSubmitted()) {
-            $em->getRepository('App:InterventionMateriel')->save($intervention_materiel);
+            $em->getRepository(InterventionMateriel::class)->save($intervention_materiel);
             return $this->redirectToRoute('intervention', array('intervention_id' => $intervention_id));
         }
         return $this->render('base_form.html.twig', array(
