@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Produit;
+
 /**
  * InterventionProduitRepository
  *
