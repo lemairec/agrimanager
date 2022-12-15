@@ -13,6 +13,7 @@ use App\Controller\CommonController;
 
 use App\Entity\Produit;
 use App\Entity\EphyProduit;
+use App\Entity\Intervention;
 
 use App\Form\ProduitType;
 
@@ -124,9 +125,9 @@ class ProduitController extends CommonController
             $produit = new Produit();
         } else {
             $produit = $em->getRepository(Produit::class)->findOneById($produit_id);
-            $interventions = $em->getRepository(Intervention::class)->getAllForProduit($produit);
-            $produitcampagnes = $em->getRepository('App:ProduitCampagne')->getAllForProduit($produit);
-            $achats = $em->getRepository('App:Achat')->getAllForProduit($produit);
+            $interventions = [];//$em->getRepository(Intervention::class)->getAllForProduit($produit);
+            $produitcampagnes = [];//$em->getRepository('App:ProduitCampagne')->getAllForProduit($produit);
+            $achats = [];//$em->getRepository('App:Achat')->getAllForProduit($produit);
         }
 
         return $this->render('Default/produit2.html.twig', array(
