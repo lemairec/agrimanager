@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Datetime;
 use App\Entity\InterventionRecolte;
 use App\Entity\Campagne;
+use App\Entity\Intervention;
 
 use App\Controller\CommonController;
 

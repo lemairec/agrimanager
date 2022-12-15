@@ -12,6 +12,8 @@ use Datetime;
 use App\Controller\CommonController;
 
 use App\Entity\Produit;
+use App\Entity\EphyProduit;
+
 use App\Form\ProduitType;
 
 
@@ -90,7 +92,7 @@ class ProduitController extends CommonController
         $produit->engrais_mg = $this->parseFloat($data["mg"]);
         $produit->engrais_so3 = $this->parseFloat($data["s"]);
         $produit->name = $data["name"];
-        $produit->ephyProduit = $em->getRepository('App:EphyProduit')->find($data["produit_ephy"]);
+        $produit->ephyProduit = $em->getRepository(EphyProduit::class)->find($data["produit_ephy"]);
         //$intervention->date = DateTime::createFromFormat('d/m/Y', $data["date"]);
 
         $em->getRepository(Produit::class)->update($produit);
@@ -133,7 +135,7 @@ class ProduitController extends CommonController
             'produitcampagnes' => $produitcampagnes,
             'interventions' => $interventions,
             'achats' => $achats,
-            'ephy_produits' => $em->getRepository('App:EphyProduit')->getAllActiveWithCommercialesNames(),
+            'ephy_produits' => $em->getRepository(EphyProduit::class)->getAllActiveWithCommercialesNames(),
             'navs' => ["Produits" => "produits"]
         ));
     }

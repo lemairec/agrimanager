@@ -52,7 +52,7 @@ class EphyCommand extends Command
 
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $ephyrepository = $em->getRepository('App:EphyProduit');
+        $ephyrepository = $em->getRepository(EphyProduit::class);
 
         $ephyrepository->xml_file($file, $begin, $end);
 

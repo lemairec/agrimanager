@@ -28,7 +28,7 @@ class EphyController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $all = intval($request->query->get('all', 0));
 
-        $produits = $em->getRepository('App:EphyProduit')->getWithCommercialesNamesApi(($all==1));
+        $produits = $em->getRepository(EphyProduit::class)->getWithCommercialesNamesApi(($all==1));
 
         return new JsonResponse($produits);
     }
@@ -37,7 +37,7 @@ class EphyController extends AbstractController
     public function produitEditAction($amm)
     {
         $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository('App:EphyProduit')->find($amm);
+        $produit = $em->getRepository(EphyProduit::class)->find($amm);
         $usages = $em->getRepository('App:EphyUsage')->findByEphyProduit($produit);
 
         return $this->render('Default/ephy_produit.html.twig', array(

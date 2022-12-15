@@ -102,7 +102,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $xml = simplexml_load_file($file);
         $ppps = $xml->{'intrants'}->{'PPPs'};
-        $ephyCommercialNameRepository = $em->getRepository('App:EphyCommercialName');
+        $ephyCommercialNameRepository = $em->getRepository(EphyCommercialName::class);
         $ephyPhraseRisque = $em->getRepository('App:EphyPhraseRisque');
         $ephysubstanceproduitrepository= $em->getRepository('App:EphySubstanceProduit');
         $ephyusageproduitrepository= $em->getRepository('App:EphyUsage');
@@ -290,7 +290,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
     function csv(){
         $em = $this->getEntityManager();
-        $ephyrepository = $em->getRepository('App:EphyProduit');
+        $ephyrepository = $em->getRepository(EphyProduit::class);
         $fileName = '/Users/lemairec/fablab/symfony_agri/data/usages_des_produits_autorises_v2_utf8_04052017.csv';
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");
@@ -316,7 +316,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
     function getWithCommercialesNamesApi($all){
         $em = $this->getEntityManager();
         $query1 = $this->createQueryBuilder('p');
-        $query2 = $em->getRepository('App:EphyCommercialName')->createQueryBuilder('c')->join('c.ephyproduit','p');
+        $query2 = $em->getRepository(EphyCommercialName::class)->createQueryBuilder('c')->join('c.ephyproduit','p');
 
         if(!$all){
             $query1 = $query1->where('p.enable = true');
@@ -344,7 +344,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
 
         $produits = $this->getAllActive();
 
-        $commercial = $em->getRepository('App:EphyCommercialName')->createQueryBuilder('c')
+        $commercial = $em->getRepository(EphyCommercialName::class)->createQueryBuilder('c')
             ->join('c.ephyproduit','p')
             ->where('p.enable = true')
             ->getQuery()->getResult();
@@ -377,7 +377,7 @@ class EphyProduitRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
 
         $produits = $this->findAll();
-        $commercial = $em->getRepository('App:EphyCommercialName')->findAll();
+        $commercial = $em->getRepository(EphyCommercialName::class)->findAll();
 
         $res = [];
         foreach($commercial as $c){
