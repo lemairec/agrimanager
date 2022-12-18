@@ -46,9 +46,9 @@ class LogRepository extends ServiceEntityRepository
 
         $em = $this->getEntityManager();
         $statement = $em->getConnection()->prepare('SELECT `user_id`, count(*) as count FROM `log` group by `user_id`');
-        $statement->execute();
 
-        return $statement->fetchAll();
+        $result = $statement->executeQuery();
+        return $result->fetchAllAssociative();
     }
 
 

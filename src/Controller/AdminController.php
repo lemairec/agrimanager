@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Group;
 use App\Entity\User;
 use App\Entity\Company;
+use App\Entity\Parcelle;
+use App\Entity\Intervention;
 use App\Entity\Log;
 use App\Entity\MetaCulture;
 
@@ -31,16 +33,6 @@ class AdminController extends CommonController
             $logs_dict = [];
             foreach ($logs as $log) {
                 $logs_dict[$log['user_id']] = intval($log['count']);
-            }
-
-            $parcelles_dict = [];
-            foreach ($parcelles as $parcelle) {
-                $parcelles_dict[$parcelle['company_id']] = intval($parcelle['count']);
-            }
-
-            $interventions_dict = [];
-            foreach ($interventions as $intervention) {
-                $interventions_dict[$intervention['company_id']] = intval($intervention['count']);
             }
 
             foreach($users as $user){

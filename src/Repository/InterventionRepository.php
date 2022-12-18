@@ -210,8 +210,8 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
         $em = $this->getEntityManager();
         $statement = $em->getConnection()->prepare('SELECT c.company_id as company_id, count(*) as count FROM `intervention` p inner join campagne c  on c.id=p.campagne_id group by c.company_id');
-        $statement->execute();
+        $result = $statement->executeQuery();
 
-        return $statement->fetchAll();
+        return $ruleResult = $result->fetchAssociative();
     }
 }
