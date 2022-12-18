@@ -54,7 +54,7 @@ class SiloController extends CommonController
 
         $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
-            throw new Exception("not found Company");
+            throw new \Exception("not found Company");
         }
 
         $this->addTemperature($em,$t1,$balise_str."_1", $company);
