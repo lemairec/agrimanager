@@ -18,6 +18,7 @@ use App\Controller\CommonController;
 
 use App\Entity\Group;
 use App\Entity\Contact;
+use App\Entity\User;
 
 use App\Form\UserType;
 use App\Form\CompanyAdminType;
@@ -36,9 +37,10 @@ class UserController extends CommonController
         }
         $user = $em->getRepository(User::class)->findOneById($user_id);
 
-        $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
-        $this->get("security.token_storage")->setToken($token);
-        $this->get('session')->set('_security_main',serialize($token));
+        $token = new UsernamePasswordToken($user, $user->getPassword(), ["main"], $user->getRoles());
+        $securityContext = $this->container->get('security.token_storage'); // do it your way
+        $securityContext->setToken($token);
+        //$this->get('session')->set('_security_main',serialize($token));
         $this->company = null;
         $this->campagne = null;
 
