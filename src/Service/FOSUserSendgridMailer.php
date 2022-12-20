@@ -92,12 +92,8 @@ class FOSUserSendgridMailer implements MailerInterface
         $subject = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
 
-        dump($subject);
-        dump($textBody);
-
         $htmlBody = '';
 
-        dump($toEmail);
         $message = (new Email())
             ->subject($subject)
             ->from('noreply@maplaine.fr')
