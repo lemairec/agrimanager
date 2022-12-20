@@ -87,28 +87,27 @@ class FOSUserSendgridMailer implements MailerInterface
     protected function sendMessage($templateName, $context, $fromEmail, $toEmail)
     {
         $template = $this->twig->load($templateName);
+
+
         $subject = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
 
-        $htmlBody = '';
+        dump($subject);
+        dump($textBody);
 
-        if ($template->hasBlock('body_html', $context)) {
-            $htmlBody = $template->renderBlock('body_html', $context);
-        }
+        $htmlBody = '';
 
         dump($toEmail);
         $message = (new Email())
             ->subject($subject)
-            ->from('contact@maplaine.fr')
-            ->to($toEmail);
+            ->from('noreply@maplaine.fr')
+            ->to($toEmail)
+            ->text($textBody);
 
-        if (!empty($htmlBody)) {
-            $message->setBody($htmlBody, 'text/html')
-                ->addPart($textBody, 'text/plain');
-        } else {
-            $message->html($textBody);
-        }
+            dump($message);
 
         $this->mailer->send($message);
+
+        echo $template2->toto;
     }
 }
