@@ -21,7 +21,7 @@ class User extends BaseUser
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: 'App\Entity\Group')]
-    public $groups;
+    public $groups = [];
 
     public function getRoles(): array {
       $roles = $this->roles;

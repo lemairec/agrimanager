@@ -6,4 +6,4 @@ fos_user:
         address: "noreply@maplaine.fr"
         sender_name: "Ma Plaine"
     service:
-        mailer: 'fos_user.mailer.noop'
+        mailer: App\Service\FOSUserSendgridMailer
