@@ -14,7 +14,7 @@ namespace App\Service;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Mailer\MailerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
+use Symfony\Component\Mime\Email;
 use Twig\Environment;
 
 /**
@@ -22,9 +22,6 @@ use Twig\Environment;
  */
 class FOSUserSendgridMailer implements MailerInterface
 {
-    /**
-     * @var \Swift_Mailer
-     */
     protected $mailer;
 
     /**
@@ -71,14 +68,14 @@ class FOSUserSendgridMailer implements MailerInterface
     public function sendResettingEmailMessage(UserInterface $user)
     {
         $template = "%fos_user.resetting.email.from_email%";
-        $url = $this->router->generate("%fos_user.resetting.confirmation.from_email%", ['token' => $user->getConfirmationToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->router->generate("fos_user_resetting_reset", ['token' => $user->getConfirmationToken()], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = [
             'user' => $user,
             'confirmationUrl' => $url,
         ];
 
-        $this->sendMessage($template, $context, $this->parameters['from_email']['resetting'], (string) $user->getEmail());
+        $this->sendMessage("bundles/FOSUserBundle/Resetting/email.txt.twig", $context, "%fos_user.registration.confirmation.from_email%", (string) $user->getEmail());
     }
 
     /**
@@ -99,16 +96,17 @@ class FOSUserSendgridMailer implements MailerInterface
             $htmlBody = $template->renderBlock('body_html', $context);
         }
 
-        $message = (new \Swift_Message())
-            ->setSubject($subject)
-            ->setFrom($fromEmail)
-            ->setTo($toEmail);
+        dump($toEmail);
+        $message = (new Email())
+            ->subject($subject)
+            ->from('contact@maplaine.fr')
+            ->to($toEmail);
 
         if (!empty($htmlBody)) {
             $message->setBody($htmlBody, 'text/html')
                 ->addPart($textBody, 'text/plain');
         } else {
-            $message->setBody($textBody);
+            $message->html($textBody);
         }
 
         $this->mailer->send($message);
