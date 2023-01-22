@@ -39,7 +39,7 @@ class BinaryController extends CommonController
 
         $branch->filename = $filename;
         $branch->date = new DateTime();
-        $branch->log = $branch->log.$branch->date.format('Y-m-d H:i:s')." ".$head."\n";
+        $branch->log = $branch->log.$branch->date->format('Y-m-d H:i:s')." ".$head."\n";
         $em->persist($branch);
         $em->flush();
 
