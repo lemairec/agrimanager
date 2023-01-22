@@ -5,6 +5,7 @@ namespace App\Controller\Lemca;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Datetime;
 
@@ -55,4 +56,17 @@ class BinaryController extends CommonController
         $path = __DIR__."/../../public/lemca/".$branch->filename;
         return $this->file($path, "bineuse.tar.gz");
     }
+
+    #[Route(path: '/lemca/binaries', name: 'binaries')]
+    public function achatBinariesAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $panels = $em->getRepository(Branch::class)->findAll();
+
+        return $this->render('Lemca/binaries.html.twig', array(
+            'binaries' => $panels
+        ));
+    }
+
+
+
 }
