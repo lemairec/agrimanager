@@ -32,7 +32,7 @@ class BinaryController extends CommonController
 
         $path = __DIR__."/../../../public/binaries";
         $file = $request->files->get('myfile');
-        $filename = "bineuse_".$branch_name.".tar.gz"
+        $filename = "bineuse_".$branch_name.".tar.gz";
         $file->move(
             $path,
             $filename
