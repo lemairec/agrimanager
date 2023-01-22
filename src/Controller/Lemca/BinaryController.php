@@ -51,9 +51,12 @@ class BinaryController extends CommonController
     #[Route(path: '/lemca/bineuse_binary', name: 'get_binary')]
     public function achatEditA2ction(Request $request){
         $branch_name = $request->query->get("branch");
+
+        $em = $this->getDoctrine()->getManager();
         $branch = $em->getRepository(Branch::class)->findOneByName($branch_name);
 
-        $path = __DIR__."/../../public/lemca/".$branch->filename;
+        $filename = $branch->filename;
+        $path = __DIR__."/../../../public/lemca/".$filename;
         return $this->file($path, "bineuse.tar.gz");
     }
 
