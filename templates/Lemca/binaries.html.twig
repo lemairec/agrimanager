@@ -14,12 +14,12 @@
             <th>Quantity</th>
             <th>Price</th>
         </tr>
-        {% for achat in achats %}
+        {% for binary in binaries %}
             <tr>
-                <td><a href="/lemca/achat/{{achat.id}}">{{ achat.datetime | showDate }}</a></td>
-                <td>{{achat.reference}}</td>
-                <td>{{achat.quantity}}</td>
-                <td>{{achat.price}}</td>
+                <td>{{ binary.date | showDate }}</td>
+                <td>{{ binary.name }}</td>
+                <td>{{ binary.filename }}</td>
+                <td></td>
             </tr>
         {% endfor %}
     </table>
