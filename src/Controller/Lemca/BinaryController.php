@@ -31,12 +31,13 @@ class BinaryController extends CommonController
 
         $path = __DIR__."/../../public/lemca";
         $file = $request->files->get('myfile');
+        $filename = 'bineuse_'.$branch_name.'.tar.gz';
         $file->move(
             $path,
-            $file->getClientOriginalName()
+            $filename
         );
 
-        $branch->filename = $file->getClientOriginalName();
+        $branch->filename = $filename;
         $branch->date = new DateTime();
         $branch->log = $branch->log.$branch->date.format('Y-m-d H:i:s')." ".$head."\n";
         $em->persist($branch);
