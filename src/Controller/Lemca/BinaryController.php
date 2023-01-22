@@ -57,7 +57,7 @@ class BinaryController extends CommonController
 
         $filename = $branch->filename;
         $path = __DIR__."/../../../public/binaries/".$filename;
-        return $this->file($path, $filename);
+        return $this->file($path, "bineuse.tar.gz");
     }
 
     #[Route(path: '/lemca/binaries', name: 'binaries')]
