@@ -13,10 +13,10 @@ class Branch
     #[ORM\Column]
     public ?int $id = null;
 
-    #[ORM\Column(type: 'name', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $name;
 
-    #[ORM\Column(type: 'name', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $filename;
 
     #[ORM\Column(type: 'date')]
