@@ -10,15 +10,15 @@
     <table class="table">
         <tr>
             <th>Date</th>
-            <th>Reference</th>
-            <th>Quantity</th>
+            <th>name</th>
+            <th>file</th>
             <th>Price</th>
         </tr>
         {% for binary in binaries %}
             <tr>
-                <td>{{ binary.date | showDate }}</td>
+                <td>{{ binary.date | showDatetime }}</td>
                 <td>{{ binary.name }}</td>
-                <td>{{ binary.filename }}</td>
+                <td><a href="/lemca/binaries?branch={{binary.name}}">{{ binary.filename }}</td>
                 <td></td>
             </tr>
         {% endfor %}
