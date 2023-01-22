@@ -750,18 +750,4 @@ class DefaultController extends CommonController
     {
         return $this->render('traccia.html.twig');
     }
-
-
-    #[Route(path: '/lemca/send_file', name: 'traccia')]
-    public function send_file(Request $request)
-    {
-        $path = __DIR__."/../../public/lemca";
-        $file = $request->files->get('myfile');
-        $file->move(
-            $path,
-            $file->getClientOriginalName()
-        );
-        return new JsonResponse("ok");
-
-    }
 }
