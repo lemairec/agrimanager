@@ -44,7 +44,7 @@ class BinaryController extends CommonController
         $em->persist($branch);
         $em->flush();
 
-        return new JsonResponse("ok");
+        return new JsonResponse("ok2");
 
     }
 
