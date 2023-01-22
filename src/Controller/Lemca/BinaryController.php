@@ -56,7 +56,7 @@ class BinaryController extends CommonController
         $branch = $em->getRepository(Branch::class)->findOneByName($branch_name);
 
         $filename = $branch->filename;
-        $path = __DIR__."/../../../public/lemca/".$filename;
+        $path = __DIR__."/../../../public/binaries/".$filename;
         return $this->file($path, "bineuse.tar.gz");
     }
 
