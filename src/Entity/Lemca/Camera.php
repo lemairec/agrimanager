@@ -18,7 +18,7 @@ class Camera
      #[ORM\Column(type: 'string', length: 255)]
     public $no_fabricant;
 
-     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $ip;
 
     #[ORM\ManyToOne(targetEntity: Kit::class, inversedBy: 'cameras')]
