@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 use App\Entity\Parcelle;
+use App\Entity\Intervention;
 
 /**
  * ParcelleRepository
