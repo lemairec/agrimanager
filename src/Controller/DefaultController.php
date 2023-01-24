@@ -500,9 +500,7 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
         $ilots = $em->getRepository(Ilot::class)->getAllforCompany($this->company);
-        $ilots[] = null;
         $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
-        $cultures[] = null;
         if($parcelle_id == '0'){
             $parcelle = new Parcelle();
             $parcelle->active = 1;
@@ -514,7 +512,7 @@ class DefaultController extends CommonController
             $parcelle = $em->getRepository(Parcelle::class)->findOneById($parcelle_id);
         }
 
-        //dump($parcelle);
+        dump($ilots);
         $form = $this->createForm(ParcelleType::class, $parcelle, array(
             'ilots' => $ilots,
             'cultures' => $cultures
