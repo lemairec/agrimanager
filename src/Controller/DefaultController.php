@@ -512,7 +512,6 @@ class DefaultController extends CommonController
             $parcelle = $em->getRepository(Parcelle::class)->findOneById($parcelle_id);
         }
 
-        dump($ilots);
         $form = $this->createForm(ParcelleType::class, $parcelle, array(
             'ilots' => $ilots,
             'cultures' => $cultures
