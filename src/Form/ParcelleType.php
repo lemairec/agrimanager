@@ -9,6 +9,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
+
+use App\Entity\Ilot;
+use App\Entity\Culture;
+use App\Entity\Parcelle;
+
+
 class ParcelleType extends AbstractType
 {
     /**
@@ -39,7 +45,7 @@ class ParcelleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Parcelle',
+            'data_class' => Parcelle::class,
             'ilots' => null,
             'cultures' => null
         ));
