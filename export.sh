@@ -10,7 +10,7 @@ echo "mkdir /home/maplainemk/maplaine/temp/dump"
 mkdir /home/maplainemk/maplaine/temp/dump
 echo "mkdir ok"
 echo "sql"
-cd /home/maplainemk/maplaine; php bin/console export_bdd
+mysqldump -u maplainemkagri --password=4GT8H7fedm --host=maplainemkagri.mysql.db --port=3306 --opt maplainemkagri --max_allowed_packet=512M --no-tablespaces > /home/maplainemk/maplaine/temp/dump/backup.sql
 echo "sql ok"
 echo "copie"
 cp -r ~/maplaine/public/uploads/* /home/maplainemk/maplaine/temp/dump
