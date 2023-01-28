@@ -13,7 +13,7 @@ use Datetime;
 use App\Controller\CommonController;
 
 use App\Entity\Lemca\Branch;
-
+use App\Entity\Lemca\LemcaFile;
 
 class BinaryController extends CommonController
 {
@@ -44,7 +44,36 @@ class BinaryController extends CommonController
         $em->persist($branch);
         $em->flush();
 
-        return new JsonResponse("ok2");
+        return new JsonResponse("ok");
+
+    }
+
+    #[Route(path: '/lemca/send_file2', name: 'lemca_send_file2')]
+    public function send_file2(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $path = __DIR__."/../../../public/lemca_files";
+        $file = $request->files->get('myfile');
+        $filename = $file->getClientOriginalName();
+
+        $lemca_file = $em->getRepository(LemcaFile::class)->findOneByFilename($filename);
+        if($lemca_file == NULL){
+            $lemca_file = new LemcaFile();
+        }
+        $lemca_file->filename = $filename;
+        $lemca_file->datetime = new DateTime();
+
+
+        $file->move(
+            $path,
+            $filename
+        );
+
+        $em->persist($lemca_file);
+        $em->flush();
+
+        return new JsonResponse("ok");
 
     }
 
@@ -67,6 +96,16 @@ class BinaryController extends CommonController
 
         return $this->render('Lemca/binaries.html.twig', array(
             'binaries' => $panels
+        ));
+    }
+
+    #[Route(path: '/lemca/files', name: 'lemca_files')]
+    public function filesAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $panels = $em->getRepository(LemcaFile::class)->findAll();
+
+        return $this->render('Lemca/files.html.twig', array(
+            'files' => $panels
         ));
     }
 
