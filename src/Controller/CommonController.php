@@ -146,7 +146,7 @@ class CommonController extends AbstractController
             $this->campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
         }
         if(count($this->campagnes)<1){
-            $em->getRepository("App:Campagne")->createCurrentCampagne($this->company);
+            $em->getRepository(Campagne::class)->createCurrentCampagne($this->company);
             $this->campagnes = $em->getRepository(Campagne::class)->getAllforCompany($this->company);
         }
 

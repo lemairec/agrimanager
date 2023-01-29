@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 use App\Entity\Company;
+use App\Entity\Campagne;
+use App\Entity\Culture;
 
 /**
  * CompanyRepository
@@ -36,13 +38,15 @@ class CompanyRepository extends \Doctrine\ORM\EntityRepository
         $company->users = [$user];
         $company->name = $user->getUserName();
         $company->adresse = "";
+        $company->site1_name = "";
+        $company->site1_url = "";
         $em = $this->getEntityManager();
         $em->persist($company);
         $em->flush();
 
         $em = $this->getEntityManager();
-        $em->getRepository("App:Campagne")->createCurrentCampagne($company);
-        $em->getRepository("App:Culture")->createCurrentCulture($company);
+        $em->getRepository(Campagne::class)->createCurrentCampagne($company);
+        $em->getRepository(Culture::class)->createCurrentCulture($company);
 
         return $company;
     }
