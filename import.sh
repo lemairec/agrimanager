@@ -1,6 +1,6 @@
 #!/bin/bash
 
-agrimanager=~/workspace/maplaine2;
+agrimanager=~/workspace/maplaine;
 
 rm -rf ~/workspace/dump/;
 
