@@ -36,6 +36,7 @@
         "symfony/web-link": "^6.1",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "^6.1",
+        "symfonycasts/verify-email-bundle": "^1.13",
         "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
