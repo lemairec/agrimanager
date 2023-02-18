@@ -24,7 +24,8 @@
         L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
 
         {% for point in balises %}
-            L.marker([{{point.latitude}},{{point.longitude}}]).addTo(map);
+            var marker = new L.marker([{{point.latitude}},{{point.longitude}}]).addTo(map);
+            marker.bindPopup("{{point.name}}");
         {% endfor %}
 
         map.on('click', onMapClick);
