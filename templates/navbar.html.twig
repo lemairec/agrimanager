@@ -20,12 +20,12 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('admin_companies') }}">Companies</a>
                             <a class="dropdown-item" href="{{ url('admin_metacultures') }}">Cultures Admin</a>
                             <div class="dropdown-divider"></div>
-                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('robots') }}">Robots</a>
                             <a class="dropdown-item" href="{{ url('robot_jobs') }}">Jobs</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('gps_parcelles') }}">GPS</a>
-                            <a class="dropdown-item" href="{{ url('gps_balises') }}">Balises</a>
+                            <a class="dropdown-item" href="{{ url('job_gpss_me') }}">GPS Job</a>
+                            <a class="dropdown-item" href="{{ url('gps_parcelles') }}">GPS Parcelle</a>
+                            <a class="dropdown-item" href="{{ url('gps_balises') }}">GPS Balises</a>
                             <div class="dropdown-divider"></div>
                             {% if app.user.username == "lejard" %}
                             <a class="dropdown-item" href="{{ url('annonces') }}">Annonces</a>
@@ -62,8 +62,6 @@ Ma Plaine</a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('materiels') }}">Materiel</a>
-                            <a class="dropdown-item" href="{{ url('job_gpss_me') }}">Gps Job</a>
-                            <a class="dropdown-item" href="{{ url('gps_parcelles') }}">Gps Parcelle</a>
                             {% if app.user.username == "lejard" %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('documents') }}">Documents</a>
@@ -76,7 +74,7 @@ Ma Plaine</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('apiculture') }}">Ruches</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('silo_balises') }}">Balises</a>
+                            <a class="dropdown-item" href="{{ url('silo_balises') }}">Silo balises</a>
                             {% endif %}
 
                         </div>
