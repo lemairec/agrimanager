@@ -65,11 +65,11 @@ class GestionController extends CommonController
     }
 
     public function getDateColor(){
-        return ["" => "", "2014" => "", "2015" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#fcba03", "2021"=> "#99ccff", "2022"=> "#ff9966"];
+        return ["" => "", "2014" => "", "2015" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#fcba03", "2021"=> "#99ccff", "2022"=> "#ff9966", "2023" => "#B6E17B"];
     }
 
     public function getHidden(){
-        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => false, "2019"=> false, "2020"=> false, "2021"=> false, "2022"=> false];
+        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => false, "2019"=> false, "2020"=> false, "2021"=> false, "2022"=> false, "2023"=> false];
     }
 
     public function getDataCampagne($campagne, $ecritures){
@@ -533,6 +533,66 @@ class GestionController extends CommonController
         sort($ecritures_by_campagne_by_tag);
         return $this->render('Gestion/compte_by_tag.html.twig', array(
             'res' => $ecritures_by_campagne_by_tag,
+            'compte' => $compte
+        ));
+    }
+
+    #[Route(path: '/compte/{compte_id}/by_tag2', name: 'compte_by_tag2')]
+    public function compteTagAction2($compte_id, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+
+        $operations = [];
+        $ecritures_by_campagne_by_tag = [];
+        $ecritures_by_campagne = [];
+        $ecritures = [];
+        $tags = [];
+        $ecritures_futures = [];
+        if($compte_id == '0'){
+            return;
+        } else {
+            $compte = $em->getRepository(Compte::class)->findOneById($compte_id);
+            $factures = $em->getRepository(FactureFournisseur::class)->findByCompte($compte);
+            $value = 0;
+
+            foreach($factures as $f){
+                $tag = $f->tag;
+                if(!in_array($tag, $tags)){
+                    $tags[] = $tag;
+                }
+            }
+
+
+            foreach($factures as $f){
+                $campagne = "";
+                if($f->campagne){
+                    $campagne = $f->campagne->name;
+                }
+                $str = $campagne." - ".$f->tag;
+                if(!array_key_exists($str, $ecritures_by_campagne_by_tag)){
+                    $ecritures_by_campagne_by_tag[$str] = [ "value" => $str, "sum" => 0, "facture" => []];
+                }
+                $ecritures_by_campagne_by_tag[$str]["facture"][] = $f;
+                $ecritures_by_campagne_by_tag[$str]["sum"] += $f->montantHT;
+                if(!array_key_exists($campagne, $ecritures_by_campagne)){
+                    $ecritures_by_campagne[$campagne] = [ "campagne" => $campagne, "tags" => []];
+                    foreach($tags as $t){
+                        $ecritures_by_campagne[$campagne]["tags"][$t] = 0;
+                    }
+                }
+                $ecritures_by_campagne[$campagne]["tags"][$f->tag] += $f->montantHT;
+
+            }
+        }
+
+        sort($ecritures_by_campagne);
+        sort($ecritures_by_campagne_by_tag);
+        return $this->render('Gestion/compte_by_tag2.html.twig', array(
+            'res' => $ecritures_by_campagne_by_tag,
+            'res2' => $ecritures_by_campagne,
+            'tags' => $tags,
             'compte' => $compte
         ));
     }
