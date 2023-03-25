@@ -131,6 +131,7 @@ class RobotControlleurController extends CommonController
 
         return $this->render('robot/robot_job.html.twig', array(
             'robot_job_id' => $robot_job->id,
+            'robot_json' => $robot_job->params_json,
             'form' => $form->createView()
         ));
     }
@@ -159,13 +160,26 @@ class RobotControlleurController extends CommonController
         $form = $this->createForm(JobRobotType::class, $robot_job);
         $form->handleRequest($request);
 
+        if($robot_job->type == "JOBS"){
+            $res = [];
+            foreach($robot_job->params["jobs"] as $p){
+                $job = $em->getRepository(Job::class)->find($p);
+                $job->params["order_label"] = $job->type;
+                $res[] = ["job_id"=> $p, "job" => $job->params];
+            }
+            $res2 = ["jobs"=> $res];
+        } else {
+            $res2 = $robot_job->params;
+        }
+
+
         if ($form->isSubmitted()) {
             $order = new Order();
             $order->robot = $robot;
             $order->name = $robot_job->name;
             $order->type = $robot_job->type;
             $order->d_create = new \DateTime();
-            $order->params = $robot_job->params;
+            $order->params = $res2;
             $order->params["offset"] = doubleval($robot_job->offset);
             $order->params["inrows"] = $robot_job->inrows;
             $em->persist($order);
@@ -174,8 +188,12 @@ class RobotControlleurController extends CommonController
             return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
         }
 
+
+
+
         return $this->render('robot/robot_job.html.twig', array(
             'robot_job_id' => $robot_job->id,
+            'robot_json' => $res2,
             'form' => $form->createView()
         ));
 

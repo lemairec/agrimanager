@@ -2,13 +2,25 @@
 
 
 {% block body_form %}
+
+<div class="card">
+    <div class="card-header">
+        Body
+    </div>
+    <div class="card-body">
+        {{ robot_json | json_encode | raw}}
+    </div>
+
+</div>
+
 <div class="card">
     <div class="card-header">
         Admin
     </div>
-    <div class="card-header">
+    <div class="card-body">
         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_job_delete", {'robot_job_id': robot_job_id}) }}'">Delete</button>
-    <div>   
+    </div>
 </div>
+
 
 {% endblock body_form %}

@@ -6,7 +6,7 @@
     <div class="card-header">
         Jobs
         <button type="button" class="btn btn-primary" onclick="window.location.href='/robot_job/0'">Ajouter</button>
-        
+
     </div>
     <table class="table">
         <tr>
@@ -15,9 +15,9 @@
         </tr>
         {% for job in jobs %}
             <tr>
-                <td><a href="/robot_job/{{job.id}}">{{job.name}}</a></td>
+                <td><a href="/robot_job/{{job.id}}">{{job.id}} - {{job.name}}</a></td>
                 <td>{{job.type}}</td>
-                
+
             </tr>
         {% endfor %}
     </table>

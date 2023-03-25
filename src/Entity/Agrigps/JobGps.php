@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Agrigpss;
+namespace App\Entity\Agrigps;
 
 use Doctrine\ORM\Mapping as ORM;
 
