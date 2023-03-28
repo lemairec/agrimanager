@@ -107,7 +107,7 @@ class UserController extends CommonController
             $contact = new Contact();
             $contact->datetime = new DateTime();
         } else {
-            $contact = $em->getRepository('App:Contact')->findOneById($contact_id);
+            $contact = $em->getRepository(Contact::class)->findOneById($contact_id);
         }
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
