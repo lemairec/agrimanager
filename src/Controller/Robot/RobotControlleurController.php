@@ -70,7 +70,8 @@ class RobotControlleurController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
-        print($robot->id);
+
+        $em->getRepository(Order::class)->cancelAllOrders($robot);
 
         $order = new Order();
         $order->robot = $robot;
@@ -156,6 +157,8 @@ class RobotControlleurController extends CommonController
 
         $robot_job = $em->getRepository(Job::class)->find($id);
         $robot = $em->getRepository(Robot::class)->find($robot_id);
+
+        $em->getRepository(Order::class)->cancelAllOrders($robot);
 
         $form = $this->createForm(JobRobotType::class, $robot_job);
         $form->handleRequest($request);

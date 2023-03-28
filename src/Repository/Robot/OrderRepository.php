@@ -57,6 +57,26 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
+    public function cancelAllOrders($robot)
+    {
+        $res = $this->createQueryBuilder('o')
+            ->andWhere('o.robot = :robot')
+            ->andWhere('o.status != :status')
+            ->setParameter('robot', $robot)
+            ->setParameter('status', "done")
+            ->orderBy('o.id', 'DESC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult()
+        ;
+        $em = $this->getEntityManager();
+        foreach ($res as $o) {
+            $o->status = "cancel";
+            $em->persist($o);
+            $em->flush();
+        }
+    }
+
     /*
     public function findOneBySomeField($value): ?Order
     {
