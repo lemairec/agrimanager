@@ -23,14 +23,17 @@ class Order
     #[ORM\Column(type: 'datetime')]
     public $d_create;
 
-    #[ORM\Column(type: 'boolean')]
-    public $done = false;
+    #[ORM\Column(type: 'string')]
+    public $status = "wait"; //wait //doing //done
 
     #[ORM\ManyToOne(targetEntity: Robot::class)]
     #[ORM\JoinColumn(nullable: false)]
     public $robot;
 
+    #[ORM\Column(type: 'integer')]
+    public $perc = 0;
+
     #[ORM\Column(type: 'json', nullable: true)]
     public $params;
-    
+
 }

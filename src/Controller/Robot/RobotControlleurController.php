@@ -182,6 +182,24 @@ class RobotControlleurController extends CommonController
             $order->params = $res2;
             $order->params["offset"] = doubleval($robot_job->offset);
             $order->params["inrows"] = $robot_job->inrows;
+            if($order->type == "JOBS2"){
+                $order->status = "done";
+                $em->persist($order);
+                $em->flush();
+                foreach($order->params["jobs"] as $p){
+                    $job2 = $em->getRepository(Job::class)->find($p);
+                    $order2 = new Order();
+                    $order2->robot = $robot;
+                    $order2->name = $job2->name;
+                    $order2->type = $job2->type;
+                    $order2->d_create = new \DateTime();
+                    $order2->params = $job2->params;
+                    $order2->params["offset"] = doubleval($job2->offset);
+                    $order2->params["inrows"] = $job2->inrows;
+                    $em->persist($order2);
+                    $em->flush();
+                }
+            }
             $em->persist($order);
             $em->flush();
             //return new Response("OK");

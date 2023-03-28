@@ -19,39 +19,7 @@ class ApiRobotControlleurController extends CommonController
     #[Route(path: '/robot/api/get_order', name: 'robot_api')]
     public function silo_api(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $robot_id = $request->query->get("robot_id");
-
-        $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
-        if($robot == NULL){
-            $robot = new Robot();
-            $robot->name = $robot_id;
-            $em->persist($robot);
-            $em->flush();
-        }
-
-        $order = $em->getRepository(Order::class)->getLastForRobot($robot);
-        $robot->last_data = $request->request->all();
-        $robot->last_update = new \DateTime();
-
-        $em->persist($robot);
-        $em->flush();
-        if($order){
-            $now = new \DateTime();
-            $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
-            if($diffInSeconds > 0 && $diffInSeconds < 1000){
-                $data = $order->params;
-                if($data == null){
-                    $data = [];
-                }
-                $data["name"] = $order->name;
-                $data["type"] = $order->type;
-                return new JsonResponse($data);
-            }
-        }
-
-        return new JsonResponse(["name"=>"","type"=>"WAIT"]);
+        throw "toto";
     }
 
     #[Route(path: '/robot/api/v2/job')]
@@ -87,7 +55,6 @@ class ApiRobotControlleurController extends CommonController
             $em->flush();
         }
 
-        $order = $em->getRepository(Order::class)->getLastForRobot($robot);
         $robot->last_data = $request->request->all();
         $robot->last_update = new \DateTime();
         $em->persist($robot);
@@ -103,20 +70,58 @@ class ApiRobotControlleurController extends CommonController
             $em->flush();
         }
 
+
+        $order = $em->getRepository(Order::class)->getDoingForRobot($robot);
         if($order){
-            $now = new \DateTime();
-            $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
-            if($diffInSeconds > 0 && $diffInSeconds < 20){
-                $data = $order->params;
-                if($data == null){
-                    $data = [];
+            if($order->type == "AVANCE" || $order->type == "AVANCEG" || $order->type == "AVANCED"
+                || $order->type == "RECULE" || $order->type == "RECULEG" || $order->type == "RECULED"
+                || $order->type == "STOP")
+            {
+                $now = new \DateTime();
+                $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
+                if($diffInSeconds < 0 && $diffInSeconds > 1000){
+                    $order->status = "done";
+                    $em->persist($order);
+                    $em->flush();
+                    $order = NULL;
                 }
-                $data["name"] = $order->name;
-                $data["type"] = $order->type;
-               return new JsonResponse($data);
             }
-            return new JsonResponse(["name"=>"","type"=>"WAIT", "last_order"=> $order->name, "time"=>$diffInSeconds]);
+            $perc = $robot->last_data["perc"];
+            $order_id = $order->id; //todo
+            if($order->id == $order_id){
+                $order->perc = intval($perc);
+                $em->persist($order);
+                $em->flush();
+
+                if($perc>99){
+                    $order->status = "done";
+                    $em->persist($order);
+                    $em->flush();
+                    $order = NULL;
+                }
+            }
         }
+
+        if($order == NULL){
+            $order = $em->getRepository(Order::class)->getLastForRobot($robot);
+            if($order != NULL){
+                $order->status = "doing";
+                $em->persist($order);
+                $em->flush();
+            }
+        }
+
+        if($order){
+            $data = $order->params;
+            if($data == null){
+                $data = [];
+            }
+            $data["name"] = $order->name;
+            $data["order_id"] = $order->id;
+            $data["type"] = $order->type;
+            return new JsonResponse($data);
+        }
+
         return new JsonResponse(["name"=>"","type"=>"WAIT"]);
 
 

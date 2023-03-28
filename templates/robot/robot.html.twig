@@ -2,86 +2,91 @@
 
 {% block body %}
     <div class="card">
-        <table class="table">
-            <tr>
-                <th>Last_Update</th>
-                <th>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-4">
+                    last_update :
                     {%if robot.last_update %} {{robot.last_update | showDatetime}} {%endif %}
-                </th>
-            </tr>
-            <tr>
-                <th>GPS</th>
-                <th>
+                </div>
+                <div class="col-sm-4">
+                    GPS :
                     {%if robot.last_data.gps_type is defined %} {{robot.last_data.gps_type}} {%endif %}
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    {%if robot.last_data.lat is defined %} {{robot.last_data.lat}} {%endif %}
-                </th>
-                <th>
-                    {%if robot.last_data.lng is defined %} {{robot.last_data.lng}} {%endif %}
-                </th>
-            </tr>
-        </table>
+                </div>
+                <div class="col-sm-4">
+                    status :
+                    {%if robot.last_data.status is defined %} {{robot.last_data.status}} {%endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    order :
+                    {%if robot.last_data.order_id is defined %} {{robot.last_data.order_id}} {%endif %}
+                </div>
+                <div class="col-sm-4">
+                    perc :
+                    {%if robot.last_data.perc is defined %} {{robot.last_data.perc}} {%endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'AVANCE'}) }}'">Avance</button>
+                    </div>
+                    <div class="col-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'AVANCEG'}) }}'">Avance G</button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'STOP'}) }}'">Stop</button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'AVANCED'}) }}'">Avance D</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULEG'}) }}'">Recule G</button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULE'}) }}'">Recule</button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULED'}) }}'">Recule D</button>
+                        </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                    {% for job in jobs %}
+                        <div class="row">
+                            <a href="/robot_job/{{job.id}}/do_it/{{robot.id}}">{{job.name}}</a>
+                        </div>
+                    {% endfor %}
+
+            </div>
+
+        </div>
+        </div>
+
     </div>
 
     <div class="card">
         <div id="map" style="position: relative;height: 600px;"></div>
-    </div>
-
-    <div class="card">
-       <div class="card-header">
-           <button id="add_job" type="button" class="btn btn-primary" onclick="addJob()">Add Job</button>
-       </div>
-   </div>
-
-    <div class="card">
         <div class="card-header">
-            Deplacement primaire (pendant 10 s)
+            <button id="add_job" type="button" class="btn btn-primary" onclick="addJob()">Add Job</button>
         </div>
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'AVANCE'}) }}'">Avance</button>
-                </th>
-                <th></th>
-            </tr>
-            <tr>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'AVANCEG'}) }}'">Avance G</button>
-                </th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'STOP'}) }}'">Stop</button>
-                </th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'AVANCED'}) }}'">Avance D</button>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULEG'}) }}'">Recule G</button>
-                </th>
-                <th></th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULED'}) }}'">Recule D</button>
-                </th>
-            </tr>
-            <tr>
-                <th></th>
-                <th>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULE'}) }}'">Recule</button>
-                </th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </table>
     </div>
+
+    <div class="card">
+
+   </div>
 
 
 
@@ -89,17 +94,7 @@
         <div class="card-header">
             Job
         </div>
-        <table class="table" id="table">
-            <tr>
-                <th></th>
-            </tr>
-            {% for job in jobs %}
-                <tr>
-                    <td><a href="/robot_job/{{job.id}}/do_it/{{robot.id}}">{{job.name}}</a></td>
-                </tr>
-            {% endfor %}
 
-        </table>
     </div>
 
     <div class="card">
@@ -120,8 +115,9 @@
             {% for order in orders %}
                 <tr>
                     <td>{{order.id}}</td>
+                    <td>{{order.status }}</td>
+                    <td>{{order.perc | showInt}}</td>
                     <td>{{order.name }}</td>
-                    <td>{{order.robot.name }}</td>
                     <td>{{order.type }}</td>
                     <td>{{order.d_create | showDatetime2}}</td>
                     <td>{{order.params |json_encode()}}</td>

@@ -23,9 +23,23 @@ class OrderRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.robot = :robot')
+            ->andWhere('o.status = :status')
+            ->setParameter('status', "wait")
             ->setParameter('robot', $robot)
-            ->orderBy('o.id', 'DESC')
+            ->orderBy('o.id', 'ASC')
             ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function getDoingForRobot($robot)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.robot = :robot')
+            ->andWhere('o.status = :status')
+            ->setParameter('robot', $robot)
+            ->setParameter('status', "doing")
             ->getQuery()
             ->getOneOrNullResult()
         ;
