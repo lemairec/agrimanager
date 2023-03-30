@@ -237,7 +237,7 @@ class RobotControlleurController extends CommonController
                     $order1->params = [];
                     $em->persist($order1);
 
-                    $p2 = $order->params["points"][($i+$len)%$len];
+                    $p2 = $order->params["points"][($i+$len/2)%$len];
                     $order1 = new Order();
                     $order1->robot = $robot;
                     $order1->name = "goto_".strval($i);
