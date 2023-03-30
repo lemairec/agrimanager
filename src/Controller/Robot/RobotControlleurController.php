@@ -43,7 +43,7 @@ class RobotControlleurController extends CommonController
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
         $passages = $em->getRepository(Passage::class)->findByRobot($robot);
         //dump($passages);
-        $orders = $em->getRepository(Order::class)->getLast10ForRobot($robot);
+        $orders = $em->getRepository(Order::class)->getForRobot($robot);
         $jobs = $em->getRepository(Job::class)->getTop10();
         $data = json_encode($robot->last_data);
         $lat = 0;
@@ -200,6 +200,69 @@ class RobotControlleurController extends CommonController
                     $order2->params["offset"] = doubleval($job2->offset);
                     $order2->params["inrows"] = $job2->inrows;
                     $em->persist($order2);
+                    $em->flush();
+                }
+            }
+            if($order->type == "PARCELLE"){
+                $order->status = "done";
+                $em->persist($order);
+                $em->flush();
+                dump($order->params["points"]);
+                $len = count($order->params["points"]);
+                for($i = 0; $i < $len; $i++){
+                    $p = $order->params["points"][$i];
+                    $order1 = new Order();
+                    $order1->robot = $robot;
+                    $order1->name = "goto_".strval($i);
+                    $order1->type = "GOTO";
+                    $order1->d_create = new \DateTime();
+                    $order1->params = [];
+                    $order1->params["a_lat"] = $p[0];
+                    $order1->params["a_lon"] = $p[1];
+                    $em->persist($order1);
+
+                    $order1 = new Order();
+                    $order1->robot = $robot;
+                    $order1->name = "demitour_".strval($i);
+                    $order1->type = "DEMITOUR";
+                    $order1->d_create = new \DateTime();
+                    $order1->params = [];
+                    $em->persist($order1);
+
+                    $order1 = new Order();
+                    $order1->robot = $robot;
+                    $order1->name = "avance_p_".strval($i);
+                    $order1->type = "AVANCE_P";
+                    $order1->d_create = new \DateTime();
+                    $order1->params = [];
+                    $em->persist($order1);
+
+                    $p2 = $order->params["points"][($i+$len)%$len];
+                    $order1 = new Order();
+                    $order1->robot = $robot;
+                    $order1->name = "goto_".strval($i);
+                    $order1->type = "GOTO";
+                    $order1->d_create = new \DateTime();
+                    $order1->params = [];
+                    $order1->params["a_lat"] = $p2[0];
+                    $order1->params["a_lon"] = $p2[1];
+                    $em->persist($order1);
+
+                    $order1 = new Order();
+                    $order1->robot = $robot;
+                    $order1->name = "demitour_".strval($i);
+                    $order1->type = "DEMITOUR";
+                    $order1->d_create = new \DateTime();
+                    $order1->params = [];
+                    $em->persist($order1);
+
+                    $order1 = new Order();
+                    $order1->robot = $robot;
+                    $order1->name = "avance_p_".strval($i);
+                    $order1->type = "AVANCE_P";
+                    $order1->d_create = new \DateTime();
+                    $order1->params = [];
+                    $em->persist($order1);
                     $em->flush();
                 }
             }
