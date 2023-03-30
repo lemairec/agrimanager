@@ -27,6 +27,16 @@
                     {%if robot.last_data.perc is defined %} {{robot.last_data.perc}} {%endif %}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    v :
+                    {%if robot.last_data.volt is defined %} {{robot.last_data.volt}} {%endif %}
+                </div>
+                <div class="col-sm-4">
+                    a :
+                    {%if robot.last_data.amp is defined %} {{robot.last_data.amp}} {%endif %}
+                </div>
+            </div>
         </div>
         <div class="card-body">
         <div class="row">
