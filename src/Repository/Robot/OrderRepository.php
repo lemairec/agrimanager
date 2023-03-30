@@ -45,13 +45,12 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getLast10ForRobot($robot)
+    public function getForRobot($robot)
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.robot = :robot')
             ->setParameter('robot', $robot)
             ->orderBy('o.id', 'DESC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
