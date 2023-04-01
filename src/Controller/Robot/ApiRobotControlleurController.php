@@ -136,8 +136,7 @@ class ApiRobotControlleurController extends CommonController
         $data_json = $last_data["data"];
 
         $data = json_decode($data_json);
-        dump($data);
-
+        
         $em = $this->getDoctrine()->getManager();
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
