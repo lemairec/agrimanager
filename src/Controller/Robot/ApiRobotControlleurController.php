@@ -136,7 +136,7 @@ class ApiRobotControlleurController extends CommonController
         $data_json = $last_data["data"];
 
         $data = json_decode($data_json);
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
@@ -146,97 +146,11 @@ class ApiRobotControlleurController extends CommonController
         $order->type = $data->type;
         $order->params = $data;
         $order->d_create = new \DateTime();
-        /*$order->name = $robot_job->name;
-        $order->type = $robot_job->type;
-            $order->d_create = new \DateTime();
-            $order->params = $res2;
-            $order->params["offset"] = doubleval($robot_job->offset);
-            $order->params["inrows"] = $robot_job->inrows;
-            if($order->type == "JOBS2"){
-                $order->status = "done";
-                $em->persist($order);
-                $em->flush();
-                foreach($order->params["jobs"] as $p){
-                    $job2 = $em->getRepository(Job::class)->find($p);
-                    $order2 = new Order();
-                    $order2->robot = $robot;
-                    $order2->name = $job2->name;
-                    $order2->type = $job2->type;
-                    $
-                    $order2->params = $job2->params;
-                    $order2->params["offset"] = doubleval($job2->offset);
-                    $order2->params["inrows"] = $job2->inrows;
-                    $em->persist($order2);
-                    $em->flush();
-                }
-            }
-            if($order->type == "PARCELLE"){
-                $order->status = "done";
-                $em->persist($order);
-                $em->flush();
-                dump($order->params["points"]);
-                $len = count($order->params["points"]);
-                for($i = 0; $i < $len; $i++){
-                    $p = $order->params["points"][$i];
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "goto_".strval($i);
-                    $order1->type = "GOTO";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $order1->params["a_lat"] = $p[0];
-                    $order1->params["a_lon"] = $p[1];
-                    $em->persist($order1);
 
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "demitour_".strval($i);
-                    $order1->type = "DEMITOUR";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "avance_p_".strval($i);
-                    $order1->type = "AVANCE_P";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-
-                    $p2 = $order->params["points"][($i+$len/2)%$len];
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "goto_".strval($i);
-                    $order1->type = "GOTO";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $order1->params["a_lat"] = $p2[0];
-                    $order1->params["a_lon"] = $p2[1];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "demitour_".strval($i);
-                    $order1->type = "DEMITOUR";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "avance_p_".strval($i);
-                    $order1->type = "AVANCE_P";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-                    $em->flush();
-                }
-            }*/
         $em->persist($order);
         $em->flush();
 
-        return new JsonResponse(["name"=>"","type"=>"WAIT"]);
+        return new JsonResponse(["name"=>"","type"=>"SEND_OK"]);
     }
 
 }
