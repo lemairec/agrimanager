@@ -2,6 +2,8 @@
 
 namespace App\Controller\Lemca;
 
+use Datetime;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,8 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 use App\Entity\Lemca\Licence;
-
-
 
 use App\Form\Lemca\LicenceType;
 
@@ -39,6 +39,7 @@ class LicenceController extends CommonController
         $em = $this->getDoctrine()->getManager();
         if($licence_id == '0'){
             $licence = new Licence();
+            $licence->date_create = new \DateTime();
         } else {
             $licence = $em->getRepository(Licence::class)->findOneById($licence_id);
         }

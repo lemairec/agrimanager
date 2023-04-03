@@ -102,8 +102,6 @@ class LicenceRepository extends ServiceEntityRepository
         }
         $licence->licence_decode = $licence->licence_decode."LEMCA1";
 
-        $licence->date_create = new \DateTime();
-
         $licence->licence = $this->zz_ch2($licence->licence_decode, $key);
 
         $em = $this->getEntityManager();
