@@ -111,15 +111,12 @@ class LicenceRepository extends ServiceEntityRepository
         $em->flush();
     }
 
-    /*
-    public function findOneBySomeField($value): ?Licence
+    public function getAll()
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
 }

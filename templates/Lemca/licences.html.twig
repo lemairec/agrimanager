@@ -13,15 +13,22 @@
             <th>Panel</th>
             <th>Boitier</th>
             <th>Date</th>
+            <th>CAM1</th>
+            <th>CAM2</th>
+            <th>Options</th>
             <th>Desc</th>
         </tr>
         {% for licence in licences %}
             <tr>
-                <td><a href="/lemca/licence/{{licence.id}}">{{licence.licence}}</a></td>
+                <td>{{ licence.licence | my_path('licence', {'licence_id': licence.id}) | raw }}</td>
                 <td>{{licence.panel}}</td>
                 <td>{{licence.boitier}}</td>
                 <td>{{licence.date_create | showDate}}</td>
+                <td>{{licence.cam1}}</td>
+                <td>{{licence.cam2}}</td>
+                <td>{{licence.options}}</td>
                 <td>{{licence.short_desc}}</td>
+
             </tr>
         {% endfor %}
     </table>

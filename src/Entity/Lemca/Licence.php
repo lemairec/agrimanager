@@ -26,6 +26,15 @@ class Licence
     public $boitier;
 
     #[ORM\Column(type: 'string', length: 255)]
+    public $cam1 = "";
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $cam2 = "";
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $options = "";
+
+    #[ORM\Column(type: 'string', length: 255)]
     public $licence_decode;
 
     #[ORM\Column(type: 'string', length: 255)]

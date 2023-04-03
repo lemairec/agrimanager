@@ -13,6 +13,9 @@ class LicenceType extends AbstractType
         $builder
             ->add('panel')
             ->add('boitier')
+            ->add('cam1')
+            ->add('cam2')
+            ->add('options')
             ->add('short_desc')
             ->add('description')
         ;

@@ -21,11 +21,10 @@ class LicenceController extends CommonController
     #[Route(path: '/lemca/licences', name: 'licences')]
     public function achatsAction(Request $request)
     {
-
-        $this->denyAccessUnlessGranted('ROLE_LEMCA');
+        $c = $this->getCurrentCampagne($request);
 
         $em = $this->getDoctrine()->getManager();
-        $licences = $em->getRepository(Licence::class)->findAll();
+        $licences = $em->getRepository(Licence::class)->getAll();
 
         return $this->render('Lemca/licences.html.twig', array(
             'licences' => $licences
@@ -57,5 +56,5 @@ class LicenceController extends CommonController
         ));
     }
 
-    
+
 }
