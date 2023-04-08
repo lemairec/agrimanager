@@ -6,17 +6,30 @@
         Export
     </div>
     <div class="list list-group">
-        
+
 
         {% for i in 1..12 %}
             <div class="list-group-item list-group-item-action flex-column align-items-start">
-        
+
                 <div class="row">
                     <div class="col-sm-6">
-                        Export {{i}}/2022
+                        Export {{i}}/2023
                     </div>
                     <div class="col-sm-6">
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{url('export_preview', {'year': "2022", 'month': i})}}'">Export</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{url('export_preview', {'year': "2023", 'month': i})}}'">Export</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% for i in 1..12 %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        Export {{i}}/2024
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{url('export_preview', {'year': "2024", 'month': i})}}'">Export</button>
                     </div>
                 </div>
             </div>
