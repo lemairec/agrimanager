@@ -40,6 +40,8 @@ class OrderRepository extends ServiceEntityRepository
             ->andWhere('o.status = :status')
             ->setParameter('robot', $robot)
             ->setParameter('status', "doing")
+            ->orderBy('o.id', 'ASC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
