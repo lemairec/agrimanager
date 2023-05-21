@@ -48,7 +48,7 @@ class RobotControlleurController extends CommonController
         $data = json_encode($robot->last_data);
         $lat = 0;
         $lng = 0;
-        if(array_key_exists("gps_latitude", $robot->last_data)){
+        if($robot->last_data && array_key_exists("gps_latitude", $robot->last_data)){
             $lat = $robot->last_data["gps_latitude"];
             $lng = $robot->last_data["gps_longitude"];
         };

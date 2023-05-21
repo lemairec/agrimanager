@@ -4,7 +4,7 @@ namespace App\Repository\Agrigps;
 
 use App\Entity\Agrigps\JobGps;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method JobGps|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +19,7 @@ class JobGpsRepository extends ServiceEntityRepository
         parent::__construct($registry, JobGps::class);
     }
 
-    public function findAll() : array 
+    public function findAll() : array
     {
         return $this->createQueryBuilder('j')
             ->orderBy('j.dateBegin', 'DESC')
