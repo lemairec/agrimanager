@@ -65,6 +65,7 @@ class ApiRobotControlleurController extends CommonController
         $passage->datetime = new \DateTime();
         $passage->latitude = $last_data["gps_latitude"];
         $passage->longitude = $last_data["gps_longitude"];
+        $passage->work = $last_data["work"];
         if($passage->latitude && $passage->longitude){
             $em->persist($passage);
             $em->flush();

@@ -27,4 +27,7 @@ class Passage
     #[ORM\Column]
     public ?float $longitude = null;
 
+    #[ORM\Column]
+    public ?int $work = null;
+
 }

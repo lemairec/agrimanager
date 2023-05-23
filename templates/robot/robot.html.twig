@@ -38,6 +38,22 @@
                 </div>
             </div>
         </div>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    {%if robot.last_data.l1 is defined %} {{robot.last_data.l1}} {%endif %}
+                </div>
+                <div class="col-sm-12">
+                    {%if robot.last_data.l2 is defined %} {{robot.last_data.l2}} {%endif %}
+                </div>
+                <div class="col-sm-12">
+                    {%if robot.last_data.l3 is defined %} {{robot.last_data.l3}} {%endif %}
+                </div>
+                <div class="col-sm-12">
+                    {%if robot.last_data.l4 is defined %} {{robot.last_data.l4}} {%endif %}
+                </div>
+            </div>
+        </div>
         <div class="card-body">
         <div class="row">
             <div class="col-sm-6">
@@ -234,9 +250,16 @@
 
         });
 
-        L.polyline(latlngs, {weight:1, color: 'red'}).addTo(map);
+        L.polyline(latlngs, {weight:1, color: 'black'}).addTo(map);
 
-
+        {% for p in passages %}
+            {% if p.work %}
+                L.circleMarker([{{p.latitude}},{{p.longitude}}], {
+                  radius : 1,
+                  color  : '#00ff00'
+                }).addTo(map);
+            {% endif %}
+        {% endfor %}
 
     });
 </script>
