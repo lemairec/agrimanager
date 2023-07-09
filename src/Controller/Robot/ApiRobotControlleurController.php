@@ -43,9 +43,9 @@ class ApiRobotControlleurController extends CommonController
     public function post_silo_api2(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $last_data = $request->request->all();
+        $last_data = json_decode($request->getContent(), true);
 
-        $robot_id = $request->request->get('robot_id');
+        $robot_id = $last_data['robot_id'];
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
         if($robot == NULL){
