@@ -55,7 +55,7 @@ class ApiRobotControlleurController extends CommonController
             $em->flush();
         }
 
-        $robot->last_data = $request->request->all();
+        $robot->last_data = $last_data;
         $robot->last_update = new \DateTime();
         $em->persist($robot);
         $em->flush();
