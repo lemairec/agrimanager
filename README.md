@@ -26,7 +26,7 @@ php bin/console doctrine:schema:update --force
 
 modify web/app.dev => true
 
-Back_up
+Util
 -------
 
 ````
@@ -48,6 +48,12 @@ DROP TABLE ephy_produit;
 yarn run encore production
 
 
+brew link --overwrite php@8.1
+
+
+Back_up
+-------
+
 ssh maplainemk@ssh.cluster023.hosting.ovh.net
 cd maplaine; sh ~/maplaine/export.sh;
 exit
@@ -56,5 +62,3 @@ exit
 
 //rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspace/dump/ --progress;
 sh ~/workspace/maplaine/import.sh
-
- brew link --overwrite php@8.1
