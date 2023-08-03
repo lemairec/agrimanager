@@ -113,17 +113,11 @@ class ApiRobotControlleurController extends CommonController
         }
 
         if($order){
-            $data = $order->params;
-            if($data == null){
-                $data = [];
-            }
-            $data["name"] = $order->name;
-            $data["order_id"] = $order->id;
-            $data["type"] = $order->type;
-            return new JsonResponse($data);
+            $data = $order->getEps32();
+            return new Response($data);
         }
 
-        return new JsonResponse(["name"=>"","type"=>"WAIT"]);
+        return new Response("\$WAIT,*");
 
 
     }

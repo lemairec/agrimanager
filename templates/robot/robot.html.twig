@@ -146,7 +146,7 @@
                     <td>{{order.name }}</td>
                     <td>{{order.type }}</td>
                     <td>{{order.d_create | showDatetime2}}</td>
-                    <td>{{order.params |json_encode()}}</td>
+                    <td>{{order.getEps32() }}</td>
                 </tr>
             {% endfor %}
         </table>

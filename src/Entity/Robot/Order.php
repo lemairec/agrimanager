@@ -36,4 +36,19 @@ class Order
     #[ORM\Column(type: 'json', nullable: true)]
     public $params;
 
+    public function getEps32(){
+        if($this->type == "LINEAB"){
+            $res = sprintf("\$LINEAB,%d, %.7f,%.7f,%.7f,%.7f,*", $this->id, $this->params["a_lat"], $this->params["a_lon"], $this->params["b_lat"], $this->params["b_lon"]);
+            return $res;
+        }
+        if($this->type == "CURVEAB"){
+            $res = sprintf("\$CURVEAB,%d", $this->id);
+            foreach ($this->params["points"] as $p) {
+                $res = $res.sprintf(",%.7f,%.7f", $p[0], $p[1]);
+            }
+            $res = $res.",*";
+            return $res;
+        }
+        return "";
+    }
 }

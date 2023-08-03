@@ -27,4 +27,20 @@ class Job
     public $offset = 0;
 
     public $inrows = true;
+
+    public function getEps32(){
+        if($this->type == "LINEAB"){
+            $res = sprintf("\$LINEAB,999, %.7f,%.7f,%.7f,%.7f,*", $this->params["a_lat"], $this->params["a_lon"], $this->params["b_lat"], $this->params["b_lon"]);
+            return $res;
+        }
+        if($this->type == "CURVEAB"){
+            $res = sprintf("\$CURVEAB,%d", 999);
+            foreach ($this->params["points"] as $p) {
+                $res = $res.sprintf(",%.7f,%.7f", $p[0], $p[1]);
+            }
+            $res = $res.",*";
+            return $res;
+        }
+        return "";
+    }
 }
