@@ -71,7 +71,7 @@ class RobotControlleurController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
-        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        $passages = $em->getRepository(Passage::class)->getByRobot($robot);
         return $this->render('robot/robot_passages.html.twig', array(
             'passages' => $passages
         ));

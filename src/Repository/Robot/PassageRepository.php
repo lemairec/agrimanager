@@ -39,6 +39,17 @@ class PassageRepository extends ServiceEntityRepository
         }
     }
 
+    public function getByRobot(Robot $robot)
+    {
+        return $this->createQueryBuilder('p')
+                    ->andWhere('p.robot = :robot')
+                    ->setParameter('robot', $robot)
+                    ->orderBy('p.id', 'DESC')
+                    ->setMaxResults(100)
+                    ->getQuery()
+                    ->getResult();
+    }
+
 //    /**
 //     * @return Passage[] Returns an array of Passage objects
 //     */
