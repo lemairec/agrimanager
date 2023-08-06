@@ -3,6 +3,7 @@
 namespace App\Repository\Robot;
 
 use App\Entity\Robot\Passage;
+use App\Entity\Robot\Robot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
