@@ -27,6 +27,18 @@ class Passage
     #[ORM\Column]
     public ?float $longitude = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $l1 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $l2 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $l3 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $l4 = null;
+
     #[ORM\Column]
     public ?int $work = null;
 

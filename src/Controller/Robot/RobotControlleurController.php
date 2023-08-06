@@ -65,6 +65,18 @@ class RobotControlleurController extends CommonController
         ));
     }
 
+    #[Route(path: '/robot_passages/{robot_name}', name: 'robot_passage')]
+    public function robot_passages($robot_name, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
+        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        return $this->render('robot/robot_passages.html.twig', array(
+            'passages' => $passages
+        ));
+    }
+
     #[Route(path: '/robot_order/{robot_id}/{order_label}', name: 'robot_order')]
     public function robot_order($robot_id, $order_label, Request $request)
     {

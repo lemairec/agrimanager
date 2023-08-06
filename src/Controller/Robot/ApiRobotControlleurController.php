@@ -66,6 +66,10 @@ class ApiRobotControlleurController extends CommonController
         $passage->latitude = $last_data["gps_latitude"];
         $passage->longitude = $last_data["gps_longitude"];
         $passage->work = $last_data["work"];
+        $passage->l1 = $last_data["l1"];
+        $passage->l2 = $last_data["l2"];
+        $passage->l3 = $last_data["l3"];
+        $passage->l4 = $last_data["l4"];
         if($passage->latitude && $passage->longitude){
             $em->persist($passage);
             $em->flush();
