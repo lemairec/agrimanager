@@ -41,6 +41,6 @@ class Job
             $res = $res.",*";
             return $res;
         }
-        return "";
+        return $this->type;
     }
 }

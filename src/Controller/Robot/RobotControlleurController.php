@@ -35,6 +35,8 @@ class RobotControlleurController extends CommonController
         ));
     }
 
+
+
     #[Route(path: '/robot/{robot_name}', name: 'robot')]
     public function robot($robot_name, Request $request)
     {
@@ -53,6 +55,36 @@ class RobotControlleurController extends CommonController
             $lng = $robot->last_data["gps_longitude"];
         };
         return $this->render('robot/robot.html.twig', array(
+            'robot_id' => $robot->name,
+            'robot_id_bdd' => $robot->id,
+            'orders' => $orders,
+            'robot' => $robot,
+            'robot_data' => $data,
+            'lat' => $lat,
+            'lng' => $lng,
+            'passages' => $passages,
+            'jobs' => $jobs
+        ));
+    }
+
+    #[Route(path: '/robot_avance/{robot_name}', name: 'robot_avance')]
+    public function robot_avance($robot_name, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
+        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        //dump($passages);
+        $orders = $em->getRepository(Order::class)->getForRobot($robot);
+        $jobs = $em->getRepository(Job::class)->getTop10();
+        $data = json_encode($robot->last_data);
+        $lat = 0;
+        $lng = 0;
+        if($robot->last_data && array_key_exists("gps_latitude", $robot->last_data)){
+            $lat = $robot->last_data["gps_latitude"];
+            $lng = $robot->last_data["gps_longitude"];
+        };
+        return $this->render('robot/robot_avance.html.twig', array(
             'robot_id' => $robot->name,
             'robot_id_bdd' => $robot->id,
             'orders' => $orders,

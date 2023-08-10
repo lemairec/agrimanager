@@ -58,6 +58,17 @@
                 </div>
             </div>
         </div>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_clear", {'robot_id': robot_id_bdd}) }}'">Clear</button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_avance", {'robot_name': robot_id}) }}'">Avancé</button>
+                </div>
+            </div>
+        </div>
+
 
         <div class="card-body">
         <div class="row">
@@ -93,29 +104,6 @@
                         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'RECULED'}) }}'">Recule D</button>
                     </div>
                 </div>
-                <div class="row">
-                    moteur
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'MAX_LEFT'}) }}'">MAX_LEFT</button>
-                    </div>
-                    <div class="col-4">
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'MAX_RIGHT'}) }}'">MAX_RIGHT</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'MIN_LEFT'}) }}'">MIN_LEFT G</button>
-                    </div>
-                    <div class="col-4">
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_order", {'robot_id': robot_id, 'order_label': 'MIN_RIGHT'}) }}'">MIN_RIGHT</button>
-                    </div>
-                </div>
             </div>
             <div class="col-sm-6">
                     {% for job in jobs %}
@@ -128,20 +116,6 @@
 
         </div>
         </div>
-        </div>
-
-        <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_clear", {'robot_id': robot_id_bdd}) }}'">Clear</button>
-                </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_avance", {'robot_name': robot_id}) }}'">Avancee</button>
-                </div>
-            </div>
-        </div>
-
 
     </div>
 
@@ -155,6 +129,54 @@
     <div class="card">
 
    </div>
+
+
+
+    <div class="card">
+        <div class="card-header">
+            Job
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            {{ robot_data }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            Ordres
+        </div>
+            <table class="table">
+            <tr>
+                <th>Nom</th>
+                <th></th>
+            </tr>
+            {% for order in orders %}
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{order.status }}</td>
+                    <td>{{order.perc | showInt}}</td>
+                    <td>{{order.name }}</td>
+                    <td>{{order.type }}</td>
+                    <td>{{order.d_create | showDatetime2}}</td>
+                    <td>{{order.getEps32() }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+     <div class="card">
+        <div class="card-header">
+            Admin
+        </div>
+        <div class="card-header">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_clear", {'robot_id': robot_id_bdd}) }}'">Clear</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_delete", {'robot_id': robot_id_bdd}) }}'">Delete</button>
+        <div>
+    </div>
 
 {% endblock %}
 

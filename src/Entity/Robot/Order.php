@@ -49,6 +49,6 @@ class Order
             $res = $res.",*";
             return $res;
         }
-        return "";
+        return "\$".$this->type.",*";;
     }
 }

@@ -80,29 +80,31 @@ class ApiRobotControlleurController extends CommonController
         if($order){
             if($order->type == "AVANCE" || $order->type == "AVANCEG" || $order->type == "AVANCED"
                 || $order->type == "RECULE" || $order->type == "RECULEG" || $order->type == "RECULED"
-                || $order->type == "STOP")
+                || $order->type == "STOP"
+                || $order->type == "MIN_LEFT"|| $order->type == "MAX_LEFT"|| $order->type == "MIN_RIGHT"|| $order->type == "MA_RIGHT")
             {
                 $now = new \DateTime();
                 $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
-                if($diffInSeconds < 0 && $diffInSeconds > 1000){
+                if($diffInSeconds < 0 || $diffInSeconds > 5){
                     $order->status = "done";
                     $em->persist($order);
                     $em->flush();
                     $order = NULL;
                 }
-            }
-            $perc = $robot->last_data["perc"];
-            $order_id = $order->id; //todo
-            if($order->id == $order_id){
-                $order->perc = intval($perc);
-                $em->persist($order);
-                $em->flush();
-
-                if($perc>99){
-                    $order->status = "done";
+            } else {
+                $perc = $robot->last_data["perc"];
+                $order_id = $order->id; //todo
+                if($order->id == $order_id){
+                    $order->perc = intval($perc);
                     $em->persist($order);
                     $em->flush();
-                    $order = NULL;
+
+                    if($perc>99){
+                        $order->status = "done";
+                        $em->persist($order);
+                        $em->flush();
+                        $order = NULL;
+                    }
                 }
             }
         }
