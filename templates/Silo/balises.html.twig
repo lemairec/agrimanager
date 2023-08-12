@@ -49,6 +49,11 @@
 
                 <div class="row" style="min-height: 1.5rem;">
                     <div class="col-md-4">
+                        {%if balise.is_ok %}
+                            <button type="button" class="btn btn-success"></button>
+                        {% else %}
+                            <button type="button" class="btn btn-danger"></button>
+                        {% endif %}
                         <a href="{{ url("silo_balise", {'id': balise.id}) }}">{{balise.name}}
                         </a>
                     </div>
