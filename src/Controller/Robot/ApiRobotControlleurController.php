@@ -81,7 +81,7 @@ class ApiRobotControlleurController extends CommonController
             if($order->type == "AVANCE" || $order->type == "AVANCEG" || $order->type == "AVANCED"
                 || $order->type == "RECULE" || $order->type == "RECULEG" || $order->type == "RECULED"
                 || $order->type == "STOP"
-                || $order->type == "MIN_LEFT"|| $order->type == "MAX_LEFT"|| $order->type == "MIN_RIGHT"|| $order->type == "MA_RIGHT")
+                || $order->type == "MIN_LEFT"|| $order->type == "MAX_LEFT"|| $order->type == "MIN_RIGHT"|| $order->type == "MAX_RIGHT")
             {
                 $now = new \DateTime();
                 $diffInSeconds = $now->getTimestamp() - $order->d_create->getTimestamp();
