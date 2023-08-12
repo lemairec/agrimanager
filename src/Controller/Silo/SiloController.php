@@ -78,12 +78,24 @@ class SiloController extends CommonController
         $balises_names = [];
         $balises_others = [];
 
+        $today = date("d.m.Y");
+
         foreach($balises as $b){
+            $match_date = "";
+            if($b->last_update){
+                $match_date = $b->last_update->format('d.m.Y');
+            }
+            $b->is_ok = false;
+            if($today == $match_date) {
+                $balise->is_ok = true;
+            }
             if($b->label){
                 $balises_names[] = $b;
             } else {
                 $balises_others[] = $b;
             }
+
+
         }
 
         return $this->render('Silo/balises.html.twig', array(
