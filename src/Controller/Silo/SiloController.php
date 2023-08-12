@@ -110,10 +110,17 @@ class SiloController extends CommonController
     public function siloBalise($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $duree = $request->query->get('duree');
 
         $this->check_user($request);
         $balise = $em->getRepository(Balise::class)->find($id);
-        $temperatures = $em->getRepository(Temperature::class)->getAllForBalise($balise);
+        if($duree == "all"){
+            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise($balise);
+        } else if($duree == "6m"){
+            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise6M($balise);
+        } else {
+            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise2M($balise);
+        }
 
         $form = $this->createForm(BaliseType::class, $balise);
         $form->handleRequest($request);

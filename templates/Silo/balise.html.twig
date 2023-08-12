@@ -2,6 +2,12 @@
 
 {% block body_form %}
     <div class="card">
+        <a href="?duree=all">all
+        </a>
+        <a href="?duree=6m">6m
+        </a>
+    </div>
+    <div class="card">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -24,6 +30,7 @@
             </div>
             {% endfor %}
         </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>

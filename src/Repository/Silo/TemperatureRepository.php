@@ -3,7 +3,7 @@
 namespace App\Repository\Silo;
 
 use App\Entity\Silo\Temperature;
-
+use DateTime;
 /**
  * @method SiloTemperature|null find($id, $lockMode = null, $lockVersion = null)
  * @method SiloTemperature|null findOneBy(array $criteria, array $orderBy = null)
@@ -24,7 +24,7 @@ class TemperatureRepository extends \Doctrine\ORM\EntityRepository
         return $dt;
     }
 
-    function getAllForBalise($balise){
+    function work_order($balise){
         $res = $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
             ->andWhere('p.rounded_datetime is NULL')
@@ -39,12 +39,41 @@ class TemperatureRepository extends \Doctrine\ORM\EntityRepository
                 }
             }
         }
+    }
 
+    function getAllForBalise($balise){
+        $this->work_order($balise);
 
         return $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
             ->orderBy('p.datetime', 'DESC')
             ->setParameter('balise', $balise)
+            ->getQuery()->getResult();
+    }
+
+    function getAllForBalise2M($balise){
+        $date = new DateTime();
+        $date->modify('-2 month');
+
+        return $this->createQueryBuilder('p')
+            ->where('p.balise = :balise')
+            ->andWhere('p.datetime > :my_date')
+            ->orderBy('p.datetime', 'DESC')
+            ->setParameter('balise', $balise)
+            ->setParameter('my_date', $date)
+            ->getQuery()->getResult();
+    }
+
+    function getAllForBalise6M($balise){
+        $date = new DateTime();
+        $date->modify('-6 month');
+
+        return $this->createQueryBuilder('p')
+            ->where('p.balise = :balise')
+            ->andWhere('p.datetime > :my_date')
+            ->orderBy('p.datetime', 'DESC')
+            ->setParameter('balise', $balise)
+            ->setParameter('my_date', $date)
             ->getQuery()->getResult();
     }
 
