@@ -87,7 +87,9 @@ class SiloController extends CommonController
             }
             $b->is_ok = false;
             if($today == $match_date) {
-                $b->is_ok = true;
+                if($b->last_temp > -50) {
+                    $b->is_ok = true;
+                }
             }
             if($b->label){
                 $balises_names[] = $b;
