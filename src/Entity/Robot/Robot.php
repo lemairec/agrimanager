@@ -22,8 +22,11 @@ class Robot
     #[ORM\Column(type: 'datetime', nullable: true)]
     public $last_update;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    public $config;
+
     public $is_connected = true;
-    
+
     public function __toString ( ){
         return $this->name;
     }

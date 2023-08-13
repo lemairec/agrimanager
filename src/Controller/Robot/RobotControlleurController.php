@@ -13,6 +13,8 @@ use App\Entity\Robot\Order;
 use App\Entity\Robot\Job;
 use App\Form\Robot\JobType;
 use App\Form\Robot\JobRobotType;
+use App\Form\Robot\RobotType;
+
 use DateTime;
 
 class RobotControlleurController extends CommonController
@@ -94,6 +96,25 @@ class RobotControlleurController extends CommonController
             'lng' => $lng,
             'passages' => $passages,
             'jobs' => $jobs
+        ));
+    }
+
+    #[Route(path: '/robot_config/{robot_name}', name: 'robot_config')]
+    public function robotConfig($robot_name, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
+        $form = $this->createForm(RobotType::class, $robot);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->persist($robot);
+            $em->flush();
+            return $this->redirectToRoute('robots');
+        }
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 

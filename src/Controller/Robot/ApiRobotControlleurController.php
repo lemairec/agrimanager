@@ -40,7 +40,7 @@ class ApiRobotControlleurController extends CommonController
 
 
     #[Route(path: '/robot/api/v2/post_order')]
-    public function post_silo_api2(Request $request)
+    public function post_robot_order(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $last_data = json_decode($request->getContent(), true);
@@ -126,6 +126,18 @@ class ApiRobotControlleurController extends CommonController
         return new Response("\$WAIT,*");
 
 
+    }
+
+    #[Route(path: '/robot/api/v2/post_config')]
+    public function post_robot_config(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $last_data = json_decode($request->getContent(), true);
+        $robot_id = $last_data['robot_id'];
+
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_id);
+
+        return new Response($robot->config);
     }
 
     #[Route(path: '/robot/api/v2/send_order')]
