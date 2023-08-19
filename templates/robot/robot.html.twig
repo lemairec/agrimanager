@@ -133,14 +133,22 @@
         <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-4">
+                <div class="col-3">
                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_clear", {'robot_id': robot_id_bdd}) }}'">Clear</button>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_reset", {'robot_id': robot_id_bdd}) }}'">Reset</button>
+                </div>
+                <div class="col-3">
                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_avance", {'robot_name': robot_id}) }}'">Avancee</button>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url("robot_config", {'robot_name': robot_id}) }}'">Config</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{next_order}}
                 </div>
             </div>
         </div>

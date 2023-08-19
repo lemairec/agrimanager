@@ -75,6 +75,13 @@ class ApiRobotControlleurController extends CommonController
             $em->flush();
         }
 
+        if($robot->reset){
+            $robot->reset = false;
+            $em->persist($robot);
+            $em->flush();
+            return new Response("\$RESET,*");
+        }
+
 
         $order = $em->getRepository(Order::class)->getDoingForRobot($robot);
         if($order){

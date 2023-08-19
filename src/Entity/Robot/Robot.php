@@ -25,7 +25,12 @@ class Robot
     #[ORM\Column(type: 'text', nullable: true)]
     public $config;
 
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    public $reset = false;
+
     public $is_connected = true;
+
+
 
     public function __toString ( ){
         return $this->name;

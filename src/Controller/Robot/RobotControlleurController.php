@@ -56,6 +56,15 @@ class RobotControlleurController extends CommonController
             $lat = $robot->last_data["gps_latitude"];
             $lng = $robot->last_data["gps_longitude"];
         };
+
+        $next_order = "---";
+        $order = $em->getRepository(Order::class)->getDoingForRobot($robot);
+        if($order == NULL){
+            $order = $em->getRepository(Order::class)->getLastForRobot($robot);
+        }
+        if($order){
+            $next_order = $order->type." - ".$order->name." - ".$order->status;
+        }
         return $this->render('robot/robot.html.twig', array(
             'robot_id' => $robot->name,
             'robot_id_bdd' => $robot->id,
@@ -64,6 +73,7 @@ class RobotControlleurController extends CommonController
             'robot_data' => $data,
             'lat' => $lat,
             'lng' => $lng,
+            'next_order' => $next_order,
             'passages' => $passages,
             'jobs' => $jobs
         ));
@@ -397,6 +407,19 @@ class RobotControlleurController extends CommonController
                 $em->flush();
             }
         }
+        $em->flush();
+
+        return $this->redirectToRoute('robots');
+    }
+
+    #[Route(path: '/robot_job/{robot_id}/reset', name: 'robot_reset')]
+    public function robotActionReset($robot_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $robot= $em->getRepository(Robot::class)->find($robot_id);
+        $robot->reset = true;
+        $em->persist($robot);
         $em->flush();
 
         return $this->redirectToRoute('robots');
