@@ -341,7 +341,7 @@ class RobotControlleurController extends CommonController
 
 
 
-        return $this->render('robot/robot_job.html.twig', array(
+        return $this->render('robot/robot_job_do_it.html.twig', array(
             'robot_job_id' => $robot_job->id,
             'robot_json' => $res2,
             'robot_esp32' => $robot_job->getEps32(),
