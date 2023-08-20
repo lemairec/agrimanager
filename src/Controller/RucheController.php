@@ -27,18 +27,18 @@ class RucheController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ruchers = $em->getRepository('App:Ruche\Rucher')
+        $ruchers = $em->getRepository(Rucher::class)
             ->getAll();
-        $ruches = $em->getRepository('App:Ruche\Ruche')
+        $ruches = $em->getRepository(Ruche::class)
                 ->findByRucher(null);
-        $actions = $em->getRepository('App:Ruche\Action')
+        $actions = $em->getRepository(Action::class)
                 ->getAll();
 
         $sum = 0;
         foreach($ruchers as $rucher){
             $sum += $rucher->ruchesCount();
         }
-        
+
         return $this->render('Ruche/apiculture.html.twig', array(
             'ruchers' => $ruchers,
             'ruches' => $ruches,

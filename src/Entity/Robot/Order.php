@@ -44,7 +44,7 @@ class Order
         if($this->type == "CURVEAB"){
             $res = sprintf("\$CAB_B,*\n");
             foreach ($this->params["points"] as $p) {
-                $res = $res.sprintf("CAB_P,%.7f,%.7f,*\n", $p[0], $p[1]);
+                $res = $res.sprintf("\$CAB_P,%.7f,%.7f,*\n", $p[0], $p[1]);
             }
             $res = $res.sprintf("\$CAB_E,%d,*\n",$this->id);
             return $res;
