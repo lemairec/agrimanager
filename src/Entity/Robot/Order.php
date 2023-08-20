@@ -42,11 +42,11 @@ class Order
             return $res;
         }
         if($this->type == "CURVEAB"){
-            $res = sprintf("\$CURVEAB,%d", $this->id);
+            $res = sprintf("\$CAB_B,*\n");
             foreach ($this->params["points"] as $p) {
-                $res = $res.sprintf(",%.7f,%.7f", $p[0], $p[1]);
+                $res = $res.sprintf("CAB_P,%.7f,%.7f,*\n", $p[0], $p[1]);
             }
-            $res = $res.",*";
+            $res = $res.sprintf("\$CAB_E,%d,*\n",$this->id);
             return $res;
         }
         return "\$".$this->type.",*";;
