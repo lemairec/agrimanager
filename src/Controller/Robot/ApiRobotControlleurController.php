@@ -106,7 +106,7 @@ class ApiRobotControlleurController extends CommonController
                     $em->persist($order);
                     $em->flush();
 
-                    if($perc>99){
+                    if($order->perc >= 100){
                         $order->status = "done";
                         $em->persist($order);
                         $em->flush();
