@@ -100,7 +100,7 @@ class ApiRobotControlleurController extends CommonController
                 }
             } else {
                 $perc = $robot->last_data["perc"];
-                $order_id = $order->id; //todo
+                $order_id = intval($robot->last_data["order_id"]);
                 if($order->id == $order_id){
                     $order->perc = intval($perc);
                     $em->persist($order);
