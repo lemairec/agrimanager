@@ -441,6 +441,9 @@ class DefaultController extends CommonController
                 $ilots2[] = $ilot;
             }
         }
+        if($total == 0){
+            $total = 1;//todo berk
+        }
 
         if($table == 0){
             return $this->render('Default/parcelles_t.html.twig', array(
