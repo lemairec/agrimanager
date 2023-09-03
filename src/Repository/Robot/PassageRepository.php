@@ -43,8 +43,9 @@ class PassageRepository extends ServiceEntityRepository
 
     public function verify(Robot $robot){
         $res = $this->getByRobot($robot);
-        if(len($res) > 3000){
-            for( $i = 3000; $i<len($res); ++$i){
+        $len = count($res);
+        if($len > 1000){
+            for( $i = 1000; $i<$len; ++$i){
                 $this->getEntityManager()->remove($res[$i]);
             }
         }
@@ -57,7 +58,7 @@ class PassageRepository extends ServiceEntityRepository
                     ->andWhere('p.robot = :robot')
                     ->setParameter('robot', $robot)
                     ->orderBy('p.id', 'DESC')
-                    ->setMaxResults(3010)
+                    ->setMaxResults(1010)
                     ->getQuery()
                     ->getResult();
     }
