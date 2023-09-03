@@ -414,16 +414,15 @@ class RobotControlleurController extends CommonController
     }
 
 
-    #[Route(path: '/robot/{robot_id}/log', name: 'robot_log')]
-    public function robotLogClear($robot_id, Request $request)
+    #[Route(path: '/robot/{robot_name}/log', name: 'robot_log')]
+    public function robotLogClear($robot_name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $robot= $em->getRepository(Robot::class)->find($robot_id);
-
+        $robot = $em->getRepository(Robot::class)->findOneByName($robot_name);
         $passages = $em->getRepository(Passage::class)->findByRobot($robot);
         $str = "";
         foreach($passages as $p){
-            $str=$str."\$LINE".$p->m_l1." ".$p->m_l2." ".$p->m_l3." ".$p->m_l4;
+            $str=$str."\$LINE".$p->l1." ".$p->l2." ".$p->l3." ".$p->l4;
             $str=$str."\n".$p->log;
             $str=$str."\n".$p->log1;
         }
