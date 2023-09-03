@@ -44,7 +44,7 @@ class PassageRepository extends ServiceEntityRepository
     public function verify(Robot $robot){
         $res = $this->getByRobot($robot);
         if(len($res) > 3000){
-            for(int $i = 3000; $i<len($res); ++$i){
+            for( $i = 3000; $i<len($res); ++$i){
                 $this->getEntityManager()->remove($res[$i]);
             }
         }
