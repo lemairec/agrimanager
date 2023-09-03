@@ -58,7 +58,7 @@ class PassageRepository extends ServiceEntityRepository
                     ->andWhere('p.robot = :robot')
                     ->setParameter('robot', $robot)
                     ->orderBy('p.id', 'DESC')
-                    ->setMaxResults(1010)
+                    ->setMaxResults(1100)
                     ->getQuery()
                     ->getResult();
     }
