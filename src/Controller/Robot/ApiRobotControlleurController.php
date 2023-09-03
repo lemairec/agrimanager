@@ -70,9 +70,10 @@ class ApiRobotControlleurController extends CommonController
         $passage->l2 = $last_data["l2"];
         $passage->l3 = $last_data["l3"];
         $passage->l4 = $last_data["l4"];
+        $passage->log = $last_data["log"];
+        $passage->log1 = $last_data["log1"];
         if($passage->latitude && $passage->longitude){
-            $em->persist($passage);
-            $em->flush();
+            $em->getRepository(Passage::class)->save($passage);
         }
 
         if($robot->reset){

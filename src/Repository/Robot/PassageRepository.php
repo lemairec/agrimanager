@@ -26,9 +26,10 @@ class PassageRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
+        $this->verify($entity->robot);
+
+
     }
 
     public function remove(Passage $entity, bool $flush = false): void
@@ -40,13 +41,23 @@ class PassageRepository extends ServiceEntityRepository
         }
     }
 
+    public function verify(Robot $robot){
+        $res = $this->getByRobot($robot);
+        if(len($res) > 3000){
+            for(int $i = 3000; $i<len($res); ++$i){
+                $this->getEntityManager()->remove($res[$i]);
+            }
+        }
+        $this->getEntityManager()->flush();
+    }
+
     public function getByRobot(Robot $robot)
     {
         return $this->createQueryBuilder('p')
                     ->andWhere('p.robot = :robot')
                     ->setParameter('robot', $robot)
                     ->orderBy('p.id', 'DESC')
-                    ->setMaxResults(500)
+                    ->setMaxResults(3010)
                     ->getQuery()
                     ->getResult();
     }
