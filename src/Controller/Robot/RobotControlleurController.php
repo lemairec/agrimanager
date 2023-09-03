@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\CommonController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 use App\Entity\Robot\Robot;
 use App\Entity\Robot\Passage;
@@ -410,6 +411,33 @@ class RobotControlleurController extends CommonController
         $em->flush();
 
         return $this->redirectToRoute('robots');
+    }
+
+
+    #[Route(path: '/robot/{robot_id}/log', name: 'robot_log')]
+    public function robotLogClear($robot_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $robot= $em->getRepository(Robot::class)->find($robot_id);
+
+        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        $str = "";
+        foreach($passages as $p){
+            $str=$str."\$LINE".$p->m_l1." ".$p->m_l2." ".$p->m_l3." ".$p->m_l4;
+            $str=$str."\n".$p->log;
+            $str=$str."\n".$p->log1;
+        }
+        // Provide a name for your file with extension
+        $filename = 'log.txt';
+        $fileContent = $str;
+        $response = new Response($fileContent);
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+
+        $response->headers->set('Content-Disposition', $disposition);
+        return $response;
     }
 
     #[Route(path: '/robot_job/{robot_id}/reset', name: 'robot_reset')]
