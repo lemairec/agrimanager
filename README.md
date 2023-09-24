@@ -58,7 +58,4 @@ ssh maplainemk@ssh.cluster023.hosting.ovh.net
 cd maplaine; sh ~/maplaine/export.sh;
 exit
 
-//rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspace/dump/ --progress
-
-//rm -rf ~/workspace/dump; mkdir ~/workspace/dump; rsync -r maplainemk@ssh.cluster023.hosting.ovh.net:maplaine/temp/dump/ ~/workspace/dump/ --progress;
 sh ~/workspace/maplaine/import.sh
