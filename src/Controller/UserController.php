@@ -37,7 +37,7 @@ class UserController extends CommonController
         }
         $user = $em->getRepository(User::class)->findOneById($user_id);
 
-        $token = new UsernamePasswordToken($user, $user->getPassword(), ["main"], $user->getRoles());
+        $token = new UsernamePasswordToken($user, $user->getPassword(),$user->getRoles(), ["main"]);
         $securityContext = $this->container->get('security.token_storage'); // do it your way
         $securityContext->setToken($token);
         //$this->get('session')->set('_security_main',serialize($token));
