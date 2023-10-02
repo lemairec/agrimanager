@@ -69,7 +69,7 @@ class GestionController extends CommonController
     }
 
     public function getHidden(){
-        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => false, "2019"=> false, "2020"=> false, "2021"=> false, "2022"=> false, "2023"=> false];
+        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => true, "2019"=> true, "2020"=> false, "2021"=> false, "2022"=> false, "2023"=> false];
     }
 
     public function getDataCampagne($campagne, $ecritures){
