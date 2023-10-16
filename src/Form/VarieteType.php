@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Culture;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +21,7 @@ class VarieteType extends AbstractType
         ));
         $builder->add('surface');
         $builder->add('comment');
-        
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
