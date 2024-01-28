@@ -21,8 +21,7 @@ security:
             logout:       true
 
     role_hierarchy:
-        ROLE_LEMCA: ROLE_USER
-        ROLE_ADMIN: ROLE_LEMCA
+        ROLE_ADMIN: ROLE_USER
 
     access_control:
         - { path: ^/init$, role: PUBLIC_ACCESS }

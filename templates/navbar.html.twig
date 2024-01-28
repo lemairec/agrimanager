@@ -35,20 +35,6 @@ Ma Plaine</a>
                         </div>
                     </li>
                     {% endif %}
-                    {% if is_granted('ROLE_LEMCA') %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Lemca
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('licences') }}">Licences</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('binaries') }}">Binaries</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('lemca_files') }}">Files</a>
-
-                        </div>
-                    {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Société
