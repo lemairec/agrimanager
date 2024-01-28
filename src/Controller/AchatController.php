@@ -12,8 +12,8 @@ use Datetime;
 use App\Controller\CommonController;
 
 use App\Entity\Achat;
-
-
+use App\Entity\Produit;
+use App\Entity\Gestion\FactureFournisseur;
 
 use App\Form\AchatType;
 use App\Form\DataType;
@@ -49,7 +49,6 @@ class AchatController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $produits = $em->getRepository(Produit::class)->findByCompany($campagne->company);
         $factures = $em->getRepository(FactureFournisseur::class)->getAllForCampagne($campagne);
-        $factures[] = null;
         if($achat_id == '0'){
             $achat = new Achat();
             $achat->date = new \DateTime();

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 use App\Entity\Achat;
-
+use App\Entity\Produit;
 /**
  * AchatRepository
  *
