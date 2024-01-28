@@ -40,7 +40,7 @@
                         <div class="col-4">
                             <i>{{variete.surface | showHa }}</i>
                         </div>
-                        
+
 
                     </div>
                 </li>
@@ -48,7 +48,7 @@
             </ul>
 
             </div>
-            
+
             <div class="card-body">
 
                 <div class="row">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        <div style="text-align: right; {{visibility}}"><b>{{ parcelle.rendement | showUnity("t") }}</b></div>
+                        <div style="text-align: right; {{visibility}}"><b>{{ parcelle.rendement | showUnity("t/ha") }}</b></div>
                     </div>
                     <div class="col-sm-6">
                         <div style="{{visibility}}"><b>{{ parcelle.caracteristiques }}</b></div>
@@ -117,7 +117,6 @@
                             <li>
                                 <div class="row">
                                     <div class="col-2">
-                                        {{ it.datetime | showDatetime}}
                                     </div>
                                     <div class="col-2">
                                         {{ it.espece}}

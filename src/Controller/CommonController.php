@@ -237,7 +237,7 @@ class CommonController extends AbstractController
                             if (!array_key_exists($key, $caracteristiques2)) {
                                 $caracteristiques2[$key] = ["value"=>0, "poid"=>0];
                             }
-                            $caracteristiques2[$key]["value"] += $value*$recolte->poid_norme;
+                            $caracteristiques2[$key]["value"] += $this->parseFloat($value)*$recolte->poid_norme;
                             $caracteristiques2[$key]["poid"] += $recolte->poid_norme;
                         }
                     }

@@ -57,6 +57,10 @@
                     P : <strong>{{ "%d"|format(parcelle.engrais_p)}}</strong> - K : <strong>{{ "%d"|format(parcelle.engrais_k)}}</strong> - S : <strong>{{ "%d"|format(parcelle.engrais_so3)}}</strong> - Mg : <strong>{{ "%d"|format(parcelle.engrais_mg)}}</strong>
                     </td>
                 </tr>
+								<tr>
+                    <td colspan="3"><strong>{{ parcelle.rendement | showUnity("t/ha") }}</strong></td>
+                    <td colspan="3">{{ parcelle.caracteristiques }}</td>
+                </tr>
 
 				<tr class="odd_row" style="width: 100%; background-color:{{ parcelle.cultureColor }};">
 					<th colspan="5">interventions</th>
@@ -79,9 +83,20 @@
 					<small>{{ (it.produit.engrais_n * it.getQuantityHa()) | showInt}} - {{ (it.produit.engrais_p * it.getQuantityHa()) | showInt }} - {{ (it.produit.engrais_k * it.getQuantityHa()) | showInt}} - {{ (it.produit.engrais_mg * it.getQuantityHa()) | showInt}} - ( S {{ (it.produit.engrais_so3 * it.getQuantityHa()) | showInt}} )</small>
 					{% endif %}</td>
                     <td style="width: 20%; text-align: right">{{ it.getQuantityHa() | showUnityHa(it.produit.unity) }}</td>
-					<td style="width: 20%; text-align: right"><div style="{{visibility}}">{{ it.getPriceHa() | showUnity("€/ha") }}</div></td>
+										<td style="width: 20%; text-align: right"><div style="{{visibility}}">{{ it.getPriceHa() | showUnity("€/ha") }}</div></td>
                 </tr>
                 {% endfor %}
+								{% for it in intervention.recoltes %}
+								<tr>
+                    <td style="width: 5%;"></td>
+                    <td style="width: 20%;"><i>{{it.espece}}</i></td>
+										<td style="width: 10%;"></td>
+                    <td style="width: 25%;">{{ it.getCarateristiques()}}</td>
+                    <td style="width: 20%; text-align: right">{{ it.poid_norme | showUnity("t") }}</td>
+										<td style="width: 20%; text-align: right"></td>
+                </tr>
+								{% endfor %}
+
                 {% if intervention.comment %}
                 <tr>
                     <td  colspan="6">
