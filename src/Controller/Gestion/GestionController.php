@@ -65,11 +65,11 @@ class GestionController extends CommonController
     }
 
     public function getDateColor(){
-        return ["" => "", "2014" => "", "2015" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#fcba03", "2021"=> "#99ccff", "2022"=> "#ff9966", "2023" => "#B6E17B"];
+        return ["" => "", "2014" => "", "2015" => "", "2016" => "#99ccff", "2017" => "#ff9966", "2018" => "#B6E17B", "2019"=> "#00909e", "2020"=> "#fcba03", "2021"=> "#99ccff", "2022"=> "#ff9966", "2023" => "#B6E17B", "2024"=> "#00909e"];
     }
 
     public function getHidden(){
-        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => true, "2019"=> true, "2020"=> false, "2021"=> false, "2022"=> false, "2023"=> false];
+        return ["" => false, "2014" => true, "2015" => true, "2016" => true, "2017" => true, "2018" => true, "2019"=> true, "2020"=> false, "2021"=> false, "2022"=> false, "2023"=> false, "2024"=> false];
     }
 
     public function getDataCampagne($campagne, $ecritures){
