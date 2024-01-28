@@ -25,7 +25,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
 
         if(!empty($achat->externId)){
-            $achats = $em->getRepository('App:Achat')->findByExternId($achat->externId);
+            $achats = $em->getRepository(Achat::class)->findByExternId($achat->externId);
             foreach($achats as $a){
                 $em->remove($a);
                 $em->flush();

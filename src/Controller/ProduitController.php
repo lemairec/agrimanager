@@ -127,7 +127,7 @@ class ProduitController extends CommonController
             $produit = $em->getRepository(Produit::class)->findOneById($produit_id);
             $interventions = [];//$em->getRepository(Intervention::class)->getAllForProduit($produit);
             $produitcampagnes = [];//$em->getRepository('App:ProduitCampagne')->getAllForProduit($produit);
-            $achats = [];//$em->getRepository('App:Achat')->getAllForProduit($produit);
+            $achats = [];//$em->getRepository(Achat::class)->getAllForProduit($produit);
         }
 
         return $this->render('Default/produit2.html.twig', array(

@@ -225,7 +225,7 @@ class BilanController extends CommonController
 
             $campagnes = [];
 
-            $achats = $em->getRepository('App:Achat')->getAllForProduit($p);
+            $achats = $em->getRepository(Achat::class)->getAllForProduit($p);
             foreach($achats as $a){
                 $c = $a->campagne->name;
                 if(!array_key_exists($c,$campagnes)){

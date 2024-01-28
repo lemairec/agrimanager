@@ -27,7 +27,7 @@ class AchatController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         $em = $this->getDoctrine()->getManager();
 
-        $achats = $em->getRepository('App:Achat')
+        $achats = $em->getRepository(Achat::class)
             ->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->add('orderBy','p.date DESC, p.type ASC')
@@ -54,7 +54,7 @@ class AchatController extends CommonController
             $achat = new Achat();
             $achat->date = new \DateTime();
         } else {
-            $achat = $em->getRepository('App:Achat')->findOneById($achat_id);
+            $achat = $em->getRepository(Achat::class)->findOneById($achat_id);
             $achat->name = $achat->produit->__toString();
         }
 
@@ -65,7 +65,7 @@ class AchatController extends CommonController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $em->getRepository('App:Achat')->save($achat, $campagne);
+            $em->getRepository(Achat::class)->save($achat, $campagne);
             return $this->redirectToRoute('achats');
         }
         return $this->render('Default/achat.html.twig', array(
@@ -81,7 +81,7 @@ class AchatController extends CommonController
     public function achatDeleteAction($achat_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('App:Achat')->delete($achat_id);
+        $em->getRepository(Achat::class)->delete($achat_id);
         return $this->redirectToRoute('achats');
     }
 
@@ -95,7 +95,7 @@ class AchatController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
         if ($form->isSubmitted()) {
             $data = $form->getData();
-            $em->getRepository('App:Achat')->saveCAJData($data['data'], $campagne);
+            $em->getRepository(Achat::class)->saveCAJData($data['data'], $campagne);
             //return $this->redirectToRoute('achats');
         }
         return $this->render('base_form.html.twig', array(
