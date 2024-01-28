@@ -5,14 +5,17 @@
 {% if (compte.id != '') %}
 
 <div class="card">
-    <canvas id="myChart"></canvas>
+  <div class="card-header">
+      Compte
+      <button type="button" class="btn btn-primary" onclick="window.location.href='/compte/{{compte_id}}/by_tag'">ByTag</button
+  </div>
+  <canvas id="myChart"></canvas>
 </div>
 
 
 <div class="card">
     <div class="card-header">
         Operations
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/operation/0'">Ajouter</button>
     </div>
     <table class="table">
         <tr>
@@ -133,7 +136,7 @@
                     label: function(tooltipItem, data) {
                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
                         var text = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].text;
-                        
+
                         if (label) {
                             label += ': ';
                         }
@@ -155,4 +158,3 @@
 </script>
 
 {% endblock %}
-

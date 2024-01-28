@@ -491,6 +491,7 @@ class GestionController extends CommonController
         return $this->render('Gestion/compte.html.twig', array(
             'form' => $form->createView(),
             'compte' => $compte,
+            'compte_id' => $compte->id,
             'ecritures' => $ecritures,
             'ecritures_futures' => $ecritures_futures,
             'chartjss' => $chartjss
