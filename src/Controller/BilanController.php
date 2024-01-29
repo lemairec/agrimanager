@@ -492,8 +492,7 @@ class BilanController extends CommonController
             }
             $chartjs_campagnes[] = $chartjs_campagne;
         }
-        dump($chartjs_campagnes);
-
+        
         return $this->render('Bilan/bilan_rendements.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
