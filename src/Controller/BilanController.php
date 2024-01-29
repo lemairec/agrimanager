@@ -11,6 +11,7 @@ use Datetime;
 use App\Entity\InterventionRecolte;
 use App\Entity\Campagne;
 use App\Entity\Intervention;
+use App\Entity\Parcelle;
 
 use App\Controller\CommonController;
 
@@ -424,11 +425,21 @@ class BilanController extends CommonController
 
             $rendements[$campagne->name] = ['parcelles'=>[], 'name'=>$campagne->name];
             foreach($parcelles as $p){
+                $rendement = 0;
+                if($p->surface!=0){
+                  $rendement = $p->poid_norme/$p->surface;
+                }
+                $color = 0;
+                $culture = "-";
+                if($p->culture!=NULL){
+                  $color = $p->culture->color;
+                  $culture = $p->culture->__toString();
+                }
                 $rendements[$campagne->name]['parcelles'][$p->id] = ['name'=>$p->completeName
-                    , 'espece' => $p->culture, 'color' => $p->culture->color, 'surface'=>$p->surface
-                    , 'poid' => $p->poid_norme, 'rendement' => $p->poid_norme/$p->surface, 'caracteristiques' => $p->caracteristiques];
+                    , 'espece' => $p->culture, 'color' => $color, 'surface'=>$p->surface
+                    , 'poid' => $p->poid_norme, 'rendement' => $rendement, 'caracteristiques' => $p->caracteristiques];
 
-                $culture = $p->culture->__toString();
+
                 if (!array_key_exists($culture, $cultures)) {
                     $cultures[$culture] = [];
                 }
