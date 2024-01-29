@@ -51,12 +51,14 @@
                 <th>Parcelle</th>
                 <th></th>
                 <th>Surface</th>
+                <th></th>
                 <th>Rendement</th>
             </tr>
 
             {% for rendement in rendements %}
                 <tr>
                     <td>{{rendement['name']}}</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -68,6 +70,7 @@
                         <td>{{parcelle['espece']}}</td>
                         <td>{{parcelle['caracteristiques']}}</td>
                         <td>{{parcelle['surface'] | showHa}}</td>
+                        <td>{{parcelle['poid'] | showUnity('t')}}</td>
                         <td>{{parcelle['rendement'] | showUnity('t/ha')}}</td>
                     </tr>
             {% endfor %}

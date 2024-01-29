@@ -222,6 +222,7 @@ class CommonController extends AbstractController
 
             $caracteristiques2 = [];
 
+
             foreach($p->interventions as $it){
                 $p->priceHa += $it->getPriceHa();
                 foreach($it->produits as $produit){
@@ -232,16 +233,21 @@ class CommonController extends AbstractController
                     $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                 }
                 foreach($it->recoltes as $recolte){
+                    $rendement = 0;
+                    if($it->surface != 0){
+                        $rendement = $recolte->poid_norme/$it->surface;
+                    }
+                    $poid_norme = $rendement*$p->surface;
                     if($recolte->caracteristiques){
                         foreach($recolte->caracteristiques as $key => $value){
                             if (!array_key_exists($key, $caracteristiques2)) {
                                 $caracteristiques2[$key] = ["value"=>0, "poid"=>0];
                             }
-                            $caracteristiques2[$key]["value"] += $this->parseFloat($value)*$recolte->poid_norme;
-                            $caracteristiques2[$key]["poid"] += $recolte->poid_norme;
+                            $caracteristiques2[$key]["value"] += $this->parseFloat($value)*$poid_norme;
+                            $caracteristiques2[$key]["poid"] += $poid_norme;
                         }
                     }
-                    $p->poid_norme += $recolte->poid_norme;
+                    $p->poid_norme += $poid_norme;
                 }
             }
 
@@ -253,9 +259,12 @@ class CommonController extends AbstractController
 
             $caracteristiques = [];
             foreach($caracteristiques2 as $key => $value){
-                $caracteristiques[$key] = $caracteristiques2[$key]["value"]/$caracteristiques2[$key]["poid"];
+                if($caracteristiques2[$key]["poid"]!= 0){
+                    $caracteristiques[$key] = $caracteristiques2[$key]["value"]/$caracteristiques2[$key]["poid"];
+                }
             }
             $p->caracteristiques = InterventionRecolte::getStaticCarateristiques($caracteristiques);
+
         }
         return $parcelles;
     }
