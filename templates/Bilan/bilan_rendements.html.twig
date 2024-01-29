@@ -18,11 +18,11 @@
             </tr>
             {% for key, value in cultures %}
                 <tr>
-                    <td>{{key}}</td>
-                    <td></td>
-                    <td></td>
-                <tr>
-                {% for key2, value2 in value %}
+                    <th>{{key}}</th>
+                    <th></th>
+                    <th>{{value["rendement_moy"] | showUnity('t/ha')}}</th>
+                </tr>
+                {% for key2, value2 in value["years"] %}
                     <tr>
                         <td></td>
                         <td>{{key2}}</td>

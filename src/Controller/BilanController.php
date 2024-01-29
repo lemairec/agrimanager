@@ -441,22 +441,35 @@ class BilanController extends CommonController
 
 
                 if (!array_key_exists($culture, $cultures)) {
-                    $cultures[$culture] = [];
+                    $cultures[$culture] = ["years" => []];
                 }
                 if (!array_key_exists($campagne->name, $cultures[$culture])) {
-                    $cultures[$culture][$campagne->name] = ['poid' => 0, 'surface' => 0];
+                    $cultures[$culture]["years"][$campagne->name] = ['poid' => 0, 'surface' => 0, 'rendement'=> 0];
                 }
-                $cultures[$culture][$campagne->name]['poid'] += $p->poid_norme;
-                $cultures[$culture][$campagne->name]['surface'] += $p->surface;
+                $cultures[$culture]["years"][$campagne->name]['poid'] += $p->poid_norme;
+                $cultures[$culture]["years"][$campagne->name]['surface'] += $p->surface;
 
 
 
             }
 
             foreach($cultures as $key => $value){
-                foreach($cultures[$key] as $key2 => $value2){
-                    $cultures[$key][$key2]['rendement'] =  $value2['poid']/$value2['surface'];
+                $nb = 0;
+                $sum = 0;
+                foreach($cultures[$key]["years"] as $key2 => $value2){
+                    $rendement = $value2['poid']/$value2['surface'];
+                    $cultures[$key]["years"][$key2]['rendement'] = $rendement;
+                    if($rendement != 0){
+                        $nb++;
+                        $sum+=$rendement;
+                    }
                 }
+                $rendement = 0;
+                if($nb != 0){
+                    $rendement = $sum/$nb;
+                }
+                $cultures[$key]["rendement_moy"] = $rendement;
+                //$cultures[$key][0] = ['poid' => 1, 'surface' => 1, 'rendement'=>$rendement];
             }
         }
 
@@ -470,8 +483,8 @@ class BilanController extends CommonController
             $chartjs_campagne = ['name'=> $campagne->name, 'color'=> $campagne->color, 'data'=> []];
             foreach($cultures as $key => $value){
                 if(array_key_exists($key, $cultures)){
-                    if(array_key_exists($campagne->name, $cultures[$key])){
-                        $chartjs_campagne['data'][]= $cultures[$key][$campagne->name]['rendement'];
+                    if(array_key_exists($campagne->name, $cultures[$key]["years"])){
+                        $chartjs_campagne['data'][]= $cultures[$key]["years"][$campagne->name]['rendement'];
                         continue;
                     }
                 }
@@ -479,9 +492,11 @@ class BilanController extends CommonController
             }
             $chartjs_campagnes[] = $chartjs_campagne;
         }
-
+        dump($chartjs_campagnes);
 
         return $this->render('Bilan/bilan_rendements.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
             'campagnes2' => $campagnes2,
             'rendements' => $rendements,
             'cultures' => $cultures,
