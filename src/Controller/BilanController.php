@@ -443,14 +443,11 @@ class BilanController extends CommonController
                 if (!array_key_exists($culture, $cultures)) {
                     $cultures[$culture] = ["years" => []];
                 }
-                if (!array_key_exists($campagne->name, $cultures[$culture])) {
+                if (!array_key_exists($campagne->name, $cultures[$culture]["years"])) {
                     $cultures[$culture]["years"][$campagne->name] = ['poid' => 0, 'surface' => 0, 'rendement'=> 0];
                 }
                 $cultures[$culture]["years"][$campagne->name]['poid'] += $p->poid_norme;
                 $cultures[$culture]["years"][$campagne->name]['surface'] += $p->surface;
-
-
-
             }
 
             foreach($cultures as $key => $value){
@@ -492,7 +489,7 @@ class BilanController extends CommonController
             }
             $chartjs_campagnes[] = $chartjs_campagne;
         }
-        
+
         return $this->render('Bilan/bilan_rendements.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,

@@ -14,11 +14,17 @@
             <tr>
                 <th>Culture</th>
                 <th>Année</th>
+                <th>Surface</th>
+                <th>Tonnage</th>
+                <th>Qualite</th>
                 <th>Rendement</th>
             </tr>
             {% for key, value in cultures %}
                 <tr>
                     <th>{{key}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                     <th></th>
                     <th>{{value["rendement_moy"] | showUnity('t/ha')}}</th>
                 </tr>
@@ -26,6 +32,9 @@
                     <tr>
                         <td></td>
                         <td>{{key2}}</td>
+                        <td>{{value2['poid'] | showUnity('t')}}</td>
+                        <td>{{value2['surface'] | showUnity('ha')}}</td>
+                        <td></td>
                         <td>{{value2['rendement'] | showUnity('t/ha')}}</td>
                     </tr>
 
