@@ -33,6 +33,8 @@ class ParcelleType extends AbstractType
             'choices' => $options['cultures'],
         ));
         $builder->add('active');
+        $builder->add('precedent');
+        $builder->add('couvert');
         $builder->add('comment', TextareaType::class, array('required' => false));
 
 

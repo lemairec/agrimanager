@@ -18,6 +18,10 @@ class CultureType extends AbstractType
         $builder->add('color', null, array(
             'attr' => array('class' => 'tinymce'),
         ));
+
+        $builder->add('ppfObjRendement');
+        $builder->add('ppfAzoteUnite');
+        $builder->add('ppfMiseEnReserve');
         $builder->add('metaCulture');
     }
 

@@ -1,0 +1,292 @@
+
+    <table class="table" id="table">
+        <tr>
+            <td>
+                
+            <td>
+            {% for parcelle in parcelles %}
+                <td>
+                    <a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}
+                    </a>
+                </td>
+            {% endfor %}
+            
+        </tr>
+
+        <tr>
+            <th>
+                Ilot
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{parcelle.getIlotName()}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                Parcelle
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{parcelle.name}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                Culture
+            <th>
+            {% for parcelle in parcelles %}
+                <th>
+                    {{parcelle.culture}}
+                </th>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                Precedent
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{parcelle.precedent}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                Couvert
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{parcelle.couvert}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                Surface
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{ parcelle.surface  }}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                Type sol
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                     {{ parcelle.ilot.typeSol  }}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Obj Rendement
+            </th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{ parcelle.ppfObjRendement}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <th>
+                azote/unite
+            </th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{ parcelle.ppfAzoteUnite}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+                C
+            </th>
+            <th>
+                besoin culture
+            </th>
+            {% for parcelle in parcelles %}
+                <td>
+                     {{ parcelle.ppfBesoinCulture}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+         <tr>
+            <th>
+                D
+            </th>
+            <th>
+                mise en reserve
+            </th>
+            {% for parcelle in parcelles %}
+                <td>
+                    {{ parcelle.ppfMiseEnReserve}}
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>E</th>
+            <th>besoin total</th>
+            {% for parcelle in parcelles %}
+                <th>
+                    {{ parcelle.ppfBesoinTotal}}
+                </th>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>F</th>
+            <th>relicat abordé pendant l'hivers</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>G</th>
+            <th>Reliquat hiver utilisable</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>H</th>
+            <th>Minéralisation du sol</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>H</th>
+            <th>Minéralisation du sol</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <td>I</td>
+            <td>Arrière effet prairie</td>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                    0
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>J</th>
+            <th>Effet culture intermédiaire</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>K</th>
+            <th>Minéralisation des résidus du précédent</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>L1</th>
+            <th>Effet direct des produits organiques automne</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>L2</th>
+            <th>Effet direct des produits organiques printemps</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>M</th>
+            <td>Azote apporté par l'eau d'irrigation</td>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                    0
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>N</th>
+            <th>Azote apportée par légumineuse associée au colza</th>
+            
+            {% for parcelle in parcelles %}
+                <td>
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th></th>
+            <th>Fourniture total</th>
+            
+            {% for parcelle in parcelles %}
+                <th>
+                </th>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>=></th>
+            <th>Dose Prévisionnel</th>
+            
+            {% for parcelle in parcelles %}
+                <th>
+                </th>
+            {% endfor %}
+            
+        </tr>
+       
+       
+       
+    </table>

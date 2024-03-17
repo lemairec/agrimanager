@@ -15,7 +15,7 @@ class IlotType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('surface')->add('name')->add('number');
+        $builder->add('surface')->add('name')->add('number')->add('typeSol');
         $builder->add('comment', TextareaType::class, array('required' => false));
     }
 

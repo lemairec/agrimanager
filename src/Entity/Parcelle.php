@@ -38,6 +38,13 @@ class Parcelle
     #[ORM\JoinColumn(nullable: true)]
     public $culture;
 
+    #[ORM\Column(type: 'string', length: 45, nullable: true)]
+    public $precedent;
+
+    #[ORM\Column(type: 'string', length: 45, nullable: true)]
+    public $couvert;
+
+
     #[ORM\Column(type: 'integer', nullable: true)]
     public $ordre;
 
@@ -60,7 +67,11 @@ class Parcelle
     #[ORM\OrderBy(['ordre' => 'ASC'])]
     public $varietes;
 
-
+    public $ppfObjRendement;
+    public $ppfAzoteUnite;
+    public $ppfBesoinCulture;
+    public $ppfMiseEnReserve;
+    public $ppfBesoinTotal;
 
     public function getIlotName(){
         if($this->ilot){

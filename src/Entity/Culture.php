@@ -50,6 +50,17 @@ class Culture
     #[ORM\Column(type: 'float', nullable: true)]
     public $prixObj;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $ppfObjRendement;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $ppfAzoteUnite;
+    
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $ppfMiseEnReserve;
+
+
+
     public function getRendementPrev(){
         if($this->metaCulture){
             return $this->rendementObj;

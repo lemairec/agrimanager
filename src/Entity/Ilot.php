@@ -36,6 +36,9 @@ class Ilot
     #[ORM\Column(name: 'name', type: 'string')]
     public $name;
 
+    #[ORM\Column(type: 'string')]
+    public $typeSol;
+
     #[ORM\Column(name: 'comment', type: 'string', length: 255, nullable: true)]
     public $comment;
 
