@@ -1,19 +1,6 @@
 
     <table class="table" id="table">
         <tr>
-            <td>
-                
-            <td>
-            {% for parcelle in parcelles %}
-                <td>
-                    <a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}
-                    </a>
-                </td>
-            {% endfor %}
-            
-        </tr>
-
-        <tr>
             <th>
                 Ilot
             <th>
@@ -92,6 +79,16 @@
         </tr>
         <tr>
             <th>
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
             </th>
             <th>
                 Obj Rendement
@@ -155,6 +152,16 @@
             
         </tr>
         <tr>
+            <th>
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    
+                </td>
+            {% endfor %}
+            
+        </tr>
+        <tr>
             <th>F</th>
             <th>relicat abordé pendant l'hivers</th>
             
@@ -185,18 +192,8 @@
             
         </tr>
         <tr>
-            <th>H</th>
-            <th>Minéralisation du sol</th>
-            
-            {% for parcelle in parcelles %}
-                <td>
-                </td>
-            {% endfor %}
-            
-        </tr>
-        <tr>
-            <td>I</td>
-            <td>Arrière effet prairie</td>
+            <th>I</th>
+            <th>Arrière effet prairie</th>
             
             {% for parcelle in parcelles %}
                 <td>
@@ -247,7 +244,7 @@
         </tr>
         <tr>
             <th>M</th>
-            <td>Azote apporté par l'eau d'irrigation</td>
+            <th>Azote apporté par l'eau d'irrigation</th>
             
             {% for parcelle in parcelles %}
                 <td>
@@ -273,6 +270,16 @@
             {% for parcelle in parcelles %}
                 <th>
                 </th>
+            {% endfor %}
+            
+        </tr>
+        <tr>
+            <th>
+            <th>
+            {% for parcelle in parcelles %}
+                <td>
+                    
+                </td>
             {% endfor %}
             
         </tr>
