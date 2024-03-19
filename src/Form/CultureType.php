@@ -22,7 +22,10 @@ class CultureType extends AbstractType
         $builder->add('ppfObjRendement');
         $builder->add('ppfAzoteUnite');
         $builder->add('ppfMiseEnReserve');
+        $builder->add('greleRdt');
+        $builder->add('grelePrix');
         $builder->add('metaCulture');
+        
     }
 
     /**

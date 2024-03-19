@@ -83,4 +83,52 @@ class PPFController extends CommonController
         ));
     }
     
+
+    #[Route(path: 'parcelles_grele', name: 'parcelles_grele')]
+    public function parcellesGreleAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $cultures = [];
+        $total = 0;
+
+        $is = $em->getRepository(Ilot::class)->getAllForCompany($campagne->company);
+        $ilots = [];
+        foreach ($is as $i) {
+            $ilots[] = ["id" => $i->id, "name" => $i->name, "surface_totale" => $i->surface, "surface" => 0];
+        }
+
+        $parcelles = $em->getRepository(Parcelle::class)->getAllForCampagne($campagne);
+        foreach ($parcelles as $p) {
+            if($p->active && $p->culture){
+                if (!array_key_exists($p->getCultureName(), $cultures)) {
+                    $cultures[$p->getCultureName()] = 0;
+                }
+                $cultures[$p->getCultureName()] += $p->surface;
+                $total += $p->surface;
+            }
+            if($p->ilot){
+                for ( $i = 0; $i< count($ilots);++$i) {
+                    if($ilots[$i]["id"] == $p->ilot->id){
+                        $ilots[$i]["surface"] = $ilots[$i]["surface"] + $p->surface;
+                    }
+                }
+            }
+
+            $p->greleRdt = $p->culture->greleRdt;
+            $p->grelePrix = $p->culture->grelePrix;
+            $p->greleCapital = $p->greleRdt * $p->grelePrix;
+            
+        }
+
+        return $this->render('Default/parcelles_grele.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'parcelles' => $parcelles,
+            'cultures' => $cultures,
+            'total' => $total,
+            'navs' => ["Parcelles" => "parcelles"]
+        ));
+    }
 }

@@ -73,6 +73,10 @@ class Parcelle
     public $ppfMiseEnReserve;
     public $ppfBesoinTotal;
 
+    public $greleRdt;
+    public $grelePrix;
+    public $greleCapital;
+
     public function getIlotName(){
         if($this->ilot){
             return $this->ilot->name;

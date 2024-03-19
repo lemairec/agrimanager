@@ -1,0 +1,66 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+<div class="card">
+    <table class="table" id="table">
+        <tr>
+            <th>
+            </th>
+            <th>
+                parcelle
+            </th>
+            <th>
+                ilot
+            </th>
+            <th>
+                culture
+            </th>
+            <th>
+                surface
+            </th>
+            <th>
+                rdt
+            </th>
+            <th>
+                prix
+            </th>
+            <th>
+                capital
+            </th>
+        </tr>
+        {% for parcelle in parcelles %}
+            <tr>
+                <td>
+                    <a href="{{ url("parcelle", {'parcelle_id': parcelle.id}) }}">{{parcelle.completeName}}
+                    </a>
+                </td>
+                <td>
+                    {{parcelle.name}}
+                </td>
+                <td>
+                    {{parcelle.getIlotName()}}
+                </td>
+                <td>
+                    {{parcelle.culture}}
+                </td>
+                <td>
+                    {{ parcelle.surface | showHa }}
+                </td>
+                <td>
+                    {{ parcelle.greleRdt | showUnity("u/ha") }}
+                </td>
+                <td>
+                    {{ parcelle.grelePrix | showUnity("€/u") }}
+                </td>
+                <td>
+                    {{ parcelle.greleCapital | showUnity("€") }}
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+
+{% endblock %}

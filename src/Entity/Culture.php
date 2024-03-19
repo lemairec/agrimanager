@@ -59,6 +59,12 @@ class Culture
     #[ORM\Column(type: 'float', nullable: true)]
     public $ppfMiseEnReserve;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $greleRdt;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $grelePrix;
+
 
 
     public function getRendementPrev(){
