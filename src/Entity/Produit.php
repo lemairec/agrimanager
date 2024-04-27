@@ -48,6 +48,9 @@ class Produit
     #[ORM\Column(name: 'price', type: 'float')]
     public $price = 0;
 
+    #[ORM\Column(name: 'disable', type: 'boolean')]
+    public $disable = false;
+
     #[ORM\ManyToOne(targetEntity: 'App\Entity\EphyProduit')]
     #[ORM\JoinColumn(name: 'ephy_produit', referencedColumnName: 'amm')]
     public $ephyProduit;

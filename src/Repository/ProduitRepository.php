@@ -138,6 +138,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
     public function getAllForCompanyPhyto($company){
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
+            ->andWhere('p.disable = false')
             ->join('p.ephyProduit', 'e')
             ->addorderBy('p.type', 'ASC')
             ->addorderBy('e.name', 'ASC')
@@ -149,6 +150,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('p')
             ->where('p.company = :company')
             ->Andwhere('p.n != 0 or p.k != 0 or p.p != 0')
+            ->andWhere('p.disable = false')
             ->addorderBy('p.type', 'ASC')
             ->addorderBy('p.name', 'ASC')
             ->setParameter('company', $company)
@@ -159,10 +161,24 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('p')
         ->where('p.company = :company')
         ->andWhere('ABS(p.quantity) > 0.001')
+        ->andWhere('p.disable = false')
         ->addorderBy('p.type', 'ASC')
         ->addorderBy('p.name', 'ASC')
         ->setParameter('company', $company)
         ->getQuery()->getResult();
     }
+
+    function getAllEnableForCompany($company){
+        return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->andWhere('p.disable = false')
+            ->addorderBy('p.type', 'ASC')
+            ->addorderBy('p.name', 'ASC')
+            ->setParameter('company', $company)
+            ->getQuery()->getResult();
+
+        return $query->getResult();
+    }
+
 
 }

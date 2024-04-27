@@ -16,6 +16,7 @@ use App\Entity\EphyProduit;
 use App\Entity\Intervention;
 
 use App\Form\ProduitType;
+use App\Form\ProduitType2;
 
 
 class ProduitController extends CommonController
@@ -27,9 +28,24 @@ class ProduitController extends CommonController
         $campagne = $this->getCurrentCampagne($request);
 
         $produits = $em->getRepository(Produit::class)
-            ->getAllForCompany($this->company);
+            ->getAllEnableForCompany($this->company);
 
         return $this->render('Default/produits.html.twig', array(
+            'produits' => $produits,
+            'navs' => ["Produits" => "produits"]
+        ));
+    }
+
+    #[Route(path: '/produits_all', name: 'produits_all')]
+    public function produitsAllAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $produits = $em->getRepository(Produit::class)
+            ->getAllForCompany($this->company);
+
+        return $this->render('Default/produits_all.html.twig', array(
             'produits' => $produits,
             'navs' => ["Produits" => "produits"]
         ));
@@ -138,6 +154,28 @@ class ProduitController extends CommonController
             'achats' => $achats,
             'ephy_produits' => $em->getRepository(EphyProduit::class)->getAllActiveWithCommercialesNames(),
             'navs' => ["Produits" => "produits"]
+        ));
+    }
+
+    #[Route(path: '/produit2/{produit_id}', name: 'produit2')]
+    public function produit2Action($produit_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $produit = $em->getRepository(Produit::class)->findOneById($produit_id);
+
+        $form = $this->createForm(ProduitType2::class, $produit);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($produit);
+            $em->flush();
+            return $this->redirectToRoute('produits');
+        }
+
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 
