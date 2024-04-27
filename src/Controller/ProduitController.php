@@ -141,7 +141,7 @@ class ProduitController extends CommonController
             $produit = new Produit();
         } else {
             $produit = $em->getRepository(Produit::class)->findOneById($produit_id);
-            $interventions = [];//$em->getRepository(Intervention::class)->getAllForProduit($produit);
+            $interventions = $em->getRepository(Intervention::class)->getAllForProduit($produit);
             $produitcampagnes = [];//$em->getRepository('App:ProduitCampagne')->getAllForProduit($produit);
             $achats = [];//$em->getRepository(Achat::class)->getAllForProduit($produit);
         }

@@ -157,17 +157,11 @@ class InterventionRepository extends \Doctrine\ORM\EntityRepository
 
     function getAllForProduit($produit){
         $em = $this->getEntityManager();
-        $sql = 'SELECT intervention_id FROM intervention_produit where produit_id = ?';
+        $res = $em->getRepository(InterventionProduit::class)->findByProduit($produit);
 
-        $em = $this->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare($sql);
-        $statement->bindValue(1, $produit->id);
-        $statement->execute();
-        $produits = $statement->fetchAll();
         $ids = [];
-        foreach($produits as $p){
-            $ids[] = $p["intervention_id"];
+        foreach($res as $intervention){
+            $ids[] = $intervention->intervention->id;
 
         }
 
