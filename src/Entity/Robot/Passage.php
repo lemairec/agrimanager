@@ -39,6 +39,9 @@ class Passage
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $l4 = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $l5 = null;
+
     #[ORM\Column(type: 'text',nullable: true)]
     public $log = null;
 
