@@ -24,8 +24,8 @@
                     <th>{{key}}</th>
                     <th></th>
                     <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>{{value["rendement_min"] | showUnity('t/ha')}}</th>
+                    <th>{{value["rendement_max"] | showUnity('t/ha')}}</th>
                     <th>{{value["rendement_moy"] | showUnity('t/ha')}}</th>
                 </tr>
                 {% for key2, value2 in value["years"] %}
@@ -84,7 +84,6 @@
         <table class="table">
             <tr>
                 <th>Culture</th>
-                <th>obj</th>
                 <th>min</th>
                 <th>max</th>
                 <th>moy</th>
@@ -92,7 +91,6 @@
             {% for value in cultures2 %}
                 <tr>
                     <th>{{value["name"]}}</th>
-                    <td>{{value["rendement_obj"] | showUnity('t/ha')}}</td>
                     <td>{{value["rendement_min"] | showUnity('t/ha')}}</td>
                     <td>{{value["rendement_max"] | showUnity('t/ha')}}</td>
                     <th>{{value["rendement_moy"] | showUnity('t/ha')}}</th>

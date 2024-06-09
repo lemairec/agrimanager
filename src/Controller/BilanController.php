@@ -13,6 +13,9 @@ use App\Entity\Campagne;
 use App\Entity\Intervention;
 use App\Entity\Parcelle;
 
+use App\Entity\Culture;
+
+
 use App\Controller\CommonController;
 
 use Dompdf\Dompdf;
@@ -504,11 +507,19 @@ class BilanController extends CommonController
         }
 
         foreach($cultures as $key => $value){
+            $c = $em->getRepository(Culture::class)->find($value["culture_id"]);
+            $rdt = 0;
+            $poid = 0;
+            if($c){
+                $rdt = $c->rendementObj;
+            }
+            $value["rendement_obj"] = $rdt;
+            $value["poid"] = $poid.$value["name"];
             $cultures2[] = $value;
         }
 
         usort($cultures2, function($a, $b) { // anonymous function
-            return strcmp($a["name"],$b["name"]);
+            return strcmp($a["poid"],$b["poid"]);
         });
 
         return $this->render('Bilan/bilan_rendements.html.twig', array(
