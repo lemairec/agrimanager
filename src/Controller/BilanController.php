@@ -431,9 +431,11 @@ class BilanController extends CommonController
                 }
                 $color = 0;
                 $culture = "-";
+                $culture_id = 0;
                 if($p->culture!=NULL){
                   $color = $p->culture->color;
                   $culture = $p->culture->__toString();
+                  $culture_id = $p->culture->id;
                 }
                 $rendements[$campagne->name]['parcelles'][$p->id] = ['name'=>$p->completeName
                     , 'espece' => $p->culture, 'color' => $color, 'surface'=>$p->surface
@@ -441,7 +443,7 @@ class BilanController extends CommonController
 
 
                 if (!array_key_exists($culture, $cultures)) {
-                    $cultures[$culture] = ["years" => []];
+                    $cultures[$culture] = ["years" => [], 'culture_id'=>$culture_id];
                 }
                 if (!array_key_exists($campagne->name, $cultures[$culture]["years"])) {
                     $cultures[$culture]["years"][$campagne->name] = ['poid' => 0, 'surface' => 0, 'rendement'=> 0];
@@ -453,12 +455,20 @@ class BilanController extends CommonController
             foreach($cultures as $key => $value){
                 $nb = 0;
                 $sum = 0;
+                $min = 0;
+                $max = 0;
                 foreach($cultures[$key]["years"] as $key2 => $value2){
                     $rendement = $value2['poid']/$value2['surface'];
                     $cultures[$key]["years"][$key2]['rendement'] = $rendement;
                     if($rendement != 0){
                         $nb++;
                         $sum+=$rendement;
+                        if($min == 0 || $rendement < $min){
+                            $min = $rendement;
+                        }
+                        if($max == 0 || $rendement > $max){
+                            $max = $rendement;
+                        }
                     }
                 }
                 $rendement = 0;
@@ -466,6 +476,9 @@ class BilanController extends CommonController
                     $rendement = $sum/$nb;
                 }
                 $cultures[$key]["rendement_moy"] = $rendement;
+                $cultures[$key]["name"] = $key;
+                $cultures[$key]["rendement_min"] = $min;
+                $cultures[$key]["rendement_max"] = $max;
                 //$cultures[$key][0] = ['poid' => 1, 'surface' => 1, 'rendement'=>$rendement];
             }
         }
@@ -490,12 +503,21 @@ class BilanController extends CommonController
             $chartjs_campagnes[] = $chartjs_campagne;
         }
 
+        foreach($cultures as $key => $value){
+            $cultures2[] = $value;
+        }
+
+        usort($cultures2, function($a, $b) { // anonymous function
+            return strcmp($a["name"],$b["name"]);
+        });
+
         return $this->render('Bilan/bilan_rendements.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'campagnes2' => $campagnes2,
             'rendements' => $rendements,
             'cultures' => $cultures,
+            'cultures2' => $cultures2,
             'chartjs_labels' => $chartjs_labels,
             'chartjs_campagnes' => $chartjs_campagnes,
         ));

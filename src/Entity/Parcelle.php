@@ -101,6 +101,14 @@ class Parcelle
         }
     }
 
+    public function getCultureId(){
+        if($this->culture){
+            return $this->culture->id;
+        } else {
+            return 0;
+        }
+    }
+
     public function __toString ( ){
         return $this->completeName;
     }

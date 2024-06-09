@@ -79,6 +79,29 @@
     </div>
 </div>
 
+<div class="toto">
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>Culture</th>
+                <th>obj</th>
+                <th>min</th>
+                <th>max</th>
+                <th>moy</th>
+            </tr>
+            {% for value in cultures2 %}
+                <tr>
+                    <th>{{value["name"]}}</th>
+                    <td>{{value["rendement_obj"] | showUnity('t/ha')}}</td>
+                    <td>{{value["rendement_min"] | showUnity('t/ha')}}</td>
+                    <td>{{value["rendement_max"] | showUnity('t/ha')}}</td>
+                    <th>{{value["rendement_moy"] | showUnity('t/ha')}}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
 <script src='/lib/Chart.js/Chart.min.js'></script>
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
