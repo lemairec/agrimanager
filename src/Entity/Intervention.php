@@ -70,6 +70,8 @@ class Intervention
     #[ORM\OrderBy(['datetime' => 'ASC'])]
     public $recoltes;
 
+    public $recolte_ha = 0;
+
     public function getDatetimeStr(){
         return $this->datetime->format("d/m/y");
     }

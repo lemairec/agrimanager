@@ -113,6 +113,22 @@
                             </li>
 
                             {% endfor %}
+                            {% if intervention.recolte_ha != 0 %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-2">
+                                        <div style="text-align: right; {{visibility}}">{{ intervention.recolte_ha | showUnity("t/ha") }}</div>
+                                    </div>
+
+
+                                </div>
+                            {% endif %}
                             {% for it in intervention.recoltes %}
                             <li>
                                 <div class="row">

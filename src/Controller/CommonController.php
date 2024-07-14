@@ -232,11 +232,13 @@ class CommonController extends AbstractController
                     $p->engrais_mg += $produit->getQuantityHa() * $produit->produit->engrais_mg;
                     $p->engrais_so3 += $produit->getQuantityHa() * $produit->produit->engrais_so3;
                 }
+                $poid = 0;
                 foreach($it->recoltes as $recolte){
                     $rendement = 0;
                     if($it->surface != 0){
                         $rendement = $recolte->poid_norme/$it->surface;
                     }
+                    $poid += $recolte->poid_norme;
                     $poid_norme = $rendement*$p->surface;
                     if($recolte->caracteristiques){
                         foreach($recolte->caracteristiques as $key => $value){
@@ -249,6 +251,8 @@ class CommonController extends AbstractController
                     }
                     $p->poid_norme += $poid_norme;
                 }
+                $it->recolte_ha = $poid/$it->surface;;
+                
             }
 
             if($p->surface == 0){
