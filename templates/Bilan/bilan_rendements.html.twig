@@ -48,6 +48,7 @@
     <div class="card">
         <table class="table">
             <tr>
+                <th></th>
                 <th>Parcelle</th>
                 <th></th>
                 <th>Surface</th>
@@ -56,16 +57,9 @@
             </tr>
 
             {% for rendement in rendements %}
-                <tr>
-                    <td>{{rendement['name']}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
                 {% for parcelle in rendement['parcelles'] %}
                     <tr  bgcolor='{{ parcelle['color']}}'>
+                        <td>{{rendement['name']}}</td>
                         <td>{{parcelle['name']}}</td>
                         <td>{{parcelle['espece']}}</td>
                         <td>{{parcelle['caracteristiques']}}</td>
