@@ -263,9 +263,6 @@ class RobotControlleurController extends CommonController
 
         $em->getRepository(Order::class)->cancelAllOrders($robot);
 
-        $form = $this->createForm(JobRobotType::class, $robot_job);
-        $form->handleRequest($request);
-
         if($robot_job->type == "JOBS"){
             $this->clearRobot($robot_id);
 
@@ -281,58 +278,21 @@ class RobotControlleurController extends CommonController
                 $order->params = $p;
             
                 $em->persist($order);
-                    $em->flush();
+                $em->flush();
             }
-            $res2 = [];
-            //return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
         } else {
-            $res2 = $robot_job->params;
-        }
-
-
-        if ($form->isSubmitted()) {
             $order = new Order();
             $order->robot = $robot;
             $order->name = $robot_job->name;
             $order->type = $robot_job->type;
             $order->d_create = new \DateTime();
-            $order->params = $res2;
-            $order->params["offset"] = doubleval($robot_job->offset);
-            $order->params["inrows"] = $robot_job->inrows;
-            if($order->type == "JOBS2"){
-                $order->status = "done";
-                $em->persist($order);
-                $em->flush();
-                foreach($order->params["jobs"] as $p){
-                    $job2 = $em->getRepository(Job::class)->find($p);
-                    $order2 = new Order();
-                    $order2->robot = $robot;
-                    $order2->name = $job2->name;
-                    $order2->type = $job2->type;
-                    $order2->d_create = new \DateTime();
-                    $order2->params = $job2->params;
-                    $order2->params["offset"] = doubleval($job2->offset);
-                    $order2->params["inrows"] = $job2->inrows;
-                    $em->persist($order2);
-                    $em->flush();
-                }
-            }
+            $order->params = $robot_job->params;
+            
             $em->persist($order);
             $em->flush();
-            //return new Response("OK");
-            return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
         }
 
-
-
-
-        return $this->render('robot/robot_job_do_it.html.twig', array(
-            'robot_job_id' => $robot_job->id,
-            'robot_json' => $res2,
-            'robot_esp32' => $robot_job->getEps32(),
-            'form' => $form->createView()
-        ));
-
+        return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
 
 
 
