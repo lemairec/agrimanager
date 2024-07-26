@@ -20,6 +20,32 @@ use DateTime;
 
 class RobotControlleurController extends CommonController
 {
+    public function clearRobot($robot_id){
+        $em = $this->getDoctrine()->getManager();
+
+        $robot= $em->getRepository(Robot::class)->find($robot_id);
+
+        $i = 0;
+        $orders= $em->getRepository(Order::class)->findByRobot($robot);
+        foreach($orders as $o){
+            $em->remove($o);
+            $i=$i+1;
+            if($i%20 == 0){
+                $em->flush();
+            }
+        }
+
+        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
+        foreach($passages as $p){
+            $em->remove($p);
+            $i=$i+1;
+            if($i%20 == 0){
+                $em->flush();
+            }
+        }
+        $em->flush();
+    }
+
     #[Route(path: '/robots', name: 'robots')]
     public function robots(Request $request)
     {
@@ -241,13 +267,24 @@ class RobotControlleurController extends CommonController
         $form->handleRequest($request);
 
         if($robot_job->type == "JOBS"){
+            $this->clearRobot($robot_id);
+
             $res = [];
-            foreach($robot_job->params["jobs"] as $p){
-                $job = $em->getRepository(Job::class)->find($p);
-                $job->params["order_label"] = $job->type;
-                $res[] = ["job_id"=> $p, "job" => $job->params];
+            foreach($robot_job->params as $p){
+                dump($p);
+
+                $order = new Order();
+                $order->robot = $robot;
+                $order->name = $p["name"];
+                $order->type = $p["type"];
+                $order->d_create = new \DateTime();
+                $order->params = $p;
+            
+                $em->persist($order);
+                    $em->flush();
             }
-            $res2 = ["jobs"=> $res];
+            $res2 = [];
+            //return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
         } else {
             $res2 = $robot_job->params;
         }
@@ -277,69 +314,6 @@ class RobotControlleurController extends CommonController
                     $order2->params["offset"] = doubleval($job2->offset);
                     $order2->params["inrows"] = $job2->inrows;
                     $em->persist($order2);
-                    $em->flush();
-                }
-            }
-            if($order->type == "PARCELLE"){
-                $order->status = "done";
-                $em->persist($order);
-                $em->flush();
-                dump($order->params["points"]);
-                $len = count($order->params["points"]);
-                for($i = 0; $i < $len; $i++){
-                    $p = $order->params["points"][$i];
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "goto_".strval($i);
-                    $order1->type = "GOTO";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $order1->params["a_lat"] = $p[0];
-                    $order1->params["a_lon"] = $p[1];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "demitour_".strval($i);
-                    $order1->type = "DEMITOUR";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "avance_p_".strval($i);
-                    $order1->type = "AVANCE_P";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-
-                    $p2 = $order->params["points"][($i+$len/2)%$len];
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "goto_".strval($i);
-                    $order1->type = "GOTO";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $order1->params["a_lat"] = $p2[0];
-                    $order1->params["a_lon"] = $p2[1];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "demitour_".strval($i);
-                    $order1->type = "DEMITOUR";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
-
-                    $order1 = new Order();
-                    $order1->robot = $robot;
-                    $order1->name = "avance_p_".strval($i);
-                    $order1->type = "AVANCE_P";
-                    $order1->d_create = new \DateTime();
-                    $order1->params = [];
-                    $em->persist($order1);
                     $em->flush();
                 }
             }
@@ -386,29 +360,7 @@ class RobotControlleurController extends CommonController
     #[Route(path: '/robot_job/{robot_id}/clear', name: 'robot_clear')]
     public function robotActionClear($robot_id, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $robot= $em->getRepository(Robot::class)->find($robot_id);
-
-        $i = 0;
-        $orders= $em->getRepository(Order::class)->findByRobot($robot);
-        foreach($orders as $o){
-            $em->remove($o);
-            $i=$i+1;
-            if($i%20 == 0){
-                $em->flush();
-            }
-        }
-
-        $passages = $em->getRepository(Passage::class)->findByRobot($robot);
-        foreach($passages as $p){
-            $em->remove($p);
-            $i=$i+1;
-            if($i%20 == 0){
-                $em->flush();
-            }
-        }
-        $em->flush();
+        $this->clearRobot($robot_id);
 
         return $this->redirectToRoute('robots');
     }
