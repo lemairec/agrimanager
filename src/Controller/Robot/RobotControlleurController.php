@@ -263,13 +263,10 @@ class RobotControlleurController extends CommonController
 
         $em->getRepository(Order::class)->cancelAllOrders($robot);
 
+        $this->clearRobot($robot_id);
+
         if($robot_job->type == "JOBS"){
-            $this->clearRobot($robot_id);
-
-            $res = [];
             foreach($robot_job->params as $p){
-                dump($p);
-
                 $order = new Order();
                 $order->robot = $robot;
                 $order->name = $p["name"];
@@ -293,9 +290,6 @@ class RobotControlleurController extends CommonController
         }
 
         return $this->redirectToRoute('robot', array('robot_name' => $robot->name));
-
-
-
     }
 
     #[Route(path: '/robot/{robot_id}/delete', name: 'robot_delete')]
