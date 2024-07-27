@@ -26,37 +26,6 @@ use App\Form\ContactType;
 
 class UserController extends CommonController
 {
-    #[Route(path: '/k8f96gtb', name: 'connection_user')]
-    public function testAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $user_id = $request->query->get('user_id');
-        if($user_id == ''){
-            return new Response("user not found");
-        }
-        $user = $em->getRepository(User::class)->findOneById($user_id);
-
-        $token = new UsernamePasswordToken($user, $user->getPassword(),$user->getRoles(), ["main"]);
-        $securityContext = $this->container->get('security.token_storage'); // do it your way
-        $securityContext->setToken($token);
-        //$this->get('session')->set('_security_main',serialize($token));
-        $this->company = null;
-        $this->campagne = null;
-
-        $user->setLastLogin(new \DateTime());
-        $em->persist($user);
-        $em->flush();
-
-        $session = $request->getSession();
-        $session->clear();
-        //print($this->getUser());
-
-        //home
-        return $this->redirectToRoute('home');
-    }
-
-
     #[Route(path: '/profile/edit')]
     public function profileEditAction(Request $request)
     {
