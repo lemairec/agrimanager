@@ -112,20 +112,14 @@ class HomeController extends CommonController
         }
         $user = $em->getRepository(User::class)->findOneById($user_id);
 
-        $token = new UsernamePasswordToken($user, $user->getPassword(),$user->getRoles(), ["main"]);
-        $securityContext = $this->container->get('security.token_storage'); // do it your way
-        $securityContext->setToken($token);
-        //$this->get('session')->set('_security_main',serialize($token));
         $this->company = null;
         $this->campagne = null;
+
+        $this->security->login($user);
 
         $user->setLastLogin(new \DateTime());
         $em->persist($user);
         $em->flush();
-
-        $session = $request->getSession();
-        $session->clear();
-        //print($this->getUser());
 
         //home
         return $this->indexAction($request);
