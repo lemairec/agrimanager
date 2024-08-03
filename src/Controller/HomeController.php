@@ -127,8 +127,7 @@ class HomeController extends CommonController
         $session->clear();
         //print($this->getUser());
 
-        return $this->redirectToRoute('homes');
         //home
-        //return $this->indexAction($request);
+        return $this->indexAction($request);
     }
 }
