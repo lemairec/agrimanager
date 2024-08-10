@@ -54,5 +54,15 @@ class Balise
     #[ORM\Column(type: 'float', nullable: true)]
     public $last_calculate;
 
+    public function calculate(){
+        $this->last_calculate = $this->last_temp;
+        if($this->offset){
+            $this->last_calculate = $this->last_calculate - $this->offset;
+        }
+        if($this->scale){
+            $this->last_calculate = $this->last_calculate * $this->scale;
+        }
+    }
+
     public $is_ok = false;
 }
