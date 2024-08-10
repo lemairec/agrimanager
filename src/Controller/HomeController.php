@@ -115,6 +115,10 @@ class HomeController extends CommonController
         $this->company = null;
         $this->campagne = null;
 
+        $session = $this->requestStack->getSession();
+        $session->set('companies', null);
+        $session->set('company_id', null);
+
         $this->security->login($user);
 
         $user->setLastLogin(new \DateTime());
