@@ -1,12 +1,58 @@
 {% extends 'base_form.html.twig' %}
 
 {% block body_form %}
+
     <div class="card">
-        <a href="?duree=all">all
-        </a>
-        <a href="?duree=6m">6m
-        </a>
+    <div class="list-group">
+        <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                    {%if balise.is_ok %}
+                        <button type="button" class="btn btn-success"></button>
+                    {% else %}
+                        <button type="button" class="btn btn-danger"></button>
+                    {% endif %}
+                    <a href="{{ url("silo_balise", {'id': balise.id}) }}">{{balise.label}}
+                    </a>
+                </h5>
+            </div>
+
+            <div class="row" style="min-height: 1.5rem;">
+                <div class="col-md-4">
+                    {{balise.name}}
+                </div>
+                <div class="col-md-2">
+                    {{balise.last_update | showDatetime }}
+                </div>
+                <div class="col-md-2">
+                    {{balise.last_temp }}
+                </div>
+                <div class="col-md-2">
+                    {{balise.last_calculate | showUnity(balise.unity) }}
+                </div>
+            </div>
+
+        </div>
+        <div class="list-group-item flex-column align-items-start">
+        <div class="row" style="min-height: 1.5rem;">
+            <div class="col-md-4">
+            <a href="?duree=all">all
+            </a>
+            </div>
+            <div class="col-md-4">
+            <a href="?duree=6m">6m
+            </a>
+            </div>
+            <div class="col-md-4">
+            <a href="?duree=1d">1d
+            </a>
+            </div>
+        </div>
     </div>
+    </div>
+</div>
+
+    
     <div class="card">
         <canvas id="myChart"></canvas>
     </div>

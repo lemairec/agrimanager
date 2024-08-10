@@ -14,6 +14,10 @@ class BaliseType extends AbstractType
         $builder
             ->add('name')
             ->add('label')
+            ->add('description')
+            ->add('unity')
+            ->add('offset')
+            ->add('scale')
         ;
     }
 

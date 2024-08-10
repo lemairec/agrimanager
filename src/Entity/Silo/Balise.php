@@ -33,10 +33,26 @@ class Balise
     #[ORM\Column(type: 'string', length: 255)]
     public $label = "";
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    public $description = "";
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $unity = "°C";
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     public $last_update;
 
     #[ORM\Column(type: 'float', nullable: true)]
     public $last_temp;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $offset = 0;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $scale = 0;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $last_calculate;
+
+    public $is_ok = false;
 }

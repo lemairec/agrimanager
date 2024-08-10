@@ -33,6 +33,13 @@ class SiloController extends CommonController
                 $em->getRepository(Temperature::class)->addTemperature($temperature);
             }
             $balise_->last_temp = $t;
+            $balise_->last_calculate = $balise_->last_temp;
+            if($balise_->offset){
+                $balise_->last_calculate = $balise_->last_calculate - $balise_->offset;
+            }
+            if($balise->scale){
+                $balise_->last_calculate = $balise_->last_calculate * $balise_->scale;
+            }
             $balise_->last_update = new DateTime();
             $em->persist($balise_);
             $em->flush();
@@ -122,6 +129,13 @@ class SiloController extends CommonController
             $temperatures = $em->getRepository(Temperature::class)->getAllForBalise1d($balise);
         } else {
             $temperatures = $em->getRepository(Temperature::class)->getAllForBalise2M($balise);
+        }
+        $balise->last_calculate = $balise->last_temp;
+        if($balise->offset){
+            $balise->last_calculate = $balise->last_calculate - $balise->offset;
+        }
+        if($balise->scale){
+            $balise->last_calculate = $balise->last_calculate * $balise->scale;
         }
 
         $form = $this->createForm(BaliseType::class, $balise);

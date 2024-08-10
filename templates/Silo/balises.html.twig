@@ -30,7 +30,7 @@
                         {{balise.last_update | showDatetime }}
                     </div>
                     <div class="col-md-2">
-                        {{balise.last_temp | showUnity("°") }}
+                         {{balise.last_calculate | showUnity(balise.unity) }}
                     </div>
                 </div>
 
