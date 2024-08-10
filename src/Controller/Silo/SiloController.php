@@ -124,7 +124,9 @@ class SiloController extends CommonController
         } else {
             $temperatures = $em->getRepository(Temperature::class)->getAllForBalise2M($balise);
         }
-        $balise->calculate();
+        if($balise){
+            $balise->calculate();
+        }
 
         $form = $this->createForm(BaliseType::class, $balise);
         $form->handleRequest($request);
