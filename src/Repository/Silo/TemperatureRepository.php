@@ -77,6 +77,19 @@ class TemperatureRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
+    function getAllForBalise1d($balise){
+        $date = new DateTime();
+        $date->modify('-1 day');
+
+        return $this->createQueryBuilder('p')
+            ->where('p.balise = :balise')
+            ->andWhere('p.datetime > :my_date')
+            ->orderBy('p.datetime', 'DESC')
+            ->setParameter('balise', $balise)
+            ->setParameter('my_date', $date)
+            ->getQuery()->getResult();
+    }
+
     function addTemperature($t){
         $em = $this->getEntityManager();
 

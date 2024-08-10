@@ -118,6 +118,8 @@ class SiloController extends CommonController
             $temperatures = $em->getRepository(Temperature::class)->getAllForBalise($balise);
         } else if($duree == "6m"){
             $temperatures = $em->getRepository(Temperature::class)->getAllForBalise6M($balise);
+        } else if($duree == "1d"){
+            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise1d($balise);
         } else {
             $temperatures = $em->getRepository(Temperature::class)->getAllForBalise2M($balise);
         }
