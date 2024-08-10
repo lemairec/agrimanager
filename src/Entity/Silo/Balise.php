@@ -64,5 +64,16 @@ class Balise
         }
     }
 
+    public function calculFor($value){
+        $res = $value;
+        if($this->offset){
+            $res = $res - $this->offset;
+        }
+        if($this->scale){
+            $res = $res * $this->scale;
+        }
+        return $res;
+    }
+
     public $is_ok = false;
 }

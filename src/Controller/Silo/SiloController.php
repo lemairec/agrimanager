@@ -139,7 +139,9 @@ class SiloController extends CommonController
         $chartjs_max = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
 
         foreach($temperatures as $temperature){
-            $chartjs_min['data'][] = ['date' => $temperature->datetime->format("Y-m-d H:i:s"), 'value' => $temperature->temp, 'name' => "" ];
+            $temperature->calculate = $balise->calculFor($temperature->temp);
+            $chartjs_min['data'][] = ['date' => $temperature->datetime->format("Y-m-d H:i:s"), 'value' => $temperature->calculate, 'name' => "" ];
+            
         }
         $chartjss[] = $chartjs_min;
         //dump($chartjss);
