@@ -55,13 +55,14 @@ class IotController extends CommonController
 
         $config = $request->query->get("config1");
         $company = $request->query->get("company");
-
+        $name_str = $request->query->get("name");
+        
         $company = $em->getRepository(Company::class)->findOneByName($company);
         if($company == null){
-            throw new \Exception("not found Company : ".$company.",".$balise_str);
+            throw new \Exception("not found Company : ".$company);
         }
 
-        $iot = $em->getRepository(Iot::class)->getOrCreate($company, $balise_str);
+        $iot = $em->getRepository(Iot::class)->getOrCreate($company, $name_str);
         $iot->last_config = $config;
         $iot->last_update_config = new DateTime();
         $em->getRepository(Iot::class)->save($iot);
