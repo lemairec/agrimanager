@@ -12,7 +12,7 @@ use App\Entity\Company;
 use App\Entity\Iot\Iot;
 use App\Entity\Silo\Temperature;
 
-use App\Form\Silo\BaliseType;
+use App\Form\Iot\IotType;
 
 //COMPTE
 //ECRITURE
