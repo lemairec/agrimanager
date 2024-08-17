@@ -1,0 +1,70 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+
+    <div class="card">
+        <div class="card-header">
+            Iots
+        </div>
+        <div class="list-group">
+            {% for iot in iots_names %}
+            <div class="list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        {%if iot.is_ok %}
+                            <button type="button" class="btn btn-success"></button>
+                        {% else %}
+                            <button type="button" class="btn btn-danger"></button>
+                        {% endif %}
+                        <a href="{{ url("iot", {'id': iot.id}) }}">{{iot.label}}
+                        </a>
+                    </h5>
+                </div>
+
+                <div class="row" style="min-height: 1.5rem;">
+                    <div class="col-md-4">
+                        {{iot.name}}
+                    </div>
+                    <div class="col-md-2">
+                        {{iot.last_update | showDatetime }}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            Iots (autres)
+        </div>
+        <div class="list-group">
+            {% for iot in iots_others %}
+            <div class="list-group-item flex-column align-items-start">
+
+                <div class="row" style="min-height: 1.5rem;">
+                    <div class="col-md-4">
+                        {%if iot.is_ok %}
+                            <button type="button" class="btn btn-success"></button>
+                        {% else %}
+                            <button type="button" class="btn btn-danger"></button>
+                        {% endif %}
+                        <a href="{{ url("iot", {'id': iot.id}) }}">{{iot.name}}
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        {{iot.last_update | showDatetime }}
+                    </div>
+                    <div class="col-md-2">
+                        {{iot.last_temp | showUnity("°") }}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

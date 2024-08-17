@@ -104,13 +104,13 @@ class IotController extends CommonController
 
         }
 
-        return $this->render('Silo/balises.html.twig', array(
-            'balises_names' => $balises_names,
-            'balises_others' => $balises_others
+        return $this->render('Iot/iots.html.twig', array(
+            'iots_names' => $balises_names,
+            'iots_others' => $balises_others
         ));
     }
 
-    /*#[Route(path: '/silo/balise/{id}', name: 'silo_balise')]
+    #[Route(path: '/iot/iot/{id}', name: 'iot')]
     public function siloBalise($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -157,6 +157,6 @@ class IotController extends CommonController
             'temperatures' => $temperatures,
             'chartjss' => $chartjss
         ));
-    }*/
+    }
 
 }

@@ -1,0 +1,137 @@
+{% extends 'base_form.html.twig' %}
+
+{% block body_form %}
+
+    <div class="card">
+    <div class="list-group">
+        <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                    {%if balise.is_ok %}
+                        <button type="button" class="btn btn-success"></button>
+                    {% else %}
+                        <button type="button" class="btn btn-danger"></button>
+                    {% endif %}
+                    </a>
+                </h5>
+            </div>
+
+            <div class="row" style="min-height: 1.5rem;">
+                <div class="col-md-4">
+                    {{balise.name}}
+                </div>
+                <div class="col-md-2">
+                    {{balise.last_update | showDatetime }}
+                </div>
+                <div class="col-md-2">
+                    {{balise.last_temp }}
+                </div>
+                <div class="col-md-2">
+                    {{balise.last_calculate | showUnity(balise.unity) }}
+                </div>
+            </div>
+
+        </div>
+        <div class="list-group-item flex-column align-items-start">
+        <div class="row" style="min-height: 1.5rem;">
+            <div class="col-md-4">
+            <a href="?duree=all">all
+            </a>
+            </div>
+            <div class="col-md-4">
+            <a href="?duree=6m">6m
+            </a>
+            </div>
+            <div class="col-md-4">
+            <a href="?duree=1d">1d
+            </a>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+    
+    <div class="card">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            Balises
+        </div>
+        <div class="list-group">
+            {% for temperature in temperatures %}
+            <div class="list-group-item flex-column align-items-start">
+                <div class="row" style="min-height: 1.5rem;">
+                    <div class="col-md-6">
+                        {{temperature.datetime| showDatetime}}
+                    </div>
+                    <div class="col-md-4">
+                        {{temperature.temp }}
+                    </div>
+                    <div class="col-md-2">
+                        {{temperature.calculate | showUnity(balise.unity) }}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src='/lib/Chart.js/Chart.min.js'></script>
+<script>
+    var timeFormat = 'DD/MM/YYYY';
+
+    var color = Chart.helpers.color;
+    var config = {
+        type: 'line',
+        data: {
+            datasets:[
+                {% for chartjs in chartjss %}
+                {
+                    label: '{{chartjs['annee']}}',
+                    fill: false,
+                    backgroundColor: '{{chartjs['color']}}',
+                    hidden: '{{chartjs['hidden']}}',
+                    borderColor: '{{chartjs['color']}}',
+
+                    data: [
+                        {% for data in chartjs['data'] %}
+                            {
+                                x: "{{data['date']}}",
+                                y: {{data['value']}},
+                                text: "{{data['name']}}"
+                            },
+                        {% endfor %}
+                    ],
+                },
+                {% endfor %}
+            ]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'linear'
+                }]
+            },
+            elements: {
+                    point:{
+                        radius: 0
+                    }
+                }
+        }
+    };
+
+    window.onload = function() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myLine = new Chart(ctx, config);
+
+    };
+</script>
+
+{% endblock %}
