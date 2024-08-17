@@ -7,7 +7,7 @@
         <div class="list-group-item flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">
-                    {%if balise.is_ok %}
+                    {%if iot.is_ok %}
                         <button type="button" class="btn btn-success"></button>
                     {% else %}
                         <button type="button" class="btn btn-danger"></button>
@@ -18,28 +18,26 @@
 
             <div class="row" style="min-height: 1.5rem;">
                 <div class="col-md-2">
-                    {{balise.last_update_config | showDatetime }}
+                    {{iot.last_update_config | showDatetime }}
                 </div>
                 <div class="col-md-5">
-                    {{balise.last_version}}
+                    {{iot.last_version}}
                 </div>
                 <div class="col-md-5">
-                    {{balise.last_config }}
+                    {{iot.last_config }}
                 </div>
             </div>
 
             <div class="row" style="min-height: 1.5rem;">
                 <div class="col-md-4">
-                    {{balise.name}}
+                    {{iot.name}}
                 </div>
                 <div class="col-md-2">
-                    {{balise.last_update | showDatetime }}
+                    {{iot.last_update | showDatetime }}
                 </div>
                 <div class="col-md-2">
-                    {{balise.last_temp }}
                 </div>
                 <div class="col-md-2">
-                    {{balise.last_calculate | showUnity(balise.unity) }}
                 </div>
             </div>
 

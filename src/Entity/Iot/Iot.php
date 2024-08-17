@@ -46,4 +46,6 @@ class Iot
     #[ORM\Column(type: 'datetime', nullable: true)]
     public $last_update;
 
+
+    public $is_ok = false;
 }

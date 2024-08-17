@@ -15,7 +15,6 @@ class IotType extends AbstractType
             ->add('name')
             ->add('label')
             ->add('description')
-            ->add('company')
         ;
     }
 

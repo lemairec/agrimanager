@@ -65,7 +65,7 @@ class IotController extends CommonController
         $iot->last_config = $config;
         $iot->last_version = $version;
         $iot->last_update_config = new DateTime();
-        $em->getRepository(Iot::class)->save($iot);
+        $em->getRepository(Iot::class)->save($iot, true);
             
         return new Response("ok");
     }
