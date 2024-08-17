@@ -111,51 +111,26 @@ class IotController extends CommonController
     }
 
     #[Route(path: '/iot/iot/{id}', name: 'iot')]
-    public function siloBalise($id, Request $request)
+    public function iotBalise($id, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $duree = $request->query->get('duree');
-
         $this->check_user($request);
-        $balise = $em->getRepository(Balise::class)->find($id);
-        if($duree == "all"){
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise($balise);
-        } else if($duree == "6m"){
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise6M($balise);
-        } else if($duree == "1d"){
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise1d($balise);
-        } else {
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise2M($balise);
-        }
-        if($balise){
-            $balise->calculate();
-        }
-
-        $form = $this->createForm(BaliseType::class, $balise);
+        $em = $this->getDoctrine()->getManager();
+        
+        $iot = $em->getRepository(Iot::class)->find($id);
+        $form = $this->createForm(IotType::class, $iot);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $em->persist($balise);
+            $em->persist($iot);
             $em->flush();
-            return $this->redirectToRoute('silo_balises');
+            return $this->redirectToRoute('silo_iots');
         }
 
-        $chartjs_min = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
-        $chartjs_max = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
-
-        foreach($temperatures as $temperature){
-            $temperature->calculate = $balise->calculFor($temperature->temp);
-            $chartjs_min['data'][] = ['date' => $temperature->datetime->format("Y-m-d H:i:s"), 'value' => $temperature->calculate, 'name' => "" ];
-            
-        }
-        $chartjss[] = $chartjs_min;
-        //dump($chartjss);
-
-        return $this->render('Silo/balise.html.twig', array(
+        return $this->render('Iot/iot.html.twig', array(
             'form' => $form->createView(),
-            'balise' => $balise,
-            'temperatures' => $temperatures,
-            'chartjss' => $chartjss
+            'iot' => $iot,
+            'temperatures' => [],
+            'chartjss' => []
         ));
     }
 
