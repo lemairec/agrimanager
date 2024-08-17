@@ -20,7 +20,7 @@ class Iot
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $name;
 
     #[ORM\ManyToOne(targetEntity: 'App\Entity\Company')]
