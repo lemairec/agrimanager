@@ -34,9 +34,12 @@ class Iot
     #[ORM\Column(type: 'text', nullable: true)]
     public $description = "";
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public $last_config = "";
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $last_version = "";
+    
     #[ORM\Column(type: 'datetime', nullable: true)]
     public $last_update_config;
 

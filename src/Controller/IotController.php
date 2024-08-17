@@ -31,6 +31,10 @@ class IotController extends CommonController
         $data2 = $request->query->get("data2");
         $data3 = $request->query->get("data3");
         $data4 = $request->query->get("data4");
+        $data5 = $request->query->get("data5");
+        $data6 = $request->query->get("data6");
+        $data7 = $request->query->get("data7");
+        $data8 = $request->query->get("data8");
         $balise_str = $request->query->get("balise");
         $company = $request->query->get("company");
 
@@ -38,12 +42,6 @@ class IotController extends CommonController
         if($company == null){
             throw new \Exception("not found Company : ".$company.",".$balise_str);
         }
-
-        $this->addTemperature($em,$t1,$balise_str."_1", $company);
-        $this->addTemperature($em,$t2,$balise_str."_2", $company);
-        $this->addTemperature($em,$t3,$balise_str."_3", $company);
-        $this->addTemperature($em,$t4,$balise_str."_4", $company);
-        $this->addTemperature($em,$te,$balise_str."_e", $company);
 
         return new Response("ok");
     }
@@ -53,7 +51,8 @@ class IotController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $config = $request->query->get("config1");
+        $config = $request->query->get("config");
+        $version = $request->query->get("version");
         $company = $request->query->get("company");
         $name_str = $request->query->get("name");
         
@@ -64,6 +63,7 @@ class IotController extends CommonController
 
         $iot = $em->getRepository(Iot::class)->getOrCreate($company, $name_str);
         $iot->last_config = $config;
+        $iot->last_version = $version;
         $iot->last_update_config = new DateTime();
         $em->getRepository(Iot::class)->save($iot);
             
@@ -123,7 +123,7 @@ class IotController extends CommonController
         if ($form->isSubmitted()) {
             $em->persist($iot);
             $em->flush();
-            return $this->redirectToRoute('silo_iots');
+            return $this->redirectToRoute('iots');
         }
 
         return $this->render('Iot/iot.html.twig', array(

@@ -17,6 +17,18 @@
             </div>
 
             <div class="row" style="min-height: 1.5rem;">
+                <div class="col-md-2">
+                    {{balise.last_update_config | showDatetime }}
+                </div>
+                <div class="col-md-5">
+                    {{balise.last_version}}
+                </div>
+                <div class="col-md-5">
+                    {{balise.last_config }}
+                </div>
+            </div>
+
+            <div class="row" style="min-height: 1.5rem;">
                 <div class="col-md-4">
                     {{balise.name}}
                 </div>
