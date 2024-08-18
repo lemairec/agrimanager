@@ -51,36 +51,25 @@ class TemperatureRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getResult();
     }
 
-    function getAllForBalise2M($balise){
+    function getForBalise($balise, $duree){
         $date = new DateTime();
-        $date->modify('-2 month');
-
-        return $this->createQueryBuilder('p')
-            ->where('p.balise = :balise')
-            ->andWhere('p.datetime > :my_date')
-            ->orderBy('p.datetime', 'DESC')
-            ->setParameter('balise', $balise)
-            ->setParameter('my_date', $date)
-            ->getQuery()->getResult();
-    }
-
-    function getAllForBalise6M($balise){
-        $date = new DateTime();
-        $date->modify('-6 month');
-
-        return $this->createQueryBuilder('p')
-            ->where('p.balise = :balise')
-            ->andWhere('p.datetime > :my_date')
-            ->orderBy('p.datetime', 'DESC')
-            ->setParameter('balise', $balise)
-            ->setParameter('my_date', $date)
-            ->getQuery()->getResult();
-    }
-
-    function getAllForBalise1d($balise){
-        $date = new DateTime();
-        $date->modify('-1 day');
-
+        if($duree == "all"){
+            $date->modify('-24 month');
+        } else if($duree == "2m"){
+            $date->modify('-2 month');
+        } else if($duree == "1m"){
+            $date->modify('-1 month');
+        } else if($duree == "6m"){
+            $date->modify('-6 month');
+        } else if($duree == "6d"){
+            $date->modify('-1 day');
+        } else if($duree == "1w"){
+            $date->modify('-7 day');
+        } else if($duree == "6d"){
+            $date->modify('-1 day');
+        } else {
+            $date->modify('-1 m');
+        }
         return $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
             ->andWhere('p.datetime > :my_date')

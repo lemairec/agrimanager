@@ -115,15 +115,8 @@ class SiloController extends CommonController
 
         $this->check_user($request);
         $balise = $em->getRepository(Balise::class)->find($id);
-        if($duree == "all"){
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise($balise);
-        } else if($duree == "6m"){
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise6M($balise);
-        } else if($duree == "1d"){
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise1d($balise);
-        } else {
-            $temperatures = $em->getRepository(Temperature::class)->getAllForBalise2M($balise);
-        }
+        $temperatures = $em->getRepository(Temperature::class)->getForBalise($balise, $duree);
+        
         if($balise){
             $balise->calculate();
         }
