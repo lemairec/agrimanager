@@ -68,7 +68,7 @@ class TemperatureRepository extends \Doctrine\ORM\EntityRepository
         } else if($duree == "6d"){
             $date->modify('-1 day');
         } else {
-            $date->modify('-1 m');
+            $date->modify('-1 month');
         }
         return $this->createQueryBuilder('p')
             ->where('p.balise = :balise')
