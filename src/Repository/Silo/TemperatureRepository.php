@@ -61,11 +61,9 @@ class TemperatureRepository extends \Doctrine\ORM\EntityRepository
             $date->modify('-1 month');
         } else if($duree == "6m"){
             $date->modify('-6 month');
-        } else if($duree == "6d"){
-            $date->modify('-1 day');
         } else if($duree == "1w"){
             $date->modify('-7 day');
-        } else if($duree == "6d"){
+        } else if($duree == "1d"){
             $date->modify('-1 day');
         } else {
             $date->modify('-1 month');
