@@ -38,7 +38,7 @@ class Order
 
     public function getEps32(){
         if($this->type == "LINEAB"){
-            $res = sprintf("\$LINEAB,%d, %.7f,%.7f,%.7f,%.7f,*", $this->id, $this->params["a_lat"], $this->params["a_lon"], $this->params["b_lat"], $this->params["b_lon"]);
+            $res = sprintf("\$LINEAB,%d, %.7f,%.7f,%.7f,%.7f,%d,*", $this->id, $this->params["a_lat"], $this->params["a_lon"], $this->params["b_lat"], $this->params["b_lon"], $this->params["direction"]);
             return $res;
         }
         if($this->type == "CURVEAB"){
@@ -46,7 +46,7 @@ class Order
             foreach ($this->params["points"] as $p) {
                 $res = $res.sprintf("\$CAB_P,%.7f,%.7f,*\n", $p[0], $p[1]);
             }
-            $res = $res.sprintf("\$CAB_E,%d,*\n",$this->id);
+            $res = $res.sprintf("\$CAB_E,%d,%d,*\n",$this->id, $this->params["direction"]);
             return $res;
         }
         return "\$".$this->type.",*";;
