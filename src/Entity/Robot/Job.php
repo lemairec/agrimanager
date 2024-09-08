@@ -30,7 +30,7 @@ class Job
 
     public function getEps32(){
         if($this->type == "LINEAB"){
-            $res = sprintf("\$LINEAB,999, %.7f,%.7f,%.7f,%.7f,*", $this->params["a_lat"], $this->params["a_lon"], $this->params["b_lat"], $this->params["b_lon"]);
+            $res = sprintf("\$LINEAB,999, %.7f,%.7f,%.7f,%.7f,%d,*", $this->params["a_lat"], $this->params["a_lon"], $this->params["b_lat"], $this->params["b_lon"], $this->params["reverse"]);
             return $res;
         }
         if($this->type == "CURVEAB"){
@@ -38,7 +38,7 @@ class Job
             foreach ($this->params["points"] as $p) {
                 $res = $res.sprintf("\$CAB_P,%.7f,%.7f,*\n", $p[0], $p[1]);
             }
-            $res = $res.sprintf("\$CAB_E,%d,*\n",999);
+            $res = $res.sprintf("\$CAB_E,%d,%d,*\n",999, $this->params["reverse"]);
 
             return $res;
         }
