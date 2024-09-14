@@ -1,0 +1,31 @@
+{% extends 'base_form.html.twig' %}
+
+{% block body_form %}
+
+
+
+{% if (tuyaux.id != '') %}
+
+<div class="card">
+    <div class="card-header">
+        Details
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                longeur : {{tuyaux.longueur}} m
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Delete
+        <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url("irri_tuyaux_delete", {'tuyaux_id': tuyaux.id}) }}'">Delete</button>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
