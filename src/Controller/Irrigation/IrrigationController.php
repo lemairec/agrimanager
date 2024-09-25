@@ -30,14 +30,14 @@ class IrrigationController extends CommonController
     public float $m_lon_ref_d = 4;
 
     public function calculateBorne($borne){
-        $lat = $p[0];
-        $lon = $p[1];
+        $lat = $borne->lat;
+        $lon = $borne->lon;
 
         $lat2 = ($lat - $this->m_lat_ref_d)*0.01745329251;
         $lon2 = ($lon - $this->m_lon_ref_d)*0.01745329251;
         
-        $x = $this->m_a_cos_lat_ref * $lon2;
-        $y = $this->a * $lat2;
+        $borne->m_x = $this->m_a_cos_lat_ref * $lon2;
+        $borne->m_y = $this->a * $lat2;
     }
 
     public function calculateTuyaux($tuyaux){
@@ -69,9 +69,65 @@ class IrrigationController extends CommonController
             $tuyaux->longueur = $tuyaux->longueur + $l;
         }
     }
+    
 
     public function populateBornes($tuyaux){
+        $em = $this->getDoctrine()->getManager();
+        $borne = $em->getRepository(Borne::class)->findByProjet($tuyaux->projet);
+        foreach($borne as $b){
+            $this->calculateBorne($b);
+        }
+
         $this->calculateTuyaux($tuyaux);
+
+        if(!$tuyaux->borneA && count($tuyaux->points_xy) > 1){
+            $x = $tuyaux->points_xy[0][0];
+            $y = $tuyaux->points_xy[0][1];
+
+            foreach($borne as $b){
+                $x2 = $b->m_x;
+                $y2 = $b->m_y;
+
+                $l = sqrt(($x2-$x)*($x2-$x)+($y2-$y)*($y2-$y));
+                dump($b->name." ".$l." ".$x." ".$x2);
+                if($l < 10){
+                    $tuyaux->borneA = $b;
+                }
+            }
+
+            if(!$tuyaux->borneA){
+                $tuyaux->borneA = new Borne();
+                $tuyaux->borneA->name = $tuyaux->name."_A";
+                $tuyaux->borneA->projet = $tuyaux->projet;
+                $tuyaux->borneA->lat = $tuyaux->points[0][0];
+                $tuyaux->borneA->lon = $tuyaux->points[0][1];
+                $this->calculateBorne($tuyaux->borneA);
+            }
+        }
+
+        if(!$tuyaux->borneB && count($tuyaux->points_xy) > 1){
+            $x = $tuyaux->points_xy[count($tuyaux->points_xy)-1][0];
+            $y = $tuyaux->points_xy[count($tuyaux->points_xy)-1][1];
+
+            foreach($borne as $b){
+                $x2 = $b->m_x;
+                $y2 = $b->m_y;
+
+                $l = sqrt(($x2-$x)*($x2-$x)+($y2-$y)*($y2-$y));
+                if($l < 10){
+                    $tuyaux->borneB = $b;
+                }
+            }
+
+            if(!$tuyaux->borneB){
+                $tuyaux->borneB = new Borne();
+                $tuyaux->borneB->name = $tuyaux->name."_B";
+                $tuyaux->borneB->projet = $tuyaux->projet;
+                $tuyaux->borneB->lat = $tuyaux->points[count($tuyaux->points_xy)-1][0];
+                $tuyaux->borneB->lon = $tuyaux->points[count($tuyaux->points_xy)-1][1];
+                $this->calculateBorne($tuyaux->borneB);
+            }
+        }
     }
 
     #[Route(path: '/irrigation/irrigations', name: 'irrigations')]
@@ -120,15 +176,21 @@ class IrrigationController extends CommonController
         $this->check_user($request);
         $projet = $em->getRepository(Projet::class)->find($projet_id);
 
-        $bornes = $em->getRepository(Borne::class)->findAll();
+        $bornes = $em->getRepository(Borne::class)->findByProjet($projet);
         $tuyaux = $em->getRepository(Tuyaux::class)->findByProjet($projet);
 
         $lat = 49.557595213951515;
         $lon = 3.7736427783966064;
 
-        if(count($tuyaux) > 0){
-            $lat = $tuyaux[0]->points[0][0];
-            $lon = $tuyaux[0]->points[0][1];
+        if(count($bornes) > 0){
+            $lat_sum = 0;
+            $lon_sum = 0;
+            foreach($bornes as $b){
+                $lat_sum = $lat_sum + $b->lat;
+                $lon_sum = $lon_sum + $b->lon;
+            }
+            $lat = $lat_sum/count($bornes);
+            $lon = $lon_sum/count($bornes);
         }
 
         return $this->render('irrigation/projet.html.twig', array(
@@ -166,12 +228,13 @@ class IrrigationController extends CommonController
         if ($form->isSubmitted()) {
             $em->persist($borne);
             $em->flush();
-            return $this->redirectToRoute('irrigations');
+            return $this->redirectToRoute('irri_projet2', array('projet_id' => $borne->projet->id));
         }
     
 
-        return $this->render('base_form.html.twig', array(
-            'form' => $form->createView()
+        return $this->render('irrigation/borne.html.twig', array(
+            'form' => $form->createView(),
+            'borne' => $borne
         ));
     }
 
@@ -194,10 +257,15 @@ class IrrigationController extends CommonController
 
         $form = $this->createForm(TuyauxType::class, $tuyaux);
         $form->handleRequest($request);
-
+    
         $this->calculateTuyaux($tuyaux);
+        $this->populateBornes($tuyaux);
         
         if ($form->isSubmitted()) {
+            $this->populateBornes($tuyaux);
+            $em->persist($tuyaux->borneA);
+            $em->persist($tuyaux->borneB);
+            $em->flush();
             $em->persist($tuyaux);
             $em->flush();
             return $this->redirectToRoute('irri_projet2', array('projet_id' => $tuyaux->projet->id));
@@ -223,4 +291,71 @@ class IrrigationController extends CommonController
         return $this->redirectToRoute('irri_projet2', array('projet_id' => $tuyaux->projet->id));
     }
 
+    #[Route(path: '/irrigation/borne_d/{borne_id}', name: 'irri_borne_delete')]
+    public function irriBorneD($borne_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
+        $borne = $em->getRepository(Borne::class)->find($borne_id); 
+        
+        $em->remove($borne);
+        $em->flush();
+        
+        return $this->redirectToRoute('irri_projet2', array('projet_id' => $borne->projet->id));
+    }
+
+    #[Route(path: '/irrigation/irri_reset/{projet_id}', name: 'irri_reset')]
+    public function irriResetD($projet_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
+        $projet = $em->getRepository(Projet::class)->find($projet_id);
+
+        $bornes = $em->getRepository(Borne::class)->findAll();
+        foreach($bornes as $b){
+            $b->calculate_pression = null;
+            $em->persist($b);
+        }
+        $em->flush();
+
+        return $this->redirectToRoute('irri_projet2', array('projet_id' => $projet->id));
+    }
+
+    #[Route(path: '/irrigation/irri_calcul/{projet_id}', name: 'irri_calcul')]
+    public function irriCalculD($projet_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->check_user($request);
+        $projet = $em->getRepository(Projet::class)->find($projet_id);
+
+        $bornes = $em->getRepository(Borne::class)->findByProjet($projet);
+        foreach($bornes as $b){
+            if($b->pression){
+                $b->calculate_pression = $b->pression;
+                $em->persist($b);
+            }
+        }
+        $em->flush();
+
+        for($i = 0; $i < 10; $i++){
+            $tuyaux = $em->getRepository(Tuyaux::class)->findByProjet($projet);
+            foreach($tuyaux as $t){
+                dump($t);
+                if($t->borneA->calculate_pression == null){
+                    if($t->borneB->calculate_pression != null){
+                        $t->borneA->calculate_pression = $t->calculPression($t->borneB->calculate_pression);
+                        $em->persist($t->borneB);
+                    }
+                }
+                if($t->borneB->calculate_pression == null){
+                    if($t->borneA->calculate_pression != null){
+                        $t->borneB->calculate_pression = $t->calculPression($t->borneA->calculate_pression);
+                        $em->persist($t->borneB);
+                    }
+                }
+            }
+            $em->flush();
+        }
+        return $this->redirectToRoute('irri_projet2', array('projet_id' => $projet->id));
+    }
 }

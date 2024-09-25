@@ -13,6 +13,7 @@ class TuyauxType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('params')
         ;
     }
 

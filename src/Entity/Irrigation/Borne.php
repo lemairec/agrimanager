@@ -29,8 +29,15 @@ class Borne
     #[ORM\Column]
     public ?float $m_y = null;
 
+    #[ORM\Column(nullable: true)]
+    public ?float $pression = null;
+
     #[ORM\ManyToOne(targetEntity: Projet::class)]
     #[ORM\JoinColumn(nullable: true)]
     public $projet;
+
+    #[ORM\Column(nullable: true)]
+    public ?float $calculate_pression = null;
+
 
 }

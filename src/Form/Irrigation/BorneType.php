@@ -13,10 +13,7 @@ class BorneType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('lat')
-            ->add('lon')
-            ->add('m_x')
-            ->add('m_y')
+            ->add('pression')
         ;
     }
 

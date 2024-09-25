@@ -3,9 +3,6 @@
 {% block body_form %}
 
 
-
-{% if (tuyaux.id != '') %}
-
 <div class="card">
     <div class="card-header">
         Details
@@ -17,7 +14,37 @@
             </div>
         </div>
     </div>
+    <div class="card-body">
+        <div class="row">
+            {% if (tuyaux.borneA) %}
+            <div class="col-sm-6">
+                borne A :  {{tuyaux.borneA.id}} {{tuyaux.borneA.name}}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% if (tuyaux.borneB) %}
+            <div class="col-sm-6">
+                borne B : {{tuyaux.borneB.id}} {{tuyaux.borneB.name}}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            points: {{ tuyaux.points | json_encode | raw}}
+        </div>
+        <div class="row">
+            alt: {{ tuyaux.altitudes | json_encode | raw}}
+        </div>
+    </div>
 </div>
+
+{% if (tuyaux.id != '') %}
+
+
 
 <div class="card">
     <div class="card-header">
