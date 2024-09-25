@@ -135,3 +135,6 @@ class IotController extends CommonController
     }
 
 }
+
+
+//http://localhost:8000/iot/api_config?company=dizy&name=iot&version=----&config=$C,MIN,10,TEMP,5,*
