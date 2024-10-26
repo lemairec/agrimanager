@@ -126,6 +126,7 @@ class HomeController extends CommonController
         $em->flush();
 
         //home
-        return $this->indexAction($request);
+        return $this->redirectToRoute('home');
+        //return $this->indexAction($request);
     }
 }
