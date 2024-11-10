@@ -20,4 +20,33 @@ class MaterielEntretienRepository extends \Doctrine\ORM\EntityRepository
             ->getResult()
         ;
     }
+
+    public function getLastEntretiens($value)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.materiel = :val')
+            ->andWhere('i.name != :val2')
+            ->setParameter('val', $value)
+            ->setParameter('val2', "inventaire")
+            ->orderBy('i.date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+        ;
+    }
+
+    public function getLastInventaire($value)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.materiel = :val')
+            ->andWhere('i.name = :val2')
+            ->setParameter('val', $value)
+            ->setParameter('val2', "inventaire")
+            ->orderBy('i.date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+        ;
+    }
+
+
+    
 }

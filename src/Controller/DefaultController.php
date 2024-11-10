@@ -629,7 +629,19 @@ class DefaultController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $materiels = $em->getRepository(Materiel::class)->getAllForCompany($this->company);
-
+        foreach($materiels as $m){
+            $last = $em->getRepository(MaterielEntretien::class)->getLastEntretiens($m);
+            $m->last_entretien = "";
+            if($last){
+                $m->last_entretien = $last->date->format('d/m/Y')." - ".$last->nbHeure." h - ".$last->name;
+            }
+            $last = $em->getRepository(MaterielEntretien::class)->getLastInventaire($m);
+            $m->last_inventaire = "";
+            if($last){
+                $m->last_inventaire = $last->date->format('d/m/Y')." - ".$last->nbHeure." h";
+            }
+        }
+        
         return $this->render('Default/materiels.html.twig', array(
             'materiels' => $materiels,
             'navs' => ["Materiels" => "materiels"]
