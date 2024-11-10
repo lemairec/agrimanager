@@ -8,11 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTime;
 
+use App\Entity\Campagne;
+
 use App\Entity\Gestion\Compte;
 use App\Entity\Gestion\Ecriture;
 use App\Entity\Gestion\Operation;
 use App\Entity\Gestion\FactureFournisseur;
-use App\Entity\Campagne;
+use App\Entity\Gestion\Cours;
 
 use App\Form\Gestion\CompteType;
 use App\Form\Gestion\EcritureType;
@@ -121,7 +123,7 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $courss = $em->getRepository('App:Cours')->getAllForCampagne($campagne);
+        $courss = $em->getRepository(Cours::class)->findAll();
 
         $produits = [];
         foreach($courss as $c){
@@ -133,7 +135,7 @@ class GestionController extends CommonController
             $produits[$produit]['min'] = min($produits[$produit]['min'], $value);
             $produits[$produit]['max'] = max($produits[$produit]['max'], $value);
         }
-        $courss = $em->getRepository('App:Cours')->getAllForCampagne($campagne);
+        $courss = $em->getRepository(Cours::class)->getAllForCampagne($campagne);
 
         return $this->render('Gestion/cours.html.twig', array(
             'campagnes' => $this->campagnes,
@@ -149,12 +151,14 @@ class GestionController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->check_user($request);
 
-        $courss = [['name'=>'2017_ble', 'value'=>150], ['name'=>'2018_ble', 'value'=>150]
-            ,['name'=>'2017_colza', 'value'=>350], ['name'=>'2018_colza', 'value'=>350]
-            ,['name'=>'2017_orge', 'value'=>170], ['name'=>'2018_orge', 'value'=>170]];
-        $courss = $em->getRepository('App:Cours')->setArray($this->company, $courss);
+        $labels = ["soja_ab", "soja_c2", "mais_ab", "ble_ab", "ble_c2"];
+        $courss = [];
+        foreach($labels as $l){
+            $courss[] = ['name'=>$l, 'value'=>0];
+        }
+        $courss = $em->getRepository(Cours::class)->setArray($this->company, $courss);
         if ($request->getMethod() == 'POST') {
-            $em->getRepository('App:Cours')->saveArray($this->company, $request->request->all());
+            $em->getRepository(Cours::class)->saveArray($this->company, $request->request->all());
             return $this->redirectToRoute('cours');
         }
         $date = new DateTime();

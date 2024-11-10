@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -23,15 +23,14 @@ class Cours
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     public $id;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Campagne')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\Column(type: 'string', length: 255)]
+    public $produit;
+
+    #[ORM\Column(type: 'string', length: 255, nullable:true)]
     public $campagne;
 
-    /**
-     * @var string
-     */
-    #[ORM\Column(name: 'produit', type: 'string', length: 255)]
-    public $produit;
+    #[ORM\Column(type: 'string', length: 255, nullable:true)]
+    public $source;
 
     /**
      * @var float

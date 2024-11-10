@@ -3,7 +3,8 @@
 namespace App\Repository;
 
 use Datetime;
-use App\Entity\Cours;
+use App\Entity\Gestion\Cours;
+use App\Entity\Campagne;
 
 /**
  * CoursRepository
@@ -25,7 +26,10 @@ class CoursRepository extends \Doctrine\ORM\EntityRepository
 
     function setArray($company, $array){
         foreach($array as $key => $value){
-            $array[$key]["value"]=$this->getLast($company, $array[$key]["name"])->value;
+            $cours = $this->getLast($company, $array[$key]["name"]);
+            if($cours){
+                $array[$key]["value"]=$cours->value;
+            }
         }
         return $array;
     }
@@ -33,28 +37,22 @@ class CoursRepository extends \Doctrine\ORM\EntityRepository
     function getLast($company, $produit){
         $values = explode("_", $produit);
         $em = $this->getEntityManager();
-        $campagne = $em->getRepository(Campagne::class)->findOrCreate($company, $values[0]);
-        $produit2 = $values[1];
-        print(json_encode($produit2));
         return $this->createQueryBuilder('p')
             ->where('p.campagne = :campagne')
             ->andWhere('p.produit = :produit')
             ->orderBy('p.date', 'DESC')
-            ->setParameter('campagne', $campagne)
-            ->setParameter('produit', $produit2)
+            ->setParameter('produit', $produit)
             ->setMaxResults(1)
-            ->getQuery()->getResult()[0];
+            ->getQuery()->getFirstResult();
     }
 
     function save($company, $date, $produit, $value){
-        $values = explode("_", $produit);
         $em = $this->getEntityManager();
 
         $cours = new Cours();
-        $cours->campagne = $em->getRepository(Campagne::class)->findOrCreate($company, $values[0]);
         $cours->date = $date;
         $cours->value = $value;
-        $cours->produit = $values[1];
+        $cours->produit = $produit;
 
 
         $em->persist($cours);
