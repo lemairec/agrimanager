@@ -642,14 +642,12 @@ class DefaultController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
         $entretiens = [];
-        $interventions = [];
         if($materiel_id == '0'){
             $materiel = new Materiel();
             $materiel->company = $this->company;
         } else {
             $materiel = $em->getRepository(Materiel::class)->findOneById($materiel_id);
-            $entretiens =  $em->getRepository('App:MaterielEntretien')->findByMateriel($materiel);
-            $interventions =  $em->getRepository(Intervention::class)->getAllForMateriel($materiel);
+            $entretiens =  $em->getRepository(MaterielEntretien::class)->findByMateriel($materiel);
         }
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
@@ -664,7 +662,6 @@ class DefaultController extends CommonController
             'form' => $form->createView(),
             'materiel' => $materiel,
             'entretiens' => $entretiens,
-            'interventions' => $interventions,
             'navs' => ["Materiels" => "materiels"]
         ));
     }
@@ -680,7 +677,7 @@ class DefaultController extends CommonController
             $entretien->materiel = $em->getRepository(Materiel::class)->findOneById($materiel_id);
             $entretien->date = new \Datetime();
         } else {
-            $entretien = $em->getRepository('App:MaterielEntretien')->findOneById($entretien_id);
+            $entretien = $em->getRepository(MaterielEntretien::class)->findOneById($entretien_id);
         }
         $form = $this->createForm(MaterielEntretienType::class, $entretien);
         $form->handleRequest($request);

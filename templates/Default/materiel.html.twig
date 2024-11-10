@@ -24,29 +24,6 @@
     </table>
 
 </div>
-
-<div class="card">
-    <div class="card-header">
-        Interventions
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/materiel/{{materiel.id}}/entretien/0'">{{'Add' | trans }}</button>
-    </div>
-    <table class="table">
-        <tr>
-            <th>Date</th>
-            <th>Campagne</th>
-            <th>Intervention</th>
-            <th>ha</th>
-        </tr>
-        {% for intervention in interventions %}
-            <tr>
-                <td>{{intervention.getDatetimeStr()}}</td>
-                <td>{{intervention.campagne.name}}</td>
-                <td>{{intervention.type}}</td>
-                <td><b>{{ "%.2f  ha"|format(intervention.surface)}}</b></td>
-            </tr>
-        {% endfor %}
-    </table>
-
 </div>
 {% endif %}
 {% endblock %}
