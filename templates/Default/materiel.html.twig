@@ -16,7 +16,8 @@
         </tr>
         {% for entretien in entretiens %}
         <tr>
-            <td><a href="/materiel/{{materiel.id}}/entretien/{{entretien.id}}">{{entretien.getDateStr()}}</td>
+        
+            <td>{{ entretien.getDateStr() | my_path('entretien_materiel', {'materiel_id': materiel.id, 'entretien_id': entretien.id}) | raw }}</td>
             <td>{{entretien.nbHeure}}</td>
             <td>{{entretien.name}}</td>
         </tr>
