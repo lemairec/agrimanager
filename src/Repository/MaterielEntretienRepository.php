@@ -10,4 +10,14 @@ namespace App\Repository;
  */
 class MaterielEntretienRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllByMateriel($value): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.materiel = :val')
+            ->setParameter('val', $value)
+            ->orderBy('i.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

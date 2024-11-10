@@ -647,7 +647,7 @@ class DefaultController extends CommonController
             $materiel->company = $this->company;
         } else {
             $materiel = $em->getRepository(Materiel::class)->findOneById($materiel_id);
-            $entretiens =  $em->getRepository(MaterielEntretien::class)->findByMateriel($materiel);
+            $entretiens =  $em->getRepository(MaterielEntretien::class)->getAllByMateriel($materiel);
         }
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
