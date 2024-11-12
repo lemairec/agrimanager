@@ -120,7 +120,7 @@ class MaterielController extends CommonController
             'navs' => ["Materiels" => "materiels"]
         ));
 
-        return $html;
+        //return $html;
 
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
