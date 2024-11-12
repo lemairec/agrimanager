@@ -57,6 +57,8 @@ class Materiel
     #[ORM\JoinColumn(nullable: false)]
     public $company;
 
+    public $entretiens = [];
+
     public function __toString ( ){
         return $this->name;
     }

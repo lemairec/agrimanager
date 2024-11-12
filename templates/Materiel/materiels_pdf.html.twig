@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+	<link rel="STYLESHEET" href="css/print_static.css" type="text/css">
+    <style type="text/css">
+
+</style>
+</head>
+<body>
+    <div id="header">
+        <table>
+        <tbody><tr>
+          <td>Materiel</td>
+          <td style="text-align: right;">www.maplaine.fr</td>
+        </tr>
+        </tbody></table>
+    </div>
+    <div id="footer">
+        <div class="page-number"></div>
+    </div>
+{% for materiel in materiels %}
+    <div class="page" style="page-break-inside: avoid">
+        <table class="interventions" style="width:100%">
+            <tbody>
+				<tr>
+					<th colspan="6"><h1 style="text-align: left">{{ materiel.name }}</h1></th>
+				</tr>
+
+				<tr>
+                    <td colspan="3">Annee : <strong>{{ materiel.annee }}</strong></td>
+                    <td colspan="3">Achat : <strong>{{ materiel.dateAchat | showDate }}</strong></td>
+                </tr>
+
+                <tr>
+					<th colspan="6"><h1 style="text-align: left">{{ materiel.caracteristique }}</h1></th>
+				</tr>
+                
+                <tr>
+					<th colspan="6"><h1 style="text-align: left">{{ materiel.comment }}</h1></th>
+				</tr>
+                
+                {% for entretien in materiel.entretiens %}
+                {%if entretien.name == "inventaire" %}
+                    <tr>
+                        <td colspan="1">{{ entretien.date | showDate }}</strong></td>
+                        <td colspan="1">{{ entretien.nbHeure }}</strong></td>
+                        
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="1">{{ entretien.date | showDate }}</strong></td>
+                        <td colspan="1">{{ entretien.nbHeure }}</strong></td>
+                        <td colspan="3"><strong>{{ entretien.name }}</strong></td>
+                        
+                    </tr>
+                {% endif %}
+                {% endfor %}
+        </tbody>
+        </table>
+
+    </div>
+</div>
+{% endfor %}
+</body>
