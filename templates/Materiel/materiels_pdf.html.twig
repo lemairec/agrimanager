@@ -21,7 +21,7 @@
     <div class="page" style="page-break-inside: avoid">
         <table class="interventions" style="width:100%">
             <tbody>
-				<tr>
+				<tr >
 					<th colspan="6"><h1 style="text-align: left">{{ materiel.name }}</h1></th>
 				</tr>
 
@@ -31,11 +31,11 @@
                 </tr>
 
                 <tr>
-					<th colspan="6"><h1 style="text-align: left">{{ materiel.caracteristique }}</h1></th>
+					<th colspan="6">{{ materiel.caracteristique }}</h1></th>
 				</tr>
                 
                 <tr>
-					<th colspan="6"><h1 style="text-align: left">{{ materiel.comment }}</h1></th>
+					<th colspan="6">{{ materiel.comment }}</h1></th>
 				</tr>
                 
                 {% for entretien in materiel.entretiens %}
@@ -54,6 +54,12 @@
                     </tr>
                 {% endif %}
                 {% endfor %}
+                <tr class="odd_row" style="width: 100%;">
+				<th colspan="6"><h1 style="text-align: left"></h1></th>
+                </tr>
+                <tr class="odd_row" style="width: 100%;">
+                    <th colspan="6"><h1 style="text-align: left"></h1></th>
+                </tr>
         </tbody>
         </table>
 

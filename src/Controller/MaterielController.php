@@ -105,7 +105,7 @@ class MaterielController extends CommonController
     }
 
     #[Route(path: '/materiels_pdf', name: 'materiels_pdf')]
-    public function ficheParcellairesPdfAction(Request $request)
+    public function ficheParcellairesPdf1Action(Request $request)
     {
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
@@ -115,25 +115,27 @@ class MaterielController extends CommonController
             $m->entretiens = $em->getRepository(MaterielEntretien::class)->getAllByMateriel($m);
         }
         
-        $html = $this->render('Materiel/materiels_pdf.html.twig', array(
+        $visibility = "visibility: hidden;";
+        if($this->getUser()->getUsername() =="lejard"){
+            $visibility = "";
+        }
+        $html = $this->renderView('Materiel/materiels_pdf.html.twig', array(
             'materiels' => $materiels,
-            'navs' => ["Materiels" => "materiels"]
+            'navs' => ["Materiels" => "materiels"],
+            'visibility'=> $visibility
+
         ));
 
-        //return $html;
-
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->set('isHtml5ParserEnabled', true);
-        $dompdf = new Dompdf($pdfOptions);
-
+        $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        $dompdf->stream("materiel.pdf", [
-            "Attachment" => false
-        ]);
-
+         
+        return new Response (
+            $dompdf->stream('resume', ["Attachment" => false]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdf']
+        );
         return new Response("ok");
     }
 }
+
