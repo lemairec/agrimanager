@@ -131,7 +131,7 @@ class MaterielController extends CommonController
         $dompdf->render();
          
         return new Response (
-            $dompdf->stream('resume', ["Attachment" => false]),
+            $dompdf->stream('resume', ["Attachment" => true]),
             Response::HTTP_OK,
             ['Content-Type' => 'application/pdf']
         );
