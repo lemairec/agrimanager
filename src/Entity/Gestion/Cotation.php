@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Commercialisation;
+namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\Commercialisation\CotationRepository')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Gestion\CotationRepository')]
 class Cotation
 {
     #[ORM\Id]

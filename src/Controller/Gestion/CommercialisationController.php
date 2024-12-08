@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Gestion;
 
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\CommonController;
@@ -9,12 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
 use DateTime;
 
-use App\Entity\Commercialisation;
-use App\Entity\Commercialisation\Cotation;
+use App\Entity\Culture;
+use App\Entity\Gestion\Commercialisation;
+use App\Entity\Gestion\Cotation;
 
 use App\Form\CommercialisationType;
-use App\Form\CotationsCajType;
-use App\Form\Commercialisation\CotationType;
+use App\Form\Gestion\CotationsCajType;
+use App\Form\Gestion\CotationType;
 
 
 //COMPTE
@@ -31,7 +32,7 @@ class CommercialisationController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $commercialisations = $em->getRepository('App:Commercialisation')->getAllForCampagne($campagne);
+        $commercialisations = $em->getRepository(Commercialisation::class)->getAllForCampagne($campagne);
 
         $cultures = [];
         foreach($commercialisations as $commercialisation){
@@ -62,7 +63,7 @@ class CommercialisationController extends CommonController
         $em = $this->getDoctrine()->getManager();
         $campagne = $this->getCurrentCampagne($request);
 
-        $commercialisations = $em->getRepository('App:Commercialisation')->getAllForCampagne($campagne);
+        $commercialisations = $em->getRepository(Commercialisation::class)->getAllForCampagne($campagne);
         $parcelles = $this->getParcellesForFiches($campagne);
 
         $cultures = [];
@@ -109,12 +110,15 @@ class CommercialisationController extends CommonController
                 $culture["qty_livraison_perc"] = $culture["qty_livraison"]/$culture["qty_estime"];
             };
 
-            if($culture["qty_livraison"]>0){
-                $culture["qty_bilan"] = $culture["qty_livraison"];
-                $culture["rendement"]=$culture["qty_livraison"]/$culture["surface"];
-            } else  {
-                $culture["qty_bilan"] = $culture["qty_estime"];
-                $culture["rendement_prev"]=$culture["qty_estime"]/$culture["surface"];
+            $culture["qty_bilan"] = 0;
+            if($culture["surface"] > 0){
+                if($culture["qty_livraison"]>0){
+                    $culture["qty_bilan"] = $culture["qty_livraison"];
+                    $culture["rendement"]=$culture["qty_livraison"]/$culture["surface"];
+                } else  {
+                    $culture["qty_bilan"] = $culture["qty_estime"];
+                    $culture["rendement_prev"]=$culture["qty_estime"]/$culture["surface"];
+                }
             }
 
             $culture["qty_commercialise_perc"] = 0;
@@ -123,7 +127,7 @@ class CommercialisationController extends CommonController
                 $culture["qty_commercialise_perc"] = $culture["qty_commercialise"]/$culture["qty_bilan"];
             };
 
-            $cotation = $em->getRepository('App:Commercialisation\Cotation')->getLast('caj',$camp,$culture["culture"]->commercialisation);
+            $cotation = $em->getRepository(Cotation::class)->getLast($camp,$culture["culture"]->commercialisation);
             $culture["cotation"] = null;
             $culture["price_today"] = null;
             $culture["price_today_perc"] = null;
@@ -152,7 +156,7 @@ class CommercialisationController extends CommonController
         $cultures3 = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $chartjss = [];
         foreach ($cultures3 as $culture) {
-            $cotations = $em->getRepository('App:Commercialisation\Cotation')->getAll('caj',$campagne->commercialisation,$culture->commercialisation);
+            $cotations = $em->getRepository(Cotation::class)->getAll($campagne->commercialisation,$culture->commercialisation);
             $data = [];
             foreach ($cotations as $cotation) {
                 $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
@@ -169,7 +173,7 @@ class CommercialisationController extends CommonController
             $chartjss2[] = ["annee"=>$culture["culture"], "color"=> "#000000", "data"=>$data];
         }
 
-        return $this->render('Commercialisation/commercialisations_bilan.html.twig', array(
+        return $this->render('Gestion/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'cultures' => $cultures2,
@@ -191,7 +195,7 @@ class CommercialisationController extends CommonController
             $commercialisation->campagne = $campagne;
             $commercialisation->date = new Datetime();
         } else {
-            $commercialisation = $em->getRepository('App:Commercialisation')->find($commercialisation_id);
+            $commercialisation = $em->getRepository(Commercialisation::class)->find($commercialisation_id);
         }
         $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $form = $this->createForm(CommercialisationType::class, $commercialisation, array(
@@ -217,8 +221,8 @@ class CommercialisationController extends CommonController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $cotations = $em->getRepository('App:Commercialisation\Cotation')->getLasts();
-        return $this->render('Commercialisation/cotations.html.twig', array(
+        $cotations = $em->getRepository(Cotation::class)->getLasts();
+        return $this->render('Gestion/cotations.html.twig', array(
             'cotations' => $cotations,
         ));
     }
@@ -227,9 +231,9 @@ class CommercialisationController extends CommonController
     public function cotationAllAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $cotations = $em->getRepository('App:Commercialisation\Cotation')->findAll();
+        $cotations = $em->getRepository(Cotation::class)->getAlls();
 
-        return $this->render('Commercialisation/cotations.html.twig', array(
+        return $this->render('Gestion/cotations.html.twig', array(
             'cotations' => $cotations
         ));
     }
@@ -306,7 +310,7 @@ class CommercialisationController extends CommonController
                     $cotation->valueStockageEnd = $values[2];
                 }
 
-                $commercialisation = $em->getRepository('App:Commercialisation\Cotation')->add($cotation);
+                $commercialisation = $em->getRepository(Cotation::class)->add($cotation);
                 //return $this->redirectToRoute('bilan_commercialisations');
 
             }

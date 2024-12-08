@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Commercialisation;
+namespace App\Repository\Gestion;
 
-use App\Entity\Commercialisation\Cotation;
+use App\Entity\Gestion\Cotation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -44,7 +44,7 @@ class CotationRepository extends ServiceEntityRepository
             ->getQuery()->getOneOrNullResult();
     }
 
-    public function getLast($source, $campagne, $produit){
+    public function getLastSrc($source, $campagne, $produit){
         return $this->createQueryBuilder('p')
             ->where('p.source = :source')
             ->andWhere('p.campagne = :campagne')
@@ -57,7 +57,18 @@ class CotationRepository extends ServiceEntityRepository
             ->getQuery()->getOneOrNullResult();
     }
 
-    public function getAll($source, $campagne, $produit){
+    public function getLast($campagne, $produit){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.campagne = :campagne')
+            ->andWhere('p.produit = :produit')
+            ->orderBy('p.date', 'DESC')
+            ->setParameter('campagne', $campagne)
+            ->setParameter('produit', $produit)
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+    }
+
+    public function getAllSrc($source, $campagne, $produit){
         return $this->createQueryBuilder('p')
             ->where('p.source = :source')
             ->andWhere('p.campagne = :campagne')
@@ -69,23 +80,28 @@ class CotationRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function getAll($campagne, $produit){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.campagne = :campagne')
+            ->andWhere('p.produit = :produit')
+            ->orderBy('p.date', 'DESC')
+            ->setParameter('campagne', $campagne)
+            ->setParameter('produit', $produit)
+            ->getQuery()->getResult();
+    }
+
+    public function getAlls(){
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'DESC')
+            ->getQuery()->getResult();
+    }
+
     public function getLasts(){
-
-        $em = $this->getEntityManager();
-        $statement = $em->getConnection()->prepare('SELECT c.date as mydate FROM cotation c order by c.date desc');
-        $statement->execute();
-
-        $date =  $statement->fetchAll()[0]["mydate"];
-
-        $res = $this->createQueryBuilder('p')
-            ->where('p.date = :date')
-            ->addOrderBy('p.campagne', 'ASC')
-            ->addOrderBy('p.produit', 'ASC')
-            ->setParameter('date', $date)
-            ->getQuery()
-            ->getResult();
-
-        return $res;
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'DESC')
+            ->setMaxResults(50)
+            ->getQuery()->getResult();
+        return [];
 
 
     }

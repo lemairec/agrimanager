@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Gestion;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -9,7 +9,7 @@ use Symfony\Component\Uid\Uuid;
  * Commercialisation
  */
 #[ORM\Table(name: 'commercialisation')]
-#[ORM\Entity(repositoryClass: 'App\Repository\CommercialisationRepository')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Gestion\CommercialisationRepository')]
 class Commercialisation
 {
 

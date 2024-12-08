@@ -145,6 +145,29 @@ class GestionController extends CommonController
         ));
     }
 
+    #[Route(path: '/cours/0', name: 'cours_9')]
+    public function coursNew0Action(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->check_user($request);
+
+        $labels = ["soja_ab", "soja_c2", "mais_ab", "ble_ab", "ble_c2"];
+        $courss = [];
+        foreach($labels as $l){
+            $courss[] = ['name'=>$l, 'value'=>0];
+        }
+        $courss = $em->getRepository(Cours::class)->setArray($this->company, $courss);
+        if ($request->getMethod() == 'POST') {
+            $em->getRepository(Cours::class)->saveArray($this->company, $request->request->all());
+            return $this->redirectToRoute('cours');
+        }
+        $date = new DateTime();
+        return $this->render('Gestion/cours_new.html.twig', array(
+            'date' => $date->format("d/m/Y"),
+            'courss' => $courss,
+        ));
+    }
+
     #[Route(path: '/cours/new', name: 'cours_new')]
     public function coursNewAction(Request $request)
     {

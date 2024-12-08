@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class EmpruntController extends CommonController
 {
     #[Route(path: '/emprunts', name: 'emprunts')]
-    public function coursNewAction(Request $request)
+    public function empruntsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $c = $this->getCurrentCampagne($request);

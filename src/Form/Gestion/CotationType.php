@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Form\Commercialisation;
+namespace App\Form\Gestion;
 
-use App\Entity\Commercialisation\Cotation;
+use App\Entity\Gestion\Cotation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CotationType extends AbstractType
@@ -16,10 +18,13 @@ class CotationType extends AbstractType
             ->add('campagne')
             ->add('produit')
             ->add('value')
-            ->add('valueStockage')
-            ->add('valueStockageEnd')
-            ->add('date')
         ;
+        $builder->add('date', DateType::class, array(
+            'widget' => 'single_text',
+            'format' => 'dd/MM/yyyy',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -37,7 +37,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('showDatetime', [$this, 'showDatetimeFilter']),
             new TwigFilter('showDatetime2', [$this, 'showDatetimeFilter2']),
             new TwigFilter('showHa', [$this, 'showHaFilter']),
-            new TwigFilter('showPercent', [$this, 'showHaFilter']),
+            new TwigFilter('showPercent', [$this, 'showPercentFilter']),
             new TwigFilter('showEur', [$this, 'showEurFilter']),
             new TwigFilter('showEurUnity', [$this, 'showEurUnityFilter']),
             new TwigFilter('showIsoDate', [$this, 'showIsoDateFilter']),
