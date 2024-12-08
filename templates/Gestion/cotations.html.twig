@@ -21,7 +21,7 @@
         </tr>
         {% for cotation in cotations %}
             <tr>
-                <td>{{ cotation.source }}</td>
+                <td><a href="/cotation/{{cotation.id}}">{{ cotation.source }}</a></td>
                 <td>{{ cotation.campagne }}</td>
                 <td>{{ cotation.produit }}</td>
                 <td>{{ cotation.date | showDate }}</td>

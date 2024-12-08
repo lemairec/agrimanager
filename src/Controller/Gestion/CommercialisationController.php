@@ -332,7 +332,7 @@ class CommercialisationController extends CommonController
             $cotation = new Cotation();
             $cotation->date = new \DateTime();
         } else {
-            $cotation = $em->getRepository('App:Cotation')->find($id);
+            $cotation = $em->getRepository(Cotation::class)->find($id);
         }
         $form = $this->createForm(CotationType::class, $cotation);
         $form->handleRequest($request);
