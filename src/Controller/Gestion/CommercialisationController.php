@@ -12,8 +12,9 @@ use DateTime;
 use App\Entity\Culture;
 use App\Entity\Gestion\Commercialisation;
 use App\Entity\Gestion\Cotation;
+use App\Entity\Gestion\FactureFournisseur;
 
-use App\Form\CommercialisationType;
+use App\Form\Gestion\CommercialisationType;
 use App\Form\Gestion\CotationsCajType;
 use App\Form\Gestion\CotationType;
 
@@ -49,7 +50,7 @@ class CommercialisationController extends CommonController
             }
         }
 
-        return $this->render('Commercialisation/commercialisations.html.twig', array(
+        return $this->render('Gestion/commercialisations.html.twig', array(
             'campagnes' => $this->campagnes,
             'campagne_id' => $campagne->id,
             'commercialisations' => $commercialisations,
@@ -198,7 +199,9 @@ class CommercialisationController extends CommonController
             $commercialisation = $em->getRepository(Commercialisation::class)->find($commercialisation_id);
         }
         $cultures = $em->getRepository(Culture::class)->getAllforCompany($this->company);
+        $factures = $em->getRepository(FactureFournisseur::class)->getAllForCampagne($campagne);
         $form = $this->createForm(CommercialisationType::class, $commercialisation, array(
+            'factures' => $factures,
             'cultures' => $cultures
         ));
         $form->handleRequest($request);

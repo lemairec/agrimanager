@@ -68,4 +68,7 @@ class Commercialisation
     #[ORM\Column(name: 'comment', type: 'string', length: 255, nullable: true)]
     public $comment;
 
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Gestion\FactureFournisseur')]
+    #[ORM\JoinColumn(nullable: true)]
+    public $facture;
 }

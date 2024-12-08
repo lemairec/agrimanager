@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use App\Entity\Culture;
+use App\Entity\Gestion\FactureFournisseur;
 
 class CommercialisationType extends AbstractType
 {
@@ -37,6 +38,11 @@ class CommercialisationType extends AbstractType
             ),
         ));
         $builder->add('qty')->add('price_total')->add('comment');
+        $builder->add('facture', EntityType::class, array(
+            'class'        => FactureFournisseur::class,
+            'choices' => $options['factures'],
+            'required' => false
+        ));
 
     }
 
@@ -46,8 +52,9 @@ class CommercialisationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Commercialisation',
-            'cultures' => null
+            'data_class' => 'App\Entity\Gestion\Commercialisation',
+            'cultures' => null,
+            'factures' => null
         ));
     }
 }

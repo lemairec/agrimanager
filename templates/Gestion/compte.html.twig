@@ -50,6 +50,7 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
         </tr>
         {% for ecriture in ecritures %}
             <tr>
@@ -66,7 +67,9 @@
                 <td class="text-right">{{ ecriture['sum_value'] | showEur }}</td>
                 {% if ecriture['facture'] %}
                     <td><small>{{ecriture['facture'].getAchatsTotal() | showEur}}</td>
+                    <td><small>{{ecriture['facture'].getCommercialisationsTotal() | showEur}}</td>
                 {% else %}
+                    <td></td>
                     <td></td>
                 {% endif %}
             </tr>

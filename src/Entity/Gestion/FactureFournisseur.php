@@ -89,6 +89,9 @@ class FactureFournisseur
     #[ORM\OneToMany(targetEntity: 'App\Entity\Achat', mappedBy: 'facture')]
     public $achats;
 
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Gestion\Commercialisation', mappedBy: 'facture')]
+    public $commercialisations;
+
     #[ORM\ManyToOne(targetEntity: 'App\Entity\Gestion\Compte')]
     #[ORM\JoinColumn(nullable: false)]
     public $compte;
@@ -191,6 +194,14 @@ class FactureFournisseur
     function getAchatsTotal(){
         $achats_total = 0;
         foreach ($this->achats as $a) {
+            $achats_total+=$a->price_total;
+        }
+        return $achats_total;
+    }
+
+    function getCommercialisationsTotal(){
+        $achats_total = 0;
+        foreach ($this->commercialisations as $a) {
             $achats_total+=$a->price_total;
         }
         return $achats_total;
