@@ -380,10 +380,7 @@ class CommercialisationController extends CommonController
         $result = $resultSet->fetchAllAssociative();
 
         $data = []; 
-        foreach($result as $r){
-            dump($r["produit"]);
-        }
-
+        
         $chartjss = [];
         foreach($result as $r){
             $culture = $r["produit"];
