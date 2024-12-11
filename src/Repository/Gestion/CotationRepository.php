@@ -90,6 +90,14 @@ class CotationRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function getAllProduit($produit){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.produit = :produit')
+            ->orderBy('p.date', 'DESC')
+            ->setParameter('produit', $produit)
+            ->getQuery()->getResult();
+    }
+
     public function getAlls(){
         return $this->createQueryBuilder('p')
             ->orderBy('p.date', 'DESC')

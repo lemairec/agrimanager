@@ -52,22 +52,7 @@
         </div>
         {% endfor %}
 
-        <div class="list-group-item flex-column align-items-start">
-            <div class ="row">
-                <h5 class ="col-3">
-                    Total
-                </h5>
-                <div class ="col-3">
-                    objectif : {{ total_obj | showUnity("€") }}
-                </div>
-                <div class ="col-3">
-                    Prix realisé : {{ total_realise | showUnity("€") }} <span class="badge"> {{ (total_realise/total_obj) | showPercent }}</span>
-                </div>
-                <div class ="col-3">
-                    Prix aujourd'hui : {{ total_today | showUnity("€") }} <span class="badge"> {{ (total_today/total_obj) | showPercent }}</span>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <!--table class="table">
         <tr>

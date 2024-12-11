@@ -348,4 +348,63 @@ class CommercialisationController extends CommonController
         ));
     }
 
+    #[Route(path: '/cotation/{id}/delete', name: 'cotation_delete')]
+    public function deleteAction($id, Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $cotation= $em->getRepository(Cotation::class)->find($id);
+
+        $em->remove($cotation);
+        $em->flush();
+
+        return $this->redirectToRoute('cotations_all');
+    }
+
+    #[Route(path: '/cotations_hist', name: 'cotations_hist')]
+    public function cotationHistAction(Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $campagne = $this->getCurrentCampagne($request);
+
+        $rep = $em->getRepository(Cotation::class);
+        
+
+        $em = $this->getDoctrine()->getManager();
+
+        $RAW_QUERY = "SELECT distinct c.produit FROM cotation c WHERE c.date >='2021-12-01 00:00:00';";
+        
+        $statement = $em->getConnection()->prepare($RAW_QUERY);
+        $resultSet = $statement->executeQuery();
+        $result = $resultSet->fetchAllAssociative();
+
+        $data = []; 
+        foreach($result as $r){
+            dump($r["produit"]);
+        }
+
+        $chartjss = [];
+        foreach($result as $r){
+            $culture = $r["produit"];
+            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
+            $data = [];
+            foreach ($cotations as $cotation) {
+                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+            }
+            $chartjss[] = ["annee"=>"$culture", "color"=> "", "data"=>$data];
+        }
+
+        return $this->render('Gestion/commercialisations_bilan.html.twig', array(
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
+            'cultures' => [],
+            'total_obj' => [],
+            'total_today' => [],
+            'total_realise' => [],
+            'chartjss' => $chartjss,
+            'chartjss2' => []
+        ));
+    }
+
 }
