@@ -36,6 +36,16 @@ class CompteRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }
 
+    function getByName($company, $name){
+        return $this->createQueryBuilder('p')
+            ->where('p.company = :company')
+            ->andWhere("p.label = :name")
+            ->setParameter('company', $company)
+            ->setParameter('name', $name)
+            ->orderBy('p.identifiant')
+            ->getQuery()->getOneOrNullResult();
+    }
+
     function getNoBanques($company){
         return $this->createQueryBuilder('p')
             ->where("p.type != 'banque'")

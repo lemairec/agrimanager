@@ -108,4 +108,16 @@ class FactureFournisseurRepository extends \Doctrine\ORM\EntityRepository
 
             return $query->getResult();
     }
+
+    function getAllForCompteCampagne($compte, $campagne){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.campagne = :campagne')
+            ->andWhere('p.compte = :compte')
+            ->setParameter('campagne', $campagne)
+            ->setParameter('compte', $compte)
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+            return $query->getResult();
+    }
 }

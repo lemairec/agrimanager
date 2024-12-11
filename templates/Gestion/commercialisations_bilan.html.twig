@@ -49,6 +49,16 @@
                     Prix aujourd'hui : {{ table['price_today'] | showUnity("€/t") }}  <span class="badge"> {{ table['price_today_perc'] | showPercent}}</span>
                 </div>
             </div>
+            <div class ="row">
+                <div class ="col-2">
+                </div>
+                <div class ="col-4">
+                    Fatures : {{ table['factures'] | showUnity("€/t") }}
+                </div>
+                <div class ="col-4">
+                    {{ table['factures_qty'] | showUnity("€/t") }}  <span class="badge"> {{ table['price_today_perc'] | showPercent}}</span>
+                </div>
+            </div>
         </div>
         {% endfor %}
 

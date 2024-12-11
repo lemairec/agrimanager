@@ -13,6 +13,7 @@ use App\Entity\Culture;
 use App\Entity\Gestion\Commercialisation;
 use App\Entity\Gestion\Cotation;
 use App\Entity\Gestion\FactureFournisseur;
+use App\Entity\Gestion\Compte;
 
 use App\Form\Gestion\CommercialisationType;
 use App\Form\Gestion\CotationsCajType;
@@ -97,7 +98,23 @@ class CommercialisationController extends CommonController
         $total_today = 0;
         $total_realise = 0;
         $total_obj = 0;
+
+        $ecritures_by_campagne_by_tag = [];
+        $compte = $em->getRepository(Compte::class)->getByName($this->company, "recolte");
+        $factures = $em->getRepository(FactureFournisseur::class)->getAllForCompteCampagne($compte, $campagne);
+        $value = 0;
+        foreach($factures as $f){
+            $str = $f->tag;
+            if(!array_key_exists($str, $ecritures_by_campagne_by_tag)){
+                $ecritures_by_campagne_by_tag[$str] = [ "value" => $str, "sum" => 0, "facture" => []];
+            }
+            $ecritures_by_campagne_by_tag[$str]["facture"][] = $f;
+            $ecritures_by_campagne_by_tag[$str]["sum"] += -$f->montantHT;
+        }
+       
         foreach($cultures as $key => $culture){
+            
+
             $total_realise += $culture["price_total_commercialise"];
             if($culture["qty_commercialise"] == 0){
                 $culture["price"] = null;
@@ -146,13 +163,19 @@ class CommercialisationController extends CommonController
                 $total_obj += $culture["culture"]->prixObj * $culture["culture"]->rendementObj * $culture["surface"];
             }
 
+            $culture["factures"] = 0;
+            $culture["factures_qty"] = 0;
+            if(array_key_exists($culture["culture"]->commercialisation, $ecritures_by_campagne_by_tag)){
+                $res = $ecritures_by_campagne_by_tag[$culture["culture"]->commercialisation];
+                $culture["factures"] = $res["sum"];
+                if($culture["qty_livraison"] != 0){
+                    $culture["factures_qty"] = $culture["factures"]/$culture["qty_livraison"];
+                }
+            }
             $cultures2[] = $culture;
 
-
-
         }
-
-
+        
         //chartjss
         $cultures3 = $em->getRepository(Culture::class)->getAllforCompany($this->company);
         $chartjss = [];
@@ -168,11 +191,12 @@ class CommercialisationController extends CommonController
         $chartjss2 = [];
 
         foreach ($cultures2 as $culture) {
-            foreach($culture['contrats'] as $c){
-                $data[] = ["date"=>$c["date"]->format('d/m/y'), "value"=>($c["price_total"]/$c["qty"])];
+            if($culture["factures_qty"] > 10){
+                $data[] = ["date"=>"31/12/2023", "value"=>($culture["factures_qty"])];
+                $chartjss2[] = ["annee"=>"c_".$culture["culture"],  "color"=> $culture["culture"]->color, "data"=>$data];
             }
-            $chartjss2[] = ["annee"=>$culture["culture"], "color"=> "#000000", "data"=>$data];
         }
+
 
         return $this->render('Gestion/commercialisations_bilan.html.twig', array(
             'campagnes' => $this->campagnes,
