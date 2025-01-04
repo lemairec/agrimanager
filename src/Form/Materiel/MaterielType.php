@@ -28,6 +28,7 @@ class MaterielType extends AbstractType
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',
             'html5' => false,
+            'required' => false,
             'attr' => ['class' => 'js-datepicker'],
         ));
         $builder->add('annee')->add('caracteristique')
