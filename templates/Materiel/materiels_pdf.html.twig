@@ -26,8 +26,8 @@
 				</tr>
 
 				<tr>
-                    <td colspan="3">Annee : <strong>{{ materiel.annee }}</strong></td>
-                    <td colspan="3">Achat : <strong>{{ materiel.dateAchat | showDate }}</strong></td>
+                    <td colspan="3">Annee : <strong>{{ materiel.annee }}</td>
+                    <td colspan="3">Achat : <strong>{{ materiel.dateAchat | showDate }}</td>
                 </tr>
 
                 <tr>
@@ -41,15 +41,17 @@
                 {% for entretien in materiel.entretiens %}
                 {%if entretien.name == "inventaire" %}
                     <tr>
-                        <td colspan="1">{{ entretien.date | showDate }}</strong></td>
-                        <td colspan="1">{{ entretien.nbHeure }}</strong></td>
-                        
+                        <td colspan="1">{{ entretien.date | showDate }}</td>
+                        <td colspan="1" style="width: 20%; text-align: right;" >{{ entretien.nbHeure  | showUnity( materiel.getUnity(), 0) }}</td>
+                        <td colspan="1" style="width: 20%; text-align: right;" >
+                        <td colspan="2"></td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="1">{{ entretien.date | showDate }}</strong></td>
-                        <td colspan="1">{{ entretien.nbHeure }}</strong></td>
-                        <td colspan="3"><strong>{{ entretien.name }}</strong></td>
+                        <td colspan="1">{{ entretien.date | showDate }}</td>
+                        <td colspan="1" style="width: 20%; text-align: right;">{{ entretien.nbHeure  | showUnity( materiel.getUnity(), 0) }}</td>
+                        <td colspan="1" style="width: 20%; text-align: right;" >
+                        <td colspan="2"><strong>{{ entretien.name }}</td>
                         
                     </tr>
                 {% endif %}

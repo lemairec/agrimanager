@@ -33,12 +33,12 @@ class MaterielController extends CommonController
             $last = $em->getRepository(MaterielEntretien::class)->getLastEntretiens($m);
             $m->last_entretien = "";
             if($last){
-                $m->last_entretien = $last->date->format('d/m/Y')." - ".$last->nbHeure." h - ".$last->name;
+                $m->last_entretien = $last->date->format('d/m/Y')." - ".$last->nbHeure." ".$m->getUnity()." - ".$last->name;
             }
             $last = $em->getRepository(MaterielEntretien::class)->getLastInventaire($m);
             $m->last_inventaire = "";
             if($last){
-                $m->last_inventaire = $last->date->format('d/m/Y')." - ".$last->nbHeure." h";
+                $m->last_inventaire = $last->date->format('d/m/Y')." - ".$last->nbHeure." ".$m->getUnity();
             }
         }
 
@@ -47,12 +47,12 @@ class MaterielController extends CommonController
             $last = $em->getRepository(MaterielEntretien::class)->getLastEntretiens($m);
             $m->last_entretien = "";
             if($last){
-                $m->last_entretien = $last->date->format('d/m/Y')." - ".$last->nbHeure." h - ".$last->name;
+                $m->last_entretien = $last->date->format('d/m/Y')." - ".$last->nbHeure." ".$m->getUnity()." - ".$last->name;
             }
             $last = $em->getRepository(MaterielEntretien::class)->getLastInventaire($m);
             $m->last_inventaire = "";
             if($last){
-                $m->last_inventaire = $last->date->format('d/m/Y')." - ".$last->nbHeure." h";
+                $m->last_inventaire = $last->date->format('d/m/Y')." - ".$last->nbHeure." ".$m->getUnity();
             }
         }
         

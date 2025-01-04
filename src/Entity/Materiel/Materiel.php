@@ -69,6 +69,16 @@ class Materiel
     #[ORM\JoinColumn(nullable: false)]
     public $company;
 
+    public function getUnity(){
+        if($this->type == "voiture"){
+            return "km";
+        } else if($this->type == "cuve"){
+            return "l";
+        } else {
+            return "h";
+        }
+    }
+
     public $entretiens = [];
 
     public function __toString ( ){
