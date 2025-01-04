@@ -24,7 +24,7 @@ class InterventionMateriel
     #[ORM\JoinColumn(name: 'intervention_id', referencedColumnName: 'id', nullable: false)]
     public $intervention;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Materiel')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Materiel\Materiel')]
     #[ORM\JoinColumn(name: 'materiel_id', nullable: false)]
     public $materiel;
     #[ORM\Column(type: 'float')]

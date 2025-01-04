@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Materiel;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\MaterielEntretien;
 
 /**
  * MaterielEntretien
  */
 #[ORM\Table(name: 'materiel_entretien')]
-#[ORM\Entity(repositoryClass: 'App\Repository\MaterielEntretienRepository')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Materiel\MaterielEntretienRepository')]
 class MaterielEntretien
 {
     /**
@@ -20,7 +19,7 @@ class MaterielEntretien
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     public $id;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Materiel')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Materiel\Materiel')]
     #[ORM\JoinColumn(nullable: false)]
     public $materiel;
 

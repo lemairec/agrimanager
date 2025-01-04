@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Materiel;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,7 +31,7 @@ class MaterielEntretienType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\MaterielEntretien'
+            'data_class' => 'App\Entity\Materiel\MaterielEntretien'
         ));
     }
 }

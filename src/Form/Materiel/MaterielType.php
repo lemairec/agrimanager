@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Materiel;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +17,14 @@ class MaterielType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
+        $builder->add('type');
         $builder->add('dateAchat', DateType::class, array(
+            'widget' => 'single_text',
+            'format' => 'dd/MM/yyyy',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
+        ));
+        $builder->add('dateVente', DateType::class, array(
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',
             'html5' => false,
@@ -33,7 +40,7 @@ class MaterielType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Materiel'
+            'data_class' => 'App\Entity\Materiel\Materiel'
         ));
     }
 }

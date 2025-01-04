@@ -16,6 +16,28 @@
         {% for materiel in materiels %}
             <tr>
                 <td><a href="/materiel/{{materiel.id}}">{{materiel.name}}</a></td>
+                <td>{{materiel.type}}</td>
+                <td>{{materiel.annee}}</td>
+                <td>{{materiel.last_entretien}}</td>
+                <td>{{materiel.last_inventaire}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Vendu
+    </div>
+    <table class="table">
+        <tr>
+            <th>{{'Name' | trans }}</th>
+            <th>Année</th>
+        </tr>
+        {% for materiel in materiels_ko %}
+            <tr>
+                <td><a href="/materiel/{{materiel.id}}">{{materiel.name}}</a></td>
+                <td>{{materiel.type}}</td>
                 <td>{{materiel.annee}}</td>
                 <td>{{materiel.last_entretien}}</td>
                 <td>{{materiel.last_inventaire}}</td>

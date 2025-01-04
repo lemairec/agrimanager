@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Materiel;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -44,7 +44,7 @@ class Gasoil
     #[ORM\Column(name: 'date', type: 'date')]
     public $date;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Materiel')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Materiel\Materiel')]
     #[ORM\JoinColumn(nullable: true)]
     public $materiel;
 

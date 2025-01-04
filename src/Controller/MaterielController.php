@@ -11,11 +11,11 @@ use Datetime;
 
 use App\Controller\CommonController;
 
-use App\Entity\Materiel;
-use App\Entity\MaterielEntretien;
+use App\Entity\Materiel\Materiel;
+use App\Entity\Materiel\MaterielEntretien;
 
-use App\Form\MaterielType;
-use App\Form\MaterielEntretienType;
+use App\Form\Materiel\MaterielType;
+use App\Form\Materiel\MaterielEntretienType;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -28,8 +28,22 @@ class MaterielController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $materiels = $em->getRepository(Materiel::class)->getAllForCompany($this->company);
+        $materiels = $em->getRepository(Materiel::class)->getAllOkForCompany($this->company);
         foreach($materiels as $m){
+            $last = $em->getRepository(MaterielEntretien::class)->getLastEntretiens($m);
+            $m->last_entretien = "";
+            if($last){
+                $m->last_entretien = $last->date->format('d/m/Y')." - ".$last->nbHeure." h - ".$last->name;
+            }
+            $last = $em->getRepository(MaterielEntretien::class)->getLastInventaire($m);
+            $m->last_inventaire = "";
+            if($last){
+                $m->last_inventaire = $last->date->format('d/m/Y')." - ".$last->nbHeure." h";
+            }
+        }
+
+        $materiels_ko = $em->getRepository(Materiel::class)->getAllKoForCompany($this->company);
+        foreach($materiels_ko as $m){
             $last = $em->getRepository(MaterielEntretien::class)->getLastEntretiens($m);
             $m->last_entretien = "";
             if($last){
@@ -44,6 +58,7 @@ class MaterielController extends CommonController
         
         return $this->render('Materiel/materiels.html.twig', array(
             'materiels' => $materiels,
+            'materiels_ko' => $materiels_ko,
             'navs' => ["Materiels" => "materiels"]
         ));
     }
@@ -110,7 +125,7 @@ class MaterielController extends CommonController
         $this->check_user($request);
         $em = $this->getDoctrine()->getManager();
 
-        $materiels = $em->getRepository(Materiel::class)->getAllForCompany($this->company);
+        $materiels = $em->getRepository(Materiel::class)->getAllOkForCompany($this->company);
         foreach($materiels as $m){
             $m->entretiens = $em->getRepository(MaterielEntretien::class)->getAllByMateriel($m);
         }
