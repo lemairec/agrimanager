@@ -55,7 +55,7 @@ class CotationController extends CommonController
             foreach ($cotations as $cotation) {
                 $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
             }
-            $chartjss[] = ["annee"=>"$culture", "color"=> "", "data"=>$data];
+            $chartjss[] = ["annee"=>"$culture", "color"=> "#".$produit->color, "data"=>$data];
         }
 
         $produits = $em->getRepository(CotationProduit::class)->findByCategorie("oleagineux");
