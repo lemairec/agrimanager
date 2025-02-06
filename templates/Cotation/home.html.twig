@@ -1,0 +1,140 @@
+{% extends 'base_agri.html.twig' %}
+
+{% block body %}
+
+<div class="card">
+    <div class="card-header">
+        Céréales
+    </div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Oleagineux
+    </div>
+    <canvas id="myChart2"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src='/lib/Chart.js/Chart.min.js'></script>
+<script>
+    var timeFormat = 'DD/MM/YYYY';
+
+    var color = Chart.helpers.color;
+    var config = {
+        type: 'line',
+        data: {
+            datasets:[
+                {% for chartjs in chartjss %}
+                {
+                    label: '{{chartjs['annee']}}',
+                    fill: false,
+                    backgroundColor: '{{chartjs['color']}}',
+                    borderColor: '{{chartjs['color']}}',
+                    data: [
+                        {% for data in chartjs['data'] %}
+                            {
+                                x: "{{data['date']}}",
+                                y: {{data['value']}},
+                            },
+                        {% endfor %}
+                    ],
+                },
+                {% endfor %}
+
+                
+            ]
+        },
+        options: {
+            title: {
+                text: 'Chart.js Time Scale'
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        format: timeFormat,
+                        // round: 'day'
+                        tooltipFormat: 'll'
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'value'
+                    }
+                }]
+            },
+        }
+    };
+
+    var timeFormat = 'DD/MM/YYYY';
+
+    var color2 = Chart.helpers.color;
+    var config2 = {
+        type: 'line',
+        data: {
+            datasets:[
+                {% for chartjs in chartjss_o %}
+                {
+                    label: '{{chartjs['annee']}}',
+                    fill: false,
+                    backgroundColor: '{{chartjs['color']}}',
+                    borderColor: '{{chartjs['color']}}',
+                    data: [
+                        {% for data in chartjs['data'] %}
+                            {
+                                x: "{{data['date']}}",
+                                y: {{data['value']}},
+                            },
+                        {% endfor %}
+                    ],
+                },
+                {% endfor %}
+
+                
+            ]
+        },
+        options: {
+            title: {
+                text: 'Chart.js Time Scale'
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        format: timeFormat,
+                        // round: 'day'
+                        tooltipFormat: 'll'
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'value'
+                    }
+                }]
+            },
+        }
+    };
+
+    window.onload = function() {        
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myLine = new Chart(ctx, config);
+
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        window.myLine = new Chart(ctx, config2);
+
+    };
+</script>
+
+{% endblock %}

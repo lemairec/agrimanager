@@ -132,7 +132,6 @@ Ma Plaine</a>
                             <a class="dropdown-item" href="{{ url('factures_fournisseurs') }}">Factures</a>
                             <a class="dropdown-item" href="{{ url('emprunts') }}">Emprunts</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('cotations') }}">Cotations</a>
                             <a class="dropdown-item" href="{{ url('commercialisations') }}">Commercialisations</a>
                             <a class="dropdown-item" href="{{ url('bilan_commercialisations') }}">Bilan Commercialisations</a>
                             <div class="dropdown-divider"></div>
@@ -144,6 +143,19 @@ Ma Plaine</a>
 
                         </div>
                     </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cotations
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                           <a class="dropdown-item" href="{{ url('cotation_home') }}">Home</a>
+                             <a class="dropdown-item" href="{{ url('cotations') }}">Cotations</a>
+                            <a class="dropdown-item" href="{{ url('cotation_produits') }}">Produits</a>
+                            
+                        </div>
+                    </li>
+                            
                     {% endif %}
 
                 {% endif %}
