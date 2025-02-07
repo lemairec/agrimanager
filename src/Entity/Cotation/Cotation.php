@@ -32,4 +32,8 @@ class Cotation
 
     #[ORM\Column(name: 'date', type: 'date')]
     public $date;
+
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Cotation\CotationProduit')]
+    #[ORM\JoinColumn(nullable: true)]
+    public $produit;
 }

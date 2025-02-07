@@ -55,7 +55,7 @@ class CotationController extends CommonController
             foreach ($cotations as $cotation) {
                 $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
             }
-            $chartjss[] = ["annee"=>"$culture", "color"=> "#".$produit->color, "data"=>$data];
+            $chartjss[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
         }
 
         $produits = $em->getRepository(CotationProduit::class)->findByCategorie("oleagineux");
@@ -67,7 +67,31 @@ class CotationController extends CommonController
             foreach ($cotations as $cotation) {
                 $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
             }
-            $chartjss_o[] = ["annee"=>"$culture", "color"=> "#".$produit->color, "data"=>$data];
+            $chartjss_o[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
+        }
+
+        $produits = $em->getRepository(CotationProduit::class)->findByCategorie("autre");
+        $chartjss_ot = [];
+        foreach($produits as $produit){
+            $culture = $produit->label;
+            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
+            $data = [];
+            foreach ($cotations as $cotation) {
+                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+            }
+            $chartjss_ot[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
+        }
+
+        $produits = $em->getRepository(CotationProduit::class)->findByCategorie("c2");
+        $chartjss_c2 = [];
+        foreach($produits as $produit){
+            $culture = $produit->label;
+            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
+            $data = [];
+            foreach ($cotations as $cotation) {
+                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+            }
+            $chartjss_c2[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
         }
 
         $cotations = $em->getRepository(Cotation::class)->getLasts();
@@ -75,6 +99,8 @@ class CotationController extends CommonController
             'cotations' => $cotations,
             'chartjss' => $chartjss,
             'chartjss_o' => $chartjss_o,
+            'chartjss_ot' => $chartjss_ot,
+            'chartjss_c2' => $chartjss_c2,
         ));
     }
 
@@ -144,6 +170,9 @@ class CotationController extends CommonController
 
         if ($form->isSubmitted()) {
             $em->persist($cotation);
+            if($cotation->produit){
+                $cotation->produit_str = $cotation->produit->label;
+            }
             $em->flush();
             return $this->redirectToRoute('cotations_all');
         }
