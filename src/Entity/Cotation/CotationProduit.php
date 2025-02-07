@@ -27,4 +27,8 @@ class CotationProduit
 
     #[ORM\Column(length: 255)]
     public ?string $color = null;
+
+    public function __toString ( ){
+        return $this->name;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Gestion;
+namespace App\Form\Cotation;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

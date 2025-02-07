@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Gestion;
+namespace App\Form\Cotation;
 
-use App\Entity\Gestion\Cotation;
+use App\Entity\Cotation\Cotation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -16,7 +16,7 @@ class CotationType extends AbstractType
         $builder
             ->add('source')
             ->add('campagne')
-            ->add('produit')
+            ->add('produit2')
             ->add('value')
         ;
         $builder->add('date', DateType::class, array(

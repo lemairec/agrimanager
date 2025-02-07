@@ -16,6 +16,7 @@ use App\Entity\MetaCulture;
 
 use App\Form\UserType;
 use App\Form\CompanyAdminType;
+use App\Form\GroupType;
 use App\Form\MetaCultureType;
 
 class AdminController extends CommonController
@@ -57,6 +58,43 @@ class AdminController extends CommonController
                 'users' => $users
             ));
 
+        }
+
+        #[Route(path: '/admin/groups', name: 'admin_groups')]
+        public function adminGroupsAction(Request $request)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $groups = $em->getRepository(Group::class)->findAll();
+            dump($groups);
+
+            return $this->render('Admin/groups.html.twig', array(
+                'groups' => $groups
+            ));
+
+        }
+
+        #[Route(path: 'admin/group/{id}', name: 'admin_group')]
+        public function adminGroupAction($id, Request $request)
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $user = $em->getRepository(Group::class)->findOneById($id);
+            $form = $this->createForm(GroupType::class, $user);
+            $form->handleRequest($request);
+
+            $logs = $em->getRepository(Log::class)->findByUser($user);
+
+
+            if ($form->isSubmitted()) {
+                $em->persist($user);
+                $em->flush();
+                return $this->redirectToRoute('admin_users');
+            }
+            return $this->render('base_form.html.twig', array(
+                'form' => $form->createView(),
+                'logs' => $logs,
+                'user' => $user
+            ));
         }
 
         #[Route(path: 'admin/user/{id}', name: 'admin_user')]

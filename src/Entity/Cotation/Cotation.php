@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Gestion;
+namespace App\Entity\Cotation;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\Gestion\CotationRepository')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Cotation\CotationRepository')]
 class Cotation
 {
     #[ORM\Id]
@@ -19,7 +19,7 @@ class Cotation
     public $campagne;
 
     #[ORM\Column(type: 'string', length: 100)]
-    public $produit;
+    public $produit_str;
 
     #[ORM\Column(type: 'float')]
     public $value;
@@ -32,6 +32,4 @@ class Cotation
 
     #[ORM\Column(name: 'date', type: 'date')]
     public $date;
-
-
 }

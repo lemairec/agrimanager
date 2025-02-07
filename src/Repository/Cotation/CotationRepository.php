@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Gestion;
+namespace App\Repository\Cotation;
 
-use App\Entity\Gestion\Cotation;
+use App\Entity\Cotation\Cotation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

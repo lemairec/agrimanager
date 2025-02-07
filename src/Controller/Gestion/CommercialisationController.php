@@ -11,13 +11,13 @@ use DateTime;
 
 use App\Entity\Culture;
 use App\Entity\Gestion\Commercialisation;
-use App\Entity\Gestion\Cotation;
+use App\Entity\Cotation\Cotation;
 use App\Entity\Gestion\FactureFournisseur;
 use App\Entity\Gestion\Compte;
 
 use App\Form\Gestion\CommercialisationType;
-use App\Form\Gestion\CotationsCajType;
-use App\Form\Gestion\CotationType;
+use App\Form\Cotation\CotationsCajType;
+use App\Form\Cotation\CotationType;
 
 
 //COMPTE
