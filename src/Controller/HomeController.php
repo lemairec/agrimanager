@@ -63,10 +63,8 @@ class HomeController extends CommonController
         if (!$this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return  $this->render('home.html.twig');
         }
-        dump(count($this->getUser()->groups));
-
+        
         if(!$this->getUser()->hasRole('ROLE_ADMIN') &&$this->getUser()->hasRole('ROLE_COTATION')){
-            dump(count($this->getUser()->groups));
             return $this->redirectToRoute('cotation_home');
         }
         
