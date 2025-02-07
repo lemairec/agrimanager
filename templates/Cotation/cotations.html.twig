@@ -23,7 +23,7 @@
             <tr>
                 <td><a href="/cotation/{{cotation.id}}">{{ cotation.source }}</a></td>
                 <td>{{ cotation.campagne }}</td>
-                <td>{{ cotation.produit }}</td>
+                <td>{{ cotation.produit_str }}</td>
                 <td>{{ cotation.date | showDate }}</td>
                 <td>{{ cotation.value | showUnity(" €/t") }}</td>
                 <td>{{ cotation.valueStockage | showUnity(" €/t") }}</td>

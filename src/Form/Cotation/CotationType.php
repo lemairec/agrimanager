@@ -16,7 +16,7 @@ class CotationType extends AbstractType
         $builder
             ->add('source')
             ->add('campagne')
-            ->add('produit2')
+            ->add('produit_str')
             ->add('value')
         ;
         $builder->add('date', DateType::class, array(
