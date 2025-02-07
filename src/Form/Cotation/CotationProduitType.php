@@ -15,7 +15,6 @@ class CotationProduitType extends AbstractType
             ->add('name')
             ->add('categorie')
             ->add('label')
-            ->add('home')
             ->add('color')
         ;
     }

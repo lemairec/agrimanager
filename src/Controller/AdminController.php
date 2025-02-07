@@ -65,8 +65,7 @@ class AdminController extends CommonController
         {
             $em = $this->getDoctrine()->getManager();
             $groups = $em->getRepository(Group::class)->findAll();
-            dump($groups);
-
+            
             return $this->render('Admin/groups.html.twig', array(
                 'groups' => $groups
             ));

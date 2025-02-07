@@ -19,9 +19,6 @@ class CotationProduit
     #[ORM\Column(length: 255)]
     public ?string $categorie = null;
 
-    #[ORM\Column]
-    public ?int $home = null;
-
     #[ORM\Column(length: 255)]
     public ?string $label = null;
 
