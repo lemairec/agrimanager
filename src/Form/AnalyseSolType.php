@@ -12,6 +12,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
+use App\Entity\Parcelle;
+
 class AnalyseSolType extends AbstractType
 {
     /**

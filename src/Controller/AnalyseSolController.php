@@ -12,6 +12,7 @@ use Datetime;
 use App\Controller\CommonController;
 
 use App\Entity\AnalyseSol;
+use App\Entity\Parcelle;
 use App\Entity\DocumentDirectory;
 use App\Form\AnalyseSolType;
 
