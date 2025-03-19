@@ -41,58 +41,51 @@ class CotationController extends CommonController
         ));
     }
 
+    function updatecharjss($produits){
+        $em = $this->getDoctrine()->getManager();
+        
+        $chartjss = [];
+        
+        $campagne = "2024";
+        foreach($produits as $produit){
+            $culture = $produit->label;
+            $cotations = $em->getRepository(Cotation::class)->getAllProduitAndCampagne($culture, $campagne);
+            $data = [];
+            foreach ($cotations as $cotation) {
+                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+            }
+            $chartjss[] = ["annee"=>"$produit->name"." ".$campagne, "color"=> "#".$produit->color, "data"=>$data];
+        }
+
+        $campagne = "2025";
+        foreach($produits as $produit){
+            $culture = $produit->label;
+            $cotations = $em->getRepository(Cotation::class)->getAllProduitAndCampagne($culture, $campagne);
+            $data = [];
+            foreach ($cotations as $cotation) {
+                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+            }
+            $chartjss[] = ["annee"=>"$produit->name"." ".$campagne, "color"=> "#".$produit->color, "data"=>$data];
+        }
+        return $chartjss;
+    }
+
     #[Route(path: '/cotation_home', name: 'cotation_home')]
     public function cotationHomeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $produits = $em->getRepository(CotationProduit::class)->findByCategorie("cereales");
         
-        $chartjss = [];
-        foreach($produits as $produit){
-            $culture = $produit->label;
-            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
-            $data = [];
-            foreach ($cotations as $cotation) {
-                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
-            }
-            $chartjss[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
-        }
+        $chartjss = $this->updatecharjss($produits);
 
         $produits = $em->getRepository(CotationProduit::class)->findByCategorie("oleagineux");
-        $chartjss_o = [];
-        foreach($produits as $produit){
-            $culture = $produit->label;
-            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
-            $data = [];
-            foreach ($cotations as $cotation) {
-                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
-            }
-            $chartjss_o[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
-        }
+        $chartjss_o = $this->updatecharjss($produits);
 
         $produits = $em->getRepository(CotationProduit::class)->findByCategorie("autre");
-        $chartjss_ot = [];
-        foreach($produits as $produit){
-            $culture = $produit->label;
-            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
-            $data = [];
-            foreach ($cotations as $cotation) {
-                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
-            }
-            $chartjss_ot[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
-        }
+        $chartjss_ot = $this->updatecharjss($produits);
 
         $produits = $em->getRepository(CotationProduit::class)->findByCategorie("c2");
-        $chartjss_c2 = [];
-        foreach($produits as $produit){
-            $culture = $produit->label;
-            $cotations = $em->getRepository(Cotation::class)->getAllProduit($culture);
-            $data = [];
-            foreach ($cotations as $cotation) {
-                $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
-            }
-            $chartjss_c2[] = ["annee"=>"$produit->name", "color"=> "#".$produit->color, "data"=>$data];
-        }
+        $chartjss_c2 = $this->updatecharjss($produits);
 
         $cotations = $em->getRepository(Cotation::class)->getLasts();
         return $this->render('Cotation/home.html.twig', array(
