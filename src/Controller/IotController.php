@@ -193,7 +193,7 @@ class IotController extends CommonController
         }
         $chartjss[] = ["annee"=>"chaud", "color"=> "#ff0066", "data"=>$data];
 
-        dump($chartjss);
+        //dump($chartjss);
 
         
         return $this->render('Iot/sechoirs.html.twig', array(
