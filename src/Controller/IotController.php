@@ -11,6 +11,7 @@ use DateTime;
 use App\Entity\Company;
 use App\Entity\Iot\Iot;
 use App\Entity\Silo\Temperature;
+use App\Entity\Iot\Sechoir;
 
 use App\Form\Iot\IotType;
 
@@ -131,6 +132,52 @@ class IotController extends CommonController
             'iot' => $iot,
             'temperatures' => [],
             'chartjss' => []
+        ));
+    }
+
+    function getTemperature($data, $key){
+
+    }
+
+    #[Route(path: '/iot/api_sechoir', name: 'api_sechoir')]
+    public function apiSechoirBalise(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sechoir = new Sechoir();
+        $sechoir->datetime = new Datetime();
+        $sechoir->description = $request->query->get("description");
+        $sechoir->t_hot = $request->query->get("t_hot");
+        $sechoir->t_cons = $request->query->get("t_cons");
+        $sechoir->t_out = $request->query->get("t_out");
+        $sechoir->bruleur = $request->query->get("bruleur");
+        $sechoir->m_hot = $request->query->get("m_hot");
+        $sechoir->m_cold = $request->query->get("m_cold");
+        $sechoir->nb_cycle = $request->query->get("nb_cycle");
+
+        
+        $sechoir->my_data = $request->query->all();
+
+        $em->persist($sechoir);
+        $em->flush();
+
+        $sechoirs = $em->getRepository(Sechoir::class)->findAll();
+        //dump($sechoirs);
+
+        return new Response("ok");
+    }
+
+    #[Route(path: '/sechoir', name: 'sechoir')]
+    public function sechoirBalise(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sechoirs = $em->getRepository(Sechoir::class)->getAll();
+        //dump($sechoirs);
+
+        
+        return $this->render('Iot/sechoirs.html.twig', array(
+            'sechoirs' => $sechoirs
         ));
     }
 
