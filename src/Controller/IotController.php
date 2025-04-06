@@ -175,9 +175,30 @@ class IotController extends CommonController
         $sechoirs = $em->getRepository(Sechoir::class)->getAll();
         //dump($sechoirs);
 
+        $chartjss = [];
+        
+        $data = [];
+        foreach ($sechoirs as $sechoir) {
+            if($sechoir->t_out && $sechoir->t_out > 0){
+                $data[] = ["date"=>$sechoir->datetime->format('d/m/y H:i:s'), "value"=>$sechoir->t_out];
+            }
+        }
+        $chartjss[] = ["annee"=>"out", "color"=> "#6600ff", "data"=>$data];
+
+        $data = [];
+        foreach ($sechoirs as $sechoir) {
+            if($sechoir->t_hot && $sechoir->t_hot > 0){
+                $data[] = ["date"=>$sechoir->datetime->format('d/m/y H:i:s'), "value"=>$sechoir->t_hot];
+            }
+        }
+        $chartjss[] = ["annee"=>"chaud", "color"=> "#ff0066", "data"=>$data];
+
+        dump($chartjss);
+
         
         return $this->render('Iot/sechoirs.html.twig', array(
-            'sechoirs' => $sechoirs
+            'sechoirs' => $sechoirs,
+            'chartjss' => $chartjss
         ));
     }
 
