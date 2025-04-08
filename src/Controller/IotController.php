@@ -171,8 +171,9 @@ class IotController extends CommonController
     public function sechoirBalise(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $duree = $request->query->get('duree');
 
-        $sechoirs = $em->getRepository(Sechoir::class)->getAll();
+        $sechoirs = $em->getRepository(Sechoir::class)->getAll($duree);
         //dump($sechoirs);
 
         $chartjss = [];

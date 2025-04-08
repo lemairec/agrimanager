@@ -16,11 +16,15 @@ class SechoirRepository extends ServiceEntityRepository
         parent::__construct($registry, Sechoir::class);
     }
 
-    public function getAll(): array
+    public function getAll($duree): array
         {
+            $i = intval($duree);
+            if($i == null){
+                $i = 1000;
+            }
             return $this->createQueryBuilder('s')
                 ->orderBy('s.id', 'DESC')
-                ->setMaxResults(1000)
+                ->setMaxResults($i)
                 ->getQuery()
                 ->getResult()
             ;
