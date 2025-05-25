@@ -338,7 +338,6 @@ class CotationController extends CommonController
                 if(!in_array($c->source,$sources_m)){
                     $sources_m[] = $c->source;
                 }
-                dump($c);
                 $res[$c->source] = $c->getPrixTotal();
             }
 
@@ -366,8 +365,6 @@ class CotationController extends CommonController
             $ress2[] = $res;
         }
 
-        dump($sources_m);
-        dump($ress2);
         $data = [];
         foreach ($cotations as $cotation) {
             $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
