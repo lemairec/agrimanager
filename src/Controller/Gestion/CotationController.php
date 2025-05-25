@@ -13,6 +13,7 @@ use App\Entity\Culture;
 use App\Entity\Gestion\Commercialisation;
 use App\Entity\Cotation\Cotation;
 use App\Entity\Cotation\CotationProduit;
+use App\Entity\Cotation\PrixMoyen;
 use App\Entity\Gestion\FactureFournisseur;
 use App\Entity\Gestion\Compte;
 
@@ -20,6 +21,7 @@ use App\Form\Gestion\CommercialisationType;
 use App\Form\Cotation\CotationsCajType;
 use App\Form\Cotation\CotationType;
 use App\Form\Cotation\CotationProduitType;
+use App\Form\Cotation\PrixMoyenType;
 
 
 //COMPTE
@@ -227,6 +229,155 @@ class CotationController extends CommonController
             'total_realise' => [],
             'chartjss' => $chartjss,
             'chartjss2' => []
+        ));
+    }
+
+    #[Route(path: '/prix_moyens', name: 'prix_moyens')]
+    public function prixMoyenAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $prix_moyens = $em->getRepository(PrixMoyen::class)->getAlls();
+
+        return $this->render('Cotation/prix_moyens.html.twig', array(
+            'prix_moyens' => $prix_moyens
+        ));
+    }
+
+    #[Route(path: '/prix_moyen/{id}', name: 'prix_moyen')]
+    public function prixMoyenEditAction($id, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        if($id == '0'){
+            $prix_moyen = new PrixMoyen();
+        } else {
+            $prix_moyen = $em->getRepository(PrixMoyen::class)->find($id);
+        }
+        $form = $this->createForm(PrixMoyenType::class, $prix_moyen);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            $em->persist($prix_moyen);
+            $em->flush();
+            return $this->redirectToRoute('prix_moyens');
+        }
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    #[Route(path: '/cotation_produit/{id}/{campagne}', name: 'cotation_produit2')]
+    public function produitEditAction($id, $campagne, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $produit = $em->getRepository(CotationProduit::class)->find($id);
+        $culture = $produit->label;
+        $cotations = $em->getRepository(Cotation::class)->getAllProduitAndCampagne($culture, $campagne);
+        $prix_moyens = $em->getRepository(PrixMoyen::class)->getAllProduitAndCampagne($produit, $campagne);
+
+        dump($produit);
+        dump($prix_moyens);
+        $data = [];
+        foreach ($cotations as $cotation) {
+            $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+        }
+        $chartjss[] = ["annee"=>"$produit->name"." ".$campagne, "color"=> "#".$produit->color, "data"=>$data];
+        
+        return $this->render('Cotation/produit_bilan.html.twig', array(
+            'cotations' => $cotations,
+            'prix_moyens' => $prix_moyens,
+            'chartjss' => $chartjss
+        ));
+    }
+
+    #[Route(path: '/cotation/bilan/{campagne}', name: 'bilan_cotation')]
+    public function bilanAction($campagne, Request $request)
+    {
+        $this->check_user($request);
+        $em = $this->getDoctrine()->getManager();
+        $produits = $em->getRepository(CotationProduit::class)->findAll();
+        $sources_c = [];
+        $sources_m = [];
+        $ress = [];
+        foreach($produits as $produit){
+            $cotations = $em->getRepository(Cotation::class)->getAllProduitAndCampagne($produit->label, $campagne);
+            $res = [];
+            $res["name"] = $produit->name;
+            //dump($cotations);
+            foreach($cotations as $c){
+                if(!in_array($c->source,$sources_c)){
+                    $sources_c[] = $c->source;
+                }
+            }
+
+            foreach($cotations as $c){
+                if(!array_key_exists($c->source."_sum",$res)){
+                    dump($c->source);
+                    $res[$c->source."_sum"] = $c->value;
+                    $res[$c->source."_moy"] = $c->value;
+                    $res[$c->source."_count"] = 1;
+                    $res[$c->source."_max"] = $c->value;
+                    $res[$c->source."_min"] = $c->value;
+                } else {
+                    $res[$c->source."_sum"] = $res[$c->source."_sum"] + $c->value;
+                    $res[$c->source."_count"] = $res[$c->source."_count"]+1;
+                    $res[$c->source."_moy"] = $res[$c->source."_sum"]/$res[$c->source."_count"];
+                    if($c->value > $res[$c->source."_max"]){
+                        $res[$c->source."_max"] = $c->value;
+                    }
+                    if($c->value < $res[$c->source."_min"]){
+                        $res[$c->source."_min"] = $c->value;
+                    }
+                }
+            }
+
+            $prix_moyens = $em->getRepository(PrixMoyen::class)->getAllProduitAndCampagne($produit, $campagne);
+            foreach($prix_moyens as $c){
+                if(!in_array($c->source,$sources_m)){
+                    $sources_m[] = $c->source;
+                }
+                dump($c);
+                $res[$c->source] = $c->getPrixTotal();
+            }
+
+
+            $ress[] = $res;
+        }
+
+        $ress2 = [];
+        foreach($ress as $res){
+            foreach($sources_c as $source){
+                if(!array_key_exists($source."_min",$res)){
+                    $res[$source."_sum"] = 0;
+                    $res[$source."_moy"] = 0;
+                    $res[$source."_count"] = 1;
+                    $res[$source."_max"] = 0;
+                    $res[$source."_min"] = 0;
+                }
+            }
+
+            foreach($sources_m as $source){
+                if(!array_key_exists($source,$res)){
+                    $res[$source] = 0;
+                }
+            }
+            $ress2[] = $res;
+        }
+
+        dump($sources_m);
+        dump($ress2);
+        $data = [];
+        foreach ($cotations as $cotation) {
+            $data[] = ["date"=>$cotation->date->format('d/m/y'), "value"=>$cotation->value];
+        }
+        $chartjss[] = ["annee"=>"$produit->name"." ".$campagne, "color"=> "#".$produit->color, "data"=>$data];
+        
+        return $this->render('Cotation/cotation_bilan.html.twig', array(
+            'sources_c' => $sources_c,
+            'sources_m' => $sources_m,
+            'ress' => $ress2
         ));
     }
 
