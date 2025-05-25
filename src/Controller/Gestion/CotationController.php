@@ -314,7 +314,6 @@ class CotationController extends CommonController
 
             foreach($cotations as $c){
                 if(!array_key_exists($c->source."_sum",$res)){
-                    dump($c->source);
                     $res[$c->source."_sum"] = $c->value;
                     $res[$c->source."_moy"] = $c->value;
                     $res[$c->source."_count"] = 1;
