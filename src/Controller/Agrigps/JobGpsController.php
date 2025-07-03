@@ -255,8 +255,53 @@ class JobGpsController extends CommonController
         $company = $em->getRepository(Company::class)->find($company_id);
 
         $balises = $em->getRepository(Balise::class)->getAllByCompany($company);
-        $lat = $balises[0]->latitude;
-        $lon = $balises[0]->longitude;
+        $lat = 0;
+        $lon = 0;
+        if(count($balises) > 0){
+            $lat = $balises[0]->latitude;
+            $lon = $balises[0]->longitude;
+        }
+        
+
+        return $this->render('Default/gps_balises.html.twig', array(
+            'lat' => $lat,
+            'lon' => $lon,
+            'balises' => $balises
+        ));
+    }
+
+    #[Route(path: '/gps_balises_export', name: 'gps_balises_export')]
+    public function baliseExportAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $company_id = $this->getCurrentCompanyId($request);
+        $company = $em->getRepository(Company::class)->find($company_id);
+
+        $balises = $em->getRepository(Balise::class)->getAllByCompany($company);
+
+        $fp = fopen('php://output', 'w');
+
+        foreach ($balises as $b) {
+            $res = [$b->latitude, $b->longitude];
+            fputcsv($fp, $res);
+        }
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/csv');
+        //it's gonna output in a testing.csv file
+        $response->headers->set('Content-Disposition', 'attachment; filename="testing.csv"');
+
+        return $response;
+        
+        
+        $lat = 0;
+        $lon = 0;
+        if(count($balises) > 0){
+            $lat = $balises[0]->latitude;
+            $lon = $balises[0]->longitude;
+        }
+        
 
         return $this->render('Default/gps_balises.html.twig', array(
             'lat' => $lat,

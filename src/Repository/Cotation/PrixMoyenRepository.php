@@ -16,9 +16,12 @@ class PrixMoyenRepository extends ServiceEntityRepository
         parent::__construct($registry, PrixMoyen::class);
     }
 
-    public function getAlls(){
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.campagne', 'DESC')
+    public function getAlls($source){
+        $res = $this->createQueryBuilder('p');
+        if($source){
+            $res = $res->andWhere('p.source = :source')->setParameter('source', $source);
+        }
+        return $res->orderBy('p.campagne', 'DESC')
             ->getQuery()->getResult();
     }
 

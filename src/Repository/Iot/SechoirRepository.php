@@ -30,6 +30,19 @@ class SechoirRepository extends ServiceEntityRepository
             ;
         }
 
+     public function getAllBE($begin, $end): array
+        {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.datetime > :begin')
+                ->andWhere('s.datetime < :end')
+                ->setParameter('begin', $begin)
+                ->setParameter('end', $end)
+                ->orderBy('s.id', 'DESC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+
     //    /**
     //     * @return Sechoir[] Returns an array of Sechoir objects
     //     */

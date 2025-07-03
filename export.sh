@@ -16,3 +16,4 @@ echo "copie"
 cp -r ~/maplaine/public/uploads/* /home/maplainemk/maplaine/temp/dump
 echo "copie ok"
 echo "copie ok" > /home/maplainemk/maplaine/temp/dump/fin.txt
+date >> /home/maplainemk/maplaine/temp/dump/fin.txt
