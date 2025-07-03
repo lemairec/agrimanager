@@ -171,9 +171,11 @@ class IotController extends CommonController
     public function sechoirBalise(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $duree = $request->query->get('duree');
+        
+        $begin = $request->query->get('begin');
+        $end = $request->query->get('end');
 
-        $sechoirs = $em->getRepository(Sechoir::class)->getAll($duree);
+        $sechoirs = $em->getRepository(Sechoir::class)->getAllBE($begin, $end);
         //dump($sechoirs);
 
         $chartjss = [];
@@ -181,7 +183,7 @@ class IotController extends CommonController
         $data = [];
         foreach ($sechoirs as $sechoir) {
             if($sechoir->t_out && $sechoir->t_out > 0){
-                $data[] = ["date"=>$sechoir->datetime->format('d/m/y H:i:s'), "value"=>$sechoir->t_out];
+                $data[] = ["date"=>$sechoir->datetime->format('Y-m-d H:i:s'), "value"=>$sechoir->t_out];
             }
         }
         $chartjss[] = ["annee"=>"out", "color"=> "#6600ff", "data"=>$data];
@@ -189,7 +191,7 @@ class IotController extends CommonController
         $data = [];
         foreach ($sechoirs as $sechoir) {
             if($sechoir->t_hot && $sechoir->t_hot > 0){
-                $data[] = ["date"=>$sechoir->datetime->format('d/m/y H:i:s'), "value"=>$sechoir->t_hot];
+                $data[] = ["date"=>$sechoir->datetime->format('Y-m-d H:i:s'), "value"=>$sechoir->t_hot];
             }
         }
         $chartjss[] = ["annee"=>"chaud", "color"=> "#ff0066", "data"=>$data];
