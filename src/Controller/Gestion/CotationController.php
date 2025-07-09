@@ -236,7 +236,10 @@ class CotationController extends CommonController
     public function prixMoyenAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $prix_moyens = $em->getRepository(PrixMoyen::class)->getAlls();
+        $source = $request->query->get('source');
+        
+
+        $prix_moyens = $em->getRepository(PrixMoyen::class)->getAlls($source);
 
         return $this->render('Cotation/prix_moyens.html.twig', array(
             'prix_moyens' => $prix_moyens
