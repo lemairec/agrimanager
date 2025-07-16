@@ -24,7 +24,8 @@
         L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png' ).addTo(map);   // Base Map
 
         {% for point in balises %}
-            var marker = new L.marker([{{point.latitude}},{{point.longitude}}]).addTo(map);
+            var marker = new L.circle([{{point.latitude}},{{point.longitude}}], {
+    color: '{{point.color}}', radius: 1}).addTo(map);
             marker.bindPopup("{{point.name}}");
         {% endfor %}
 
@@ -53,6 +54,8 @@
             <th>longitude</th>
             <th>latitude</th>
             <th>date</th>
+            <th>color</th>
+            <th></th>
             <th></th>
         </tr>
         {% for balise in balises %}
@@ -61,6 +64,8 @@
                 <td>{{ balise.longitude }}</td>
                 <td>{{ balise.latitude }}</td>
                 <td>{{ balise.my_datetime | showDatetime }}</td>
+                <td>{{ balise.color }}</td>
+                <td>{{ balise.enable }}</td>
                 <td></td>
 
             </tr>

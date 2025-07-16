@@ -33,8 +33,8 @@ class Balise
     #[ORM\Column(type: 'string', length: 255)]
     public $name = "";
 
-    #[ORM\Column(type: 'string', length: 255)]
-    public $color = "";
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public $color = "red";
 
     #[ORM\Column(type: 'boolean')]
     public $enable = true;

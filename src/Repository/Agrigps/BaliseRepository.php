@@ -25,7 +25,7 @@ class BaliseRepository extends ServiceEntityRepository
             ->andWhere('b.company = :company')
             ->setParameter('company', $company)
             ->orderBy('b.datetime', 'ASC')
-            ->orderBy('b.enable', 'ASC')
+            ->orderBy('b.enable', 'DESC')
             ->getQuery()
             ->getResult()
         ;

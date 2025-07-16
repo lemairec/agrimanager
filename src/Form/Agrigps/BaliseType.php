@@ -8,15 +8,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class BaliseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('myId')
-            ->add('latitude')
-            ->add('longitude')
+            ->add('latitude',  NumberType::class, ['scale' => 7])
+            ->add('longitude',  NumberType::class, ['scale' => 7])
             ->add('my_datetime', DateType::class, array(
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',

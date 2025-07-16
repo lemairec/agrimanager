@@ -340,6 +340,17 @@ class JobGpsController extends CommonController
         ));
     }
 
+    #[Route(path: '/gps_balise/{balise_id}/delete', name: 'gps_balise_d')]
+    public function balise_delete($balise_id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $balise = $em->getRepository(Balise::class)->find($balise_id);
+        $em->remove($balise);
+        $em->flush();
+
+        return $this->redirectToRoute('gps_balises');
+    }
+
     #[Route(path: '/api/autosteer/parcelles')]
     public function parcellesGpsApiAction(Request $request)
     {
