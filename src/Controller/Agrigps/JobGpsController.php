@@ -20,6 +20,7 @@ use App\Entity\Agrigps\GpsParcelle;
 use App\Form\JobGpsType;
 use App\Form\Agrigps\GpsParcelleType;
 use App\Form\Agrigps\BaliseType;
+use App\Form\DataType;
 
 class JobGpsController extends CommonController
 {
@@ -307,6 +308,26 @@ class JobGpsController extends CommonController
             'lat' => $lat,
             'lon' => $lon,
             'balises' => $balises
+        ));
+    }
+
+    #[Route(path: '/gps_import', name: 'gps_import')]
+    public function achatsDataEditAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(DataType::class);
+        $form->handleRequest($request);
+
+        $campagne = $this->getCurrentCampagne($request);
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $em->getRepository(Balise::class)->saveGpsData($data['data'], $campagne);
+            //return $this->redirectToRoute('achats');
+        }
+        return $this->render('base_form.html.twig', array(
+            'form' => $form->createView(),
+            'campagnes' => $this->campagnes,
+            'campagne_id' => $campagne->id,
         ));
     }
 
