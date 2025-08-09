@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Iot;
 
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\CommonController;
@@ -10,7 +10,7 @@ use DateTime;
 
 use App\Entity\Company;
 use App\Entity\Iot\Iot;
-use App\Entity\Silo\Temperature;
+use App\Entity\Iot\Temperature;
 use App\Entity\Iot\Sechoir;
 
 use App\Form\Iot\IotType;

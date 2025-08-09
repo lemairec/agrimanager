@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Silo;
+namespace App\Form\Iot;
 
-use App\Entity\Silo\Balise;
+use App\Entity\Iot\Balise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

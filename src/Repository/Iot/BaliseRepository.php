@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Silo;
+namespace App\Repository\Iot;
 
-use App\Entity\Silo\Balise;
+use App\Entity\Iot\Balise;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

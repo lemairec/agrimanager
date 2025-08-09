@@ -6,4 +6,4 @@ easy_admin:
         - App\Entity\DocumentDirectory
         - App\Entity\Company
         - App\Entity\User
-        - App\Entity\Silo\Balise
+        - App\Entity\Iot\Balise

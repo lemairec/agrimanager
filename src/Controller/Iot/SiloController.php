@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Silo;
+namespace App\Controller\Iot;
 
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\CommonController;
@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use DateTime;
 
 use App\Entity\Company;
-use App\Entity\Silo\Balise;
-use App\Entity\Silo\Temperature;
+use App\Entity\Iot\Balise;
+use App\Entity\Iot\Temperature;
 
-use App\Form\Silo\BaliseType;
+use App\Form\Iot\BaliseType;
 
 //COMPTE
 //ECRITURE
@@ -101,7 +101,7 @@ class SiloController extends CommonController
 
         }
 
-        return $this->render('Silo/balises.html.twig', array(
+        return $this->render('Iot/balises.html.twig', array(
             'balises_names' => $balises_names,
             'balises_others' => $balises_others
         ));
@@ -141,7 +141,7 @@ class SiloController extends CommonController
         $chartjss[] = $chartjs_min;
         //dump($chartjss);
 
-        return $this->render('Silo/balise.html.twig', array(
+        return $this->render('Iot/balise.html.twig', array(
             'form' => $form->createView(),
             'balise' => $balise,
             'temperatures' => $temperatures,

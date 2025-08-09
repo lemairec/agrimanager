@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Silo;
+namespace App\Repository\Iot;
 
-use App\Entity\Silo\Temperature;
+use App\Entity\Iot\Temperature;
 use DateTime;
 /**
  * @method SiloTemperature|null find($id, $lockMode = null, $lockVersion = null)

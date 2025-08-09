@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity\Silo;
+namespace App\Entity\Iot;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 
 #[ORM\Table]
 #[ORM\Index(name: 'datetime_idx', columns: ['datetime'])]
-#[ORM\Entity(repositoryClass: 'App\Repository\Silo\TemperatureRepository')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Iot\TemperatureRepository')]
 class Temperature
 {
     #[ORM\Id]
@@ -15,7 +15,7 @@ class Temperature
     #[ORM\Column(type: 'integer')]
     public $id;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Silo\Balise')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Iot\Balise')]
     #[ORM\JoinColumn(nullable: false)]
     public $balise;
 

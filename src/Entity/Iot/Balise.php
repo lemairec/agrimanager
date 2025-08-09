@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity\Silo;
+namespace App\Entity\Iot;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\Silo\BaliseRepository')]
+#[ORM\Entity(repositoryClass: 'App\Repository\Iot\BaliseRepository')]
 class Balise
 {
     public function __construct()
