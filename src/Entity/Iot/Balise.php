@@ -4,8 +4,10 @@ namespace App\Entity\Iot;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use App\Repository\Iot\BaliseRepository;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\Iot\BaliseRepository')]
+
+#[ORM\Entity(repositoryClass: BaliseRepository::class)]
 class Balise
 {
     public function __construct()
@@ -73,6 +75,10 @@ class Balise
             $res = $res * $this->scale;
         }
         return $res;
+    }
+
+    public function __toString ( ){
+        return $this->name." ".$this->label;
     }
 
     public $is_ok = false;
