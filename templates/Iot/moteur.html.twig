@@ -101,7 +101,7 @@
 
     <div class="card">
         <div class="card-header">
-            Balises
+            Moteurs
         </div>
         <div class="list-group">
             {% for temperature in temperatures %}
@@ -111,10 +111,10 @@
                         {{temperature.datetime| showDatetime}}
                     </div>
                     <div class="col-md-4">
-                        {{temperature.temp }}
+                        {{temperature.temp_ext }}
                     </div>
                     <div class="col-md-2">
-                        {{temperature.calculate | showUnity(moteur.unity) }}
+                        {{temperature.on_off }}
                     </div>
                 </div>
 

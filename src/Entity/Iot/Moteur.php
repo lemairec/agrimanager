@@ -61,33 +61,66 @@ class Moteur
     public function calculate(){
         $this->debug = 'init';
         $this->desired = 0;
-        if($this->is_auto){
-            if($this->balise){
-                $today = date("d.m.Y");
-
-                $match_date = "";
-                if($this->last_update){
-                    $match_date = $this->last_update->format('d.m.Y');
-                }
-                $is_ok = false;
-                if($today == $match_date) {
-                    if($this->last_temperature > -50) {
-                        $is_ok = true;
-                    }
-                }
-
-
-                if($is_ok ){
-
-                }else {
-                    $this->debug = 'moteur not ok';
-                }
-            } else {
-                $this->debug = 'balise null';
-            }
-        } else {
+        if(!$this->is_auto){
             $this->debug = 'not auto';
+            return;
         }
+        if(!$this->balise){
+            $this->debug = 'balise null';
+            return;
+        }
+    
+        $today = date("d.m.Y");
+
+        $match_date = "";
+        if($this->last_update){
+            $match_date = $this->last_update->format('d.m.Y');
+        }
+        $is_ok = false;
+        if($today == $match_date) {
+            if($this->last_temperature > -50) {
+                $is_ok = true;
+            }
+        }
+
+        if(!$is_ok ){
+            $this->debug = 'moteur ko';
+            return;
+        }
+        
+        $match_date = "";
+        if($this->balise->last_update){
+            $match_date = $this->balise->last_update->format('d.m.Y');
+        }
+        $is_ok = false;
+        if($today == $match_date) {
+            if($this->balise->last_temp > -50) {
+                $is_ok = true;
+            }
+        }
+
+        $is_ok = true;
+        if(!$is_ok ){
+            $this->debug = 'balise ko';
+            return;
+        }
+
+        $balise_temp = $this->balise->last_temp;
+        $temperature_ext = $this->last_temperature;
+        $diff = $this->ecart_temperature;
+        
+        if($balise_temp > $temperature_ext + $diff){
+            $this->debug = 'ok 1';
+            $this->desired = 1;
+        } else {
+            $this->debug = 'ok 0';
+            $this->desired = 0;
+        }
+    }
+
+     
+    public function __toString ( ){
+        return $this->name." ".$this->label;
     }
     
     public $is_ok = false;

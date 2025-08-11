@@ -8,7 +8,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Table]
 #[ORM\Index(name: 'datetime_idx', columns: ['datetime'])]
 #[ORM\Entity(repositoryClass: 'App\Repository\Iot\MoteurHistRepository')]
-class Temperature
+class MoteurHist
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -59,3 +59,12 @@ cd maplaine; sh ~/maplaine/export.sh;
 exit
 
 sh ~/workspace/maplaine/import.sh
+
+
+Mairadb
+
+brew services start mariadb
+
+${HOME}/.my.cnf
+[client]
+skip-ssl = true

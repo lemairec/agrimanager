@@ -12,6 +12,7 @@ use App\Entity\Company;
 use App\Entity\Iot\Iot;
 use App\Entity\Iot\Temperature;
 use App\Entity\Iot\Moteur;
+use App\Entity\Iot\MoteurHist;
 
 use App\Form\Iot\MoteurType;
 
@@ -22,21 +23,31 @@ use App\Form\Iot\MoteurType;
 
 class MoteurController extends CommonController
 {
-    public function getMoteur($em, $t, $balise_str, $no, $company, $temp){
+    public function getMoteur($em, $on_off, $balise_str, $no, $company, $temp){
         $moteur = $em->getRepository(Moteur::class)->getOrCreate($company, $balise_str.$no);
-        /*$temperature = new Temperature();
-        $temperature->temp = $t;
-        $temperature->balise = $balise_;
-        $temperature->datetime = new DateTime();
-        if($t > -100){
-            $em->getRepository(Temperature::class)->addTemperature($temperature);
-        }*/
-        $moteur->my_last_value = $t;
+        $moteur->my_last_value = $on_off;
         $moteur->last_update = new DateTime();
-        $moteur->last_temp = $temp;
+        $moteur->last_temperature = $temp;
         $em->persist($moteur);
         $em->flush();
-        return "\$MOT".$no.";ON";
+        $moteur->calculate();
+
+        $moteur_hist = new MoteurHist();
+        $moteur_hist->moteur = $moteur;
+        $moteur_hist->temp_ext = $temp;
+        $moteur_hist->on_off = $on_off;
+        $moteur_hist->desired_on_off = $moteur->desired;
+        $moteur_hist->datetime = new DateTime();
+        if($temp > -100){
+            $em->getRepository(MoteurHist::class)->addHist($moteur_hist);
+        }
+        
+        if($moteur->desired){
+            return "\$MOT".$no.";ON";
+        } else {
+            return "\$MOT".$no.";OFF";
+        }
+        
     }
 
     #[Route(path: '/iot/api_moteur', name: 'api_moteur')]
@@ -118,11 +129,7 @@ class MoteurController extends CommonController
         $moteur = $em->getRepository(Moteur::class)->find($id);
 
         $moteur->calculate();
-        /*$temperatures = $em->getRepository(Temperature::class)->getForBalise($balise, $duree);
-        
-        if($balise){
-            $balise->calculate();
-        }*/
+
 
         $form = $this->createForm(MoteurType::class, $moteur);
         $form->handleRequest($request);
@@ -133,22 +140,34 @@ class MoteurController extends CommonController
             return $this->redirectToRoute('silo_moteurs');
         }
 
-        /*$chartjs_min = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
-        $chartjs_max = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];
-
-        foreach($temperatures as $temperature){
-            $temperature->calculate = $balise->calculFor($temperature->temp);
-            $chartjs_min['data'][] = ['date' => $temperature->datetime->format("Y-m-d H:i:s"), 'value' => $temperature->calculate, 'name' => "" ];
+        
+        $moteur_hists = $em->getRepository(MoteurHist::class)->getForMoteur($moteur, $duree);
+        $chartjs_temp_ext = ['annee'=> 'temp_ext', 'data' => [], 'color' => "red", 'hidden' => false];
+        foreach($moteur_hists as $moteur_hist){
+            $chartjs_temp_ext['data'][] = ['date' => $moteur_hist->datetime->format("Y-m-d H:i:s"), 'value' => $moteur_hist->temp_ext, 'name' => "" ];
             
-        }*/
-        $chartjss[] = ['annee'=> 'min', 'data' => [], 'color' => "", 'hidden' => false];//$chartjs_min;
-        $temperatures = [];
-        //dump($chartjss);
+        }
 
+        $chartjs_temp_on_off = ['annee'=> 'on_off', 'data' => [], 'color' => "green", 'hidden' => false];
+        foreach($moteur_hists as $moteur_hist){
+            $chartjs_temp_on_off['data'][] = ['date' => $moteur_hist->datetime->format("Y-m-d H:i:s"), 'value' => $moteur_hist->on_off*10, 'name' => "" ];
+            
+        }
+
+        $chartjs_balise = ['annee'=> 'balise', 'data' => [], 'color' => "blue", 'hidden' => false];
+        $temperatures = $em->getRepository(Temperature::class)->getForBalise($moteur->balise, $duree);
+        foreach($temperatures as $temperature){
+            $temperature->calculate = $moteur->balise->calculFor($temperature->temp);
+            $chartjs_balise['data'][] = ['date' => $temperature->datetime->format("Y-m-d H:i:s"), 'value' => $temperature->calculate, 'name' => "" ];
+            
+        }
+
+        $chartjss = [$chartjs_temp_ext, $chartjs_temp_on_off, $chartjs_balise];
+        
         return $this->render('Iot/moteur.html.twig', array(
             'form' => $form->createView(),
             'moteur' => $moteur,
-            'temperatures' => $temperatures,
+            'temperatures' => $moteur_hists,
             'chartjss' => $chartjss
         ));
     }

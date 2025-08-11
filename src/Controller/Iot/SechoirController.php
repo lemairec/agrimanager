@@ -50,7 +50,7 @@ class SechoirController extends CommonController
         return new Response("ok");
     }
 
-    #[Route(path: '/sechoir', name: 'sechoir')]
+    #[Route(path: '/silo/sechoir', name: 'silo_sechoir')]
     public function sechoirBalise(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
