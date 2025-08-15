@@ -176,6 +176,19 @@ class MoteurController extends CommonController
         ));
     }
 
+    #[Route(path: '/silo/moteur/{id}/delete', name: 'siloo_moteur_delete')]
+    public function deleteAction($id, Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $cotation= $em->getRepository(Moteur::class)->find($id);
+
+        $em->remove($cotation);
+        $em->flush();
+
+        return $this->redirectToRoute('silo_moteurs');
+    }
+
 }
 
 
