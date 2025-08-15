@@ -128,7 +128,10 @@ class MoteurController extends CommonController
         $this->check_user($request);
         $moteur = $em->getRepository(Moteur::class)->find($id);
 
-        $moteur->calculate();
+        if($moteur == NULL){
+            $moteur = new Moteur();
+            $moteur->company = $this->company;
+        }
 
 
         $form = $this->createForm(MoteurType::class, $moteur);
@@ -155,6 +158,7 @@ class MoteurController extends CommonController
         }
 
         $chartjs_balise = ['annee'=> 'balise', 'data' => [], 'color' => "blue", 'hidden' => false];
+        
         $temperatures = $em->getRepository(Temperature::class)->getForBalise($moteur->balise, $duree);
         foreach($temperatures as $temperature){
             $temperature->calculate = $moteur->balise->calculFor($temperature->temp);
