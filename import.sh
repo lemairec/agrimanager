@@ -17,6 +17,6 @@ echo "sql"
 cd $agrimanager/public/uploads/
 $agrimanager/bin/console doctrine:database:drop --force;
 $agrimanager/bin/console doctrine:database:create;
-mysql -umaplaine -pmaplaine maplaine < backup.sql
+mysql -uroot -proot maplaine < backup.sql
 #mariadb mysql -uroot -pzeouane maplaine < backup.sql
 echo "sql end"
