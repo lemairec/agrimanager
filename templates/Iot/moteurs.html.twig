@@ -5,7 +5,7 @@
 
     <div class="card">
         <div class="card-header">
-            Balises
+            Moteurs
         </div>
         <div class="list-group">
             {% for balise in balises_names %}
@@ -32,6 +32,9 @@
                     <div class="col-md-2">
                          {{balise.my_last_value }}
                     </div>
+                    <div class="col-md-2">
+                         {{balise.last_temperature | showUnity("°C") }}
+                    </div>
                 </div>
 
             </div>
@@ -41,7 +44,7 @@
 
     <div class="card">
         <div class="card-header">
-            Balises (autres)
+            Moteurs (autres)
         </div>
         <div class="list-group">
             {% for balise in balises_others %}
@@ -61,7 +64,10 @@
                         {{balise.last_update | showDatetime }}
                     </div>
                     <div class="col-md-2">
-                        {{balise.my_last_value | showUnity(" ") }}
+                         {{balise.my_last_value }}
+                    </div>
+                    <div class="col-md-2">
+                         {{balise.last_temperature | showUnity("°C") }}
                     </div>
                 </div>
 
