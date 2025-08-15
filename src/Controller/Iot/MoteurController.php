@@ -104,7 +104,6 @@ class MoteurController extends CommonController
 
         foreach($balises as $b){
             $b->is_ok = false;
-            $b->last_update = new DateTime();
             if($b->label){
                 $balises_names[] = $b;
             } else {
