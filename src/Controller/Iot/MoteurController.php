@@ -38,6 +38,7 @@ class MoteurController extends CommonController
         $moteur_hist->on_off = $on_off;
         $moteur_hist->desired_on_off = $moteur->desired;
         $moteur_hist->datetime = new DateTime();
+        $moteur_hist->debug = $moteur->debug;
         if($temp > -100){
             $em->getRepository(MoteurHist::class)->addHist($moteur_hist);
         }

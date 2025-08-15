@@ -33,4 +33,7 @@ class MoteurHist
 
     #[ORM\Column(type: 'integer')]
     public $desired_on_off;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    public $debug;
 }

@@ -109,14 +109,17 @@
             {% for temperature in temperatures %}
             <div class="list-group-item flex-column align-items-start">
                 <div class="row" style="min-height: 1.5rem;">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         {{temperature.datetime| showDatetime}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         {{temperature.temp_ext }}
                     </div>
                     <div class="col-md-2">
                         {{temperature.on_off }}
+                    </div>
+                    <div class="col-md-4">
+                        desired  : {{temperature.desired_on_off }} {{temperature.debug }}
                     </div>
                 </div>
 
