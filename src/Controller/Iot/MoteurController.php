@@ -128,10 +128,12 @@ class MoteurController extends CommonController
 
         $this->check_user($request);
         $moteur = $em->getRepository(Moteur::class)->find($id);
-
+        
         if($moteur == NULL){
             $moteur = new Moteur();
             $moteur->company = $this->company;
+        } else {
+            $moteur->calculate();
         }
 
 
