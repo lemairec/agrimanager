@@ -45,10 +45,12 @@ DROP TABLE ephy_commercial_name;
 DROP TABLE ephy_usage;
 DROP TABLE ephy_produit;
 
+
+yarn install
+yarn upgrade  
 yarn run encore production
 
 
-brew link --overwrite php@8.1
 
 
 Back_up
@@ -59,12 +61,3 @@ cd maplaine; sh ~/maplaine/export.sh;
 exit
 
 sh ~/workspace/maplaine/import.sh
-
-
-Mairadb
-
-brew services start mariadb
-
-${HOME}/.my.cnf
-[client]
-skip-ssl = true
