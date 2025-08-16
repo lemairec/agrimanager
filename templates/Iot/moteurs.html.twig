@@ -12,8 +12,12 @@
             <div class="list-group-item flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
-                        {%if moteur.my_last_value %}
-                            <button type="button" class="btn btn-success"></button>
+                        {%if moteur.is_ok %}
+                            {%if moteur.my_last_value %}
+                                <button type="button" class="btn btn-success"></button>
+                            {% else %}
+                                <button type="button" class="btn btn-secondary"></button>
+                            {% endif %}
                         {% else %}
                             <button type="button" class="btn btn-danger"></button>
                         {% endif %}
