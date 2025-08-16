@@ -34,7 +34,7 @@ class SiloController extends CommonController
             }
             $balise_->last_temp = $t;
             $balise_->last_update = new DateTime();
-            $balise_->calculate();
+            $balise_->calculateBalise();
             $em->persist($balise_);
             $em->flush();
         }
@@ -79,19 +79,9 @@ class SiloController extends CommonController
         $balises_names = [];
         $balises_others = [];
 
-        $today = date("d.m.Y");
-
         foreach($balises as $b){
-            $match_date = "";
-            if($b->last_update){
-                $match_date = $b->last_update->format('d.m.Y');
-            }
-            $b->is_ok = false;
-            if($today == $match_date) {
-                if($b->last_temp > -50) {
-                    $b->is_ok = true;
-                }
-            }
+            
+            $b->calculateBalise();
             if($b->label){
                 $balises_names[] = $b;
             } else {
@@ -118,7 +108,7 @@ class SiloController extends CommonController
         $temperatures = $em->getRepository(Temperature::class)->getForBalise($balise, $duree);
         
         if($balise){
-            $balise->calculate();
+            $balise->calculateBalise();
         }
 
         $form = $this->createForm(BaliseType::class, $balise);

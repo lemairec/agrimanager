@@ -56,13 +56,25 @@ class Balise
     #[ORM\Column(type: 'float', nullable: true)]
     public $last_calculate;
 
-    public function calculate(){
+    public function calculateBalise(){
         $this->last_calculate = $this->last_temp;
         if($this->offset){
             $this->last_calculate = $this->last_calculate - $this->offset;
         }
         if($this->scale){
             $this->last_calculate = $this->last_calculate * $this->scale;
+        }
+
+        $today = date("d.m.Y");
+        $match_date = "";
+        if($this->last_update){
+            $match_date = $this->last_update->format('d.m.Y');
+        }
+        $this->is_balise_ok = false;
+        if($today == $match_date) {
+            if($this->last_temp > -50) {
+                $this->is_balise_ok = true;
+            }
         }
     }
 
@@ -81,5 +93,7 @@ class Balise
         return $this->name." ".$this->label;
     }
 
-    public $is_ok = false;
+    public $is_balise_ok = false;
+
+    
 }

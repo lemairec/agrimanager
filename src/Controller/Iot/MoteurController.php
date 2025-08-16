@@ -133,6 +133,9 @@ class MoteurController extends CommonController
             $moteur->company = $this->company;
         } else {
             $moteur->calculate();
+            if($moteur->balise){
+                $moteur->balise->calculateBalise();
+            }
         }
 
 
