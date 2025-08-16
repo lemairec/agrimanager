@@ -76,14 +76,14 @@ class Moteur
         if($this->last_update){
             $match_date = $this->last_update->format('d.m.Y');
         }
-        $is_ok = false;
+        $this->is_ok = false;
         if($today == $match_date) {
             if($this->last_temperature > -50) {
-                $is_ok = true;
+                $this->is_ok = true;
             }
         }
 
-        if(!$is_ok ){
+        if(!$this->is_ok ){
             $this->debug = 'moteur ko';
             return;
         }
@@ -92,15 +92,15 @@ class Moteur
         if($this->balise->last_update){
             $match_date = $this->balise->last_update->format('d.m.Y');
         }
-        $is_ok = false;
+        $this->is_ok = false;
         if($today == $match_date) {
             if($this->balise->last_temp > -50) {
-                $is_ok = true;
+                $this->is_ok = true;
             }
         }
 
-        $is_ok = true;
-        if(!$is_ok ){
+        $this->is_ok = true;
+        if(!$this->is_ok ){
             $this->debug = 'balise ko';
             return;
         }

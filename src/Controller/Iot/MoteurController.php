@@ -103,7 +103,7 @@ class MoteurController extends CommonController
         $today = date("d.m.Y");
 
         foreach($moteurs as $moteur){
-            $moteur->is_ok = false;
+            $moteur->calculate();
             if($moteur->label){
                 $balises_names[] = $moteur;
             } else {
