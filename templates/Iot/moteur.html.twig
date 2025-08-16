@@ -27,29 +27,14 @@
                     value : {{moteur.my_last_value }}
                 </div>
                 <div class="col-md-2">
-                    temp : {{moteur.last_temperature | showUnity("°C") }}
+                    temp  ext: {{moteur.last_temperature | showUnity("°C") }}
                 </div>
             </div>
-
             <div class="row" style="min-height: 1.5rem;">
                 <div class="col-md-4">
-                    temp ext : {{moteur.last_temperature}}
-                </div>
-                <div class="col-md-2">
-                    auto : {{moteur.is_auto }}
-                </div>
-                <div class="col-md-2">
                     desired : {{moteur.desired }}
                 </div>
-            </div>
-            <div class="row" style="min-height: 1.5rem;">
                 <div class="col-md-4">
-                    temp ext : {{moteur.last_temperature}}
-                </div>
-                <div class="col-md-2">
-                    {{moteur.is_auto }}
-                </div>
-                <div class="col-md-2">
                     debug : {{moteur.debug }}
                 </div>
             </div>
