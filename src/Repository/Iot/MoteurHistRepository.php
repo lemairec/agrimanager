@@ -66,7 +66,7 @@ class MoteurHistRepository extends \Doctrine\ORM\EntityRepository
         } else if($duree == "1d"){
             $date->modify('-1 day');
         } else {
-            $date->modify('-1 month');
+            $date->modify('-7 day');
         }
         return $this->createQueryBuilder('p')
             ->where('p.moteur = :moteur')
