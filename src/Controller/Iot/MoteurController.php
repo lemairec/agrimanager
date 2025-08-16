@@ -95,22 +95,24 @@ class MoteurController extends CommonController
         $em = $this->getDoctrine()->getManager();
 
         $this->check_user($request);
-        $balises = $em->getRepository(Moteur::class)->getAllForCompany($this->company);
+        $moteurs = $em->getRepository(Moteur::class)->getAllForCompany($this->company);
 
         $balises_names = [];
         $balises_others = [];
 
         $today = date("d.m.Y");
 
-        foreach($balises as $b){
-            $b->is_ok = false;
-            if($b->label){
-                $balises_names[] = $b;
+        foreach($moteurs as $moteur){
+            $moteur->is_ok = false;
+            if($moteur->label){
+                $balises_names[] = $moteur;
             } else {
-                $balises_others[] = $b;
+                $balises_others[] = $moteur;
             }
 
-
+            if($moteur->balise){
+                $moteur->balise->calculateBalise();
+            }
         }
 
         return $this->render('Iot/moteurs.html.twig', array(
