@@ -37,6 +37,10 @@ class MoteurController extends CommonController
         $moteur_hist->temp_ext = $temp;
         $moteur_hist->on_off = $on_off;
         $moteur_hist->desired_on_off = $moteur->desired;
+        $moteur_hist->temp_sonde = NULL;
+        if($moteur->balise){
+            $moteur_hist->temp_sonde = $moteur->temp;
+        }
         $moteur_hist->datetime = new DateTime();
         $moteur_hist->debug = $moteur->debug;
         if($temp > -100){

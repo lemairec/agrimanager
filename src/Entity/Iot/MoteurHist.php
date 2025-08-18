@@ -28,6 +28,9 @@ class MoteurHist
     #[ORM\Column(type: 'float')]
     public $temp_ext;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    public $temp_sonde;
+
     #[ORM\Column(type: 'integer')]
     public $on_off;
 

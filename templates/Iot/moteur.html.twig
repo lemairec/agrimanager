@@ -115,7 +115,10 @@
                         {{temperature.datetime| showDatetime}}
                     </div>
                     <div class="col-md-2">
-                        {{temperature.temp_ext }}
+                        {{temperature.temp_ext | showUnity("°C") }}
+                    </div>
+                    <div class="col-md-2">
+                        {{temperature.temp_sonde | showUnity("°C") }}
                     </div>
                     <div class="col-md-2">
                         {{temperature.on_off }}
