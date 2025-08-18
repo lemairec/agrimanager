@@ -64,10 +64,12 @@
                         {{moteur.balise.last_update | showDatetime }}
                     </div>
                     <div class="col-md-2">
+                        diff {{(moteur.balise.last_temp - moteur.last_temperature) | showUnity("°C") }}
                     </div>
                     <div class="col-md-2">
                         {{moteur.balise.last_temp | showUnity("°C") }}
                     </div>
+                    
                 </div>
 
             </div>
