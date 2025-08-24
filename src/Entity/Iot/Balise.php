@@ -56,6 +56,8 @@ class Balise
     #[ORM\Column(type: 'float', nullable: true)]
     public $last_calculate;
 
+    public $diff = NULL;
+
     public function calculateBalise(){
         $this->last_calculate = $this->last_temp;
         if($this->offset){

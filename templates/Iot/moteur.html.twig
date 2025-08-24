@@ -124,7 +124,7 @@
                     </div>
                     <div class="col-md-2">
                         {{temperature.on_off }}
-                        {% if temperature.on_off and temperature.temp_sonde %}
+                        {% if temperature.temp_sonde %}
                             ( diff {{(temperature.temp_sonde-temperature.temp_ext) | showUnity("°C")}})
                         {% endif %}
                     </div>
