@@ -119,7 +119,6 @@ class MoteurController extends CommonController
                 $b2 = $em->getRepository(Temperature::class)->getLast4($moteur->balise);
                 if($b2){
                     $moteur->balise->diff = $moteur->balise->last_temp - $b2->temp;
-                    dump($moteur->balise->diff);
                 }
 
             }

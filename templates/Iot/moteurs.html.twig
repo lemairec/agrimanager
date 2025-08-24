@@ -39,6 +39,9 @@
                     <div class="col-md-2">
                         T° ext {{moteur.last_temperature | showUnity("°C") }}
                     </div>
+                    <div class="col-md-2">
+                        diff {{moteur.ecart_temperature | showUnity("°C") }}
+                    </div>
                 </div>
 
                 {%if moteur.balise %}
